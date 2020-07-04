@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ediattah.rezoschool">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.ediattah.rezoschool.App"
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/app_icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.ediattah.rezoschool.ui.BulkSMSActivity"></activity>
+        <activity android:name="com.ediattah.rezoschool.ui.CourseCalendarActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.NewStudentActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.NewSyllabusActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.CourseStudentActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.NewLibraryActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.LibraryDetailActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.FinanceSettingActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.NewSchoolCallbackActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.StudentDetailActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.TeacherDetailActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.NewTeacherActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.NewCourseActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.NewClassActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.NewRsTweetsActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.ForgotPasswordActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.OTPActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.RegisterActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.LoginActivity" />
+        <activity android:name="com.ediattah.rezoschool.ui.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ediattah.rezoschool.ui.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+    </application>
+
+</manifest>

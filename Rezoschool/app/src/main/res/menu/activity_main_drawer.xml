@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_class"
+            android:icon="@drawable/ic_menu_class"
+            android:title="@string/menu_class" />
+        <item
+            android:id="@+id/nav_teacher"
+            android:icon="@drawable/ic_menu_teacher"
+            android:title="@string/menu_teacher" />
+        <item
+            android:id="@+id/nav_student"
+            android:icon="@drawable/ic_menu_student"
+            android:title="@string/menu_student" />
+        <item
+            android:id="@+id/nav_finance"
+            android:icon="@drawable/ic_menu_finance"
+            android:title="@string/menu_finance" />
+        <item
+            android:id="@+id/nav_child"
+            android:icon="@drawable/ic_menu_student"
+            android:title="@string/menu_child" />
+        <item
+            android:id="@+id/nav_school"
+            android:icon="@drawable/ic_school"
+            android:title="@string/menu_school" />
+        <item
+            android:id="@+id/nav_course"
+            android:icon="@drawable/ic_menu_class"
+            android:title="@string/menu_course" />
+        <item
+            android:id="@+id/nav_syllabus"
+            android:icon="@drawable/ic_syllabus"
+            android:title="@string/menu_syllabus" />
+        <item
+            android:id="@+id/nav_alumni"
+            android:icon="@drawable/ic_alumni"
+            android:title="@string/menu_alumni" />
+        <item
+            android:id="@+id/nav_library"
+            android:icon="@drawable/ic_menu_library"
+            android:title="@string/menu_library" />
+        <item
+            android:id="@+id/nav_callback"
+            android:icon="@drawable/ic_menu_callback"
+            android:title="@string/menu_callback" />
+        <item
+            android:id="@+id/nav_invoice"
+            android:icon="@drawable/ic_menu_finance"
+            android:title="@string/menu_invoice" />
+    </group>
+
+</menu>

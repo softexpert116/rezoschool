@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "170645379714",
+    "firebase_url": "https://rezoapp-55b4e.firebaseio.com",
+    "project_id": "rezoapp-55b4e",
+    "storage_bucket": "rezoapp-55b4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170645379714:android:382b3d1505c81025d8329b",
+        "android_client_info": {
+          "package_name": "com.ediattah.rezoschool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "170645379714-4so0d7br3d55oupdte46dnp033622p0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ediattah.rezoschool",
+            "certificate_hash": "c7ed7af7d90e2fd1ea502068f70ce94aa19f27b8"
+          }
+        },
+        {
+          "client_id": "170645379714-2tlen0ejtt0q8tnmcketfba55q1krokm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxwF5MF0B97oQZHGinG_e3U6ZJVwSPwKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "170645379714-2tlen0ejtt0q8tnmcketfba55q1krokm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
