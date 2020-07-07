@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,7 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ediattah.rezoschool.Model.Exam;
+import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.StudentDetailActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.R;
@@ -38,20 +45,33 @@ public class ParentStudentFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_parent_student, container, false);
         ListView listView = v.findViewById(R.id.listView);
-        array_student.add(new Student("1", "1", true));
-        array_student.add(new Student("1", "1", false));
 
         childListAdapter = new ChildListAdapter(activity, this, array_student);
         listView.setAdapter(childListAdapter);
-        FloatingActionButton fab = v.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        read_students();
+        return v;
+    }
+
+    public void read_students() {
+        Utils.mDatabase.child(Utils.tbl_student).orderByChild("parent_id").equalTo(Utils.mUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity, NewStudentActivity.class);
-                activity.startActivity(intent);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                array_student.clear();
+                if (dataSnapshot.getValue()!=null) {
+                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        Student student = datas.getValue(Student.class);
+                        array_student.add(student);
+                    }
+                }
+                childListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-        return v;
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

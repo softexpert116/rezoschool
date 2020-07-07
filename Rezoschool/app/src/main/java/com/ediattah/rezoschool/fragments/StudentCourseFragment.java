@@ -12,27 +12,40 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.R;
+import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.SchoolCourseListAdapter;
 import com.ediattah.rezoschool.ui.CourseCalendarActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.ediattah.rezoschool.App.array_course;
 
 public class StudentCourseFragment extends Fragment {
     MainActivity activity;
+    ArrayList<Course> arrayList = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_student_course, container, false);
         ListView listView = (ListView)v.findViewById(R.id.listView);
-        SchoolCourseListAdapter schoolCourseListAdapter = new SchoolCourseListAdapter(activity, array_course, null);
+        ArrayList<String> arrayStrList = new ArrayList<String>(Arrays.asList(Utils.currentClass.courses.split(",")));
+        for (String courseStr:arrayStrList) {
+            Course course = new Course(courseStr);
+            arrayList.add(course);
+        }
+        SchoolCourseListAdapter schoolCourseListAdapter = new SchoolCourseListAdapter(activity, arrayList, new ArrayList<Course>());
         listView.setAdapter(schoolCourseListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(activity, CourseCalendarActivity.class);
+                intent.putExtra("OBJECT", arrayList.get(i));
                 startActivity(intent);
             }
         });

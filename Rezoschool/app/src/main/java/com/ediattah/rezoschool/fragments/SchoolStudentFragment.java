@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,13 +14,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ediattah.rezoschool.Model.Student;
+import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
+import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.StudentAcceptedListAdapter;
 import com.ediattah.rezoschool.adapter.StudentWaitingListAdapter;
 import com.ediattah.rezoschool.ui.MainActivity;
 import com.ediattah.rezoschool.ui.StudentDetailActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -33,12 +40,14 @@ public class SchoolStudentFragment extends Fragment {
     ArrayList<Student> array_student_waiting = new ArrayList<>();
     StudentAcceptedListAdapter studentAcceptedListAdapter;
     StudentWaitingListAdapter studentWaitingListAdapter;
+    TextView txt_waiting;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_school_student, container, false);
+        txt_waiting = v.findViewById(R.id.txt_waiting);
         btn_accepted = v.findViewById(R.id.btn_accepted);
         btn_waiting = v.findViewById(R.id.btn_waiting);
         btn_accepted.setOnClickListener(new View.OnClickListener() {
@@ -47,8 +56,10 @@ public class SchoolStudentFragment extends Fragment {
                 btn_waiting.setTextColor(Color.parseColor("#d0d0d0"));
                 btn_accepted.setTextColor(Color.parseColor("#ffffff"));
                 flag_accepted = true;
-                studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, SchoolStudentFragment.this, array_student_accepted);
+//                studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, array_student_accepted);
                 listView.setAdapter(studentAcceptedListAdapter);
+                read_students();
+//                studentAcceptedListAdapter.notifyDataSetChanged();
             }
         });
         btn_waiting.setOnClickListener(new View.OnClickListener() {
@@ -57,22 +68,16 @@ public class SchoolStudentFragment extends Fragment {
                 btn_accepted.setTextColor(Color.parseColor("#d0d0d0"));
                 btn_waiting.setTextColor(Color.parseColor("#ffffff"));
                 flag_accepted = false;
-                studentWaitingListAdapter = new StudentWaitingListAdapter(activity, SchoolStudentFragment.this, array_student_waiting);
+//                studentWaitingListAdapter = new StudentWaitingListAdapter(activity, SchoolStudentFragment.this, array_student_waiting);
                 listView.setAdapter(studentWaitingListAdapter);
+                read_students();
+//                studentWaitingListAdapter.notifyDataSetChanged();
             }
         });
 
-//        array_student_accepted.add(new Student(1, 1, 1, 1, true, true));
-//        array_student_accepted.add(new Student(2, 2, 1, 1, true, true));
-//        array_student_accepted.add(new Student(3, 3, 1, 1, true, true));
-//        array_student_accepted.add(new Student(4, 4, 1, 1, true, true));
-//        array_student_accepted.add(new Student(5, 5, 1, 1, true, true));
-//
-//        array_student_waiting.add(new Student(6, 5, 1, 1, true, true));
-
-
         listView = v.findViewById(R.id.listView);
-        studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, this, array_student_accepted);
+        studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, array_student_accepted);
+        studentWaitingListAdapter = new StudentWaitingListAdapter(activity, this, array_student_waiting);
         listView.setAdapter(studentAcceptedListAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,9 +94,73 @@ public class SchoolStudentFragment extends Fragment {
         });
         return v;
     }
+    public void read_students() {
+        final ArrayList<Student> array_all = new ArrayList<>();
+        Utils.mDatabase.child(Utils.tbl_student).orderByChild("school_id").equalTo(Utils.currentSchool._id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null) {
+                    array_all.clear();
+                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        final Student student = datas.getValue(Student.class);
+                        array_all.add(student);
+                    }
+                    array_student_accepted.clear();
+                    array_student_waiting.clear();
+                    sort_array(array_all, 0);
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    void sort_array(final ArrayList<Student> arrayList, final int i) {
+        final Student student = arrayList.get(i);
+        Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user.isAllow) {
+                        array_student_accepted.add(student);
+                    } else {
+                        array_student_waiting.add(student);
+                    }
+                    if (i == arrayList.size()-1) {
+                        if (array_student_waiting.size() == 0) {
+                            txt_waiting.setVisibility(View.GONE);
+                        } else {
+                            txt_waiting.setVisibility(View.VISIBLE);
+                            txt_waiting.setText(String.valueOf(array_student_waiting.size()));
+                        }
+                        if (flag_accepted) {
+                            studentAcceptedListAdapter.notifyDataSetChanged();
+                        } else {
+                            studentWaitingListAdapter.notifyDataSetChanged();
+                        }
+                        return;
+                    } else {
+                        int in = i;
+                        sort_array(arrayList, in++);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     @Override
     public void onResume() {
         super.onResume();
+        read_students();
     }
 
     public void onAttach(Context context) {

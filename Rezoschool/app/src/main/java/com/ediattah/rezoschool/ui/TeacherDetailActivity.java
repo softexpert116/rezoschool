@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ediattah.rezoschool.Model.Syllabus;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.ediattah.rezoschool.App;
@@ -29,7 +30,7 @@ public class TeacherDetailActivity extends AppCompatActivity {
     TextView txt_month;
 
     Class aClass;
-    ArrayList<DayCourseModel> arrayList = new ArrayList<>();
+    ArrayList<Syllabus> arrayList = new ArrayList<>();
     ListView listView;
     DayCourseListAdapter dayCourseListAdapter;
 
@@ -77,9 +78,9 @@ public class TeacherDetailActivity extends AppCompatActivity {
         });
 
         listView = findViewById(R.id.listView);
-        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "2:10 PM"));
-        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "3:10 PM"));
-        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "4:10 PM"));
+//        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "2:10 PM"));
+//        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "3:10 PM"));
+//        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "4:10 PM"));
         dayCourseListAdapter = new DayCourseListAdapter(this, arrayList);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

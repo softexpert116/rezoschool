@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
@@ -24,6 +25,7 @@ public class NewCourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Create New Course");
+        App.hideKeyboard(this);
         final EditText edit_course = (EditText)findViewById(R.id.edit_course);
         Button btn_create = (Button)findViewById(R.id.btn_create);
         btn_create.setOnClickListener(new View.OnClickListener() {

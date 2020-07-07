@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Comment;
 import com.ediattah.rezoschool.Model.Tweet;
 import com.ediattah.rezoschool.Utils.Utils;
@@ -36,6 +37,7 @@ public class NewRsTweetsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_rs_tweets);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("New RS Tweets");
+        App.hideKeyboard(this);
 
         ImageView img_click = (ImageView)findViewById(R.id.img_click);
         img_click.setOnClickListener(new View.OnClickListener() {

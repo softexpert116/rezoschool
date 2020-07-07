@@ -7,21 +7,29 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.Model.Teacher;
+import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Model.UserModel;
 import com.ediattah.rezoschool.R;
+import com.ediattah.rezoschool.Utils.Utils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TeacherListAdapter extends BaseAdapter {
-    ArrayList<UserModel> arrayList;
+    ArrayList<Teacher> arrayList;
 
     Context context;
 
-    public TeacherListAdapter(Context _context, ArrayList<UserModel> _arrayList) {
+    public TeacherListAdapter(Context _context, ArrayList<Teacher> _arrayList) {
         context = _context;
         this.arrayList = _arrayList;
     }
@@ -42,19 +50,33 @@ public class TeacherListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        final UserModel model = arrayList.get(i);
+        final Teacher teacher = arrayList.get(i);
 
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.cell_teacher, null);
         }
-        TextView txt_name = view.findViewById(R.id.txt_name);
-        txt_name.setText(model.name);
-        TextView txt_description = view.findViewById(R.id.txt_description);
-        txt_description.setText(model.description);
-        CircleImageView img_photo = view.findViewById(R.id.img_photo);
-        Glide.with(context).load(model.phone).apply(new RequestOptions()
-                .placeholder(R.drawable.ic_teacher).centerCrop().dontAnimate()).into(img_photo);
+        final TextView txt_name = view.findViewById(R.id.txt_name);
+//        txt_name.setText(model.name);
+        TextView txt_course = view.findViewById(R.id.txt_course);
+        txt_course.setText(teacher.courses);
+        final CircleImageView img_photo = view.findViewById(R.id.img_photo);
+        Utils.mDatabase.child(Utils.tbl_user).child(teacher.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null) {
+                    User user = dataSnapshot.getValue(User.class);
+                    txt_name.setText(user.name);
+                    Glide.with(context).load(user.photo).apply(new RequestOptions()
+                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return view;
     }
 }

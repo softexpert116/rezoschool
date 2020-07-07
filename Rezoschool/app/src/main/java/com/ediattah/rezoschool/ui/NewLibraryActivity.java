@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Comment;
 import com.ediattah.rezoschool.Model.Library;
 import com.ediattah.rezoschool.Model.Tweet;
@@ -38,6 +39,7 @@ public class NewLibraryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_library);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Add New Document");
+        App.hideKeyboard(this);
         final EditText edit_title = findViewById(R.id.edit_title);
         final EditText edit_description = findViewById(R.id.edit_description);
         final EditText edit_url = findViewById(R.id.edit_url);

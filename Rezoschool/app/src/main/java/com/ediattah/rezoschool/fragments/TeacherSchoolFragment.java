@@ -75,6 +75,7 @@ public class TeacherSchoolFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 schoolListAdapter.sel_index = i;
+                Utils.currentSchool = array_school.get(i);
 //                Toast.makeText(activity, "Item Clicked", Toast.LENGTH_SHORT).show();
                 schoolListAdapter.notifyDataSetChanged();
                 course_update_listener(array_school.get(i));
@@ -85,6 +86,8 @@ public class TeacherSchoolFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(activity, CourseStudentActivity.class);
+                intent.putExtra("COURSE", array_course.get(i));
+                intent.putExtra("SCHOOL", array_school.get(schoolListAdapter.sel_index));
                 startActivity(intent);
             }
         });
@@ -296,7 +299,9 @@ public class TeacherSchoolFragment extends Fragment {
                             }
                         }
                     }
-
+                    if (array_school.size() > 0) {
+                        Utils.currentSchool = array_school.get(0);
+                    }
                 }
                 activity.runOnUiThread(new Runnable() {
                     public void run() {

@@ -1,5 +1,6 @@
 package com.ediattah.rezoschool.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -13,6 +14,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ediattah.rezoschool.Model.Course;
+import com.ediattah.rezoschool.Model.Syllabus;
+import com.ediattah.rezoschool.Model.Teacher;
+import com.ediattah.rezoschool.Model.User;
+import com.ediattah.rezoschool.adapter.TeacherListAdapter;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.ediattah.rezoschool.App;
@@ -23,6 +29,9 @@ import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.DayCourseListAdapter;
 import com.ediattah.rezoschool.adapter.SchoolTeacherListAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,12 +42,18 @@ import static com.ediattah.rezoschool.App.array_course;
 import static com.ediattah.rezoschool.App.array_teacher;
 
 public class CourseCalendarActivity extends AppCompatActivity {
+    Course sel_course;
+    ArrayList<Event> list_event = new ArrayList<>();
+    Date sel_date;
+    ArrayList<Teacher> list_teacher = new ArrayList<>();
+//    ArrayList<String> list_uid = new ArrayList<>();
+
     Calendar currentCalendar;
     CompactCalendarView calendarView;
     TextView txt_month;
 
     Class aClass;
-    ArrayList<DayCourseModel> arrayList = new ArrayList<>();
+    ArrayList<Syllabus> arrayList = new ArrayList<>();
     ListView listView;
     DayCourseListAdapter dayCourseListAdapter;
 
@@ -48,33 +63,26 @@ public class CourseCalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_calendar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Calendar per Course ");
+        sel_course = (Course)getIntent().getSerializableExtra("OBJECT");
 
         calendarView = findViewById(R.id.calendarView);
         txt_month = findViewById(R.id.txt_month);
-        Date currentTime = Calendar.getInstance().getTime();
-        txt_month.setText(Utils.getYearMonthString(currentTime));
-        calendarView.setFirstDayOfWeek(Calendar.MONDAY);
-
-        // Add event 1 on Sun, 07 Jun 2015 18:20:51 GMT
-        Event ev1 = new Event(Color.GREEN, 1433701251000L, "Some extra data that I want to store.");
-        calendarView.addEvent(ev1);
-
-        // Added event 2 GMT: Sun, 07 Jun 2015 19:10:51 GMT
-        Event ev2 = new Event(Color.GREEN, 1566000000000L);
-        calendarView.addEvent(ev2);
-        // Query for events on Sun, 07 Jun 2015 GMT.
-        // Time is not relevant when querying for events, since events are returned by day.
-        // So you can pass in any arbitary DateTime and you will receive all events for that day.
-        List<Event> events = calendarView.getEvents(1433701251000L); // can also take a Date object
+        sel_date = Calendar.getInstance().getTime();
+        txt_month.setText(Utils.getYearMonthString(sel_date));
+        calendarView.setFirstDayOfWeek(Calendar.SUNDAY);
 
         // define a listener to receive callbacks when certain events happen.
         calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
+                arrayList.clear();
                 List<Event> events = calendarView.getEvents(dateClicked);
-//                Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
-//                Toast.makeText(TeacherDetailActivity.this, "Day was clicked", Toast.LENGTH_SHORT).show();
-                listView.setAdapter(dayCourseListAdapter);
+                sel_date = dateClicked;
+                for (Event event:events) {
+                    Syllabus syllabus = (Syllabus) event.getData();
+                    arrayList.add(syllabus);
+                }
+                dayCourseListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -86,26 +94,59 @@ public class CourseCalendarActivity extends AppCompatActivity {
         });
 
         listView = findViewById(R.id.listView);
-        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "2:10 PM"));
-        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "3:10 PM"));
-        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "4:10 PM"));
         dayCourseListAdapter = new DayCourseListAdapter(this, arrayList);
+        listView.setAdapter(dayCourseListAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });
 
         Button btn_teacher = (Button)findViewById(R.id.btn_teacher);
         btn_teacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                list_teacher.clear();
+                for (Teacher teacher:Utils.currentSchool.teachers) {
+                    if (teacher.courses.contains(sel_course.name)) {
+                        list_teacher.add(teacher);
+                    }
+                }
                 openAddDialog();
             }
         });
     }
+    public void read_syllabus() {
+        Utils.mDatabase.child(Utils.tbl_syllabus).orderByChild("school_id").equalTo(Utils.currentSchool._id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                arrayList.clear();
+                list_event.clear();
+//                list_uid.clear();
+                calendarView.removeAllEvents();
+                if (dataSnapshot.getValue()!=null) {
+                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        Syllabus syllabus = datas.getValue(Syllabus.class);
+                        syllabus._id = datas.getKey();
+                        if (syllabus.course.equals(sel_course.name)) {
+                            Event ev = new Event(Color.parseColor("#0000ff"), syllabus.date.getTime(), syllabus);
+                            calendarView.addEvent(ev);
+                            list_event.add(ev);
+                            if (Utils.getDateString(syllabus.date).equals(Utils.getDateString(sel_date))) {
+                                arrayList.add(syllabus);
+                            }
+//                            if (!list_uid.contains(syllabus.uid)) {
+//                                list_uid.add(syllabus.uid);
+//                            }
+                        }
+                    }
+                }
+                dayCourseListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void openAddDialog() {
         final Dialog dlg = new Dialog(this);
         Window window = dlg.getWindow();
@@ -119,14 +160,15 @@ public class CourseCalendarActivity extends AppCompatActivity {
         window.setGravity(Gravity.CENTER);
         dlg.show();
         ListView listView = dlg.findViewById(R.id.listView);
-        ArrayList<SchoolTeacherModel> arrayList = new ArrayList<>();
-        for (int i = 0; i < array_teacher.size(); i++) {
-            arrayList.add(new SchoolTeacherModel(i+1, array_teacher.get(i), array_course.get(0)));
-        }
-//        SchoolTeacherListAdapter teacherListAdapter = new SchoolTeacherListAdapter(CourseCalendarActivity.this, null, arrayList);
-//        listView.setAdapter(teacherListAdapter);
+        TeacherListAdapter teacherListAdapter = new TeacherListAdapter(CourseCalendarActivity.this, list_teacher);
+        listView.setAdapter(teacherListAdapter);
 
         dlg.show();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        read_syllabus();
     }
     @Override
     public boolean onSupportNavigateUp() {

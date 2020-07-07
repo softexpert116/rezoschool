@@ -1,5 +1,8 @@
 package com.ediattah.rezoschool.adapter;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.Model.Absence;
+import com.ediattah.rezoschool.Model.School;
+import com.ediattah.rezoschool.Model.User;
+import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.ParentViewExamActivity;
+import com.ediattah.rezoschool.ui.ParentViewTeacherActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.ediattah.rezoschool.Model.Student;
@@ -17,6 +37,7 @@ import com.ediattah.rezoschool.fragments.ParentStudentFragment;
 import com.ediattah.rezoschool.ui.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ChildListAdapter extends BaseAdapter {
     ArrayList<Student> arrayList;
@@ -52,11 +73,14 @@ public class ChildListAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(activity);
             view = inflater.inflate(R.layout.cell_parent_student, null);
         }
-        TextView txt_name = view.findViewById(R.id.txt_name);
-        TextView txt_school = view.findViewById(R.id.txt_school);
-        ImageView img_pic = view.findViewById(R.id.img_pic);
-        Button btn_inform = view.findViewById(R.id.btn_inform);
+        final TextView txt_name = view.findViewById(R.id.txt_name);
+        TextView txt_class = view.findViewById(R.id.txt_class);
+        final TextView txt_school = view.findViewById(R.id.txt_school);
+        final ImageView img_photo = view.findViewById(R.id.img_photo);
+        final ImageView img_pic = view.findViewById(R.id.img_pic);
+        final Button btn_inform = view.findViewById(R.id.btn_inform);
         Button btn_teacher = view.findViewById(R.id.btn_teacher);
+        Button btn_exam = view.findViewById(R.id.btn_exam);
         ImageView img_call = view.findViewById(R.id.img_call);
         ImageView img_sms = view.findViewById(R.id.img_sms);
         img_pic.setOnClickListener(new View.OnClickListener() {
@@ -68,11 +92,6 @@ public class ChildListAdapter extends BaseAdapter {
                         .start(activity, fragment);
             }
         });
-        if (fragment.sel_index == i) {
-            img_pic.setImageURI(fragment.imgUri);
-        } else {
-
-        }
         img_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,12 +107,122 @@ public class ChildListAdapter extends BaseAdapter {
         btn_inform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, "inform clicked", Toast.LENGTH_SHORT).show();
+                if (fragment.imgUri == null) {
+                    Utils.showAlert(activity, "Warning", "Please upload a picture.");
+                    return;
+                }
+                final ProgressDialog progressDialog = new ProgressDialog(activity);
+                progressDialog.setMessage("Please Wait...");
+                progressDialog.show();
+                StorageMetadata metadata = new StorageMetadata.Builder()
+                        .setContentType("image/jpeg")
+                        .build();
+                Long tsLong = System.currentTimeMillis();
+                String ts = tsLong.toString();
+                final StorageReference file_refer = Utils.mStorage.child("absences/"+ts);
+
+                file_refer.putFile(fragment.imgUri, metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Handle successful uploads on complete
+                        file_refer.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+
+                                String downloadUrl = uri.toString();
+                                Absence absence = new Absence("", Calendar.getInstance().getTime(), downloadUrl, model.school_id, model.uid);
+                                Utils.mDatabase.child(Utils.tbl_absence).push().setValue(absence);
+                                progressDialog.dismiss();
+                                Toast.makeText(activity, "Successfully submitted", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                });
             }
         });
         btn_teacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(activity, ParentViewTeacherActivity.class);
+                intent.putExtra("OBJECT", model);
+                activity.startActivity(intent);
+            }
+        });
+        btn_exam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, ParentViewExamActivity.class);
+                intent.putExtra("OBJECT", model);
+                activity.startActivity(intent);
+            }
+        });
+        txt_class.setText(model.class_name);
+        Utils.mDatabase.child(Utils.tbl_user).child(model.uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null) {
+                    User user = dataSnapshot.getValue(User.class);
+                    txt_name.setText(user.name);
+                    Glide.with(activity).load(user.photo).apply(new RequestOptions()
+                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        if (fragment.imgUri != null && fragment.sel_index == i) {
+            img_pic.setImageURI(fragment.imgUri);
+        } else {
+            Utils.mDatabase.child(Utils.tbl_absence).orderByChild("uid").equalTo(model.uid).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue()!=null) {
+                        for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                            Absence absence = datas.getValue(Absence.class);
+                            if (absence.school_id.equals(model.school_id)) {
+                                String date_str = Utils.getDateString(absence.date);
+                                String today_str = Utils.getDateString(Calendar.getInstance().getTime());
+                                if (date_str.equals(today_str)) {
+                                    Glide.with(activity).load(absence.url).apply(new RequestOptions()
+                                            .placeholder(R.drawable.default_pic1).centerInside().dontAnimate()).into(img_pic);
+                                    img_pic.setEnabled(false);
+                                    btn_inform.setEnabled(false);
+                                    btn_inform.setBackground(activity.getDrawable(R.color.gray));
+                                    return;
+                                }
+                            }
+                        }
+//                    txt_name.setText(user.name);
+//                    Glide.with(activity).load(user.photo).apply(new RequestOptions()
+//                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    }
+                    img_pic.setImageDrawable(activity.getDrawable(R.drawable.default_pic1));
+                    img_pic.setEnabled(true);
+                    btn_inform.setEnabled(true);
+                    btn_inform.setBackground(activity.getDrawable(R.color.colorAccent));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        Utils.mDatabase.child(Utils.tbl_school).child(model.school_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null) {
+                    School school = dataSnapshot.getValue(School.class);
+                    txt_school.setText(school.number);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

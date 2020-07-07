@@ -18,7 +18,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/sample_student"
+            android:src="@drawable/default_user"
             android:layout_gravity="center_vertical"
             app:civ_border_color="@android:color/transparent"
             android:layout_centerVertical="true"
@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Olga"
+                    android:text=""
                     android:textColor="@android:color/black"
                     android:fontFamily="@font/gibson_regular"
                     />
@@ -69,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="CP1A"
+                    android:text=""
                     android:textColor="@android:color/black"
                     android:fontFamily="@font/gibson_regular"
                     />
@@ -91,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="School A"
+                    android:text=""
                     android:textColor="@android:color/black"
                     android:fontFamily="@font/gibson_regular"
                     />
@@ -138,7 +138,7 @@
             android:id="@+id/txt_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New"
+            android:text=""
             android:textColor="@color/colorPrimary"
             android:layout_marginLeft="5dp"
             />

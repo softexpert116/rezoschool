@@ -59,6 +59,7 @@
             android:inputType="text"
             android:hint="01:00 PM"
             android:focusable="false"
+            android:editable="false"
             android:paddingLeft="5dp"
             android:textColor="#222222"
             />
@@ -76,6 +77,7 @@
             android:inputType="text"
             android:hint="03:00 PM"
             android:focusable="false"
+            android:editable="false"
             android:paddingLeft="5dp"
             android:textColor="#222222"
             />
@@ -94,6 +96,7 @@
             android:hint="course name"
             android:focusable="false"
             android:paddingLeft="5dp"
+            android:editable="false"
             android:textColor="#222222"
             android:textStyle="bold|italic"
             />

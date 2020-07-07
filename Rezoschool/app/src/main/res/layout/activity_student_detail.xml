@@ -76,9 +76,12 @@
                         android:orientation="vertical"
                         android:layout_height="wrap_content">
                         <LinearLayout
+                            android:id="@+id/ly_absence"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <TextView
+                                android:id="@+id/txt_absence_day"
                                 android:layout_width="170dp"
                                 android:layout_height="wrap_content"
                                 android:text="Absence"
@@ -86,6 +89,7 @@
                                 android:fontFamily="@font/gibson_bold"
                                 />
                             <Button
+                                android:id="@+id/btn_justification"
                                 android:layout_width="wrap_content"
                                 android:layout_height="30dp"
                                 android:text="View Justification"
@@ -108,19 +112,13 @@
                                 android:fontFamily="@font/gibson_bold"
                                 />
                             <TextView
+                                android:id="@+id/txt_evaluation_day"
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
-                                android:text="Good"
+                                android:text=""
                                 android:fontFamily="@font/gibson_regular"
                                 />
-                            <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="30dp"
-                                android:background="@color/transparent"
-                                android:text="Update"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:textAllCaps="false"
-                                />
+
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -135,12 +133,14 @@
                                 android:fontFamily="@font/gibson_bold"
                                 />
                             <TextView
+                                android:id="@+id/txt_result_day"
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
-                                android:text="4.3"
+                                android:text=""
                                 android:fontFamily="@font/gibson_regular"
                                 />
                             <Button
+                                android:id="@+id/btn_update"
                                 android:layout_width="wrap_content"
                                 android:layout_height="30dp"
                                 android:background="@color/transparent"
@@ -182,9 +182,10 @@
                                 android:fontFamily="@font/gibson_bold"
                                 />
                             <TextView
+                                android:id="@+id/txt_absence_week"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2"
+                                android:text=""
                                 android:fontFamily="@font/gibson_regular"
                                 />
                         </LinearLayout>
@@ -199,9 +200,10 @@
                                 android:fontFamily="@font/gibson_bold"
                                 />
                             <TextView
+                                android:id="@+id/txt_evaluation_week"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Good"
+                                android:text=""
                                 android:fontFamily="@font/gibson_regular"
                                 />
                         </LinearLayout>
@@ -216,9 +218,10 @@
                                 android:fontFamily="@font/gibson_bold"
                                 />
                             <TextView
+                                android:id="@+id/txt_result_week"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="4.1"
+                                android:text=""
                                 android:fontFamily="@font/gibson_regular"
                                 />
                         </LinearLayout>
@@ -255,9 +258,10 @@
                                 android:fontFamily="@font/gibson_bold"
                                 />
                             <TextView
+                                android:id="@+id/txt_absence_month"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="5"
+                                android:text=""
                                 android:fontFamily="@font/gibson_regular"
                                 />
                         </LinearLayout>
@@ -272,9 +276,10 @@
                                 android:fontFamily="@font/gibson_bold"
                                 />
                             <TextView
+                                android:id="@+id/txt_evaluation_month"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Good"
+                                android:text=""
                                 android:fontFamily="@font/gibson_regular"
                                 />
                         </LinearLayout>
@@ -289,9 +294,10 @@
                                 android:fontFamily="@font/gibson_bold"
                                 />
                             <TextView
+                                android:id="@+id/txt_result_month"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="4.0"
+                                android:text=""
                                 android:fontFamily="@font/gibson_regular"
                                 />
                         </LinearLayout>
@@ -300,4 +306,23 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <RelativeLayout
+        android:id="@+id/ly_absence_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:alpha="0.5"
+        android:visibility="gone"
+        >
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/img_absence"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:visibility="gone"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/default_pic1"
+        android:layout_centerInParent="true"
+        />
 </RelativeLayout>

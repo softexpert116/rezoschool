@@ -39,8 +39,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.School;
+import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Model.UserModel;
 import com.ediattah.rezoschool.Utils.Utils;
@@ -125,7 +127,44 @@ public class App extends Application {
             }
         });
     }
+    public static void getCurrentStudent() {
+        Utils.mDatabase.child(Utils.tbl_student).orderByChild("uid").equalTo(Utils.mUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    for(DataSnapshot datas: dataSnapshot.getChildren()){
+                        Utils.currentStudent = datas.getValue(Student.class);
+                        Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentStudent.school_id).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue()!=null) {
+                                    Utils.currentSchool = dataSnapshot.getValue(School.class);
+                                    Utils.currentSchool._id = dataSnapshot.getKey();
+                                    for (Class _class:Utils.currentSchool.classes) {
+                                        if (_class.name.equals(Utils.currentStudent.class_name)) {
+                                            Utils.currentClass = _class;
+                                            break;
+                                        }
+                                    }
 
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     public static void goToMainPage(final Activity activity) {
         //get user info into model
         String phone_num = Utils.mUser.getPhoneNumber();
@@ -155,7 +194,11 @@ public class App extends Application {
 //token update
                                     Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TOKEN).setValue(Utils.getDeviceToken(activity));
                                     // go to main page
-                                    getCurrentSchool();
+                                    if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
+                                        getCurrentSchool();
+                                    } else if (Utils.currentUser.type.equals(Utils.STUDENT)) {
+                                        getCurrentStudent();
+                                    }
                                     Intent intent = new Intent(activity, MainActivity.class);
                                     activity.startActivity(intent);
                                 }

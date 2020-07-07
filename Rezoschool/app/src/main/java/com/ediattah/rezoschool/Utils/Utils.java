@@ -12,7 +12,9 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.School;
+import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,7 +27,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Utils {
@@ -36,12 +40,18 @@ public class Utils {
     public static FirebaseUser mUser = auth.getCurrentUser();
     public static User currentUser = new User();
     public static School currentSchool = new School();
+    public static Student currentStudent = new Student();
+    public static Class currentClass = new Class();
 //    public static Location currentLocation;
 //    public static String mFuncUrl = "https://us-central1-taxikini-9a743.cloudfunctions.net";
     public static String tbl_user = "users";
+    public static String tbl_student = "students";
     public static String tbl_school = "schools";
     public static String tbl_tweet = "tweets";
     public static String tbl_library = "library";
+    public static String tbl_exam = "exams";
+    public static String tbl_absence = "absences";
+    public static String tbl_syllabus = "syllabus";
 //    public static String tbl_comment = "comments";
 //    public static String tbl_course = "courses";
 //    public static String tbl_class = "classes";
@@ -67,6 +77,7 @@ public class Utils {
     public static String STUDENT = "STUDENT";
     public static String PRIMARY = "PRIMARY";
     public static String SECONDARY = "SECONDARY";
+    public static DecimalFormat df = new DecimalFormat("0.00");
 
     public static Boolean CheckEditTextIsEmptyOrNot(EditText editText) {
 
@@ -85,6 +96,44 @@ public class Utils {
             return true;
         }
     }
+    public static long getLastDayOfMonth(Date sel_date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(sel_date);
+//        int res = cal.getActualMaximum(Calendar.DATE);
+        cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+        cal.set(Calendar.AM_PM, 0);
+        cal.set(Calendar.HOUR, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        Date date = cal.getTime();
+        return cal.getTimeInMillis();
+    }
+    public static long getFirstDayOfMonth(Date sel_date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(sel_date);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.AM_PM, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+//        calendar.set(Calendar.DAY_OF_MONTH, Calendar.SUNDAY);
+        Date date = calendar.getTime();
+        return calendar.getTimeInMillis();
+    }
+    public static long getFirstDayOfWeek(Date sel_date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(sel_date);
+        calendar.set(Calendar.AM_PM, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        return calendar.getTimeInMillis();
+    }
+
     public static String convertFromBitmap(Bitmap bm) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -148,5 +197,9 @@ public class Utils {
     public static String getCurrentDateString() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(new Date(System.currentTimeMillis()));
+    }
+    public static String getDateString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
     }
 }

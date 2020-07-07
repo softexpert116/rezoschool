@@ -5,33 +5,35 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.ediattah.rezoschool.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.ediattah.rezoschool.ui.BulkSMSActivity"></activity>
-        <activity android:name="com.ediattah.rezoschool.ui.CourseCalendarActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.NewStudentActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.NewSyllabusActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.CourseStudentActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.NewLibraryActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.LibraryDetailActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.FinanceSettingActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.NewSchoolCallbackActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.StudentDetailActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.TeacherDetailActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.NewTeacherActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.NewCourseActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.NewClassActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.NewRsTweetsActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.ForgotPasswordActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.OTPActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.RegisterActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.LoginActivity" />
-        <activity android:name="com.ediattah.rezoschool.ui.SplashActivity">
+        <activity android:name=".ui.ParentViewExamActivity"></activity>
+        <activity android:name=".ui.ParentViewTeacherActivity" />
+        <activity android:name=".ui.BulkSMSActivity" />
+        <activity android:name=".ui.CourseCalendarActivity" />
+        <activity android:name=".ui.NewStudentActivity" />
+        <activity android:name=".ui.NewSyllabusActivity" />
+        <activity android:name=".ui.CourseStudentActivity" />
+        <activity android:name=".ui.NewLibraryActivity" />
+        <activity android:name=".ui.LibraryDetailActivity" />
+        <activity android:name=".ui.FinanceSettingActivity" />
+        <activity android:name=".ui.NewSchoolCallbackActivity" />
+        <activity android:name=".ui.StudentDetailActivity" />
+        <activity android:name=".ui.TeacherDetailActivity" />
+        <activity android:name=".ui.NewTeacherActivity" />
+        <activity android:name=".ui.NewCourseActivity" />
+        <activity android:name=".ui.NewClassActivity" />
+        <activity android:name=".ui.NewRsTweetsActivity" />
+        <activity android:name=".ui.ForgotPasswordActivity" />
+        <activity android:name=".ui.OTPActivity" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ediattah.rezoschool.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

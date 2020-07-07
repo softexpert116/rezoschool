@@ -57,6 +57,7 @@ public class NewStudentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_student);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Add New Student");
+        App.hideKeyboard(this);
         final CountryCodePicker countryCodePicker = (CountryCodePicker)findViewById(R.id.txt_countryCode);
         countryCodePicker.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override

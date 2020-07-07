@@ -4,14 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
     android:background="@color/white_background"
     tools:context=".ui.NewSyllabusActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_margin="20dp"
         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="School Number"
+            android:fontFamily="@font/gibson_bold"
+            />
+        <EditText
+            android:id="@+id/edit_school"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="school number"
+            android:focusable="false"
+            android:inputType="text"
+            android:editable="false"
+            android:paddingLeft="5dp"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,6 +41,8 @@
             android:hint="course name"
             android:inputType="text"
             android:paddingLeft="5dp"
+            android:focusable="false"
+            android:editable="false"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -38,9 +56,10 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:inputType="text"
-            android:hint="25/05/2020"
+            android:hint="01/01/2020"
             android:focusable="false"
             android:paddingLeft="5dp"
+            android:editable="false"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -54,9 +73,10 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:inputType="text"
-            android:hint="03:00 PM"
+            android:hint="00:00 PM"
             android:focusable="false"
             android:paddingLeft="5dp"
+            android:editable="false"
             />
         <Button
             android:id="@+id/btn_create"

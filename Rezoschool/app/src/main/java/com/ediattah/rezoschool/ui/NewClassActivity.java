@@ -40,6 +40,7 @@ public class NewClassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Create New Class");
+        App.hideKeyboard(this);
 
         edit_level = findViewById(R.id.edit_level);
         edit_name = findViewById(R.id.edit_name);
@@ -167,7 +168,7 @@ public class NewClassActivity extends AppCompatActivity {
                     if (courses.length() == 0) {
                         courses += course.name;
                     } else {
-                        courses += ", " + course.name;
+                        courses += "," + course.name;
                     }
                 }
                 edit_course.setText(courses);

@@ -29,7 +29,7 @@ public class AlumniFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_alumni, container, false);
-        StudentAcceptedListAdapter studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, null, array_student_accepted);
+        StudentAcceptedListAdapter studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity,  array_student_accepted);
         ListView listView = (ListView)v.findViewById(R.id.listView);
 //        array_student_accepted.add(new Student(1, 1, 1, 1, true, true));
 //        array_student_accepted.add(new Student(2, 2, 1, 1, true, true));

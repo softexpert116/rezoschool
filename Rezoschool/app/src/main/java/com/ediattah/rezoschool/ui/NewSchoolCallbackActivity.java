@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.R;
 
 public class NewSchoolCallbackActivity extends AppCompatActivity {
@@ -14,6 +15,7 @@ public class NewSchoolCallbackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_school_callback);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Add New Callback");
+        App.hideKeyboard(this);
     }
     @Override
     public boolean onSupportNavigateUp() {

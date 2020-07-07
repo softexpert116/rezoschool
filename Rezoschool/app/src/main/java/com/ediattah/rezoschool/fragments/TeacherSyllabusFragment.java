@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ediattah.rezoschool.Model.Syllabus;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,6 +27,9 @@ import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.DayCourseListAdapter;
 import com.ediattah.rezoschool.ui.MainActivity;
 import com.ediattah.rezoschool.ui.NewSyllabusActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,9 +42,11 @@ public class TeacherSyllabusFragment extends Fragment {
     TextView txt_month;
     MainActivity activity;
     Class aClass;
-    ArrayList<DayCourseModel> arrayList = new ArrayList<>();
+    ArrayList<Syllabus> arrayList = new ArrayList<>();
     ListView listView;
     DayCourseListAdapter dayCourseListAdapter;
+    ArrayList<Event> list_event = new ArrayList<>();
+    Date sel_date;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,30 +56,22 @@ public class TeacherSyllabusFragment extends Fragment {
 
         calendarView = v.findViewById(R.id.calendarView);
         txt_month = v.findViewById(R.id.txt_month);
-        Date currentTime = Calendar.getInstance().getTime();
-        txt_month.setText(Utils.getYearMonthString(currentTime));
-        calendarView.setFirstDayOfWeek(Calendar.MONDAY);
-
-        // Add event 1 on Sun, 07 Jun 2015 18:20:51 GMT
-        Event ev1 = new Event(Color.GREEN, 1433701251000L, "Some extra data that I want to store.");
-        calendarView.addEvent(ev1);
-
-        // Added event 2 GMT: Sun, 07 Jun 2015 19:10:51 GMT
-        Event ev2 = new Event(Color.GREEN, 1566000000000L);
-        calendarView.addEvent(ev2);
-        // Query for events on Sun, 07 Jun 2015 GMT.
-        // Time is not relevant when querying for events, since events are returned by day.
-        // So you can pass in any arbitary DateTime and you will receive all events for that day.
-        List<Event> events = calendarView.getEvents(1433701251000L); // can also take a Date object
+        sel_date = Calendar.getInstance().getTime();
+        txt_month.setText(Utils.getYearMonthString(sel_date));
+        calendarView.setFirstDayOfWeek(Calendar.SUNDAY);
 
         // define a listener to receive callbacks when certain events happen.
         calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
+                arrayList.clear();
                 List<Event> events = calendarView.getEvents(dateClicked);
-//                Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
-//                Toast.makeText(TeacherDetailActivity.this, "Day was clicked", Toast.LENGTH_SHORT).show();
-                listView.setAdapter(dayCourseListAdapter);
+                sel_date = dateClicked;
+                for (Event event:events) {
+                    Syllabus syllabus = (Syllabus) event.getData();
+                    arrayList.add(syllabus);
+                }
+                dayCourseListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -84,17 +83,9 @@ public class TeacherSyllabusFragment extends Fragment {
         });
 
         listView = v.findViewById(R.id.listView);
-        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "2:10 PM"));
-        arrayList.add(new DayCourseModel(App.array_course.get(1), "2019-05-23", "3:10 PM"));
-        arrayList.add(new DayCourseModel(App.array_course.get(2), "2019-05-23", "4:10 PM"));
         dayCourseListAdapter = new DayCourseListAdapter(activity, arrayList);
+        listView.setAdapter(dayCourseListAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });
         FloatingActionButton fab = v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,12 +94,44 @@ public class TeacherSyllabusFragment extends Fragment {
                 activity.startActivity(intent);
             }
         });
+        sel_date = Calendar.getInstance().getTime();
+        read_syllabus();
         return v;
+    }
+    public void read_syllabus() {
+        Utils.mDatabase.child(Utils.tbl_syllabus).orderByChild("uid").equalTo(Utils.mUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                arrayList.clear();
+                list_event.clear();
+                calendarView.removeAllEvents();
+                if (dataSnapshot.getValue()!=null) {
+                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        Syllabus syllabus = datas.getValue(Syllabus.class);
+                        syllabus._id = datas.getKey();
+                        Event ev = new Event(Color.parseColor("#0000ff"), syllabus.date.getTime(), syllabus);
+                        calendarView.addEvent(ev);
+                        list_event.add(ev);
+                        if (Utils.getDateString(syllabus.date).equals(Utils.getDateString(sel_date))) {
+                            arrayList.add(syllabus);
+                        }
+                    }
+                }
+//                listView.setAdapter(dayCourseListAdapter);
+                dayCourseListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
     }
 
     public void onAttach(Context context) {
