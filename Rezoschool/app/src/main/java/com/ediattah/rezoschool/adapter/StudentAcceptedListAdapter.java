@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.User;
@@ -67,7 +68,8 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
         img_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "click chat", Toast.LENGTH_SHORT).show();
+                App.goToChatPage(context, student.uid);
+//                Toast.makeText(context, "click chat", Toast.LENGTH_SHORT).show();
             }
         });
         ImageView img_sms = (ImageView)view.findViewById(R.id.img_sms);

@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import org.json.JSONObject;
 
@@ -41,11 +43,14 @@ import java.util.Set;
 
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
+import com.ediattah.rezoschool.Model.Message;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
+import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Model.UserModel;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.ChatActivity;
 import com.ediattah.rezoschool.ui.LoginActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,19 +96,19 @@ public class App extends Application {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        array_teacher.add(new UserModel(1, "Ivan", "", "iva@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER, "English, French", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-        array_teacher.add(new UserModel(2, "Bruw", "", "bre@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER,  "Mathematics, Physics", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-        array_teacher.add(new UserModel(3, "Volic", "", "vol@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER, "English, Mathematics", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-        array_teacher.add(new UserModel(4, "Olga", "", "ol@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER, "English", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-
-        array_school.add(new UserModel(1, "School A", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL, "English, French", "1234", SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-        array_school.add(new UserModel(2, "School B", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL,  "Mathematics, Physics", "1235",SCHOOL_PUBLIC, SCHOOL_SECONDARY));
-        array_school.add(new UserModel(3, "School C", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL, "English, Mathematics", "1236",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-        array_school.add(new UserModel(4, "School D", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL, "English", "1237",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-
-        array_course.add(new Course("English"));
-        array_course.add(new Course("Mathematics"));
-        array_course.add(new Course("Physics"));
+//        array_teacher.add(new UserModel(1, "Ivan", "", "iva@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER, "English, French", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
+//        array_teacher.add(new UserModel(2, "Bruw", "", "bre@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER,  "Mathematics, Physics", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
+//        array_teacher.add(new UserModel(3, "Volic", "", "vol@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER, "English, Mathematics", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
+//        array_teacher.add(new UserModel(4, "Olga", "", "ol@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER, "English", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
+//
+//        array_school.add(new UserModel(1, "School A", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL, "English, French", "1234", SCHOOL_PRIVATE, SCHOOL_PRIMARY));
+//        array_school.add(new UserModel(2, "School B", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL,  "Mathematics, Physics", "1235",SCHOOL_PUBLIC, SCHOOL_SECONDARY));
+//        array_school.add(new UserModel(3, "School C", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL, "English, Mathematics", "1236",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
+//        array_school.add(new UserModel(4, "School D", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL, "English", "1237",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
+//
+//        array_course.add(new Course("English"));
+//        array_course.add(new Course("Mathematics"));
+//        array_course.add(new Course("Physics"));
     }
 
     public static void getCurrentSchool() {
@@ -164,6 +169,48 @@ public class App extends Application {
 
             }
         });
+    }
+    public static void goToChatPage(final Context context, final String user_id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Do you want to open chat with this person?");
+        builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int id) {
+//                        ArrayList<Teacher> teachers = school.teachers;
+                String myUid = Utils.mUser.getUid();
+                final String roomId;
+                int compare = myUid.compareTo(user_id);
+                if (compare < 0) {
+                    roomId = myUid + user_id;
+                } else {
+                    roomId = user_id + myUid;
+                }
+
+                Utils.mDatabase.child(Utils.tbl_chat).child(roomId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue() == null) {
+                            Utils.mDatabase.child(Utils.tbl_chat).child(roomId).push().setValue(new Message());
+                        }
+                        Intent intent = new Intent(context, ChatActivity.class);
+                        intent.putExtra("roomId", roomId);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+//                Utils.mDatabase.child(Utils.tbl_chat).child(school._id).child("teachers").setValue(school.teachers);
+//                Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
     public static void goToMainPage(final Activity activity) {
         //get user info into model

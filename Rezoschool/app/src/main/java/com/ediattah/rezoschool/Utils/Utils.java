@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.ediattah.rezoschool.Model.ChatRoom;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
@@ -52,6 +53,7 @@ public class Utils {
     public static String tbl_exam = "exams";
     public static String tbl_absence = "absences";
     public static String tbl_syllabus = "syllabus";
+    public static String tbl_chat = "chats";
 //    public static String tbl_comment = "comments";
 //    public static String tbl_course = "courses";
 //    public static String tbl_class = "classes";
@@ -79,6 +81,16 @@ public class Utils {
     public static String SECONDARY = "SECONDARY";
     public static DecimalFormat df = new DecimalFormat("0.00");
 
+    public static String getChatUserId(String roomId) {
+        String user_id;
+        int index = roomId.indexOf(Utils.mUser.getUid());
+        if (index == 0) {
+            user_id = roomId.substring(Utils.mUser.getUid().length());
+        } else {
+            user_id = roomId.substring(0, roomId.length()-Utils.mUser.getUid().length());
+        }
+        return user_id;
+    }
     public static Boolean CheckEditTextIsEmptyOrNot(EditText editText) {
 
         // Getting values from EditText.
@@ -200,6 +212,10 @@ public class Utils {
     }
     public static String getDateString(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
+    }
+    public static String getTimeString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
         return formatter.format(date);
     }
 }

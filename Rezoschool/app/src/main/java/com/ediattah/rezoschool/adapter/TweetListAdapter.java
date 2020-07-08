@@ -26,6 +26,7 @@ import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.fragments.TweetsFragment;
+import com.ediattah.rezoschool.ui.ImageViewerActivity;
 import com.ediattah.rezoschool.ui.LoginActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
 import com.ediattah.rezoschool.ui.RegisterActivity;
@@ -102,8 +103,18 @@ public class TweetListAdapter extends BaseAdapter {
         txt_description.setText(tweet.description);
         txt_like.setText(String.valueOf(tweet.like));
         txt_dislike.setText(String.valueOf(tweet.dislike));
+
         Glide.with(activity).load(tweet.media).apply(new RequestOptions()
                 .placeholder(R.drawable.default_pic).centerCrop().dontAnimate()).into(img_media);
+        img_media.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, ImageViewerActivity.class);
+                intent.putExtra("url", tweet.media);
+                activity.startActivity(intent);
+            }
+        });
+
         ImageButton ibtn_comment = view.findViewById(R.id.ibtn_comment);
         ibtn_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,47 +174,7 @@ public class TweetListAdapter extends BaseAdapter {
                             });
                     ly_feedback.addView(view1);
                 }
-//
-//                Utils.mDatabase.child(Utils.tbl_comment).orderByChild("tweet_id").equalTo(tweet._id)
-//                        .addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                ly_feedback.removeAllViews();
-//                                for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-//                                    Comment comment = childSnapshot.getValue(Comment.class);
-//                                    View view1 = inflater.inflate(R.layout.cell_tweet_comment, null);
-//                                    TextView txt_comment = (TextView)view1.findViewById(R.id.txt_comment);
-//                                    TextView txt_date = (TextView)view1.findViewById(R.id.txt_date);
-//                                    final TextView txt_name = (TextView)view1.findViewById(R.id.txt_name);
-//                                    final ImageView img_publisher = (ImageView)view1.findViewById(R.id.img_publisher);
-//                                    txt_comment.setText(comment.comment);
-//                                    txt_date.setText(comment.date);
-//
-//                                    Utils.mDatabase.child(Utils.tbl_user).orderByKey().equalTo(comment.uid)
-//                                            .addListenerForSingleValueEvent(new ValueEventListener() {
-//                                                @Override
-//                                                public void onDataChange(DataSnapshot dataSnapshot) {
-//                                                    for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-//                                                        User user = childSnapshot.getValue(User.class);
-//                                                        txt_name.setText(user.name);
-//                                                        Glide.with(activity).load(user.photo).apply(new RequestOptions()
-//                                                                .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_publisher);
-//                                                    }
-//                                                }
-//
-//                                                @Override
-//                                                public void onCancelled(DatabaseError databaseError) {
-//                                                    Log.w( "loadPost:onCancelled", databaseError.toException());
-//                                                }
-//                                            });
-//                                    ly_feedback.addView(view1);
-//                                }
-//                            }
-//                            @Override
-//                            public void onCancelled(DatabaseError databaseError) {
-//                                Log.w( "loadPost:onCancelled", databaseError.toException());
-//                            }
-//                        });
+
             }
         });
         return view;
@@ -213,7 +184,7 @@ public class TweetListAdapter extends BaseAdapter {
         Window window = dlg.getWindow();
         View view = fragment.getLayoutInflater().inflate(R.layout.dialog_add_comment, null);
         int width = (int)(fragment.getResources().getDisplayMetrics().widthPixels*0.85);
-        int height = (int)(fragment.getResources().getDisplayMetrics().heightPixels*0.3);
+        int height = (int)(fragment.getResources().getDisplayMetrics().heightPixels*0.25);
         view.setMinimumWidth(width);
         view.setMinimumHeight(height);
 //        dlg.getWindow().setLayout(width, height);

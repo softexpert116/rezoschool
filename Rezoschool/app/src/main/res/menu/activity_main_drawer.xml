@@ -56,6 +56,10 @@
             android:id="@+id/nav_invoice"
             android:icon="@drawable/ic_menu_finance"
             android:title="@string/menu_invoice" />
+        <item
+            android:id="@+id/nav_message"
+            android:icon="@android:drawable/sym_action_chat"
+            android:title="@string/menu_message" />
     </group>
 
 </menu>

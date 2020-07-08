@@ -5,12 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Model.UserModel;
@@ -56,6 +59,35 @@ public class TeacherListAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.cell_teacher, null);
         }
+        ImageView img_chat = (ImageView)view.findViewById(R.id.img_chat);
+        img_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.goToChatPage(context, teacher.uid);
+//                Toast.makeText(context, "click chat", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ImageView img_sms = (ImageView)view.findViewById(R.id.img_sms);
+        img_sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "click sms", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ImageView img_call = (ImageView)view.findViewById(R.id.img_call);
+        img_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "click call", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ImageView img_video = (ImageView)view.findViewById(R.id.img_video);
+        img_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "click video", Toast.LENGTH_SHORT).show();
+            }
+        });
         final TextView txt_name = view.findViewById(R.id.txt_name);
 //        txt_name.setText(model.name);
         TextView txt_course = view.findViewById(R.id.txt_course);

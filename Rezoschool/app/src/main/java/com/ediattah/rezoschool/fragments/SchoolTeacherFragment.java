@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.Model.User;
@@ -49,6 +50,7 @@ public class SchoolTeacherFragment extends Fragment {
     int sel_index = 0;
     CircleImageView img_photo;
     TextView txt_name;
+    String sel_userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,7 +75,10 @@ public class SchoolTeacherFragment extends Fragment {
         img_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, "click chat", Toast.LENGTH_SHORT).show();
+                if (sel_userId != null) {
+                    App.goToChatPage(activity, sel_userId);
+                }
+//                Toast.makeText(activity, "click chat", Toast.LENGTH_SHORT).show();
             }
         });
         ImageView img_sms = v.findViewById(R.id.img_sms);
@@ -109,6 +114,7 @@ public class SchoolTeacherFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                             User user = childSnapshot.getValue(User.class);
+                            sel_userId = childSnapshot.getKey();
                             txt_name.setText(user.name);
                             Glide.with(activity).load(user.photo).apply(new RequestOptions()
                                     .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
