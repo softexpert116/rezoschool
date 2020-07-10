@@ -13,4 +13,5 @@
     <color name="calendar_background">#17AF99</color>
     <color name="colorMainBackground">#D9F4E9</color>
     <color name="colorSubBackground">#A9F1D3</color>
+    <color name="colorText">#222222</color>
 </resources>

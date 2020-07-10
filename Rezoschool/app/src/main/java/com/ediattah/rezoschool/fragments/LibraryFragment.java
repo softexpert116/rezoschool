@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.ediattah.rezoschool.Utils.Utils;
@@ -42,6 +43,8 @@ public class LibraryFragment extends Fragment {
     ArrayList<Library> arrayList = new ArrayList<>();
     ArrayList<Library> arrayList1 = new ArrayList<>();
     EditText edit_category;
+    LinearLayout ly_no_items;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +52,7 @@ public class LibraryFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_library, container, false);
         listView = v.findViewById(R.id.listView);
-
+        ly_no_items = v.findViewById(R.id.ly_no_items);
         edit_category = (EditText)v.findViewById(R.id.edit_category);
         edit_category.addTextChangedListener(new TextWatcher() {
             @Override
@@ -100,10 +103,19 @@ public class LibraryFragment extends Fragment {
                 arrayList1.add(library);
             }
         }
+        if (arrayList1.size() == 0) {
+            ly_no_items.setVisibility(View.VISIBLE);
+        } else {
+            ly_no_items.setVisibility(View.GONE);
+        }
         libraryListAdapter.notifyDataSetChanged();
     }
     public void read_library() {
-        Utils.mDatabase.child(Utils.tbl_library).orderByChild("school_id").equalTo(Utils.currentSchool._id).addListenerForSingleValueEvent(new ValueEventListener() {
+        if (Utils.currentSchool._id.length() == 0) {
+            Utils.showAlert(activity, "Warning", "Please select a school");
+            return;
+        }
+        Utils.mDatabase.child(Utils.tbl_library).orderByChild("school_id").equalTo(Utils.currentSchool._id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayList.clear();

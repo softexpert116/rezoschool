@@ -1,15 +1,18 @@
 package com.ediattah.rezoschool.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ediattah.rezoschool.Model.Syllabus;
+import com.ediattah.rezoschool.Model.Teacher;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.ediattah.rezoschool.App;
@@ -18,6 +21,9 @@ import com.ediattah.rezoschool.Model.DayCourseModel;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.DayCourseListAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,45 +34,51 @@ public class TeacherDetailActivity extends AppCompatActivity {
     Calendar currentCalendar;
     CompactCalendarView calendarView;
     TextView txt_month;
-
+    LinearLayout ly_no_items;
     Class aClass;
     ArrayList<Syllabus> arrayList = new ArrayList<>();
     ListView listView;
     DayCourseListAdapter dayCourseListAdapter;
+    Date sel_date;
+    ArrayList<Event> list_event = new ArrayList<>();
+    Teacher sel_teacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_detail);
+        sel_teacher = (Teacher)getIntent().getSerializableExtra("TEACHER");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Teacher Syllabus of the Courses ");
 
+        ly_no_items = findViewById(R.id.ly_no_items);
         calendarView = findViewById(R.id.calendarView);
         txt_month = findViewById(R.id.txt_month);
-        Date currentTime = Calendar.getInstance().getTime();
-        txt_month.setText(Utils.getYearMonthString(currentTime));
+        sel_date = Calendar.getInstance().getTime();
+        txt_month.setText(Utils.getYearMonthString(sel_date));
         calendarView.setFirstDayOfWeek(Calendar.MONDAY);
-
-        // Add event 1 on Sun, 07 Jun 2015 18:20:51 GMT
-        Event ev1 = new Event(Color.GREEN, 1433701251000L, "Some extra data that I want to store.");
-        calendarView.addEvent(ev1);
-
-        // Added event 2 GMT: Sun, 07 Jun 2015 19:10:51 GMT
-        Event ev2 = new Event(Color.GREEN, 1566000000000L);
-        calendarView.addEvent(ev2);
-        // Query for events on Sun, 07 Jun 2015 GMT.
-        // Time is not relevant when querying for events, since events are returned by day.
-        // So you can pass in any arbitary DateTime and you will receive all events for that day.
-        List<Event> events = calendarView.getEvents(1433701251000L); // can also take a Date object
-
         // define a listener to receive callbacks when certain events happen.
+
+        listView = findViewById(R.id.listView);
+        dayCourseListAdapter = new DayCourseListAdapter(this, arrayList);
+        listView.setAdapter(dayCourseListAdapter);
+
         calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
+                arrayList.clear();
                 List<Event> events = calendarView.getEvents(dateClicked);
-//                Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
-//                Toast.makeText(TeacherDetailActivity.this, "Day was clicked", Toast.LENGTH_SHORT).show();
-                listView.setAdapter(dayCourseListAdapter);
+                sel_date = dateClicked;
+                for (Event event:events) {
+                    Syllabus syllabus = (Syllabus) event.getData();
+                    arrayList.add(syllabus);
+                }
+                if (arrayList.size() == 0) {
+                    ly_no_items.setVisibility(View.VISIBLE);
+                } else {
+                    ly_no_items.setVisibility(View.GONE);
+                }
+                dayCourseListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -76,16 +88,37 @@ public class TeacherDetailActivity extends AppCompatActivity {
                 txt_month.setText(Utils.getYearMonthString(firstDayOfNewMonth));
             }
         });
-
-        listView = findViewById(R.id.listView);
-//        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "2:10 PM"));
-//        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "3:10 PM"));
-//        arrayList.add(new DayCourseModel(App.array_course.get(0), "2019-05-23", "4:10 PM"));
-        dayCourseListAdapter = new DayCourseListAdapter(this, arrayList);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        read_syllabus();
+    }
+    public void read_syllabus() {
+        Utils.mDatabase.child(Utils.tbl_syllabus).orderByChild("uid").equalTo(sel_teacher.uid).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                arrayList.clear();
+                list_event.clear();
+                calendarView.removeAllEvents();
+                if (dataSnapshot.getValue()!=null) {
+                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        Syllabus syllabus = datas.getValue(Syllabus.class);
+                        syllabus._id = datas.getKey();
+                        Event ev = new Event(Color.parseColor("#0000ff"), syllabus.date.getTime(), syllabus);
+                        calendarView.addEvent(ev);
+                        list_event.add(ev);
+                        if (Utils.getDateString(syllabus.date).equals(Utils.getDateString(sel_date))) {
+                            arrayList.add(syllabus);
+                        }
+                    }
+                }
+                if (arrayList.size() == 0) {
+                    ly_no_items.setVisibility(View.VISIBLE);
+                } else {
+                    ly_no_items.setVisibility(View.GONE);
+                }
+                dayCourseListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

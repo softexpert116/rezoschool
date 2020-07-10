@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_background"
+    android:background="@color/colorMainBackground"
     tools:context=".ui.NewSyllabusActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="School Number"
-            android:fontFamily="@font/gibson_bold"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
             />
         <EditText
             android:id="@+id/edit_school"
@@ -24,6 +25,9 @@
             android:layout_height="40dp"
             android:hint="school number"
             android:focusable="false"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"
+            android:fontFamily="@font/gibson_regular"
             android:inputType="text"
             android:editable="false"
             android:paddingLeft="5dp"
@@ -32,13 +36,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Course Name"
-            android:fontFamily="@font/gibson_bold"
+            android:fontFamily="@font/gibson_regular"
+            android:textSize="20dp"
             />
         <EditText
             android:id="@+id/edit_course"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="course name"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"
+            android:fontFamily="@font/gibson_regular"
             android:inputType="text"
             android:paddingLeft="5dp"
             android:focusable="false"
@@ -48,7 +56,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/gibson_bold"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
             android:text="Date"
             />
         <EditText
@@ -57,6 +66,9 @@
             android:layout_height="40dp"
             android:inputType="text"
             android:hint="01/01/2020"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"
+            android:fontFamily="@font/gibson_regular"
             android:focusable="false"
             android:paddingLeft="5dp"
             android:editable="false"
@@ -65,7 +77,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/gibson_bold"
+            android:fontFamily="@font/gibson_regular"
+            android:textSize="20dp"
             android:text="Time"
             />
         <EditText
@@ -74,6 +87,9 @@
             android:layout_height="40dp"
             android:inputType="text"
             android:hint="00:00 PM"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"
+            android:fontFamily="@font/gibson_regular"
             android:focusable="false"
             android:paddingLeft="5dp"
             android:editable="false"

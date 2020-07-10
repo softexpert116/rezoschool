@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardBackgroundColor="@color/colorSubBackground"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -15,9 +15,9 @@
             >
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_photo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="15dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
                 android:src="@drawable/default_user"
                 android:layout_gravity="center_vertical"
                 app:civ_border_color="@android:color/transparent"
@@ -32,7 +32,7 @@
                 android:layout_toRightOf="@+id/img_photo"
                 android:layout_toLeftOf="@+id/chk_teacher"
                 android:layout_centerVertical="true"
-                android:padding="10dp"
+                android:padding="5dp"
                 >
                 <TextView
                     android:layout_width="match_parent"
@@ -44,7 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="user"
-                    android:textSize="20dp"
+                    android:textSize="22dp"
+                    android:textColor="@color/colorText"
                     android:fontFamily="@font/gibson_regular"
                     />
                 <TextView
@@ -53,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="message"
-                    android:textColor="#222222"
+                    android:textSize="20dp"
                     android:maxLines="1"
                     android:layout_marginRight="20dp"
                     android:fontFamily="@font/gibson_regular"

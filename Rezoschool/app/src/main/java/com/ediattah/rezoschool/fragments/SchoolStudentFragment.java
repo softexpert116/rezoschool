@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class SchoolStudentFragment extends Fragment {
     StudentAcceptedListAdapter studentAcceptedListAdapter;
     StudentWaitingListAdapter studentWaitingListAdapter;
     TextView txt_waiting;
+    LinearLayout ly_no_items;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +50,7 @@ public class SchoolStudentFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_school_student, container, false);
         txt_waiting = v.findViewById(R.id.txt_waiting);
+        ly_no_items = v.findViewById(R.id.ly_no_items);
         btn_accepted = v.findViewById(R.id.btn_accepted);
         btn_waiting = v.findViewById(R.id.btn_waiting);
         btn_accepted.setOnClickListener(new View.OnClickListener() {
@@ -56,10 +59,8 @@ public class SchoolStudentFragment extends Fragment {
                 btn_waiting.setTextColor(Color.parseColor("#d0d0d0"));
                 btn_accepted.setTextColor(Color.parseColor("#ffffff"));
                 flag_accepted = true;
-//                studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, array_student_accepted);
                 listView.setAdapter(studentAcceptedListAdapter);
                 read_students();
-//                studentAcceptedListAdapter.notifyDataSetChanged();
             }
         });
         btn_waiting.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +69,8 @@ public class SchoolStudentFragment extends Fragment {
                 btn_accepted.setTextColor(Color.parseColor("#d0d0d0"));
                 btn_waiting.setTextColor(Color.parseColor("#ffffff"));
                 flag_accepted = false;
-//                studentWaitingListAdapter = new StudentWaitingListAdapter(activity, SchoolStudentFragment.this, array_student_waiting);
                 listView.setAdapter(studentWaitingListAdapter);
                 read_students();
-//                studentWaitingListAdapter.notifyDataSetChanged();
             }
         });
 
@@ -108,9 +107,8 @@ public class SchoolStudentFragment extends Fragment {
                     array_student_accepted.clear();
                     array_student_waiting.clear();
                     sort_array(array_all, 0);
-
-
                 }
+
             }
 
             @Override
@@ -140,8 +138,18 @@ public class SchoolStudentFragment extends Fragment {
                         }
                         if (flag_accepted) {
                             studentAcceptedListAdapter.notifyDataSetChanged();
+                            if (array_student_accepted.size() == 0) {
+                                ly_no_items.setVisibility(View.VISIBLE);
+                            } else {
+                                ly_no_items.setVisibility(View.GONE);
+                            }
                         } else {
                             studentWaitingListAdapter.notifyDataSetChanged();
+                            if (array_student_waiting.size() == 0) {
+                                ly_no_items.setVisibility(View.VISIBLE);
+                            } else {
+                                ly_no_items.setVisibility(View.GONE);
+                            }
                         }
                         return;
                     } else {

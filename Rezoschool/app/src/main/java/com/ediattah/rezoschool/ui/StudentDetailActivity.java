@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -80,10 +81,13 @@ public class StudentDetailActivity extends AppCompatActivity {
         btn_justification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ly_absence_cover.setVisibility(View.VISIBLE);
-                img_absence.setVisibility(View.VISIBLE);
-                Glide.with(StudentDetailActivity.this).load(sel_absence_url).apply(new RequestOptions()
-                        .placeholder(R.drawable.default_pic1).centerCrop().dontAnimate()).into(img_absence);
+//                ly_absence_cover.setVisibility(View.VISIBLE);
+//                img_absence.setVisibility(View.VISIBLE);
+//                Glide.with(StudentDetailActivity.this).load(sel_absence_url).apply(new RequestOptions()
+//                        .placeholder(R.drawable.default_pic1).centerCrop().dontAnimate()).into(img_absence);
+                Intent intent = new Intent(StudentDetailActivity.this, ImageViewerActivity.class);
+                intent.putExtra("url", sel_absence_url);
+                startActivity(intent);
             }
         });
         btn_update.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +148,7 @@ public class StudentDetailActivity extends AppCompatActivity {
         Window window = dlg.getWindow();
         View view = getLayoutInflater().inflate(R.layout.dialog_update_result, null);
         int width = (int)(getResources().getDisplayMetrics().widthPixels*0.80);
-        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.3);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.2);
         view.setMinimumWidth(width);
         view.setMinimumHeight(height);
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -64,7 +64,6 @@ public class StudentWaitingListAdapter extends BaseAdapter {
         TextView txt_class = view.findViewById(R.id.txt_class);
         TextView txt_new = view.findViewById(R.id.txt_new);
         final TextView txt_name = view.findViewById(R.id.txt_name);
-        final TextView txt_school = view.findViewById(R.id.txt_school);
         Button btn_accept = view.findViewById(R.id.btn_accept);
         Button btn_reject = view.findViewById(R.id.btn_reject);
         btn_accept.setOnClickListener(new View.OnClickListener() {
@@ -99,27 +98,14 @@ public class StudentWaitingListAdapter extends BaseAdapter {
 
             }
         });
-        Utils.mDatabase.child(Utils.tbl_school).child(student.school_id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue()!= null) {
-                    School school = dataSnapshot.getValue(School.class);
-                    txt_school.setText(school.number);
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         txt_class.setText(student.class_name);
         if (student.isNew) {
-            txt_new.setText("New");
-            txt_new.setTextColor(Color.parseColor("#0000ff"));
+            txt_new.setText("NEW");
+            txt_new.setBackgroundColor(Color.parseColor("#c3edb9"));
         } else {
-            txt_new.setText("Old");
-            txt_new.setTextColor(Color.parseColor("#ff0000"));
+            txt_new.setText("OLD");
+            txt_new.setBackgroundColor(Color.parseColor("#e28e8e"));
         }
         return view;
     }

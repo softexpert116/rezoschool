@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.ediattah.rezoschool.Model.Course;
@@ -27,6 +28,7 @@ import static com.ediattah.rezoschool.App.array_course;
 public class StudentCourseFragment extends Fragment {
     MainActivity activity;
     ArrayList<Course> arrayList = new ArrayList<>();
+    LinearLayout ly_no_items;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,10 +36,16 @@ public class StudentCourseFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_student_course, container, false);
         ListView listView = (ListView)v.findViewById(R.id.listView);
+        ly_no_items = v.findViewById(R.id.ly_no_items);
         ArrayList<String> arrayStrList = new ArrayList<String>(Arrays.asList(Utils.currentClass.courses.split(",")));
         for (String courseStr:arrayStrList) {
             Course course = new Course(courseStr);
             arrayList.add(course);
+        }
+        if (arrayList.size() == 0) {
+            ly_no_items.setVisibility(View.VISIBLE);
+        } else {
+            ly_no_items.setVisibility(View.GONE);
         }
         SchoolCourseListAdapter schoolCourseListAdapter = new SchoolCourseListAdapter(activity, arrayList, new ArrayList<Course>());
         listView.setAdapter(schoolCourseListAdapter);

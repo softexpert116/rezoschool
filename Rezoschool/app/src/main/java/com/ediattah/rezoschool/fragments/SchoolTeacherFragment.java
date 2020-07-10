@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class SchoolTeacherFragment extends Fragment {
     CircleImageView img_photo;
     TextView txt_name;
     String sel_userId;
+    LinearLayout ly_no_items;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,8 +60,10 @@ public class SchoolTeacherFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_school_teacher, container, false);
         listView = v.findViewById(R.id.listView);
+        ly_no_items = v.findViewById(R.id.ly_no_items);
         img_photo = v.findViewById(R.id.img_photo);
         txt_name = v.findViewById(R.id.txt_name);
+
         schoolTeacherListAdapter = new SchoolTeacherListAdapter(activity, Utils.currentSchool.teachers, sel_index);
         listView.setAdapter(schoolTeacherListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -142,6 +146,11 @@ public class SchoolTeacherFragment extends Fragment {
                     public void run() {
                         schoolTeacherListAdapter.arrayList = Utils.currentSchool.teachers;
                         schoolTeacherListAdapter.notifyDataSetChanged();
+                        if (Utils.currentSchool.teachers.size() == 0) {
+                            ly_no_items.setVisibility(View.VISIBLE);
+                        } else {
+                            ly_no_items.setVisibility(View.GONE);
+                        }
                     }
                 });
             }

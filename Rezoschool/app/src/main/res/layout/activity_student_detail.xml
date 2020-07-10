@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_background"
+    android:background="@color/colorMainBackground"
     tools:context=".ui.StudentDetailActivity">
     <ScrollView
         android:layout_width="match_parent"
@@ -42,268 +42,303 @@
                 android:paddingLeft="10dp"
                 android:layout_height="220dp"
                 app:compactCalendarTargetHeight="220dp"
-                app:compactCalendarTextSize="12sp"
+                app:compactCalendarTextSize="18sp"
                 app:compactCalendarBackgroundColor="@color/calendar_background"
                 app:compactCalendarTextColor="#fff"
                 app:compactCalendarCurrentSelectedDayBackgroundColor="#E9A673"
                 app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
                 app:compactCalendarMultiEventIndicatorColor="#2BDADA"
                 />
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:padding="10dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Daily"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/gibson_bold"
-                    />
-                <androidx.cardview.widget.CardView
+                android:layout_height="match_parent">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
                     >
-                    <LinearLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Daily"
+                        android:layout_marginTop="10dp"
+                        android:textSize="23dp"
+                        android:fontFamily="@font/gibson_bold"
+                        />
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        app:cardBackgroundColor="@color/colorSubBackground"
+                        >
                         <LinearLayout
-                            android:id="@+id/ly_absence"
-                            android:visibility="gone"
                             android:layout_width="match_parent"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:orientation="vertical"
                             android:layout_height="wrap_content">
-                            <TextView
-                                android:id="@+id/txt_absence_day"
-                                android:layout_width="170dp"
+                            <LinearLayout
+                                android:id="@+id/ly_absence"
+                                android:visibility="visible"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:id="@+id/txt_absence_day"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Absence"
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorAccent"
+                                    android:fontFamily="@font/gibson_bold"
+                                    />
+                                <Button
+                                    android:id="@+id/btn_justification"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="30dp"
+                                    android:text="View Doc"
+                                    android:textAllCaps="false"
+                                    android:fontFamily="@font/gibson_bold"
+                                    android:background="@color/colorPrimaryDark"
+                                    android:textColor="@color/white"
+                                    />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Absence"
-                                android:textColor="@color/colorAccent"
-                                android:fontFamily="@font/gibson_bold"
-                                />
-                            <Button
-                                android:id="@+id/btn_justification"
-                                android:layout_width="wrap_content"
-                                android:layout_height="30dp"
-                                android:text="View Justification"
-                                android:textAllCaps="false"
-                                android:fontFamily="@font/gibson_bold"
-                                android:background="@android:color/transparent"
-                                android:textColor="@color/colorPrimaryDark"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:layout_marginTop="5dp"
-                            >
-                            <TextView
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:text="Evaluation:"
-                                android:fontFamily="@font/gibson_bold"
-                                />
-                            <TextView
-                                android:id="@+id/txt_evaluation_day"
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:fontFamily="@font/gibson_regular"
-                                />
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="5dp"
+                                >
+                                <TextView
+                                    android:layout_width="130dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Evaluation:"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/gibson_bold"
+                                    />
+                                <TextView
+                                    android:id="@+id/txt_evaluation_day"
+                                    android:layout_width="70dp"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorText"
+                                    android:fontFamily="@font/gibson_regular"
+                                    />
 
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:layout_marginTop="5dp"
-                            >
-                            <TextView
-                                android:layout_width="100dp"
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Exam Result:"
-                                android:fontFamily="@font/gibson_bold"
-                                />
-                            <TextView
-                                android:id="@+id/txt_result_day"
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:fontFamily="@font/gibson_regular"
-                                />
-                            <Button
-                                android:id="@+id/btn_update"
-                                android:layout_width="wrap_content"
-                                android:layout_height="30dp"
-                                android:background="@color/transparent"
-                                android:text="Update"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:textAllCaps="false"
-                                />
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="5dp"
+                                >
+                                <TextView
+                                    android:layout_width="130dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Exam Result:"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/gibson_bold"
+                                    />
+                                <TextView
+                                    android:id="@+id/txt_result_day"
+                                    android:layout_width="70dp"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorText"
+                                    android:fontFamily="@font/gibson_regular"
+                                    />
+                                <Button
+                                    android:id="@+id/btn_update"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="30dp"
+                                    android:background="@color/colorPrimaryDark"
+                                    android:text="Update"
+                                    android:textColor="@color/white"
+                                    android:textAllCaps="false"
+                                    />
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Weekly"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/gibson_bold"
-                    />
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    >
-                    <LinearLayout
+                    </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Weekly"
+                        android:textSize="23dp"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/gibson_bold"
+                        />
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        app:cardBackgroundColor="@color/colorSubBackground"
+                        >
                         <LinearLayout
                             android:layout_width="match_parent"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:orientation="vertical"
                             android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:text="Absence"
-                                android:textColor="@color/colorAccent"
-                                android:fontFamily="@font/gibson_bold"
-                                />
-                            <TextView
-                                android:id="@+id/txt_absence_week"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:fontFamily="@font/gibson_regular"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:text="Evaluation:"
-                                android:fontFamily="@font/gibson_bold"
-                                />
-                            <TextView
-                                android:id="@+id/txt_evaluation_week"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:fontFamily="@font/gibson_regular"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:text="Exam Result:"
-                                android:fontFamily="@font/gibson_bold"
-                                />
-                            <TextView
-                                android:id="@+id/txt_result_week"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="130dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Absence"
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorAccent"
+                                    android:fontFamily="@font/gibson_bold"
+                                    />
+                                <TextView
+                                    android:id="@+id/txt_absence_week"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorText"
+                                    android:fontFamily="@font/gibson_regular"
+                                    />
+                            </LinearLayout>
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:fontFamily="@font/gibson_regular"
-                                />
+                                android:layout_marginTop="5dp"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="130dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Evaluation:"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/gibson_bold"
+                                    />
+                                <TextView
+                                    android:id="@+id/txt_evaluation_week"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorText"
+                                    android:fontFamily="@font/gibson_regular"
+                                    />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="130dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Exam Result:"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/gibson_bold"
+                                    />
+                                <TextView
+                                    android:id="@+id/txt_result_week"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorText"
+                                    android:fontFamily="@font/gibson_regular"
+                                    />
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Monthly"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/gibson_bold"
-                    />
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    >
-                    <LinearLayout
+                    </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Monthly"
+                        android:textSize="23dp"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/gibson_bold"
+                        />
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        app:cardBackgroundColor="@color/colorSubBackground"
+                        >
                         <LinearLayout
                             android:layout_width="match_parent"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:orientation="vertical"
                             android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:text="Absence"
-                                android:textColor="@color/colorAccent"
-                                android:fontFamily="@font/gibson_bold"
-                                />
-                            <TextView
-                                android:id="@+id/txt_absence_month"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:fontFamily="@font/gibson_regular"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:text="Evaluation:"
-                                android:fontFamily="@font/gibson_bold"
-                                />
-                            <TextView
-                                android:id="@+id/txt_evaluation_month"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:fontFamily="@font/gibson_regular"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:text="Exam Result:"
-                                android:fontFamily="@font/gibson_bold"
-                                />
-                            <TextView
-                                android:id="@+id/txt_result_month"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="130dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Absence"
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorAccent"
+                                    android:fontFamily="@font/gibson_bold"
+                                    />
+                                <TextView
+                                    android:id="@+id/txt_absence_month"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="@color/colorText"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/gibson_regular"
+                                    />
+                            </LinearLayout>
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:fontFamily="@font/gibson_regular"
-                                />
+                                android:layout_marginTop="5dp"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="130dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Evaluation:"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/gibson_bold"
+                                    />
+                                <TextView
+                                    android:id="@+id/txt_evaluation_month"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorText"
+                                    android:fontFamily="@font/gibson_regular"
+                                    />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="130dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Exam Result:"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/gibson_bold"
+                                    />
+                                <TextView
+                                    android:id="@+id/txt_result_month"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="20dp"
+                                    android:textColor="@color/colorText"
+                                    android:fontFamily="@font/gibson_regular"
+                                    />
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
     </ScrollView>
     <RelativeLayout

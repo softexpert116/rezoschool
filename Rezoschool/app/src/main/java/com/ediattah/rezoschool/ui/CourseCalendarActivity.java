@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,7 +47,7 @@ public class CourseCalendarActivity extends AppCompatActivity {
     ArrayList<Event> list_event = new ArrayList<>();
     Date sel_date;
     ArrayList<Teacher> list_teacher = new ArrayList<>();
-//    ArrayList<String> list_uid = new ArrayList<>();
+    LinearLayout ly_no_items;
 
     Calendar currentCalendar;
     CompactCalendarView calendarView;
@@ -64,7 +65,7 @@ public class CourseCalendarActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Calendar per Course ");
         sel_course = (Course)getIntent().getSerializableExtra("OBJECT");
-
+        ly_no_items = findViewById(R.id.ly_no_items);
         calendarView = findViewById(R.id.calendarView);
         txt_month = findViewById(R.id.txt_month);
         sel_date = Calendar.getInstance().getTime();
@@ -82,7 +83,7 @@ public class CourseCalendarActivity extends AppCompatActivity {
                     Syllabus syllabus = (Syllabus) event.getData();
                     arrayList.add(syllabus);
                 }
-                dayCourseListAdapter.notifyDataSetChanged();
+                updateListView();
             }
 
             @Override
@@ -118,7 +119,6 @@ public class CourseCalendarActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayList.clear();
                 list_event.clear();
-//                list_uid.clear();
                 calendarView.removeAllEvents();
                 if (dataSnapshot.getValue()!=null) {
                     for (DataSnapshot datas:dataSnapshot.getChildren()) {
@@ -131,13 +131,10 @@ public class CourseCalendarActivity extends AppCompatActivity {
                             if (Utils.getDateString(syllabus.date).equals(Utils.getDateString(sel_date))) {
                                 arrayList.add(syllabus);
                             }
-//                            if (!list_uid.contains(syllabus.uid)) {
-//                                list_uid.add(syllabus.uid);
-//                            }
                         }
                     }
                 }
-                dayCourseListAdapter.notifyDataSetChanged();
+                updateListView();
             }
 
             @Override
@@ -146,7 +143,14 @@ public class CourseCalendarActivity extends AppCompatActivity {
             }
         });
     }
-
+    void updateListView() {
+        if (arrayList.size() == 0) {
+            ly_no_items.setVisibility(View.VISIBLE);
+        } else {
+            ly_no_items.setVisibility(View.GONE);
+        }
+        dayCourseListAdapter.notifyDataSetChanged();
+    }
     public void openAddDialog() {
         final Dialog dlg = new Dialog(this);
         Window window = dlg.getWindow();

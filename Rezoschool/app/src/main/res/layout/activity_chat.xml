@@ -12,6 +12,7 @@
         android:layout_above="@+id/ly_send"
         android:padding="5dp"
         android:scrollbars="none"
+        android:background="@drawable/bg_chat"
         android:divider="@android:color/transparent"
         />
     <RelativeLayout
@@ -20,15 +21,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="5dp"
-        android:background="#9FE4C8"
+        android:background="@color/colorMainBackground"
         android:gravity="bottom"
         >
         <Button
             android:id="@+id/btn_file"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="attach"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_attach"
             android:textAllCaps="false"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             />
         <EditText
             android:id="@+id/edit_message"
@@ -44,9 +47,11 @@
             />
         <Button
             android:id="@+id/btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Send"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_send"
             android:textAllCaps="false"
             android:layout_alignParentEnd="true"
             />

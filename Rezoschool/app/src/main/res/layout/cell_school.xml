@@ -70,7 +70,7 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/white"
-                                android:text="Type: "
+                                android:text="School Type: "
                                 android:fontFamily="@font/gibson_regular"
                                 />
                             <TextView

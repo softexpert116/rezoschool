@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#efefef"
+    android:background="@color/colorMainBackground"
     tools:context=".ui.NewRsTweetsActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,6 +58,8 @@
                 android:inputType="text|textMultiLine"
                 android:gravity="top"
                 android:padding="5dp"
+                android:fontFamily="@font/gibson_regular"
+                android:textColor="@color/colorText"
                 android:background="@null"
                 />
         </RelativeLayout>

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class TeacherSyllabusFragment extends Fragment {
     DayCourseListAdapter dayCourseListAdapter;
     ArrayList<Event> list_event = new ArrayList<>();
     Date sel_date;
+    LinearLayout ly_no_items;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,7 @@ public class TeacherSyllabusFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_teacher_syllabus, container, false);
 
+        ly_no_items = v.findViewById(R.id.ly_no_items);
         calendarView = v.findViewById(R.id.calendarView);
         txt_month = v.findViewById(R.id.txt_month);
         sel_date = Calendar.getInstance().getTime();
@@ -70,6 +73,11 @@ public class TeacherSyllabusFragment extends Fragment {
                 for (Event event:events) {
                     Syllabus syllabus = (Syllabus) event.getData();
                     arrayList.add(syllabus);
+                }
+                if (arrayList.size() == 0) {
+                    ly_no_items.setVisibility(View.VISIBLE);
+                } else {
+                    ly_no_items.setVisibility(View.GONE);
                 }
                 dayCourseListAdapter.notifyDataSetChanged();
             }
@@ -94,7 +102,6 @@ public class TeacherSyllabusFragment extends Fragment {
                 activity.startActivity(intent);
             }
         });
-        sel_date = Calendar.getInstance().getTime();
         read_syllabus();
         return v;
     }
@@ -117,7 +124,11 @@ public class TeacherSyllabusFragment extends Fragment {
                         }
                     }
                 }
-//                listView.setAdapter(dayCourseListAdapter);
+                if (arrayList.size() == 0) {
+                    ly_no_items.setVisibility(View.VISIBLE);
+                } else {
+                    ly_no_items.setVisibility(View.GONE);
+                }
                 dayCourseListAdapter.notifyDataSetChanged();
             }
 

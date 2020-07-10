@@ -79,17 +79,11 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
         TextView txt_course = view.findViewById(R.id.txt_course);
         txt_course.setText(teacher.courses);
         final TextView txt_teacher = view.findViewById(R.id.txt_teacher);
-        final ToggleSwitch toggleSwitch = (ToggleSwitch) view.findViewById(R.id.sw_allow);
-        toggleSwitch.setActiveBgColor(Color.parseColor("#0099CC"));
-        toggleSwitch.setInactiveBgColor(Color.parseColor("#888888"));
-        toggleSwitch.setActiveTextColor(Color.parseColor("#ffffff"));
-        toggleSwitch.setInactiveTextColor(Color.parseColor("#ffffff"));
-        toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener(){
-
+        final Button btn_allow = (Button) view.findViewById(R.id.btn_allow);
+        btn_allow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-//                Toast.makeText(context, "switched", Toast.LENGTH_SHORT).show();
-                if (position == 0) {
+            public void onClick(View view) {
+                if (btn_allow.getText().toString().equals("Allow")) {
                     Utils.mDatabase.child(Utils.tbl_user).child(teacher.uid).child("isAllow").setValue(true);
                 } else {
                     Utils.mDatabase.child(Utils.tbl_user).child(teacher.uid).child("isAllow").setValue(false);
@@ -98,7 +92,7 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
         });
         final CircleImageView img_photo = view.findViewById(R.id.img_photo);
         Utils.mDatabase.child(Utils.tbl_user).orderByKey().equalTo(teacher.uid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
@@ -106,14 +100,12 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
                             txt_teacher.setText(user.name);
                             Glide.with(context).load(user.photo).apply(new RequestOptions()
                                     .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
-                            ArrayList<String> labels = new ArrayList<>();
-                            labels.add("Allow");
-                            labels.add("Block");
-                            toggleSwitch.setLabels(labels);
                             if (user.isAllow) {
-                                toggleSwitch.setCheckedTogglePosition(0);
+                                btn_allow.setText("Block");
+                                btn_allow.setBackground(context.getDrawable(R.color.colorAccent));
                             } else {
-                                toggleSwitch.setCheckedTogglePosition(1);
+                                btn_allow.setText("Allow");
+                                btn_allow.setBackground(context.getDrawable(R.color.colorPrimaryDark));
                             }
                         }
                     }
@@ -125,11 +117,9 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
                 });
 
         RelativeLayout ly_sel = view.findViewById(R.id.ly_sel);
-        ly_sel.setBackground(context.getDrawable(R.color.white));
+        ly_sel.setBackground(context.getDrawable(R.color.colorSubBackground));
         if (sel_index == i) {
-            ly_sel.setBackground(context.getDrawable(R.color.colorPrimary));
-        } else {
-            ly_sel.setBackground(context.getDrawable(R.color.white));
+            ly_sel.setBackground(context.getDrawable(R.color.colorPrimaryLight));
         }
         return view;
     }

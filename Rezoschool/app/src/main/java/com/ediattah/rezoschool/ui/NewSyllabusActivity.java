@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -150,6 +151,7 @@ public class NewSyllabusActivity extends AppCompatActivity {
         window.setGravity(Gravity.CENTER);
         dlg.show();
         TextView txt_title = dlg.findViewById(R.id.txt_title);
+        final LinearLayout ly_no_items = dlg.findViewById(R.id.ly_no_items);
         txt_title.setText("Choose School");
         ListView listView = dlg.findViewById(R.id.listView);
         final ArrayList<School> array_all_school = new ArrayList<>();
@@ -160,8 +162,6 @@ public class NewSyllabusActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                schoolAdapter.sel_index = i;
-//                schoolAdapter.notifyDataSetChanged();
                 sel_school = array_all_school.get(i);
                 edit_school.setText(sel_school.number);
                 dlg.dismiss();
@@ -184,11 +184,11 @@ public class NewSyllabusActivity extends AppCompatActivity {
                     public void run() {
                         schoolAdapter.arrayList = array_all_school;
                         schoolAdapter.notifyDataSetChanged();
-//                        if (array_all_school.size() == 0) {
-//                            btn_choose.setEnabled(false);
-//                        } else {
-//                            btn_choose.setEnabled(true);
-//                        }
+                        if (array_all_school.size() == 0) {
+                            ly_no_items.setVisibility(View.VISIBLE);
+                        } else {
+                            ly_no_items.setVisibility(View.GONE);
+                        }
                     }
                 });
             }
@@ -222,13 +222,18 @@ public class NewSyllabusActivity extends AppCompatActivity {
         dlg.setContentView(view);
         window.setGravity(Gravity.CENTER);
         dlg.show();
+        final LinearLayout ly_no_items = dlg.findViewById(R.id.ly_no_items);
         TextView txt_title = dlg.findViewById(R.id.txt_title);
         txt_title.setText("Choose Course");
         ListView listView = dlg.findViewById(R.id.listView);
-        final ArrayList<Course> array_all_course = new ArrayList<>();
         final ArrayList<Course> array_course_sel = new ArrayList<>();
         final SchoolCourseListAdapter courseAdapter = new SchoolCourseListAdapter(this, sel_school.courses, array_course_sel);
         listView.setAdapter(courseAdapter);
+        if (sel_school.courses.size() == 0) {
+            ly_no_items.setVisibility(View.VISIBLE);
+        } else {
+            ly_no_items.setVisibility(View.GONE);
+        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

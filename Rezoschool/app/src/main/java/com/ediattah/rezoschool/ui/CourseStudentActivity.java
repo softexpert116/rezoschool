@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.ediattah.rezoschool.Model.Class;
@@ -25,6 +27,7 @@ public class CourseStudentActivity extends AppCompatActivity {
     School sel_school;
     ArrayList<Class> array_class = new ArrayList<>();
     ArrayList<Student> array_student = new ArrayList<>();
+    LinearLayout ly_no_items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class CourseStudentActivity extends AppCompatActivity {
         setTitle("Students per " + sel_course.name + " course");
 
         ListView listView = findViewById(R.id.listView);
-
+        ly_no_items = findViewById(R.id.ly_no_items);
         studentListAdapter = new StudentAcceptedListAdapter(this, array_student);
         listView.setAdapter(studentListAdapter);
         read_course_classes();
@@ -78,6 +81,11 @@ public class CourseStudentActivity extends AppCompatActivity {
                                 break;
                             }
                         }
+                    }
+                    if (array_student.size() == 0) {
+                        ly_no_items.setVisibility(View.VISIBLE);
+                    } else {
+                        ly_no_items.setVisibility(View.GONE);
                     }
                     studentListAdapter.notifyDataSetChanged();
                 }

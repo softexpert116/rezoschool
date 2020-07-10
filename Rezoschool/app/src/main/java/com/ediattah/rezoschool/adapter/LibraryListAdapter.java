@@ -87,48 +87,32 @@ public class LibraryListAdapter extends BaseAdapter {
         });
         TextView txt_description = view.findViewById(R.id.txt_description);
         txt_description.setText(model.description);
-        ToggleSwitch toggleSwitch = (ToggleSwitch) view.findViewById(R.id.sw_public);
-        if (!Utils.currentUser.type.equals(Utils.SCHOOL)) {
-            toggleSwitch.setVisibility(View.GONE);
-        }
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("Public");
-        labels.add("Private");
-        toggleSwitch.setLabels(labels);
-        if (model.isPublic) {
-            toggleSwitch.setCheckedTogglePosition(0);
-        } else {
-            toggleSwitch.setCheckedTogglePosition(1);
-        }
-        toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener(){
+        final Button btn_public = view.findViewById(R.id.btn_public);
+        btn_public.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                if (position == 0) {
+            public void onClick(View view) {
+                if (btn_public.getText().toString().equals("Public")) {
                     Utils.mDatabase.child(Utils.tbl_library).child(model._id).child("isPublic").setValue(true);
                 } else {
                     Utils.mDatabase.child(Utils.tbl_library).child(model._id).child("isPublic").setValue(false);
                 }
-//                Toast.makeText(context, "switched", Toast.LENGTH_SHORT).show();
             }
         });
-
+        if (model.isPublic) {
+            btn_public.setText("Private");
+            btn_public.setBackground(context.getDrawable(R.color.colorAccent));
+        } else {
+            btn_public.setText("Public");
+            btn_public.setBackground(context.getDrawable(R.color.colorPrimaryDark));
+        }
         if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
             btn_remove.setVisibility(View.VISIBLE);
-            toggleSwitch.setVisibility(View.VISIBLE);
+            btn_public.setVisibility(View.VISIBLE);
         } else {
             btn_remove.setVisibility(View.GONE);
-            toggleSwitch.setVisibility(View.GONE);
+            btn_public.setVisibility(View.GONE);
         }
-//        LabeledSwitch sw_public = view.findViewById(R.id.sw_public);
-//        sw_public.setLabelOff("Private");
-//        sw_public.setLabelOn("Public");
-//        sw_public.setOn(model.isPublic);
-//        sw_public.setOnToggledListener(new OnToggledListener() {
-//            @Override
-//            public void onSwitched(ToggleableView toggleableView, boolean isOn) {
-//                boolean ss = isOn;
-//            }
-//        });
+
         return view;
     }
 }

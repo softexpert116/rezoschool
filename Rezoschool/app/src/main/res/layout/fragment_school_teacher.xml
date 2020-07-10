@@ -3,20 +3,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorMainBackground"
     tools:context=".fragments.SchoolTeacherFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ListView
-        android:id="@+id/listView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
         android:layout_above="@+id/ly_bottom"
-        android:divider="@android:color/transparent"
-        />
+        >
+        <LinearLayout
+            android:id="@+id/ly_no_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            >
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_no_item"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Items"
+                />
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:scrollbars="none"
+            ></ListView>
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/ly_bottom"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/frame_border"
@@ -25,7 +54,7 @@
             android:id="@+id/img_photo"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/default_user"
             android:layout_centerVertical="true"
             />
@@ -38,42 +67,53 @@
             android:layout_toLeftOf="@id/ly_tool"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"
             android:textStyle="bold"
             />
         <LinearLayout
             android:id="@+id/ly_tool"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
+            android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
             >
             <ImageView
                 android:id="@+id/img_chat"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_chat"
+                android:layout_height="30dp"
+                android:src="@android:drawable/stat_notify_chat"
+                android:background="@drawable/btn_round"
+                android:padding="5dp"
+                />
+            <ImageView
+                android:id="@+id/img_call"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/stat_sys_phone_call"
+                android:background="@drawable/btn_round"
+                android:padding="5dp"
+                android:layout_marginLeft="10dp"
                 />
             <ImageView
                 android:id="@+id/img_sms"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/ic_sms"
-                />
-            <ImageView
-                android:id="@+id/img_call"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/ic_call"
+                android:layout_height="30dp"
+                android:background="@drawable/btn_round"
+                android:src="@android:drawable/ic_dialog_email"
+                android:padding="5dp"
+                android:layout_marginLeft="10dp"
                 />
             <ImageView
                 android:id="@+id/img_video"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/ic_video"
+                android:layout_height="30dp"
+                android:background="@drawable/btn_round"
+                android:src="@android:drawable/presence_video_online"
+                android:padding="5dp"
+                android:layout_marginLeft="10dp"
                 />
         </LinearLayout>
 

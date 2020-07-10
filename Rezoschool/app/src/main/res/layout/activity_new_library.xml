@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_background"
+    android:background="@color/colorMainBackground"
     tools:context=".ui.NewLibraryActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:fontFamily="@font/gibson_bold"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
             />
         <EditText
             android:id="@+id/edit_title"
@@ -26,13 +27,16 @@
             android:singleLine="true"
             android:inputType="text"
             android:paddingLeft="5dp"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/gibson_bold"
+            android:fontFamily="@font/gibson_regular"
             android:text="Overview"
+            android:textSize="20dp"
             />
         <EditText
             android:id="@+id/edit_description"
@@ -41,6 +45,8 @@
             android:hint="book overview"
             android:singleLine="false"
             android:gravity="start"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
             android:paddingLeft="5dp"
             />
         <TextView
@@ -48,13 +54,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Url"
-            android:fontFamily="@font/gibson_bold"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
             />
         <EditText
             android:id="@+id/edit_url"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="book url"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"
             android:singleLine="true"
             android:inputType="text"
             android:paddingLeft="5dp"
@@ -64,13 +73,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Category"
-            android:fontFamily="@font/gibson_bold"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
             />
         <EditText
             android:id="@+id/edit_category"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:singleLine="true"
+            android:textSize="20dp"
             android:hint="category name"
             android:inputType="text"
             android:paddingLeft="5dp"

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,6 +107,7 @@ public class TeacherSchoolFragment extends Fragment {
         dlg.setContentView(view);
         window.setGravity(Gravity.CENTER);
         dlg.show();
+        final LinearLayout ly_no_items = dlg.findViewById(R.id.ly_no_items);
         TextView txt_title = dlg.findViewById(R.id.txt_title);
         txt_title.setText("Choose Courses");
         ListView listView = dlg.findViewById(R.id.listView);
@@ -143,8 +145,10 @@ public class TeacherSchoolFragment extends Fragment {
                 courseAdapter.notifyDataSetChanged();
                 if (array_all_course.size() == 0) {
                     btn_choose.setEnabled(false);
+                    ly_no_items.setVisibility(View.VISIBLE);
                 } else {
                     btn_choose.setEnabled(true);
+                    ly_no_items.setVisibility(View.GONE);
                 }
             }
         });
@@ -213,6 +217,7 @@ public class TeacherSchoolFragment extends Fragment {
         dlg.show();
         TextView txt_title = dlg.findViewById(R.id.txt_title);
         txt_title.setText("Choose School");
+        final LinearLayout ly_no_items = dlg.findViewById(R.id.ly_no_items);
         ListView listView = dlg.findViewById(R.id.listView);
         final ArrayList<School> array_all_school = new ArrayList<>();
         final SchoolListAdapter schoolAdapter = new SchoolListAdapter(activity, array_all_school);
@@ -251,8 +256,10 @@ public class TeacherSchoolFragment extends Fragment {
                         schoolAdapter.notifyDataSetChanged();
                         if (array_all_school.size() == 0) {
                             btn_choose.setEnabled(false);
+                            ly_no_items.setVisibility(View.VISIBLE);
                         } else {
                             btn_choose.setEnabled(true);
+                            ly_no_items.setVisibility(View.GONE);
                         }
                     }
                 });

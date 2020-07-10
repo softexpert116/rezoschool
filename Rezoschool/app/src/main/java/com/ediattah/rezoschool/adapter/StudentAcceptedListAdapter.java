@@ -125,11 +125,11 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
         });
         txt_class.setText(student.class_name);
         if (student.isNew) {
-            txt_new.setText("New");
-            txt_new.setTextColor(Color.parseColor("#0000ff"));
+            txt_new.setText("NEW");
+            txt_new.setBackgroundColor(Color.parseColor("#c3edb9"));
         } else {
-            txt_new.setText("Old");
-            txt_new.setTextColor(Color.parseColor("#ff0000"));
+            txt_new.setText("OLD");
+            txt_new.setBackgroundColor(Color.parseColor("#e28e8e"));
         }
         return view;
     }

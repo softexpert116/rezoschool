@@ -3,139 +3,138 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        android:id="@+id/ly_main"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:padding="5dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorSubBackground"
         >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_photo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/default_user"
-            android:layout_gravity="center_vertical"
-            app:civ_border_color="@android:color/transparent"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center_vertical"
-            android:layout_toRightOf="@+id/img_photo"
-            android:layout_toLeftOf="@+id/chk_teacher"
-            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:text="Name: "
-                    android:fontFamily="@font/gibson_regular"
-                    />
-                <TextView
-                    android:id="@+id/txt_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text=""
-                    android:textColor="@android:color/black"
-                    android:fontFamily="@font/gibson_regular"
-                    />
-            </LinearLayout>
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/ly_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:padding="5dp"
                 >
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:text="Class: "
-                    android:fontFamily="@font/gibson_regular"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_photo"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/default_user"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
                     />
-                <TextView
-                    android:id="@+id/txt_class"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text=""
-                    android:textColor="@android:color/black"
-                    android:fontFamily="@font/gibson_regular"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                >
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:text="School: "
-                    android:fontFamily="@font/gibson_regular"
-                    />
-                <TextView
-                    android:id="@+id/txt_school"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text=""
-                    android:textColor="@android:color/black"
-                    android:fontFamily="@font/gibson_regular"
-                    />
-            </LinearLayout>
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@+id/img_photo"
+                    android:layout_toLeftOf="@+id/chk_teacher"
+                    android:layout_centerVertical="true"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="textEnd"
+                            android:textSize="20dp"
+                            android:text="Name: "
+                            android:fontFamily="@font/gibson_regular"
+                            />
+                        <TextView
+                            android:id="@+id/txt_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text=""
+                            android:textSize="20dp"
+                            android:textColor="@color/colorText"
+                            android:fontFamily="@font/gibson_regular"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        >
 
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/gibson_regular"
+                            android:text="Class: "
+                            android:textAlignment="textEnd"
+                            android:textSize="20dp" />
+                        <TextView
+                            android:id="@+id/txt_class"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text=""
+                            android:textSize="20dp"
+                            android:textColor="@color/colorText"
+                            android:fontFamily="@font/gibson_regular"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/txt_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NEW"
+                    android:fontFamily="@font/gibson_bold"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/frame_round"
+                    android:padding="5dp"
+                    />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="10dp"
+                    >
+                    <Button
+                        android:id="@+id/btn_accept"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="Accept"
+                        android:textAllCaps="false"
+                        android:background="@drawable/btn_round"
+                        android:textColor="@color/white"
+                        android:focusable="false"
+                        />
+
+                    <Button
+                        android:id="@+id/btn_reject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:text="Reject"
+                        android:textAllCaps="false"
+                        android:background="@drawable/btn_round_reject"
+                        android:textColor="@color/white"
+                        android:focusable="false"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
-        <TextView
-            android:id="@+id/txt_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/colorPrimary"
-            android:layout_marginLeft="5dp"
-            />
-
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/ly_main"
-        android:layout_marginTop="-10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
-        >
-        <Button
-            android:id="@+id/btn_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="Accept"
-            android:textAllCaps="false"
-            android:background="@drawable/btn_round"
-            android:textColor="@color/white"
-            android:focusable="false"
-            />
-
-        <Button
-            android:id="@+id/btn_reject"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
-            android:text="Reject"
-            android:textAllCaps="false"
-            android:background="@drawable/btn_round_reject"
-            android:textColor="@color/white"
-            android:focusable="false"
-            />
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

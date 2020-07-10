@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_background"
+    android:background="@color/colorMainBackground"
     tools:context=".ui.CourseCalendarActivity">
     <LinearLayout
         android:id="@+id/ly_month"
@@ -34,28 +34,57 @@
         android:paddingLeft="10dp"
         android:layout_height="220dp"
         app:compactCalendarTargetHeight="220dp"
-        app:compactCalendarTextSize="12sp"
+        app:compactCalendarTextSize="18sp"
         app:compactCalendarBackgroundColor="@color/calendar_background"
         app:compactCalendarTextColor="#fff"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#E9A673"
         app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
         app:compactCalendarMultiEventIndicatorColor="#2BDADA"
         />
-    <ListView
-        android:id="@+id/listView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
         android:layout_below="@+id/calendarView"
         android:layout_above="@+id/btn_teacher"
-        ></ListView>
+        android:layout_margin="5dp"
+        >
+        <LinearLayout
+            android:id="@+id/ly_no_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            >
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_no_item"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Items"
+                />
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:scrollbars="none"
+            ></ListView>
+    </RelativeLayout>
+
     <Button
         android:id="@+id/btn_teacher"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:text="See Teachers"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/btn_round"
         android:textColor="@color/white"
         android:layout_margin="5dp"
     />
