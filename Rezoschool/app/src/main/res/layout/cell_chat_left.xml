@@ -22,6 +22,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/img_photo"
+            android:layout_marginRight="35dp"
             app:cardBackgroundColor="#3E52E6"
             >
             <TextView

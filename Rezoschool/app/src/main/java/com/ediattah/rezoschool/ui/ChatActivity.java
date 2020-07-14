@@ -97,6 +97,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.getValue()!=null) {
                     Message message = dataSnapshot.getValue(Message.class);
+                    message._id = dataSnapshot.getKey();
                     arrayList.add(message);
                     chatListAdapter.notifyDataSetChanged();
                     listView.smoothScrollToPosition(arrayList.size()-1);
@@ -107,6 +108,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.getValue()!=null) {
                     Message message = dataSnapshot.getValue(Message.class);
+                    message._id = dataSnapshot.getKey();
                     arrayList.add(message);
                     chatListAdapter.notifyDataSetChanged();
                     listView.smoothScrollToPosition(arrayList.size()-1);
@@ -115,7 +117,19 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                if (dataSnapshot.getValue()!=null) {
+                    Message message = dataSnapshot.getValue(Message.class);
+                    message._id = dataSnapshot.getKey();
+                    for (int i = 0; i < arrayList.size(); i++) {
+                        Message message1 = arrayList.get(i);
+                        if (message1._id.equals(message._id)) {
+                            arrayList.remove(i);
+                            chatListAdapter.notifyDataSetChanged();
+                            listView.smoothScrollToPosition(i-1);
+                            break;
+                        }
+                    }
+                }
             }
 
             @Override
@@ -193,6 +207,9 @@ public class ChatActivity extends AppCompatActivity {
             }
 
         });
+    }
+    public void delete_message(Message message) {
+        Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child(message._id).setValue(null);
     }
     @Override
     public boolean onSupportNavigateUp() {

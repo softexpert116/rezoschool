@@ -1,11 +1,16 @@
 package com.ediattah.rezoschool.Utils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.widget.EditText;
@@ -28,10 +33,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class Utils {
     public static FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -81,6 +89,26 @@ public class Utils {
     public static String SECONDARY = "SECONDARY";
     public static DecimalFormat df = new DecimalFormat("0.00");
 
+    public static void copy_text(Context context, String text) {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", text);
+        clipboard.setPrimaryClip(clip);
+    }
+    public static void shareImage(Context context, String path) {
+        Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+        File fileWithinMyDir = new File(String.valueOf(path));
+
+        if(fileWithinMyDir.exists()) {
+            intentShareFile.setType("application/pdf");
+            intentShareFile.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+path));
+
+            intentShareFile.putExtra(Intent.EXTRA_SUBJECT,
+                    "Sharing File...");
+            intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File...");
+
+            context.startActivity(Intent.createChooser(intentShareFile, "Share File"));
+        }
+    }
     public static String getChatUserId(String roomId) {
         String user_id;
         int index = roomId.indexOf(Utils.mUser.getUid());

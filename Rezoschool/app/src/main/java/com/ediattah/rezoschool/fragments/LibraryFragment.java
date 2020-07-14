@@ -62,7 +62,18 @@ public class LibraryFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                filter_list();
+                if (edit_category.getText().toString().trim().length() == 0) {
+                    arrayList1 = new ArrayList<>(arrayList);
+                    libraryListAdapter.arrayList = arrayList1;
+                    libraryListAdapter.notifyDataSetChanged();
+                    if (arrayList1.size() == 0) {
+                        ly_no_items.setVisibility(View.VISIBLE);
+                    } else {
+                        ly_no_items.setVisibility(View.GONE);
+                    }
+                } else {
+                    filter_list();
+                }
             }
 
             @Override
@@ -108,6 +119,7 @@ public class LibraryFragment extends Fragment {
         } else {
             ly_no_items.setVisibility(View.GONE);
         }
+        libraryListAdapter.arrayList = arrayList1;
         libraryListAdapter.notifyDataSetChanged();
     }
     public void read_library() {

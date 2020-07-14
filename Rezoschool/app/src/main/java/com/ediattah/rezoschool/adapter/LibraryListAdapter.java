@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
 public class LibraryListAdapter extends BaseAdapter {
-    ArrayList<Library> arrayList;
+    public ArrayList<Library> arrayList;
     public boolean isSchool = false;
     Context context;
     LibraryFragment fragment;

@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class StudentAcceptedListAdapter extends BaseAdapter {
-    ArrayList<Student> arrayList;
+    public ArrayList<Student> arrayList;
 
     Context context;
 

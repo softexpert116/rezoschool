@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    android:padding="10dp"
+    android:background="@color/colorMainBackground"
     android:orientation="vertical"
     tools:context=".ui.BulkSMSActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="23dp"
         android:text="Message"
         />
     <RelativeLayout
@@ -23,9 +25,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Enter your text here"
-            android:textSize="15dp"
+            android:textSize="20dp"
             android:inputType="text|textMultiLine"
             android:gravity="top"
+            android:textColor="@color/colorText"
             android:padding="5dp"
             android:background="@null"
             />
@@ -34,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="To"
+        android:textSize="23dp"
         android:layout_marginTop="10dp"
         />
     <RelativeLayout
@@ -41,11 +45,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:background="@drawable/frame_border"
+        android:background="@drawable/frame_round"
         >
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
             android:src="@android:drawable/ic_menu_search"
             android:layout_centerVertical="true"
             />
@@ -54,9 +59,11 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:paddingLeft="30dp"
+            android:paddingLeft="35dp"
             android:hint="student name"
             android:inputType="text"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"
             android:imeOptions="actionSearch"
             android:fontFamily="@font/gibson_regular"
             android:background="@android:color/transparent"
@@ -66,11 +73,41 @@
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
         android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/listView"
-            android:layout_above="@+id/btn_send_sms"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_send_sms"
+            >
+            <LinearLayout
+                android:id="@+id/ly_no_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                >
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_no_item"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Items"
+                    />
+
+            </LinearLayout>
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@android:color/transparent"
+                android:scrollbars="none"
+                ></ListView>
+        </RelativeLayout>
+
         <Button
             android:id="@+id/btn_send_sms"
             android:layout_width="match_parent"
@@ -80,7 +117,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             android:textAllCaps="false"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/btn_round"
             android:textColor="@color/white"
             />
     </RelativeLayout>

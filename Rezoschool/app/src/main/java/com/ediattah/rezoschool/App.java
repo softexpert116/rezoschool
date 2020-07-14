@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -72,14 +73,9 @@ public class App extends Application {
     public static String DATE_FORMAT = "dd/MM/yyyy";
     public static boolean relogin = false;
 
-    public static String TEACHER = "TEACHER";
-    public static String SCHOOL = "SCHOOL";
-    public static String STUDENT = "STUDENT";
-    public static String PARENT = "PARENT";
-    public static String SCHOOL_PRIMARY = "PRIMARY";
-    public static String SCHOOL_SECONDARY = "SECONDARY";
-    public static String SCHOOL_PRIVATE = "PRIVATE";
-    public static String SCHOOL_PUBLIC = "PUBLIC";
+    public static String MY_APP_PATH = "";
+    public static String MY_IMAGE_PATH = "";
+
 
     private static final int MAX_SMS_MESSAGE_LENGTH = 160;
 
@@ -268,7 +264,11 @@ public class App extends Application {
                     }
                 });
     }
-
+    public static String getApplicationName() {
+        ApplicationInfo applicationInfo = mContext.getApplicationInfo();
+        int stringId = applicationInfo.labelRes;
+        return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : mContext.getString(stringId);
+    }
     public static void sendSMS(String phoneNo, String msg) {
         SmsManager manager = SmsManager.getDefault();
         PendingIntent piSend = PendingIntent.getBroadcast(mContext, 0, new Intent("SMS_SENT"), 0);

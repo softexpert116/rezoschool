@@ -5,14 +5,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +24,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.fragments.MessageFragment;
 import com.ediattah.rezoschool.fragments.ProfileFragment;
@@ -42,6 +48,9 @@ import com.ediattah.rezoschool.fragments.StudentCourseFragment;
 import com.ediattah.rezoschool.fragments.TeacherSchoolFragment;
 import com.ediattah.rezoschool.fragments.TeacherSyllabusFragment;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     NavigationView navigationView;
@@ -76,8 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // First fragment loading...
         selectFragment(new TweetsFragment());
         setTitle(getResources().getString(R.string.menu_home));
-
-
+        setPermission();
     }
     private void setTitle(String title) {
         txt_title.setText(title);
@@ -112,6 +120,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
+    public void setPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ArrayList<String> arrPermissionRequests = new ArrayList<>();
+            arrPermissionRequests.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            arrPermissionRequests.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            ActivityCompat.requestPermissions(this, arrPermissionRequests.toArray(new String[arrPermissionRequests.size()]), 201);
+            return;
+        } else {
+            createDirectory();
+        }
+    }
+    void createDirectory() {
+        String folder_main = App.getApplicationName();
+        File f = new File(Environment.getExternalStorageDirectory(), folder_main);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        App.MY_APP_PATH = f.getAbsolutePath();
+        File f2 = new File(Environment.getExternalStorageDirectory() + "/" + folder_main, "image");
+        if (!f2.exists()) {
+            f2.mkdirs();
+        }
+        App.MY_IMAGE_PATH = f2.getAbsolutePath();
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 201: {
+                if (grantResults[0] == 0) {
+                    createDirectory();
+                } else {
+                    Toast.makeText(MainActivity.this, "Permission denied", Toast.LENGTH_SHORT);
+                    finish();
+                }
+                break;
+            }
+            default:
+                Toast.makeText(MainActivity.this, "Permission denied", Toast.LENGTH_SHORT);
+                finish();
+        }
+    }
+
     private void selectFragment(Fragment fragment) {
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_container, fragment);
