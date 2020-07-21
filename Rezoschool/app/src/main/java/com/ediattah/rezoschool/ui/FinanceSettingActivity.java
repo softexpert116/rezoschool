@@ -1,30 +1,31 @@
 package com.ediattah.rezoschool.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.ediattah.rezoschool.Model.FeeModel;
+import com.ediattah.rezoschool.Model.Level;
 import com.ediattah.rezoschool.R;
-import com.ediattah.rezoschool.adapter.FeeLevelListAdapter;
-import com.ediattah.rezoschool.adapter.FeeStudentListAdapter;
+import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.adapter.SchoolLevelFeeListAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class FinanceSettingActivity extends AppCompatActivity {
-    ArrayList<FeeModel> arrayList = new ArrayList<>();
-    ListView list_fee, list_student;
-    FeeLevelListAdapter feeLevelListAdapter;
-    FeeStudentListAdapter feeStudentListAdapter;
+    ArrayList<Level> arrayList = new ArrayList<>();
+    ListView listView;
+    SchoolLevelFeeListAdapter schoolLevelFeeListAdapter;
+    EditText edit_fee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,63 +34,67 @@ public class FinanceSettingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Fee Setting");
 
-        arrayList.add(new FeeModel(1, 1, 1, "CPA1", "$30"));
-        arrayList.add(new FeeModel(2, 2, 1, "CPB1", "$40"));
-        arrayList.add(new FeeModel(3, 3, 1, "CMA1", "$50"));
+        edit_fee = findViewById(R.id.edit_fee);
 
-        list_fee = findViewById(R.id.list_fee_level);
-        list_student = findViewById(R.id.list_fee_student);
-        feeLevelListAdapter = new FeeLevelListAdapter(this, arrayList);
-        list_fee.setAdapter(feeLevelListAdapter);
-        feeStudentListAdapter = new FeeStudentListAdapter(this, arrayList);
-        list_student.setAdapter(feeStudentListAdapter);
-
-        ImageButton ibtn_add_fee_level = findViewById(R.id.ibtn_add_fee_level);
-        ImageButton ibtn_add_fee_student = findViewById(R.id.ibtn_add_fee_student);
-        ibtn_add_fee_level.setOnClickListener(new View.OnClickListener() {
+        listView = findViewById(R.id.listView);
+        schoolLevelFeeListAdapter = new SchoolLevelFeeListAdapter(this, arrayList);
+        listView.setAdapter(schoolLevelFeeListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                openAddDialog(true, true);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                schoolLevelFeeListAdapter.sel_index = i;
+                schoolLevelFeeListAdapter.notifyDataSetChanged();
+                Level level = arrayList.get(i);
+                edit_fee.setText(level.fee);
             }
         });
-        ibtn_add_fee_student.setOnClickListener(new View.OnClickListener() {
+        Button btn_set = findViewById(R.id.btn_set);
+        btn_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAddDialog(true, false);
+                String fee = edit_fee.getText().toString().trim();
+                if (fee.length() == 0) {
+                    return;
+                }
+                arrayList.get(schoolLevelFeeListAdapter.sel_index).fee = fee;
+                Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("levels").setValue(arrayList);
+                Toast.makeText(FinanceSettingActivity.this, "Successfully updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+        level_update_listener();
+    }
+    void level_update_listener() {
+        Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("levels").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Utils.currentSchool.levels.clear();
+                if (dataSnapshot.getValue() != null) {
+                    for(DataSnapshot datas: dataSnapshot.getChildren()){
+                        Level level = datas.getValue(Level.class);
+                        Utils.currentSchool.levels.add(level);
+                    }
+                }
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        schoolLevelFeeListAdapter.arrayList = Utils.currentSchool.levels;
+                        arrayList = Utils.currentSchool.levels;
+                        schoolLevelFeeListAdapter.notifyDataSetChanged();
+                        edit_fee.setText(arrayList.get(schoolLevelFeeListAdapter.sel_index).fee);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-    public void openAddDialog(boolean flag_add, boolean flag_level) {
-        final Dialog dlg = new Dialog(this);
-        Window window = dlg.getWindow();
-        View view = getLayoutInflater().inflate(R.layout.dialog_add_fee, null);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.80);
-        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.4);
-        view.setMinimumWidth(width);
-        view.setMinimumHeight(height);
-//        dlg.getWindow().setLayout(width, height);
-        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dlg.setContentView(view);
-        window.setGravity(Gravity.CENTER);
-        dlg.show();
-        EditText edit_level = view.findViewById(R.id.edit_level);
-        EditText edit_student = view.findViewById(R.id.edit_student);
-        EditText edit_fee = view.findViewById(R.id.edit_fee);
-        TextView txt_title= view.findViewById(R.id.txt_title);
-        Button btn_add = view.findViewById(R.id.btn_add);
-        if (flag_add) {
-            txt_title.setText("Add Fee");
-            btn_add.setText("Add");
-        } else {
-            txt_title.setText("Edit Fee");
-            btn_add.setText("Update");
-        }
-
-        dlg.show();
     }
 }

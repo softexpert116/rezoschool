@@ -22,12 +22,11 @@
                 android:layout_gravity="center_vertical"
                 />
             <LinearLayout
-                android:layout_toLeftOf="@+id/ibtn_link"
+                android:id="@+id/ly1"
                 android:layout_toRightOf="@+id/img_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_centerVertical="true"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -75,131 +74,163 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    >
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        >
-                        <TextView
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:textAlignment="textEnd"
-                            android:text="School: "
-                            android:textSize="20dp"
-                            android:fontFamily="@font/gibson_regular"
-                            />
-                        <ImageView
-                            android:id="@+id/img_call"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginTop="20dp"
-                            android:src="@drawable/ic_call"
-                            android:layout_marginLeft="20dp"
-                            />
-                        <ImageView
-                            android:id="@+id/img_sms"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="20dp"
-                            android:src="@drawable/ic_sms"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
+                        android:textAlignment="textEnd"
+                        android:text="Level: "
+                        android:textSize="20dp"
+                        android:fontFamily="@font/gibson_regular"
+                        />
+                    <TextView
+                        android:id="@+id/txt_level"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/txt_school"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text=""
-                            android:textSize="20dp"
-                            android:textColor="@color/colorText"
-                            android:fontFamily="@font/gibson_regular"
-                            />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:orientation="vertical"
-                            android:layout_marginLeft="10dp"
-                            android:background="@color/white_background"
-                            android:layout_height="wrap_content">
-                            <Button
-                                android:id="@+id/btn_inform"
-                                android:layout_width="match_parent"
-                                android:layout_height="30dp"
-                                android:text="Inform Absence"
-                                android:textAllCaps="false"
-                                android:background="@color/colorAccent"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/gibson_regular"
-                                />
-                            <ImageView
-                                android:id="@+id/img_pic"
-                                android:layout_width="match_parent"
-                                android:layout_height="120dp"
-                                android:src="@drawable/default_pic1"
-                                android:adjustViewBounds="true"
-                                android:layout_gravity="center"
-                                android:scaleType="centerInside"
-                                />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:orientation="vertical"
-                            android:gravity="center_vertical"
-                            >
-                            <Button
-                                android:id="@+id/btn_teacher"
-                                android:layout_width="match_parent"
-                                android:layout_height="30dp"
-                                android:text="View Teachers"
-                                android:textAllCaps="false"
-                                android:background="@color/colorPrimaryDark"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/gibson_regular"
-                                />
-                            <Button
-                                android:id="@+id/btn_exam"
-                                android:layout_width="match_parent"
-                                android:layout_height="30dp"
-                                android:layout_marginTop="5dp"
-                                android:text="View Exam Results"
-                                android:textAllCaps="false"
-                                android:background="@color/colorPrimaryDark"
-                                android:textColor="@color/white"
-                                android:layout_marginBottom="5dp"
-                                android:fontFamily="@font/gibson_regular"
-                                />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
+                        android:layout_marginLeft="10dp"
+                        android:text=""
+                        android:textSize="20dp"
+                        android:textColor="@color/colorText"
+                        android:fontFamily="@font/gibson_regular"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:text="School: "
+                        android:textSize="20dp"
+                        android:fontFamily="@font/gibson_regular"
+                        />
+                    <TextView
+                        android:id="@+id/txt_school"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text=""
+                        android:textSize="20dp"
+                        android:textColor="@color/colorText"
+                        android:fontFamily="@font/gibson_regular"
+                        />
                 </LinearLayout>
 
             </LinearLayout>
-            <ImageButton
-                android:id="@+id/ibtn_link"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/ic_unlink"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:focusable="false"
-                android:visibility="gone"
-                android:layout_marginRight="10dp"
-                />
+            <LinearLayout
+                android:id="@+id/ly2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/ly1"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="end"
+                    >
+                    <ImageView
+                        android:id="@+id/img_sms"
+                        android:layout_width="40dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/btn_round"
+                        android:src="@android:drawable/ic_dialog_email"
+                        android:padding="5dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <ImageView
+                        android:id="@+id/img_call"
+                        android:layout_width="40dp"
+                        android:layout_height="30dp"
+                        android:src="@android:drawable/stat_sys_phone_call"
+                        android:background="@drawable/btn_round"
+                        android:padding="5dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        >
+                        <Button
+                            android:id="@+id/btn_teacher"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="30dp"
+                            android:text="View Teachers"
+                            android:textAllCaps="false"
+                            android:background="@drawable/btn_round"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/gibson_regular"
+                            />
+                        <Button
+                            android:id="@+id/btn_exam"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="10dp"
+                            android:layout_height="30dp"
+                            android:text="View Exams"
+                            android:textAllCaps="false"
+                            android:background="@drawable/btn_round"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/gibson_regular"
+                            />
+                        <Button
+                            android:id="@+id/btn_pay"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="10dp"
+                            android:layout_height="30dp"
+                            android:text="Pay Fee"
+                            android:textAllCaps="false"
+                            android:background="@drawable/btn_round"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/gibson_regular"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/btn_inform"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="Inform Absence"
+                            android:textAllCaps="false"
+                            android:background="@drawable/btn_round"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/gibson_regular"
+                            />
+                        <ImageView
+                            android:id="@+id/img_pic"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:src="@drawable/default_pic"
+                            android:adjustViewBounds="true"
+                            android:layout_gravity="center"
+                            android:scaleType="centerInside"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/frame_border"
+                            />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

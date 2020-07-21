@@ -17,9 +17,12 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.Model.Absence;
+import com.ediattah.rezoschool.Model.Class;
+import com.ediattah.rezoschool.Model.Level;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.NewPaymentActivity;
 import com.ediattah.rezoschool.ui.ParentViewExamActivity;
 import com.ediattah.rezoschool.ui.ParentViewTeacherActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -75,12 +78,14 @@ public class ChildListAdapter extends BaseAdapter {
         }
         final TextView txt_name = view.findViewById(R.id.txt_name);
         TextView txt_class = view.findViewById(R.id.txt_class);
+        final TextView txt_level = view.findViewById(R.id.txt_level);
         final TextView txt_school = view.findViewById(R.id.txt_school);
         final ImageView img_photo = view.findViewById(R.id.img_photo);
         final ImageView img_pic = view.findViewById(R.id.img_pic);
         final Button btn_inform = view.findViewById(R.id.btn_inform);
         Button btn_teacher = view.findViewById(R.id.btn_teacher);
         Button btn_exam = view.findViewById(R.id.btn_exam);
+        Button btn_pay = view.findViewById(R.id.btn_pay);
         ImageView img_call = view.findViewById(R.id.img_call);
         ImageView img_sms = view.findViewById(R.id.img_sms);
         img_pic.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +162,14 @@ public class ChildListAdapter extends BaseAdapter {
                 activity.startActivity(intent);
             }
         });
+        btn_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, NewPaymentActivity.class);
+                intent.putExtra("OBJECT", model);
+                activity.startActivity(intent);
+            }
+        });
         txt_class.setText(model.class_name);
         Utils.mDatabase.child(Utils.tbl_user).child(model.uid).addValueEventListener(new ValueEventListener() {
             @Override
@@ -188,10 +201,10 @@ public class ChildListAdapter extends BaseAdapter {
                                 String today_str = Utils.getDateString(Calendar.getInstance().getTime());
                                 if (date_str.equals(today_str)) {
                                     Glide.with(activity).load(absence.url).apply(new RequestOptions()
-                                            .placeholder(R.drawable.default_pic1).centerInside().dontAnimate()).into(img_pic);
+                                            .placeholder(R.drawable.default_pic).centerCrop().dontAnimate()).into(img_pic);
                                     img_pic.setEnabled(false);
                                     btn_inform.setEnabled(false);
-                                    btn_inform.setBackground(activity.getDrawable(R.color.gray));
+                                    btn_inform.setBackground(activity.getDrawable(R.drawable.btn_round_gray));
                                     return;
                                 }
                             }
@@ -200,10 +213,10 @@ public class ChildListAdapter extends BaseAdapter {
 //                    Glide.with(activity).load(user.photo).apply(new RequestOptions()
 //                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
                     }
-                    img_pic.setImageDrawable(activity.getDrawable(R.drawable.default_pic1));
+                    img_pic.setImageDrawable(activity.getDrawable(R.drawable.default_pic));
                     img_pic.setEnabled(true);
                     btn_inform.setEnabled(true);
-                    btn_inform.setBackground(activity.getDrawable(R.color.colorAccent));
+                    btn_inform.setBackground(activity.getDrawable(R.drawable.btn_round));
                 }
 
                 @Override
@@ -217,7 +230,21 @@ public class ChildListAdapter extends BaseAdapter {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue()!=null) {
                     School school = dataSnapshot.getValue(School.class);
+                    String mlevel = "", mfee = "";
+                    for (Class _class:school.classes) {
+                        if (_class.name.equals(model.class_name)) {
+                            mlevel = _class.level;
+                            break;
+                        }
+                    }
+                    for (Level _level:school.levels) {
+                        if (_level.name.equals(mlevel)) {
+                            mfee = _level.fee;
+                            break;
+                        }
+                    }
                     txt_school.setText(school.number);
+                    txt_level.setText(mlevel + ", " + mfee + "XOF/month");
                 }
             }
 

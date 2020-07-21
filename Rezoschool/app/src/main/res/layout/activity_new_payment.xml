@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBackground"
-    tools:context=".ui.NewClassActivity">
+    tools:context=".ui.NewPaymentActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,37 +15,40 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Class Level"
+            android:text="Student"
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
         <EditText
-            android:id="@+id/edit_level"
+            android:id="@+id/edit_student"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:hint="student name"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="20dp"
+            android:enabled="false"
+            android:editable="false"
+            android:textColor="@color/colorText"
+            android:fontFamily="@font/gibson_regular"
+            android:paddingLeft="5dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Level"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
+            />
+        <EditText
+            android:id="@+id/edit_level_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="text"
             android:hint="level name"
-            android:inputType="text"
-            android:singleLine="true"
-            android:textSize="20dp"
             android:editable="false"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            android:paddingLeft="5dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Class Name"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
-            />
-        <EditText
-            android:id="@+id/edit_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:hint="class name"
+            android:enabled="false"
             android:singleLine="true"
             android:paddingLeft="5dp"
             android:textSize="20dp"
@@ -56,18 +59,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/gibson_regular"
-            android:text="From"
+            android:text="Fee per month (XOF)"
             android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
             />
         <EditText
-            android:id="@+id/edit_start_time"
+            android:id="@+id/edit_level_fee"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:inputType="text"
-            android:hint="01:00 PM"
-            android:focusable="false"
+            android:hint="level fee"
+            android:singleLine="true"
+            android:paddingLeft="5dp"
+            android:enabled="false"
             android:editable="false"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"
+            android:fontFamily="@font/gibson_regular"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/gibson_regular"
+            android:text="Amount (XOF)"
+            android:textSize="20dp" />
+        <EditText
+            android:id="@+id/edit_amount"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
             android:paddingLeft="5dp"
             android:textSize="20dp"
             android:textColor="@color/colorText"
@@ -78,17 +101,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/gibson_regular"
-            android:text="To"
+            android:text="Merchant ID"
             android:textSize="20dp"
             />
         <EditText
-            android:id="@+id/edit_end_time"
+            android:id="@+id/edit_merchant"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:inputType="text"
-            android:hint="03:00 PM"
-            android:focusable="false"
-            android:editable="false"
+            android:inputType="number"
+            android:hint="1234"
             android:paddingLeft="5dp"
             android:textSize="20dp"
             android:textColor="@color/colorText"
@@ -100,28 +121,56 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/gibson_regular"
             android:textSize="20dp"
-            android:text="Choose Course"
+            android:text="Choose Method"
             />
-        <EditText
-            android:id="@+id/edit_course"
+        <RadioGroup
+            android:id="@+id/pay_method"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:hint="course name"
-            android:focusable="false"
-            android:paddingLeft="5dp"
-            android:editable="false"
-            android:textSize="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            <RadioButton
+                android:id="@+id/pay_mtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="MTN Mobile Money"
+                android:checked="true"
+                />
+            <RadioButton
+                android:id="@+id/pay_dunya"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="PayDunya"
+                />
+            <RadioButton
+                android:id="@+id/pay_bici"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="BICI"
+                />
+        </RadioGroup>
+        <TextView
+            android:id="@+id/txt_mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="@color/colorText"
+            android:text="Mobile Number: 123456"
             android:fontFamily="@font/gibson_regular"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
             />
         <Button
-            android:id="@+id/btn_create"
+            android:id="@+id/btn_pay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:text="Create"
+            android:text="Pay"
             android:fontFamily="@font/gibson_bold"
             android:textColor="@android:color/white"
             android:background="@drawable/btn_round" />

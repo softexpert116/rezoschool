@@ -75,6 +75,7 @@ public class App extends Application {
 
     public static String MY_APP_PATH = "";
     public static String MY_IMAGE_PATH = "";
+    public static String ediapayUrl = "https://api.ediapay.com/api/";
 
 
     private static final int MAX_SMS_MESSAGE_LENGTH = 160;

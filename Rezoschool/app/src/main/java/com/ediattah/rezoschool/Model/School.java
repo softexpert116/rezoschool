@@ -11,10 +11,11 @@ public class School implements Serializable {
     public boolean isPublic;
     public ArrayList<Course> courses;
     public ArrayList<Class> classes;
+    public ArrayList<Level> levels;
     public ArrayList<Teacher> teachers;
     public ArrayList<Student> students;
 
-    public School(String _id, String uid, String number, String type, boolean isPublic, ArrayList<Course> courses, ArrayList<Class> classes, ArrayList<Teacher> teachers, ArrayList<Student> students) {
+    public School(String _id, String uid, String number, String type, boolean isPublic, ArrayList<Course> courses, ArrayList<Class> classes, ArrayList<Level> levels, ArrayList<Teacher> teachers, ArrayList<Student> students) {
         this._id = _id;
         this.uid = uid;
         this.number = number;
@@ -22,6 +23,7 @@ public class School implements Serializable {
         this.isPublic = isPublic;
         this.courses = courses;
         this.classes = classes;
+        this.levels = levels;
         this.teachers = teachers;
         this.students = students;
     }
@@ -33,6 +35,7 @@ public class School implements Serializable {
         this.isPublic = false;
         this.courses = new ArrayList<>();
         this.classes = new ArrayList<>();
+        this.levels = new ArrayList<>();
         this.teachers = new ArrayList<>();
         this.students = new ArrayList<>();
     }

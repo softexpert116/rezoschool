@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBackground"
+    tools:context=".ui.NewLevelActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Level"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
+            />
+        <EditText
+            android:id="@+id/edit_level"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="level name"
+            android:inputType="text"
+            android:singleLine="true"
+            android:paddingLeft="5dp"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"
+            android:fontFamily="@font/gibson_regular"
+            />
+
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Create"
+            android:fontFamily="@font/gibson_bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/btn_round" />
+    </LinearLayout>
+</RelativeLayout>

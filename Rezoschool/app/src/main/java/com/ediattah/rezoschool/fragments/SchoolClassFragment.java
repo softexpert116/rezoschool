@@ -16,7 +16,10 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.ediattah.rezoschool.Model.Course;
+import com.ediattah.rezoschool.Model.Level;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.adapter.SchoolLevelListAdapter;
+import com.ediattah.rezoschool.ui.NewLevelActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.R;
@@ -32,13 +35,12 @@ import com.google.firebase.database.ValueEventListener;
 public class SchoolClassFragment extends Fragment {
 
     MainActivity activity;
-    Button btn_class, btn_course;
-    boolean flag_class = true;
+    Button btn_class, btn_course, btn_level;
+    int flag = 0;
     ListView listView;
-//    ArrayList<Class> array_class = new ArrayList<>();
-//    ArrayList<Course> array_course = new ArrayList<>();
     ClassListAdapter classListAdapter;
     SchoolCourseListAdapter schoolCourseListAdapter;
+    SchoolLevelListAdapter schoolLevelListAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,14 +49,17 @@ public class SchoolClassFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_class_school, container, false);
         btn_class = v.findViewById(R.id.btn_class);
         btn_course = v.findViewById(R.id.btn_course);
+        btn_level = v.findViewById(R.id.btn_level);
+        schoolLevelListAdapter = new SchoolLevelListAdapter(activity, Utils.currentSchool.levels);
         schoolCourseListAdapter = new SchoolCourseListAdapter(activity, Utils.currentSchool.courses, null);
         classListAdapter = new ClassListAdapter(activity, Utils.currentSchool.classes);
         btn_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btn_level.setTextColor(Color.parseColor("#d0d0d0"));
                 btn_course.setTextColor(Color.parseColor("#d0d0d0"));
                 btn_class.setTextColor(Color.parseColor("#ffffff"));
-                flag_class = true;
+                flag = 0;
                 listView.setAdapter(classListAdapter);
             }
         });
@@ -62,40 +67,43 @@ public class SchoolClassFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 btn_class.setTextColor(Color.parseColor("#d0d0d0"));
+                btn_level.setTextColor(Color.parseColor("#d0d0d0"));
                 btn_course.setTextColor(Color.parseColor("#ffffff"));
-                flag_class = false;
+                flag = 1;
                 listView.setAdapter(schoolCourseListAdapter);
+            }
+        });
+        btn_level.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btn_course.setTextColor(Color.parseColor("#d0d0d0"));
+                btn_class.setTextColor(Color.parseColor("#d0d0d0"));
+                btn_level.setTextColor(Color.parseColor("#ffffff"));
+                flag = 2;
+                listView.setAdapter(schoolLevelListAdapter);
             }
         });
         FloatingActionButton fab = v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (flag_class) {
-                    Intent intent = new Intent(activity, NewClassActivity.class);
-                    activity.startActivity(intent);
-                } else {
-                    Intent intent = new Intent(activity, NewCourseActivity.class);
-                    activity.startActivity(intent);
+                Intent intent;
+                switch (flag) {
+                    case 0:
+                        intent = new Intent(activity, NewClassActivity.class);
+                        break;
+                    case 1:
+                        intent = new Intent(activity, NewCourseActivity.class);
+                        break;
+                    default:
+                        intent = new Intent(activity, NewLevelActivity.class);
                 }
+                activity.startActivity(intent);
             }
         });
 
         listView = v.findViewById(R.id.listView);
         listView.setAdapter(classListAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (flag_class) {
-//                    Intent intent = new Intent(activity, ClassCourseActivity.class);
-//                    intent.putExtra("OBJECT", array_class.get(i));
-//                    startActivity(intent);
-                } else {
-
-                }
-            }
-        });
 
         return v;
     }
@@ -125,29 +133,32 @@ public class SchoolClassFragment extends Fragment {
             }
         });
     }
-//    void readCourses() {
-//        Utils.mDatabase.child(Utils.tbl_course).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                array_course.clear();
-//                if (dataSnapshot.getValue() != null) {
-//                    for(DataSnapshot datas: dataSnapshot.getChildren()){
-//                        Course course = datas.getValue(Course.class);
-//                        course._id = datas.getKey();
-//                        array_course.add(course);
-//                    }
-//                }
-//                if (courseListAdapter != null) {
-//                    courseListAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+    void level_update_listener() {
+        Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("levels").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Utils.currentSchool.levels.clear();
+                if (dataSnapshot.getValue() != null) {
+                    for(DataSnapshot datas: dataSnapshot.getChildren()){
+                        Level level = datas.getValue(Level.class);
+                        Utils.currentSchool.levels.add(level);
+                    }
+                }
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        schoolLevelListAdapter.arrayList = Utils.currentSchool.levels;
+                        schoolLevelListAdapter.notifyDataSetChanged();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     void class_update_listener() {
         Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("classes").addValueEventListener(new ValueEventListener() {
             @Override
@@ -178,6 +189,7 @@ public class SchoolClassFragment extends Fragment {
         super.onResume();
         course_update_listener();
         class_update_listener();
+        level_update_listener();
     }
 
     public void onAttach(Context context) {

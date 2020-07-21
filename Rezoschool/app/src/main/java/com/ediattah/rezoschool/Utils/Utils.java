@@ -62,7 +62,7 @@ public class Utils {
     public static String tbl_absence = "absences";
     public static String tbl_syllabus = "syllabus";
     public static String tbl_chat = "chats";
-//    public static String tbl_comment = "comments";
+    public static String tbl_transaction = "transactions";
 //    public static String tbl_course = "courses";
 //    public static String tbl_class = "classes";
 

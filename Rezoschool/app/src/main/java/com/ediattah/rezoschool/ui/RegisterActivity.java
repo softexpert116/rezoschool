@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
+import com.ediattah.rezoschool.Model.Level;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.Teacher;
@@ -295,7 +296,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             } else {
                                                 if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
                                                     // school register
-                                                    School school = new School("", Utils.mUser.getUid(), school_number, school_type, isPublic, new ArrayList<Course>(), new ArrayList<Class>(), new ArrayList<Teacher>(), new ArrayList<Student>());
+                                                    School school = new School("", Utils.mUser.getUid(), school_number, school_type, isPublic, new ArrayList<Course>(), new ArrayList<Class>(), new ArrayList<Level>(), new ArrayList<Teacher>(), new ArrayList<Student>());
                                                     Utils.mDatabase.child(Utils.tbl_school).push().setValue(school);
 
                                                     // school staff register

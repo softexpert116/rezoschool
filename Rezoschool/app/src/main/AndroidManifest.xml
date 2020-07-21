@@ -15,7 +15,9 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ImageViewerActivity"></activity>
+        <activity android:name=".ui.NewPaymentActivity"></activity>
+        <activity android:name=".ui.NewLevelActivity" />
+        <activity android:name=".ui.ImageViewerActivity" />
         <activity android:name=".ui.ChatActivity" />
         <activity android:name=".ui.ParentViewExamActivity" />
         <activity android:name=".ui.ParentViewTeacherActivity" />

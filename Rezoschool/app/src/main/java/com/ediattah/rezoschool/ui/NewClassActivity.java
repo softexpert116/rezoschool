@@ -13,15 +13,18 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
+import com.ediattah.rezoschool.Model.Level;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.SchoolCourseListAdapter;
+import com.ediattah.rezoschool.adapter.SchoolLevelListAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ import java.util.Calendar;
 public class NewClassActivity extends AppCompatActivity {
     EditText edit_start_time, edit_end_time, edit_course, edit_level, edit_name;
     SchoolCourseListAdapter schoolCourseListAdapter;
-//    ArrayList<Course> array_course = new ArrayList<>();
+    SchoolLevelListAdapter schoolLevelListAdapter;
     ArrayList<Course> array_course_sel = new ArrayList<>();
     ProgressDialog progressDialog;
 
@@ -43,6 +46,12 @@ public class NewClassActivity extends AppCompatActivity {
         App.hideKeyboard(this);
 
         edit_level = findViewById(R.id.edit_level);
+        edit_level.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddLevelDialog();
+            }
+        });
         edit_name = findViewById(R.id.edit_name);
         edit_start_time = (EditText)findViewById(R.id.edit_start_time);
         edit_start_time.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +105,7 @@ public class NewClassActivity extends AppCompatActivity {
         edit_course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAddDialog();
+                openAddCourseDialog();
             }
         });
         Button btn_create = (Button)findViewById(R.id.btn_create);
@@ -131,7 +140,7 @@ public class NewClassActivity extends AppCompatActivity {
             }
         });
     }
-    public void openAddDialog() {
+    public void openAddCourseDialog() {
         final Dialog dlg = new Dialog(this);
         Window window = dlg.getWindow();
         View view = getLayoutInflater().inflate(R.layout.dialog_choose_item, null);
@@ -178,6 +187,36 @@ public class NewClassActivity extends AppCompatActivity {
         dlg.show();
     }
 
+    public void openAddLevelDialog() {
+        final Dialog dlg = new Dialog(this);
+        Window window = dlg.getWindow();
+        View view = getLayoutInflater().inflate(R.layout.dialog_choose_item, null);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.80);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.4);
+        view.setMinimumWidth(width);
+        view.setMinimumHeight(height);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(view);
+        window.setGravity(Gravity.CENTER);
+        dlg.show();
+        TextView txt_title = dlg.findViewById(R.id.txt_title);
+        txt_title.setText("Choose Level");
+        ListView listView = dlg.findViewById(R.id.listView);
+        schoolLevelListAdapter = new SchoolLevelListAdapter(this, Utils.currentSchool.levels);
+        schoolLevelListAdapter.flag_list = true;
+        listView.setAdapter(schoolLevelListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Level level = Utils.currentSchool.levels.get(i);
+                edit_level.setText(level.name);
+                dlg.dismiss();
+            }
+        });
+        Button btn_choose = (Button)dlg.findViewById(R.id.btn_choose);
+        btn_choose.setVisibility(View.GONE);
+        dlg.show();
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
