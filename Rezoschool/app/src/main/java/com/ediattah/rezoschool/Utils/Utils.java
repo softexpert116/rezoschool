@@ -94,6 +94,34 @@ public class Utils {
         ClipData clip = ClipData.newPlainText("label", text);
         clipboard.setPrimaryClip(clip);
     }
+    public static String getDayStrFromInt(int dayOfWeek) {
+        String day = "Monday";
+        switch (dayOfWeek) {
+            case 2:
+                day = "Monday";
+                break;
+            case 3:
+                day = "Tuesday";
+                break;
+            case 4:
+                day = "Wednesday";
+                break;
+            case 5:
+                day = "Thursday";
+                break;
+            case 6:
+                day = "Friday";
+                break;
+            case 7:
+                day = "Saturday";
+                break;
+            case 1:
+                day = "Sunday";
+            default:
+        }
+        return day;
+    }
+
     public static void shareImage(Context context, String path) {
         Intent intentShareFile = new Intent(Intent.ACTION_SEND);
         File fileWithinMyDir = new File(String.valueOf(path));

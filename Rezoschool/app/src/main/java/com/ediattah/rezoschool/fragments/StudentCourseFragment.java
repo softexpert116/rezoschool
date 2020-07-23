@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.ediattah.rezoschool.Model.Course;
+import com.ediattah.rezoschool.Model.CourseTime;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.SchoolCourseListAdapter;
@@ -39,7 +40,7 @@ public class StudentCourseFragment extends Fragment {
         ly_no_items = v.findViewById(R.id.ly_no_items);
         ArrayList<String> arrayStrList = new ArrayList<String>(Arrays.asList(Utils.currentClass.courses.split(",")));
         for (String courseStr:arrayStrList) {
-            Course course = new Course(courseStr);
+            Course course = new Course(courseStr, new ArrayList<CourseTime>());
             arrayList.add(course);
         }
         if (arrayList.size() == 0) {

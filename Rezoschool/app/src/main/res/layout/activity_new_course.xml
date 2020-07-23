@@ -6,40 +6,138 @@
     android:layout_height="match_parent"
     android:background="@color/colorMainBackground"
     tools:context=".ui.NewCourseActivity">
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="20dp"
+        android:layout_height="match_parent"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Course"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
-            />
-        <EditText
-            android:id="@+id/edit_course"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="course name"
-            android:inputType="text"
-            android:singleLine="true"
-            android:paddingLeft="5dp"
-            android:textSize="20dp"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            />
-
-        <Button
-            android:id="@+id/btn_create"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Create"
-            android:fontFamily="@font/gibson_bold"
-            android:textColor="@android:color/white"
-            android:background="@drawable/btn_round" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course"
+                android:textSize="20dp"
+                android:fontFamily="@font/gibson_regular"
+                />
+            <EditText
+                android:id="@+id/edit_course"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="course name"
+                android:inputType="text"
+                android:singleLine="true"
+                android:paddingLeft="5dp"
+                android:textSize="20dp"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Week days"
+                android:layout_marginTop="5dp"
+                android:textSize="20dp"
+                android:fontFamily="@font/gibson_regular"
+                />
+            <com.dpro.widgets.WeekdaysPicker
+                android:id="@+id/weekdays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sunday_first_day="false"
+                android:layout_marginTop="10dp"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <TextView
+                    android:id="@+id/txt_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Time:"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/gibson_regular"
+                    />
+                <EditText
+                    android:id="@+id/edit_start_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="datetime"
+                    android:layout_toRightOf="@id/txt_start"
+                    android:layout_toLeftOf="@+id/btn_clear_time"
+                    android:singleLine="true"
+                    android:focusable="false"
+                    android:editable="false"
+                    />
+                <Button
+                    android:id="@+id/btn_clear_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:text="Clear"
+                    android:textColor="@color/white"
+                    android:background="@color/colorAccent"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <TextView
+                    android:id="@+id/txt_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End Time:"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/gibson_regular"
+                    />
+                <EditText
+                    android:id="@+id/edit_end_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/btn_set_time"
+                    android:inputType="datetime"
+                    android:layout_toRightOf="@id/txt_end"
+                    android:singleLine="true"
+                    android:focusable="false"
+                    android:editable="false"
+                    android:layout_marginLeft="5dp"
+                    />
+                <Button
+                    android:id="@+id/btn_set_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:text="Set"
+                    android:textColor="@color/white"
+                    android:background="@color/colorPrimaryDark"
+                    />
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/ly_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone"
+                />
+            <Button
+                android:id="@+id/btn_create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
+                android:text="Create"
+                android:fontFamily="@font/gibson_bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/btn_round" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

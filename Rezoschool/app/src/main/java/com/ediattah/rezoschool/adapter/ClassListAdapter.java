@@ -56,13 +56,9 @@ public class ClassListAdapter extends BaseAdapter {
         RelativeLayout ly_sel = view.findViewById(R.id.ly_sel);
         TextView txt_level = view.findViewById(R.id.txt_level);
         TextView txt_name = view.findViewById(R.id.txt_name);
-        TextView txt_start_time = view.findViewById(R.id.txt_start_time);
-        TextView txt_end_time = view.findViewById(R.id.txt_end_time);
         TextView txt_courses = view.findViewById(R.id.txt_courses);
         txt_level.setText(_class.level);
         txt_name.setText(_class.name);
-        txt_start_time.setText(_class.start_time);
-        txt_end_time.setText(_class.end_time);
         txt_courses.setText(_class.courses);
         Button btn_remove = (Button)view.findViewById(R.id.btn_remove);
         btn_remove.setOnClickListener(new View.OnClickListener() {

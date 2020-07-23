@@ -106,7 +106,9 @@ public class SchoolStudentFragment extends Fragment {
                     }
                     array_student_accepted.clear();
                     array_student_waiting.clear();
-                    sort_array(array_all, 0);
+                    if (array_all.size() > 0) {
+                        sort_array(array_all, 0);
+                    }
                 }
 
             }

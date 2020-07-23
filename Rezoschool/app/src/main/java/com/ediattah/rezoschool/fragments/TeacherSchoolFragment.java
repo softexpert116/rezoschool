@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ediattah.rezoschool.Model.Course;
+import com.ediattah.rezoschool.Model.CourseTime;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.R;
@@ -342,7 +343,7 @@ public class TeacherSchoolFragment extends Fragment {
                             ArrayList<String> courses_list = new ArrayList<>(Arrays.asList(teacher.courses.split(",")));
                             for (String courseStr: courses_list) {
                                 if (courseStr.length() > 0) {
-                                    Course course = new Course(courseStr);
+                                    Course course = new Course(courseStr, new ArrayList<CourseTime>());
                                     array_course.add(course);
                                 }
                             }

@@ -57,48 +57,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/gibson_regular"
-            android:text="From"
-            android:textSize="20dp"
-            />
-        <EditText
-            android:id="@+id/edit_start_time"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:hint="01:00 PM"
-            android:focusable="false"
-            android:editable="false"
-            android:paddingLeft="5dp"
-            android:textSize="20dp"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/gibson_regular"
-            android:text="To"
-            android:textSize="20dp"
-            />
-        <EditText
-            android:id="@+id/edit_end_time"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:hint="03:00 PM"
-            android:focusable="false"
-            android:editable="false"
-            android:paddingLeft="5dp"
-            android:textSize="20dp"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/gibson_regular"
             android:textSize="20dp"
             android:text="Choose Course"
             />

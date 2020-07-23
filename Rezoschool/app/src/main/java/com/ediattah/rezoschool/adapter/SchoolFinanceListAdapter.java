@@ -1,17 +1,22 @@
 package com.ediattah.rezoschool.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Transaction;
 import com.ediattah.rezoschool.Model.TransactionModel;
 import com.ediattah.rezoschool.Model.User;
@@ -26,7 +31,7 @@ import java.util.ArrayList;
 
 public class SchoolFinanceListAdapter extends BaseAdapter {
     ArrayList<Transaction> arrayList;
-
+    public boolean flag_parent = false;
     Context context;
 
     public SchoolFinanceListAdapter(Context _context, ArrayList<Transaction> _arrayList) {
@@ -87,6 +92,32 @@ public class SchoolFinanceListAdapter extends BaseAdapter {
             txt_status.setText("QUEUED");
             txt_status.setBackgroundColor(Color.parseColor("#e28e8e"));
         }
+        Button btn_remove = (Button)view.findViewById(R.id.btn_remove);
+        if (!flag_parent) {
+            btn_remove.setVisibility(View.GONE);
+        } else {
+            btn_remove.setVisibility(View.VISIBLE);
+        }
+        btn_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you going to remove this item?");
+                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        Utils.mDatabase.child(Utils.tbl_transaction).child(model._id).setValue(null);
+                        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+
         return view;
     }
 }

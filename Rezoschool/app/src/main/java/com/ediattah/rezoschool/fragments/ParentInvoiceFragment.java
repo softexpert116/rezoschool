@@ -39,6 +39,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ParentInvoiceFragment extends Fragment {
     MainActivity activity;
@@ -162,9 +164,12 @@ public class ParentInvoiceFragment extends Fragment {
                     if (dataSnapshot.getValue()!=null) {
                         for (DataSnapshot datas:dataSnapshot.getChildren()) {
                             Transaction transaction = datas.getValue(Transaction.class);
+                            transaction._id = datas.getKey();
                             arrayList.add(transaction);
                         }
                     }
+                    order_transactions();
+                    schoolFinanceListAdapter.flag_parent = true;
                     schoolFinanceListAdapter.notifyDataSetChanged();
                     if (arrayList.size() == 0) {
                         ly_no_items.setVisibility(View.VISIBLE);
@@ -186,9 +191,11 @@ public class ParentInvoiceFragment extends Fragment {
                     if (dataSnapshot.getValue()!=null) {
                         for (DataSnapshot datas:dataSnapshot.getChildren()) {
                             Transaction transaction = datas.getValue(Transaction.class);
+                            transaction._id = datas.getKey();
                             arrayList.add(transaction);
                         }
                     }
+                    order_transactions();
                     schoolFinanceListAdapter.notifyDataSetChanged();
                     if (arrayList.size() == 0) {
                         ly_no_items.setVisibility(View.VISIBLE);
@@ -204,7 +211,14 @@ public class ParentInvoiceFragment extends Fragment {
             });
         }
     }
-
+    void order_transactions() {
+        Collections.sort(arrayList, new Comparator<Transaction>() {
+            @Override
+            public int compare(Transaction rhs, Transaction lhs) {
+                return lhs.transactionid.compareTo(rhs.transactionid);
+            }
+        });
+    }
     @Override
     public void onResume() {
         super.onResume();

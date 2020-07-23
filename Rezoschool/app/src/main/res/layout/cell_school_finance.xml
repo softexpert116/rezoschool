@@ -151,6 +151,15 @@
                 android:textStyle="bold"
                 android:background="@drawable/frame_round"
                 />
+            <Button
+                android:id="@+id/btn_remove"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_erase"
+                android:visibility="gone"
+                />
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

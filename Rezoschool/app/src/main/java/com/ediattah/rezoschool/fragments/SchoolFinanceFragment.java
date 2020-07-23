@@ -15,8 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ediattah.rezoschool.Model.CourseTime;
 import com.ediattah.rezoschool.Model.Transaction;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.SchoolFinanceDetailActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ediattah.rezoschool.Model.TransactionModel;
 import com.ediattah.rezoschool.R;
@@ -28,6 +30,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class SchoolFinanceFragment extends Fragment {
     MainActivity activity;
@@ -54,6 +58,14 @@ public class SchoolFinanceFragment extends Fragment {
                 activity.startActivity(intent);
             }
         });
+        FloatingActionButton fab1 = v.findViewById(R.id.fab1);
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, SchoolFinanceDetailActivity.class);
+                activity.startActivity(intent);
+            }
+        });
         read_transactions();
         return v;
     }
@@ -65,9 +77,11 @@ public class SchoolFinanceFragment extends Fragment {
                 if (dataSnapshot.getValue()!=null) {
                     for (DataSnapshot datas:dataSnapshot.getChildren()) {
                         Transaction transaction = datas.getValue(Transaction.class);
+                        transaction._id = datas.getKey();
                         arrayList.add(transaction);
                     }
                 }
+                order_transactions();
                 schoolFinanceListAdapter.notifyDataSetChanged();
                 if (arrayList.size() == 0) {
                     ly_no_items.setVisibility(View.VISIBLE);
@@ -82,7 +96,14 @@ public class SchoolFinanceFragment extends Fragment {
             }
         });
     }
-
+    void order_transactions() {
+        Collections.sort(arrayList, new Comparator<Transaction>() {
+            @Override
+            public int compare(Transaction rhs, Transaction lhs) {
+                return lhs.transactionid.compareTo(rhs.transactionid);
+            }
+        });
+    }
     @Override
     public void onResume() {
         super.onResume();
