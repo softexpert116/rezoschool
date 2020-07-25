@@ -95,9 +95,9 @@ public class App extends Application {
                 if (dataSnapshot.getValue() != null) {
                     for(DataSnapshot datas: dataSnapshot.getChildren()){
                         School school = datas.getValue(School.class);
+                        school._id = datas.getKey();
                         if (school.uid.equals(Utils.mUser.getUid())) {
                             Utils.currentSchool = school;
-                            Utils.currentSchool._id = datas.getKey();
                         }
                     }
                 }

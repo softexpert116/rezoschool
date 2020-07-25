@@ -105,7 +105,7 @@
                 android:layout_alignParentEnd="true"
                 android:clickable="false"
                 android:focusable="false"
-                android:background="@drawable/ic_erase1"
+                android:background="@drawable/ic_erase"
                 />
             <TextView
                 android:id="@+id/txt_public"

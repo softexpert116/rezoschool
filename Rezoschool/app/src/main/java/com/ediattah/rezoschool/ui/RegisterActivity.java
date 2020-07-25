@@ -274,8 +274,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                                                 return;
                                                                             } else {
                                                                                 openAddClassDialog(school_id, datas.getKey(), user);
-
-
                                                                             }
                                                                         }
                                                                     } else {
