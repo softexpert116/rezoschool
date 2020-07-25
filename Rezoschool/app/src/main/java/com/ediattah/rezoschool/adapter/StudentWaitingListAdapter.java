@@ -69,14 +69,23 @@ public class StudentWaitingListAdapter extends BaseAdapter {
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utils.mDatabase.child(Utils.tbl_user).child(student.uid).child("isAllow").setValue(true);
+                student.isAllow = true;
+                for (int j = 0; j < Utils.currentSchool.students.size(); j++) {
+                    Student student1 = Utils.currentSchool.students.get(j);
+                    if (student1.uid.equals(student.uid)) {
+                        Utils.currentSchool.students.set(j, student);
+                        break;
+                    }
+                }
+                Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("students").setValue(Utils.currentSchool.students);
                 fragment.read_students();
             }
         });
         btn_reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utils.mDatabase.child(Utils.tbl_user).child(student.uid).setValue(null);
+                Utils.currentSchool.students.remove(student);
+                Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("students").setValue(Utils.currentSchool.students);
                 fragment.read_students();
             }
         });

@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.ediattah.rezoschool.App.array_course;
 
 public class NewSyllabusActivity extends AppCompatActivity {
     EditText edit_school, edit_course, edit_date, edit_time;

@@ -110,29 +110,31 @@ public class SchoolCourseListAdapter extends BaseAdapter {
         } else {
             ly_time.setVisibility(View.VISIBLE);
             ly_time.removeAllViews();
-            for (CourseTime courseTime:_course.times) {
-                LinearLayout ly_row = new LinearLayout(context);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                if (ly_time.getChildCount() > 0) {
-                    lp.setMargins(0, 10, 0, 0);
+            LayoutInflater inflater = LayoutInflater.from(context);
+            int j = 0;
+            while (j < _course.times.size()) {
+                View view1 = inflater.inflate(R.layout.cell_timeslot, null);
+                LinearLayout ly1 = view1.findViewById(R.id.ly1);
+                LinearLayout ly2 = view1.findViewById(R.id.ly2);
+                TextView txt_day1 = view1.findViewById(R.id.txt_day1);
+                TextView txt_day2 = view1.findViewById(R.id.txt_day2);
+                TextView txt_time1 = view1.findViewById(R.id.txt_time1);
+                TextView txt_time2 = view1.findViewById(R.id.txt_time2);
+                CourseTime courseTime1 = _course.times.get(j);
+                txt_day1.setText(Utils.getDayStrFromInt(courseTime1.dayOfWeek));
+                txt_time1.setText(courseTime1.start_time + "~" + courseTime1.end_time);
+                if (_course.times.size() > j+1) {
+                    CourseTime courseTime2 = _course.times.get(j+1);
+                    txt_day2.setText(Utils.getDayStrFromInt(courseTime2.dayOfWeek));
+                    txt_time2.setText(courseTime2.start_time + "~" + courseTime2.end_time);
+                } else {
+                    ly2.setVisibility(View.INVISIBLE);
                 }
-                ly_row.setLayoutParams(lp);
-                ly_row.setPadding(10, 5, 10, 5);
-                ly_row.setOrientation(LinearLayout.VERTICAL);
-                ly_row.setBackgroundColor(Color.parseColor("#A9F1D3"));
-                TextView txt_day = new TextView(context);
-                LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp1.setMargins(0, 5, 0, 0);
-                txt_day.setLayoutParams(lp1);
-//                txt_day.setPadding(0, 5, 0, 5);
-                txt_day.setText(Utils.getDayStrFromInt(courseTime.dayOfWeek));
-                txt_day.setTextColor(Color.parseColor("#D81B60"));
-                ly_row.addView(txt_day);
-                TextView txt_start_time = new TextView(context);
-                txt_start_time.setText(courseTime.start_time + "~" + courseTime.end_time);
-                ly_row.addView(txt_start_time);
-                ly_time.addView(ly_row);
+                ly_time.addView(view1);
+                j +=2;
             }
+
+
         }
         return view;
     }

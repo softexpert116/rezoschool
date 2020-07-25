@@ -61,15 +61,10 @@ public class OTPActivity extends AppCompatActivity {
                     try {
                         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationID, input_code);
                         signInWithPhone(credential);
-//                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-//                Intent mainIntent = new Intent(OTPActivity.this, MainActivity.class);
-//                OTPActivity.this.startActivity(mainIntent);
-//                finishAffinity();
-
             }
         });
     }

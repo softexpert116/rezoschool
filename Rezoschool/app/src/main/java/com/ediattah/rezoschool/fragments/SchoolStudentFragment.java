@@ -57,7 +57,9 @@ public class SchoolStudentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 btn_waiting.setTextColor(Color.parseColor("#d0d0d0"));
-                btn_accepted.setTextColor(Color.parseColor("#ffffff"));
+                btn_accepted.setTextColor(getResources().getColor(R.color.colorText));
+                btn_accepted.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
+                btn_waiting.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 flag_accepted = true;
                 listView.setAdapter(studentAcceptedListAdapter);
                 read_students();
@@ -67,7 +69,9 @@ public class SchoolStudentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 btn_accepted.setTextColor(Color.parseColor("#d0d0d0"));
-                btn_waiting.setTextColor(Color.parseColor("#ffffff"));
+                btn_waiting.setTextColor(getResources().getColor(R.color.colorText));
+                btn_accepted.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                btn_waiting.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
                 flag_accepted = false;
                 listView.setAdapter(studentWaitingListAdapter);
                 read_students();
@@ -94,78 +98,23 @@ public class SchoolStudentFragment extends Fragment {
         return v;
     }
     public void read_students() {
-        final ArrayList<Student> array_all = new ArrayList<>();
-        Utils.mDatabase.child(Utils.tbl_student).orderByChild("school_id").equalTo(Utils.currentSchool._id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue()!=null) {
-                    array_all.clear();
-                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
-                        final Student student = datas.getValue(Student.class);
-                        array_all.add(student);
-                    }
-                    array_student_accepted.clear();
-                    array_student_waiting.clear();
-                    if (array_all.size() > 0) {
-                        sort_array(array_all, 0);
-                    }
-                }
-
+        array_student_accepted.clear();
+        array_student_waiting.clear();
+        for (Student student:Utils.currentSchool.students) {
+            if (student.isAllow) {
+                array_student_accepted.add(student);
+            } else {
+                array_student_waiting.add(student);
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-    void sort_array(final ArrayList<Student> arrayList, final int i) {
-        final Student student = arrayList.get(i);
-        Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue()!=null) {
-                    User user = dataSnapshot.getValue(User.class);
-                    if (user.isAllow) {
-                        array_student_accepted.add(student);
-                    } else {
-                        array_student_waiting.add(student);
-                    }
-                    if (i == arrayList.size()-1) {
-                        if (array_student_waiting.size() == 0) {
-                            txt_waiting.setVisibility(View.GONE);
-                        } else {
-                            txt_waiting.setVisibility(View.VISIBLE);
-                            txt_waiting.setText(String.valueOf(array_student_waiting.size()));
-                        }
-                        if (flag_accepted) {
-                            studentAcceptedListAdapter.notifyDataSetChanged();
-                            if (array_student_accepted.size() == 0) {
-                                ly_no_items.setVisibility(View.VISIBLE);
-                            } else {
-                                ly_no_items.setVisibility(View.GONE);
-                            }
-                        } else {
-                            studentWaitingListAdapter.notifyDataSetChanged();
-                            if (array_student_waiting.size() == 0) {
-                                ly_no_items.setVisibility(View.VISIBLE);
-                            } else {
-                                ly_no_items.setVisibility(View.GONE);
-                            }
-                        }
-                        return;
-                    } else {
-                        int in = i;
-                        sort_array(arrayList, in++);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        }
+        studentAcceptedListAdapter.notifyDataSetChanged();
+        studentWaitingListAdapter.notifyDataSetChanged();
+        if (array_student_waiting.size() > 0) {
+            txt_waiting.setText(String.valueOf(array_student_waiting.size()));
+            txt_waiting.setVisibility(View.VISIBLE);
+        } else {
+            txt_waiting.setVisibility(View.GONE);
+        }
     }
     @Override
     public void onResume() {

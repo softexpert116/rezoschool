@@ -24,7 +24,6 @@ import com.ediattah.rezoschool.ui.MainActivity;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.ediattah.rezoschool.App.array_course;
 
 public class StudentCourseFragment extends Fragment {
     MainActivity activity;

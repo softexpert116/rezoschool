@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,18 +17,13 @@ import android.widget.TextView;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Syllabus;
 import com.ediattah.rezoschool.Model.Teacher;
-import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.adapter.TeacherListAdapter;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Class;
-import com.ediattah.rezoschool.Model.DayCourseModel;
-import com.ediattah.rezoschool.Model.SchoolTeacherModel;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.DayCourseListAdapter;
-import com.ediattah.rezoschool.adapter.SchoolTeacherListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -39,8 +33,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.ediattah.rezoschool.App.array_course;
-import static com.ediattah.rezoschool.App.array_teacher;
 
 public class CourseCalendarActivity extends AppCompatActivity {
     Course sel_course;

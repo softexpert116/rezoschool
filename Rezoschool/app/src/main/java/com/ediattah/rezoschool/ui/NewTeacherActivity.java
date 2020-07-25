@@ -3,16 +3,9 @@ package com.ediattah.rezoschool.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.ediattah.rezoschool.App;
-import com.ediattah.rezoschool.Model.UserModel;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.adapter.TeacherListAdapter;
 
@@ -21,7 +14,6 @@ import java.util.ArrayList;
 public class NewTeacherActivity extends AppCompatActivity {
     TeacherListAdapter teacherListAdapter;
     ListView listView;
-    ArrayList<UserModel> arrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +24,6 @@ public class NewTeacherActivity extends AppCompatActivity {
         App.hideKeyboard(this);
 
         listView = findViewById(R.id.listView);
-        arrayList = (ArrayList<UserModel>) App.array_teacher.clone();
 //        teacherListAdapter = new TeacherListAdapter(this, arrayList);
 //        listView.setAdapter(teacherListAdapter);
 //

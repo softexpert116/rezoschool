@@ -47,9 +47,7 @@ import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Message;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
-import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.Model.User;
-import com.ediattah.rezoschool.Model.UserModel;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.ui.ChatActivity;
 import com.ediattah.rezoschool.ui.LoginActivity;
@@ -80,10 +78,6 @@ public class App extends Application {
 
     private static final int MAX_SMS_MESSAGE_LENGTH = 160;
 
-    public static ArrayList<Course> array_course = new ArrayList<>();
-    public static ArrayList<UserModel> array_teacher = new ArrayList<>();
-    public static ArrayList<UserModel> array_school = new ArrayList<>();
-//    public static ArrayList<ParseUser> arrayOnlineUser = new ArrayList<>();
 
     @Override
     public void onCreate() {
@@ -92,23 +86,9 @@ public class App extends Application {
         app = this;
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-
-//        array_teacher.add(new UserModel(1, "Ivan", "", "iva@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER, "English, French", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-//        array_teacher.add(new UserModel(2, "Bruw", "", "bre@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER,  "Mathematics, Physics", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-//        array_teacher.add(new UserModel(3, "Volic", "", "vol@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER, "English, Mathematics", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-//        array_teacher.add(new UserModel(4, "Olga", "", "ol@gmail.com", "pass", "+225", "CoteDiVoire", "12345678", "Advijan", TEACHER, "English", "1234",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-//
-//        array_school.add(new UserModel(1, "School A", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL, "English, French", "1234", SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-//        array_school.add(new UserModel(2, "School B", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL,  "Mathematics, Physics", "1235",SCHOOL_PUBLIC, SCHOOL_SECONDARY));
-//        array_school.add(new UserModel(3, "School C", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL, "English, Mathematics", "1236",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-//        array_school.add(new UserModel(4, "School D", "", "", "", "+225", "CoteDiVoire", "12345678", "Advijan", SCHOOL, "English", "1237",SCHOOL_PRIVATE, SCHOOL_PRIMARY));
-//
-//        array_course.add(new Course("English"));
-//        array_course.add(new Course("Mathematics"));
-//        array_course.add(new Course("Physics"));
     }
 
-    public static void getCurrentSchool() {
+    public static void getSchoolInfo() {
         Utils.mDatabase.child(Utils.tbl_school).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -129,34 +109,28 @@ public class App extends Application {
             }
         });
     }
-    public static void getCurrentStudent() {
-        Utils.mDatabase.child(Utils.tbl_student).orderByChild("uid").equalTo(Utils.mUser.getUid()).addValueEventListener(new ValueEventListener() {
+    public static void getStudentInfo() {
+        Utils.mDatabase.child(Utils.tbl_school).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     for(DataSnapshot datas: dataSnapshot.getChildren()){
-                        Utils.currentStudent = datas.getValue(Student.class);
-                        Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentStudent.school_id).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getValue()!=null) {
-                                    Utils.currentSchool = dataSnapshot.getValue(School.class);
-                                    Utils.currentSchool._id = dataSnapshot.getKey();
-                                    for (Class _class:Utils.currentSchool.classes) {
-                                        if (_class.name.equals(Utils.currentStudent.class_name)) {
-                                            Utils.currentClass = _class;
-                                            break;
-                                        }
+                        School school = datas.getValue(School.class);
+                        school._id = datas.getKey();
+                        for (Student student:school.students) {
+                            if (student.uid.equals(Utils.mUser.getUid())) {
+                                student.school_id = school._id;
+                                Utils.currentSchool = school;
+                                Utils.currentStudent = student;
+                                for (Class _class:school.classes) {
+                                    if (_class.name.equals(student.class_name)) {
+                                        Utils.currentClass = _class;
+                                        break;
                                     }
-
                                 }
+                                return;
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
+                        }
                     }
                 }
             }
@@ -239,9 +213,9 @@ public class App extends Application {
                                     Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TOKEN).setValue(Utils.getDeviceToken(activity));
                                     // go to main page
                                     if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
-                                        getCurrentSchool();
+                                        getSchoolInfo();
                                     } else if (Utils.currentUser.type.equals(Utils.STUDENT)) {
-                                        getCurrentStudent();
+                                        getStudentInfo();
                                     }
                                     Intent intent = new Intent(activity, MainActivity.class);
                                     activity.startActivity(intent);

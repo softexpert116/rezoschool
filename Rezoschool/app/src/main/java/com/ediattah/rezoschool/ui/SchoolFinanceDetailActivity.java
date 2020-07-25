@@ -38,58 +38,18 @@ public class SchoolFinanceDetailActivity extends AppCompatActivity {
         read_students();
     }
     public void read_students() {
-        final ArrayList<Student> array_all = new ArrayList<>();
-        Utils.mDatabase.child(Utils.tbl_student).orderByChild("school_id").equalTo(Utils.currentSchool._id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue()!=null) {
-                    array_all.clear();
-                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
-                        final Student student = datas.getValue(Student.class);
-                        array_all.add(student);
-                    }
-                    if (array_all.size() > 0) {
-                        sort_array(array_all, 0);
-                    }
-                }
+        array_student_accepted.clear();
+        for (Student student:Utils.currentSchool.students) {
+            if (student.isAllow) {
+                array_student_accepted.add(student);
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-    void sort_array(final ArrayList<Student> arrayList, final int i) {
-        final Student student = arrayList.get(i);
-        Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue()!=null) {
-                    User user = dataSnapshot.getValue(User.class);
-                    if (user.isAllow) {
-                        array_student_accepted.add(student);
-                    }
-                    if (i == arrayList.size()-1) {
-                        financeDetailListAdapter.notifyDataSetChanged();
-                        if (array_student_accepted.size() == 0) {
-                            ly_no_items.setVisibility(View.VISIBLE);
-                        } else {
-                            ly_no_items.setVisibility(View.GONE);
-                        }
-                        return;
-                    } else {
-                        int in = i;
-                        sort_array(arrayList, in++);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        }
+        financeDetailListAdapter.notifyDataSetChanged();
+        if (array_student_accepted.size() == 0) {
+            ly_no_items.setVisibility(View.VISIBLE);
+        } else {
+            ly_no_items.setVisibility(View.GONE);
+        }
     }
     @Override
     public boolean onSupportNavigateUp() {

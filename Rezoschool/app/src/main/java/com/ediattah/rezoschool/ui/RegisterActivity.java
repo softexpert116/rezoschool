@@ -335,13 +335,11 @@ public class RegisterActivity extends AppCompatActivity {
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_CITY).setValue(user.city);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TYPE).setValue(Utils.currentUser.type);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TOKEN).setValue(user.token);
+        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_ALLOW).setValue(false);
         // currentUser setting --------------
         Utils.currentUser = user;
         Utils.currentUser._id = Utils.mUser.getUid();
-        String msg = "Successfully registered! You can login after you are allowed by School staff.";
-        if (Utils.currentUser.type.equals(Utils.SCHOOL)||Utils.currentUser.type.equals(Utils.PARENT)) {
-            msg = "Successfully registered! You can login after you are allowed by Admin.";
-        }
+        String msg = "Successfully registered! You can login after you are allowed by Admin.";
         Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -407,8 +405,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Class sel_class = array_class.get(classAdapter.sel_index);
-                Student student = new Student(Utils.mUser.getUid(), parent_id, school_id, sel_class.name, isNew);
-                Utils.mDatabase.child(Utils.tbl_student).push().setValue(student);
+                Student student = new Student(Utils.mUser.getUid(), parent_id, school_id, sel_class.name, isNew, false);
+                Utils.currentSchool.students.add(student);
+                Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("students").setValue(Utils.currentSchool.students);
                 register_newUser(user);
                 dlg.dismiss();
             }

@@ -14,14 +14,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.ediattah.rezoschool.App;
-import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Teacher;
-import com.ediattah.rezoschool.Model.UserModel;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
-import com.ediattah.rezoschool.fragments.TeacherSchoolFragment;
 
 import java.util.ArrayList;
 

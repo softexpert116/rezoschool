@@ -16,7 +16,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.Model.User;
-import com.ediattah.rezoschool.Model.UserModel;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.google.firebase.database.DataSnapshot;

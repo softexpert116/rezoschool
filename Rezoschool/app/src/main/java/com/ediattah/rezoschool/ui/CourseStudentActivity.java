@@ -46,56 +46,31 @@ public class CourseStudentActivity extends AppCompatActivity {
         read_course_classes();
     }
     void read_course_classes() {
-        Utils.mDatabase.child(Utils.tbl_school).child(sel_school._id).child("classes").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                array_class.clear();
-                if (dataSnapshot.getValue() != null) {
-                    for(DataSnapshot datas: dataSnapshot.getChildren()){
-                        Class _class = datas.getValue(Class.class);
-                        if (_class.courses.contains(sel_course.name)) {
-                            array_class.add(_class);
-                        }
-                    }
-                }
-                read_course_students();
+        array_class.clear();
+        for(Class _class: Utils.currentSchool.classes){
+            if (_class.courses.contains(sel_course.name)) {
+                array_class.add(_class);
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        }
+        read_course_students();
     }
     void read_course_students() {
-        Utils.mDatabase.child(Utils.tbl_student).orderByChild("school_id").equalTo(sel_school._id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue()!=null) {
-                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
-                        Student student = datas.getValue(Student.class);
-                        String class_name = student.class_name;
-                        for (Class _class:array_class) {
-                            if (class_name.equals(_class.name)) {
-                                array_student.add(student);
-                                break;
-                            }
-                        }
-                    }
-                    if (array_student.size() == 0) {
-                        ly_no_items.setVisibility(View.VISIBLE);
-                    } else {
-                        ly_no_items.setVisibility(View.GONE);
-                    }
-                    studentListAdapter.notifyDataSetChanged();
+        for (Student student:Utils.currentSchool.students) {
+            String class_name = student.class_name;
+            for (Class _class:array_class) {
+                if (class_name.equals(_class.name)) {
+                    array_student.add(student);
+                    break;
                 }
             }
+        }
+        if (array_student.size() == 0) {
+            ly_no_items.setVisibility(View.VISIBLE);
+        } else {
+            ly_no_items.setVisibility(View.GONE);
+        }
+        studentListAdapter.notifyDataSetChanged();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
     @Override
     public boolean onSupportNavigateUp() {

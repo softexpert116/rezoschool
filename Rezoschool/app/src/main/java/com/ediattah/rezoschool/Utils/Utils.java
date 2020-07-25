@@ -54,7 +54,6 @@ public class Utils {
 //    public static Location currentLocation;
 //    public static String mFuncUrl = "https://us-central1-taxikini-9a743.cloudfunctions.net";
     public static String tbl_user = "users";
-    public static String tbl_student = "students";
     public static String tbl_school = "schools";
     public static String tbl_tweet = "tweets";
     public static String tbl_library = "library";
@@ -74,7 +73,7 @@ public class Utils {
     public static String USER_COUNTRY = "country";
     public static String USER_CITY = "city";
     public static String USER_TOKEN = "token";
-    public static String USER_SCHOOL_ID = "school_id";
+    public static String USER_ALLOW = "isAllow";
 
     public static String SCHOOL_NUMBER = "number";
     public static String SCHOOL_TYPE = "type";

@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Exam;
+import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.ui.StudentDetailActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,14 +56,20 @@ public class ParentStudentFragment extends Fragment {
     }
 
     public void read_students() {
-        Utils.mDatabase.child(Utils.tbl_student).orderByChild("parent_id").equalTo(Utils.mUser.getUid()).addValueEventListener(new ValueEventListener() {
+        Utils.mDatabase.child(Utils.tbl_school).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 array_student.clear();
-                if (dataSnapshot.getValue()!=null) {
-                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
-                        Student student = datas.getValue(Student.class);
-                        array_student.add(student);
+                if (dataSnapshot.getValue() != null) {
+                    for(DataSnapshot datas: dataSnapshot.getChildren()){
+                        School school = datas.getValue(School.class);
+                        school._id = datas.getKey();
+                        for (Student student:school.students) {
+                            if (student.parent_id.equals(Utils.mUser.getUid())) {
+                                student.school_id = school._id;
+                                array_student.add(student);
+                            }
+                        }
                     }
                 }
                 childListAdapter.notifyDataSetChanged();
@@ -72,6 +80,15 @@ public class ParentStudentFragment extends Fragment {
 
             }
         });
+
+
+        array_student.clear();
+        for (Student student:Utils.currentSchool.students) {
+            if (student.parent_id.equals(Utils.mUser.getUid())) {
+                array_student.add(student);
+            }
+        }
+        childListAdapter.notifyDataSetChanged();
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

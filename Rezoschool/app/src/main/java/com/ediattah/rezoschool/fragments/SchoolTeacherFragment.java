@@ -15,33 +15,27 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.App;
-import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.SchoolAddTeacherActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ediattah.rezoschool.Model.SchoolTeacherModel;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.adapter.SchoolTeacherListAdapter;
 import com.ediattah.rezoschool.ui.MainActivity;
-import com.ediattah.rezoschool.ui.NewTeacherActivity;
-import com.ediattah.rezoschool.ui.TeacherDetailActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.ediattah.rezoschool.App.array_course;
-import static com.ediattah.rezoschool.App.array_teacher;
 
 public class SchoolTeacherFragment extends Fragment {
     MainActivity activity;
@@ -53,6 +47,7 @@ public class SchoolTeacherFragment extends Fragment {
     TextView txt_name;
     String sel_userId;
     LinearLayout ly_no_items;
+    RelativeLayout ly_bottom;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +56,7 @@ public class SchoolTeacherFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_school_teacher, container, false);
         listView = v.findViewById(R.id.listView);
         ly_no_items = v.findViewById(R.id.ly_no_items);
+        ly_bottom = v.findViewById(R.id.ly_bottom);
         img_photo = v.findViewById(R.id.img_photo);
         txt_name = v.findViewById(R.id.txt_name);
 
@@ -106,9 +102,15 @@ public class SchoolTeacherFragment extends Fragment {
                 Toast.makeText(activity, "click video", Toast.LENGTH_SHORT).show();
             }
         });
-        if (Utils.currentSchool.teachers.size() > 0) {
-            chooseTeacher(Utils.currentSchool.teachers.get(0));
-        }
+
+        FloatingActionButton fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, SchoolAddTeacherActivity.class);
+                activity.startActivity(intent);
+            }
+        });
         return v;
     }
     void chooseTeacher(Teacher teacher) {
@@ -165,6 +167,12 @@ public class SchoolTeacherFragment extends Fragment {
     public void onResume() {
         super.onResume();
         teacher_update_listener();
+        if (Utils.currentSchool.teachers.size() > 0) {
+            chooseTeacher(Utils.currentSchool.teachers.get(0));
+            ly_bottom.setVisibility(View.VISIBLE);
+        } else {
+            ly_bottom.setVisibility(View.GONE);
+        }
     }
 
     public void onAttach(Context context) {

@@ -28,6 +28,7 @@
                     android:layout_marginTop="10dp"
                     android:textColor="@color/white"
                     android:textSize="30dp"
+                    android:textStyle="bold"
                     android:padding="2dp"
                     android:fontFamily="@font/gibson_regular"
                     />
@@ -47,7 +48,7 @@
                     android:layout_below="@+id/txt_name"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
-                    android:padding="10dp"
+                    android:padding="0dp"
                     android:visibility="gone"
                     />
             </RelativeLayout>

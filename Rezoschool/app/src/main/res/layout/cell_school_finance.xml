@@ -158,6 +158,8 @@
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/ic_erase"
                 android:visibility="gone"
+                android:clickable="false"
+                android:focusable="false"
                 />
 
         </RelativeLayout>

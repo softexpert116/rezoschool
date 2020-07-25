@@ -191,35 +191,24 @@ public class AlumniFragment extends Fragment {
         dlg.show();
     }
     public void read_students() {
-        Utils.mDatabase.child(Utils.tbl_student).orderByChild("school_id").equalTo(sel_school._id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                array_student_all.clear();array_student_filtered.clear();
-                if (dataSnapshot.getValue()!=null) {
-                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
-                        final Student student = datas.getValue(Student.class);
-                        if (student.uid.equals(Utils.mUser.getUid())) {
-                            continue;
-                        }
-                        array_student_all.add(student);
-                    }
-                    array_student_filtered = new ArrayList<>(array_student_all);
+        for (Student student:Utils.currentSchool.students) {
+            if (student.isAllow) {
+                if (student.uid.equals(Utils.mUser.getUid())) {
+                    continue;
                 }
-                studentListAdapter.arrayList = array_student_filtered;
-                studentListAdapter.notifyDataSetChanged();
-                if (array_student_filtered.size() == 0) {
-                    ly_no_items.setVisibility(View.VISIBLE);
-                } else {
-                    ly_no_items.setVisibility(View.GONE);
-                }
-                read_student_user();
+                array_student_all.add(student);
             }
+        }
+        array_student_filtered = new ArrayList<>(array_student_all);
+        studentListAdapter.arrayList = array_student_filtered;
+        studentListAdapter.notifyDataSetChanged();
+        if (array_student_filtered.size() == 0) {
+            ly_no_items.setVisibility(View.VISIBLE);
+        } else {
+            ly_no_items.setVisibility(View.GONE);
+        }
+        read_student_user();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
     void read_student_user() {
         array_user.clear();
