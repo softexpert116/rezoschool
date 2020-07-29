@@ -37,11 +37,11 @@ import java.util.ArrayList;
 public class SchoolClassFragment extends Fragment {
 
     MainActivity activity;
-    Button btn_class, btn_course, btn_level;
+    Button btn_class, btn_level;
     int flag = 2;
     ListView listView;
     ClassListAdapter classListAdapter;
-    SchoolCourseListAdapter schoolCourseListAdapter;
+
     SchoolLevelListAdapter schoolLevelListAdapter;
 
     @Override
@@ -50,10 +50,9 @@ public class SchoolClassFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_class_school, container, false);
         btn_class = v.findViewById(R.id.btn_class);
-        btn_course = v.findViewById(R.id.btn_course);
         btn_level = v.findViewById(R.id.btn_level);
         setTabWithFlag(flag);
-        schoolCourseListAdapter = new SchoolCourseListAdapter(activity, Utils.currentSchool.courses, null);
+
         classListAdapter = new ClassListAdapter(activity, Utils.currentSchool.classes);
         schoolLevelListAdapter = new SchoolLevelListAdapter(activity, Utils.currentSchool.levels);
 
@@ -66,14 +65,7 @@ public class SchoolClassFragment extends Fragment {
                 listView.setAdapter(classListAdapter);
             }
         });
-        btn_course.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flag = 1;
-                setTabWithFlag(flag);
-                listView.setAdapter(schoolCourseListAdapter);
-            }
-        });
+
         btn_level.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,9 +82,6 @@ public class SchoolClassFragment extends Fragment {
                 switch (flag) {
                     case 0:
                         intent = new Intent(activity, NewClassActivity.class);
-                        break;
-                    case 1:
-                        intent = new Intent(activity, NewCourseActivity.class);
                         break;
                     default:
                         intent = new Intent(activity, NewLevelActivity.class);
@@ -126,50 +115,17 @@ public class SchoolClassFragment extends Fragment {
     void setTabWithFlag(int flag) {
         btn_level.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         btn_class.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        btn_course.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         if (flag == 0) {
             btn_level.setTextColor(Color.parseColor("#d0d0d0"));
-            btn_course.setTextColor(Color.parseColor("#d0d0d0"));
             btn_class.setTextColor(getResources().getColor(R.color.colorText));
             btn_class.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
-        } else if (flag == 1) {
-            btn_class.setTextColor(Color.parseColor("#d0d0d0"));
-            btn_level.setTextColor(Color.parseColor("#d0d0d0"));
-            btn_course.setTextColor(getResources().getColor(R.color.colorText));
-            btn_course.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
         } else {
-            btn_course.setTextColor(Color.parseColor("#d0d0d0"));
             btn_class.setTextColor(Color.parseColor("#d0d0d0"));
             btn_level.setTextColor(getResources().getColor(R.color.colorText));
             btn_level.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
         }
     }
-    void course_update_listener() {
-        Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("courses").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Utils.currentSchool.courses.clear();
-                if (dataSnapshot.getValue() != null) {
-                    for(DataSnapshot datas: dataSnapshot.getChildren()){
-                        Course course = datas.getValue(Course.class);
-                        Utils.currentSchool.courses.add(course);
-                    }
-                }
-                activity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        schoolCourseListAdapter.arrayList = Utils.currentSchool.courses;
-                        schoolCourseListAdapter.notifyDataSetChanged();
-                    }
-                });
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
     void level_update_listener() {
         Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("levels").addValueEventListener(new ValueEventListener() {
             @Override
@@ -224,7 +180,6 @@ public class SchoolClassFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        course_update_listener();
         class_update_listener();
         level_update_listener();
     }

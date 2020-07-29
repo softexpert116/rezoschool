@@ -47,26 +47,6 @@
                 android:textAllCaps="false"
                 android:fontFamily="@font/gibson_bold"
                 />
-            <RelativeLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#d0d0d0"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                />
-            <Button
-                android:id="@+id/btn_course"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="20dp"
-                android:background="@color/colorPrimary"
-                android:text="COURSE"
-                android:textColor="#d0d0d0"
-                android:focusable="false"
-                android:textAllCaps="false"
-                android:fontFamily="@font/gibson_bold"
-                />
         </LinearLayout>
     </RelativeLayout>
     <ListView

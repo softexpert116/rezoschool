@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class SchoolCourseListAdapter extends BaseAdapter {
     public ArrayList<Course> arrayList;
     ArrayList<Course> array_sel;
-
+    public boolean flag_class = false;
     Context context;
 
     public SchoolCourseListAdapter(Context _context, ArrayList<Course> _arrayList, ArrayList<Course> array_sel) {
@@ -96,13 +96,15 @@ public class SchoolCourseListAdapter extends BaseAdapter {
         RelativeLayout ly_sel = view.findViewById(R.id.ly_sel);
         ly_sel.setBackground(context.getDrawable(R.color.white));
         if (array_sel != null) {
-            if (array_sel.contains(_course)) {
-                ly_sel.setBackground(context.getDrawable(R.color.colorPrimary));
+            for (Course course:array_sel) {
+                if (course.name.equals(_course.name)) {
+                    ly_sel.setBackground(context.getDrawable(R.color.colorPrimary));
+                    break;
+                }
             }
             btn_remove.setVisibility(View.GONE);
         } else {
             btn_remove.setVisibility(View.VISIBLE);
-
         }
         LinearLayout ly_time = view.findViewById(R.id.ly_time);
         if (_course.times.size() == 0) {
@@ -114,27 +116,114 @@ public class SchoolCourseListAdapter extends BaseAdapter {
             int j = 0;
             while (j < _course.times.size()) {
                 View view1 = inflater.inflate(R.layout.cell_timeslot, null);
-                LinearLayout ly1 = view1.findViewById(R.id.ly1);
-                LinearLayout ly2 = view1.findViewById(R.id.ly2);
+                final LinearLayout ly1 = view1.findViewById(R.id.ly1);
+                final LinearLayout ly2 = view1.findViewById(R.id.ly2);
+
                 TextView txt_day1 = view1.findViewById(R.id.txt_day1);
                 TextView txt_day2 = view1.findViewById(R.id.txt_day2);
                 TextView txt_time1 = view1.findViewById(R.id.txt_time1);
                 TextView txt_time2 = view1.findViewById(R.id.txt_time2);
-                CourseTime courseTime1 = _course.times.get(j);
+
+                final CourseTime courseTime1 = _course.times.get(j);
+                CourseTime courseTime2 = null;
                 txt_day1.setText(Utils.getDayStrFromInt(courseTime1.dayOfWeek));
                 txt_time1.setText(courseTime1.start_time + "~" + courseTime1.end_time);
                 if (_course.times.size() > j+1) {
-                    CourseTime courseTime2 = _course.times.get(j+1);
+                    courseTime2 = _course.times.get(j+1);
                     txt_day2.setText(Utils.getDayStrFromInt(courseTime2.dayOfWeek));
                     txt_time2.setText(courseTime2.start_time + "~" + courseTime2.end_time);
                 } else {
                     ly2.setVisibility(View.INVISIBLE);
                 }
+                if (flag_class) {
+                    ly1.setTag("0");
+                    ly1.setBackground(context.getResources().getDrawable(R.drawable.frame_round));
+                    ly2.setTag("0");
+                    ly2.setBackground(context.getResources().getDrawable(R.drawable.frame_round));
+                    if (array_sel.size() > 0) {
+                        for (Course course:array_sel) {
+                            if (course.name.equals(_course.name)) {
+                                CourseTime sel_courseTime = course.times.get(0);
+                                if (courseTime1.equals(sel_courseTime)) {
+                                    ly1.setTag("1");
+                                    ly1.setBackground(context.getResources().getDrawable(R.drawable.frame_round_dark));
+                                    break;
+                                }
+                                if (courseTime2!=null) {
+                                    if (courseTime2.equals(sel_courseTime)) {
+                                        ly2.setTag("1");
+                                        ly2.setBackground(context.getResources().getDrawable(R.drawable.frame_round_dark));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ly1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ArrayList<CourseTime> arrayList = new ArrayList<>();
+                            arrayList.add(courseTime1);
+                            Course course = new Course(_course.name, arrayList);
+                            boolean flag = false;
+                            int flag_index = 0;
+                            for (int k = 0; k < array_sel.size(); k++) {
+                                Course sel_course = array_sel.get(k);
+                                if (sel_course.name.equals(course.name)) {
+                                    flag = true;
+                                    flag_index = k;
+                                    break;
+                                }
+                            }
+                            if (ly1.getTag().equals("1")) {
+                                if (flag) {
+                                    array_sel.remove(flag_index);
+                                }
+                            } else {
+                                if (!flag) {
+                                    array_sel.add(course);
+                                } else {
+                                    array_sel.set(flag_index, course);
+                                }
+                            }
+                            notifyDataSetChanged();
+                        }
+                    });
+                    final CourseTime finalCourseTime = courseTime2;
+                    ly2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ArrayList<CourseTime> arrayList = new ArrayList<>();
+                            arrayList.add(finalCourseTime);
+                            Course course = new Course(_course.name, arrayList);
+                            boolean flag = false;
+                            int flag_index = 0;
+                            for (int k = 0; k < array_sel.size(); k++) {
+                                Course sel_course = array_sel.get(k);
+                                if (sel_course.name.equals(course.name)) {
+                                    flag = true;
+                                    flag_index = k;
+                                    break;
+                                }
+                            }
+                            if (ly2.getTag().equals("1")) {
+                                if (flag) {
+                                    array_sel.remove(flag_index);
+                                }
+                            } else {
+                                if (!flag) {
+                                    array_sel.add(course);
+                                } else {
+                                    array_sel.set(flag_index, course);
+                                }
+                            }
+                            notifyDataSetChanged();
+                        }
+                    });
+                }
                 ly_time.addView(view1);
                 j +=2;
             }
-
-
         }
         return view;
     }

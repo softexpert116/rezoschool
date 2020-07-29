@@ -37,11 +37,11 @@ public class StudentCourseFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_student_course, container, false);
         ListView listView = (ListView)v.findViewById(R.id.listView);
         ly_no_items = v.findViewById(R.id.ly_no_items);
-        ArrayList<String> arrayStrList = new ArrayList<String>(Arrays.asList(Utils.currentClass.courses.split(",")));
-        for (String courseStr:arrayStrList) {
-            Course course = new Course(courseStr, new ArrayList<CourseTime>());
-            arrayList.add(course);
-        }
+//        ArrayList<String> arrayStrList = new ArrayList<String>(Arrays.asList(Utils.currentClass.courses.split(",")));
+//        for (String courseStr:arrayStrList) {
+//            Course course = new Course(courseStr, new ArrayList<CourseTime>());
+//            arrayList.add(course);
+//        }
         if (arrayList.size() == 0) {
             ly_no_items.setVisibility(View.VISIBLE);
         } else {

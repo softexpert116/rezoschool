@@ -33,6 +33,7 @@
             android:background="@drawable/btn_round"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            android:visibility="gone"
             />
     </RelativeLayout>
     <androidx.cardview.widget.CardView
@@ -57,9 +58,10 @@
         android:gravity="center_vertical"
         >
         <TextView
+            android:id="@+id/txt_school_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Courses per school"
+            android:text="My Courses in school"
             android:fontFamily="@font/gibson_regular"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -76,6 +78,7 @@
             android:background="@drawable/btn_round"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            android:visibility="gone"
             />
     </RelativeLayout>
 

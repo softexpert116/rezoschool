@@ -58,11 +58,13 @@
                                 />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/ly_class"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             >
                             <TextView
+                                android:id="@+id/txt_class_t"
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:text="Class: "
@@ -79,11 +81,13 @@
                                 />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/ly_school"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             >
                             <TextView
+                                android:id="@+id/txt_school_t"
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:text="School: "
@@ -102,6 +106,7 @@
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ly_tool"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"

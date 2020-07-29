@@ -7,11 +7,13 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
+import com.ediattah.rezoschool.Model.CourseTime;
 import com.ediattah.rezoschool.Model.Level;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
@@ -31,11 +34,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class NewClassActivity extends AppCompatActivity {
-    EditText edit_course, edit_level, edit_name;
+    EditText edit_level, edit_name;
     SchoolCourseListAdapter schoolCourseListAdapter;
     SchoolLevelListAdapter schoolLevelListAdapter;
     ArrayList<Course> array_course_sel = new ArrayList<>();
     ProgressDialog progressDialog;
+    TextView txt_course;
+    LinearLayout ly_course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +59,9 @@ public class NewClassActivity extends AppCompatActivity {
         });
         edit_name = findViewById(R.id.edit_name);
 
-        edit_course = (EditText)findViewById(R.id.edit_course);
-        edit_course.setOnClickListener(new View.OnClickListener() {
+        ly_course = findViewById(R.id.ly_course);
+        txt_course = (TextView) findViewById(R.id.txt_course);
+        txt_course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openAddCourseDialog();
@@ -67,8 +73,7 @@ public class NewClassActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String level = edit_level.getText().toString().trim();
                 final String name = edit_name.getText().toString().trim();
-                final String courses = edit_course.getText().toString();
-                if (level.length()*name.length()*courses.length() == 0) {
+                if (level.length()*name.length()*array_course_sel.size() == 0) {
                     Utils.showAlert(NewClassActivity.this, "Warning", "Please fill in the blank field");
                     return;
                 }
@@ -83,7 +88,20 @@ public class NewClassActivity extends AppCompatActivity {
                     Utils.showAlert(NewClassActivity.this, "Warning", "The class name already exists.");
                     return;
                 }
-                Class _class = new Class(level, name, courses);
+                Class _class = new Class(level, name, array_course_sel);
+                for (Class aClass:Utils.currentSchool.classes) {
+                    if (aClass.level.equals(_class.level)) {
+                        for (Course aCourse:aClass.courses) {
+                            for (Course _course:array_course_sel) {
+                                if (_course.name.equals(aCourse.name) && _course.times.get(0).dayOfWeek == aCourse.times.get(0).dayOfWeek) {
+                                    Utils.showAlert(NewClassActivity.this, "Warning", aCourse.name + " course time table already set by " + aClass.name +
+                                            "\nPlease try other one.");
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
                 Utils.currentSchool.classes.add(_class);
                 Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("classes").setValue(Utils.currentSchool.classes);
                 Toast.makeText(NewClassActivity.this, "Successfully created!", Toast.LENGTH_SHORT).show();
@@ -106,38 +124,45 @@ public class NewClassActivity extends AppCompatActivity {
         ListView listView = dlg.findViewById(R.id.listView);
         array_course_sel.clear();
         schoolCourseListAdapter = new SchoolCourseListAdapter(this, Utils.currentSchool.courses, array_course_sel);
+        schoolCourseListAdapter.flag_class = true;
         listView.setAdapter(schoolCourseListAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Course course = Utils.currentSchool.courses.get(i);
-                if (array_course_sel.contains(course)) {
-                    array_course_sel.remove(course);
-                } else {
-                    array_course_sel.add(course);
-                }
-                schoolCourseListAdapter.notifyDataSetChanged();
-            }
-        });
+
         Button btn_choose = (Button)dlg.findViewById(R.id.btn_choose);
         btn_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String courses = "";
-                for (Course course: array_course_sel) {
-                    if (courses.length() == 0) {
-                        courses += course.name;
-                    } else {
-                        courses += "," + course.name;
-                    }
-                }
-                edit_course.setText(courses);
+                refresh_timeLayout();
                 dlg.dismiss();
             }
         });
         dlg.show();
     }
-
+    public void refresh_timeLayout() {
+        ly_course.removeAllViews();
+        LayoutInflater inflater = LayoutInflater.from(NewClassActivity.this);
+        for (int i = 0; i < array_course_sel.size(); i++) {
+            final Course course = array_course_sel.get(i);
+            View view1 = inflater.inflate(R.layout.cell_class_course, null);
+            TextView txt_course = view1.findViewById(R.id.txt_course);
+            TextView txt_day = view1.findViewById(R.id.txt_day);
+            TextView txt_time = view1.findViewById(R.id.txt_time);
+            Button btn_remove = view1.findViewById(R.id.btn_remove);
+                    final int finalI = i;
+                    btn_remove.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            array_course_sel.remove(finalI);
+                            ly_course.removeViewAt(finalI);
+                            refresh_timeLayout();
+                        }
+                    });
+            txt_course.setText(course.name);
+            CourseTime courseTime = course.times.get(0);
+            txt_day.setText(Utils.getDayStrFromInt(courseTime.dayOfWeek));
+            txt_time.setText(courseTime.start_time + " ~ " + courseTime.end_time);
+            ly_course.addView(view1, i);
+        }
+    }
     public void openAddLevelDialog() {
         final Dialog dlg = new Dialog(this);
         Window window = dlg.getWindow();

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 public class Class implements Serializable {
     public String level;
     public String name;
-    public String courses;
+    public ArrayList<Course> courses;
 
-    public Class(String level, String name, String courses) {
+    public Class(String level, String name, ArrayList<Course> courses) {
         this.level = level;
         this.name = name;
         this.courses = courses;
@@ -16,6 +16,6 @@ public class Class implements Serializable {
     public Class() {
         this.level = "";
         this.name = "";
-        this.courses = "";
+        this.courses = new ArrayList<>();
     }
 }

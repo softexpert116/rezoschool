@@ -29,6 +29,7 @@ import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.SchoolCourseListAdapter;
 import com.ediattah.rezoschool.adapter.SchoolListAdapter;
 import com.ediattah.rezoschool.adapter.TeacherCourseListAdapter;
+import com.ediattah.rezoschool.ui.CourseDetailActivity;
 import com.ediattah.rezoschool.ui.CourseStudentActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
 import com.google.firebase.database.DataSnapshot;
@@ -45,6 +46,7 @@ public class TeacherSchoolFragment extends Fragment {
     TeacherCourseListAdapter teacherCourseListAdapter;
     ArrayList<School> array_school = new ArrayList<>();
     ArrayList<Course> array_course = new ArrayList<>();
+    TextView txt_school_course;
 
     public int sel_index = 0;
     @Override
@@ -52,6 +54,7 @@ public class TeacherSchoolFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_teacher_school, container, false);
+        txt_school_course = v.findViewById(R.id.txt_school_course);
         Button btn_add_course = v.findViewById(R.id.btn_add_course);
         btn_add_course.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +74,7 @@ public class TeacherSchoolFragment extends Fragment {
 
         schoolListAdapter = new SchoolListAdapter(activity, array_school);
         list_school.setAdapter(schoolListAdapter);
-        teacherCourseListAdapter = new TeacherCourseListAdapter(activity, array_course, null);
+        teacherCourseListAdapter = new TeacherCourseListAdapter(activity, array_course);
         list_course.setAdapter(teacherCourseListAdapter);
         list_school.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -87,7 +90,7 @@ public class TeacherSchoolFragment extends Fragment {
         list_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(activity, CourseStudentActivity.class);
+                Intent intent = new Intent(activity, CourseDetailActivity.class);
                 intent.putExtra("COURSE", array_course.get(i));
                 intent.putExtra("SCHOOL", array_school.get(schoolListAdapter.sel_index));
                 startActivity(intent);
@@ -331,19 +334,19 @@ public class TeacherSchoolFragment extends Fragment {
             }
         });
     }
-    void course_update_listener(School school) {
-        Utils.mDatabase.child(Utils.tbl_school).child(school._id).child("teachers").addValueEventListener(new ValueEventListener() {
+    void course_update_listener(final School school) {
+        txt_school_course.setText("My Courses in school " + school.number);
+        Utils.mDatabase.child(Utils.tbl_school).child(school._id).child("courses").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 array_course.clear();
                 if (dataSnapshot.getValue() != null) {
                     for(DataSnapshot datas: dataSnapshot.getChildren()){
-                        Teacher teacher = datas.getValue(Teacher.class);
-                        if (teacher.uid.equals(Utils.mUser.getUid())) {
-                            ArrayList<String> courses_list = new ArrayList<>(Arrays.asList(teacher.courses.split(",")));
-                            for (String courseStr: courses_list) {
-                                if (courseStr.length() > 0) {
-                                    Course course = new Course(courseStr, new ArrayList<CourseTime>());
+                        Course course = datas.getValue(Course.class);
+                        for (Teacher teacher:school.teachers) {
+                            if (teacher.uid.equals(Utils.mUser.getUid())) {
+                                ArrayList<String> arrayStrList = new ArrayList<String>(Arrays.asList(teacher.courses.split(",")));
+                                if (arrayStrList.contains(course.name)) {
                                     array_course.add(course);
                                 }
                             }
@@ -353,7 +356,6 @@ public class TeacherSchoolFragment extends Fragment {
                 activity.runOnUiThread(new Runnable() {
                     public void run() {
                         teacherCourseListAdapter.arrayList = array_course;
-                        teacherCourseListAdapter.school = array_school.get(schoolListAdapter.sel_index);
                         teacherCourseListAdapter.notifyDataSetChanged();
                     }
                 });

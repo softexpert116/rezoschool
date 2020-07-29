@@ -32,6 +32,7 @@ import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.fragments.MessageFragment;
 import com.ediattah.rezoschool.fragments.ProfileFragment;
+import com.ediattah.rezoschool.fragments.TimeslotFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.fragments.AlumniFragment;
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
+            nav_Menu.findItem(R.id.nav_timeslot).setVisible(true);
             nav_Menu.findItem(R.id.nav_class).setVisible(true);
             nav_Menu.findItem(R.id.nav_teacher).setVisible(true);
             nav_Menu.findItem(R.id.nav_student).setVisible(true);
@@ -219,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (Utils.currentUser.type.equals(Utils.TEACHER)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
+            nav_Menu.findItem(R.id.nav_timeslot).setVisible(false);
             nav_Menu.findItem(R.id.nav_class).setVisible(false);
             nav_Menu.findItem(R.id.nav_teacher).setVisible(false);
             nav_Menu.findItem(R.id.nav_student).setVisible(false);
@@ -235,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (Utils.currentUser.type.equals(Utils.PARENT)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
+            nav_Menu.findItem(R.id.nav_timeslot).setVisible(false);
             nav_Menu.findItem(R.id.nav_class).setVisible(false);
             nav_Menu.findItem(R.id.nav_teacher).setVisible(false);
             nav_Menu.findItem(R.id.nav_student).setVisible(false);
@@ -251,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (Utils.currentUser.type.equals(Utils.STUDENT)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
+            nav_Menu.findItem(R.id.nav_timeslot).setVisible(false);
             nav_Menu.findItem(R.id.nav_class).setVisible(false);
             nav_Menu.findItem(R.id.nav_teacher).setVisible(false);
             nav_Menu.findItem(R.id.nav_student).setVisible(false);
@@ -279,6 +284,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             selectFragment(new TweetsFragment());
             setTitle(getResources().getString(R.string.menu_home));
+        } else if (id == R.id.nav_timeslot) {
+            selectFragment(new TimeslotFragment());
+            setTitle(getResources().getString(R.string.menu_timeslot));
         } else if (id == R.id.nav_class) {
             selectFragment(new SchoolClassFragment());
             setTitle(getResources().getString(R.string.menu_class));
