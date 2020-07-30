@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.ediattah.rezoschool.Model.Class;
+import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.Teacher;
@@ -47,16 +48,15 @@ public class ParentViewTeacherActivity extends AppCompatActivity {
                     School school = dataSnapshot.getValue(School.class);
                     for (Class _class:school.classes) {
                         if (_class.name.equals(sel_student.class_name)) {
-//                            ArrayList<String> courseList = new ArrayList<String>(Arrays.asList(_class.courses.split(",")));
-//                            for (String course:courseList) {
-//                                for (Teacher teacher:school.teachers) {
-//                                    if (teacher.courses.contains(course)) {
-//                                        if (!arrayList.contains(teacher)) {
-//                                            arrayList.add(teacher);
-//                                        }
-//                                    }
-//                                }
-//                            }
+                            for (Course course:_class.courses) {
+                                for (Teacher teacher:school.teachers) {
+                                    if (teacher.courses.contains(course.name)) {
+                                        if (!arrayList.contains(teacher)) {
+                                            arrayList.add(teacher);
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

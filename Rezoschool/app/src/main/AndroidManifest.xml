@@ -15,7 +15,8 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.CourseDetailActivity"></activity>
+        <activity android:name=".ui.PDFViewerActivity"></activity>
+        <activity android:name=".ui.CourseDetailActivity" />
         <activity android:name=".ui.SchoolAddTeacherActivity" />
         <activity android:name=".ui.SchoolFinanceDetailActivity" />
         <activity android:name=".ui.NewPaymentActivity" />

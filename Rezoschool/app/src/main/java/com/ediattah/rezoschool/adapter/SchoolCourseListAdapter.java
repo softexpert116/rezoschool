@@ -23,6 +23,7 @@ import com.ediattah.rezoschool.Model.CourseTime;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.ui.MainActivity;
+import com.ediattah.rezoschool.ui.NewSyllabusActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -33,6 +34,8 @@ public class SchoolCourseListAdapter extends BaseAdapter {
     public ArrayList<Course> arrayList;
     ArrayList<Course> array_sel;
     public boolean flag_class = false;
+    public boolean flag_syllabus = false;
+    public CourseTime sel_courseTime;
     Context context;
 
     public SchoolCourseListAdapter(Context _context, ArrayList<Course> _arrayList, ArrayList<Course> array_sel) {
@@ -134,6 +137,22 @@ public class SchoolCourseListAdapter extends BaseAdapter {
                     txt_time2.setText(courseTime2.start_time + "~" + courseTime2.end_time);
                 } else {
                     ly2.setVisibility(View.INVISIBLE);
+                }
+                if (flag_syllabus) {
+                    final NewSyllabusActivity activity = (NewSyllabusActivity)context;
+                    ly1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            activity.refresh_courseTime(_course.name, courseTime1);
+                        }
+                    });
+                    final CourseTime finalCourseTime2 = courseTime2;
+                    ly2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            activity.refresh_courseTime(_course.name, finalCourseTime2);
+                        }
+                    });
                 }
                 if (flag_class) {
                     ly1.setTag("0");

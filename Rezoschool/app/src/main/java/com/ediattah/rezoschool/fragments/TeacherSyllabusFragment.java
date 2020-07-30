@@ -99,6 +99,7 @@ public class TeacherSyllabusFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, NewSyllabusActivity.class);
+                intent.putExtra("Date", sel_date);
                 activity.startActivity(intent);
             }
         });
