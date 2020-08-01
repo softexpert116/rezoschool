@@ -40,6 +40,7 @@ public class ChatListAdapter extends BaseAdapter {
     ArrayList<Message> arrayList;
     ChatActivity context;
     public int index_update = -1;
+    public String roomId;
 
     public ChatListAdapter(ChatActivity _context, ArrayList<Message> _arrayList) {
         context = _context;
@@ -64,16 +65,28 @@ public class ChatListAdapter extends BaseAdapter {
     public View getView(final int i, View view, ViewGroup viewGroup) {
         final Message message = arrayList.get(i);
         LayoutInflater inflater = LayoutInflater.from(context);
-        if (message.sender_id.equals(Utils.mUser.getUid())) {
+        boolean flag_me = message.sender_id.equals(Utils.mUser.getUid());
+
+        if (flag_me) {
             view = inflater.inflate(R.layout.cell_chat_right, null);
         } else {
             view = inflater.inflate(R.layout.cell_chat_left, null);
         }
         RelativeLayout ly_cover = view.findViewById(R.id.ly_cover);
         TextView txt_message = view.findViewById(R.id.txt_message);
+        final TextView txt_seen = view.findViewById(R.id.txt_seen);
         final TextView txt_time = view.findViewById(R.id.txt_time);
         final ImageView img_photo = view.findViewById(R.id.img_photo);
         final ImageView img_pic = view.findViewById(R.id.img_pic);
+        if (flag_me && message.seen) {
+            txt_seen.setVisibility(View.VISIBLE);
+        } else {
+            txt_seen.setVisibility(View.INVISIBLE);
+        }
+        if (!flag_me && !message.seen) {
+            txt_seen.setVisibility(View.VISIBLE);
+            Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").child(message._id).child("seen").setValue(true);
+        }
         txt_message.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {

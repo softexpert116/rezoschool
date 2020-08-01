@@ -33,6 +33,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
 import org.json.JSONObject;
 
@@ -57,7 +61,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-public class App extends Application {
+import static android.content.ContentValues.TAG;
+
+public class App extends Application implements LifecycleObserver {
 
     public static String En = "english";
     public static String Fr = "french";
@@ -85,9 +91,45 @@ public class App extends Application {
         mContext = getApplicationContext();
         app = this;
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+    }
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    private void onAppBackgrounded() {
+        Log.d("MyApp", "App in background");
+//        Toast.makeText(getApplicationContext(), "Background", Toast.LENGTH_SHORT).show();
+        setStatus(0);
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    private void onAppForegrounded() {
+        Log.d("MyApp", "App in foreground");
+//        Toast.makeText(getApplicationContext(), "Foreground", Toast.LENGTH_SHORT).show();
+        setStatus(1);
+    }
+    public static void setStatus(int status) {
+        if (Utils.mUser != null) {
+            Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_STATUS).setValue(status);
+            Utils.currentUser.status = status;
+        }
+    }
+    public static void checkOnline() {
+        Utils.mDatabase.child("info/connected").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+                    Log.d(TAG, "connected");
+                } else {
+                    Log.d(TAG, "not connected");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "Listener was cancelled");
+            }
+        });
+    }
     public static void getSchoolInfo() {
         Utils.mDatabase.child(Utils.tbl_school).addValueEventListener(new ValueEventListener() {
             @Override
@@ -150,17 +192,25 @@ public class App extends Application {
                 String myUid = Utils.mUser.getUid();
                 final String roomId;
                 int compare = myUid.compareTo(user_id);
+                final String user1, user2;
                 if (compare < 0) {
-                    roomId = myUid + user_id;
+                    user1 = myUid;
+                    user2 = user_id;
+//                    roomId = myUid + user_id;
                 } else {
-                    roomId = user_id + myUid;
+                    user1 = user_id;
+                    user2 = myUid;
+//                    roomId = user_id + myUid;
                 }
+                roomId = user1 + user2;
 
                 Utils.mDatabase.child(Utils.tbl_chat).child(roomId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getValue() == null) {
-                            Utils.mDatabase.child(Utils.tbl_chat).child(roomId).push().setValue(new Message());
+                            Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").push().setValue(new Message());
+                            Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("isTyping").child(user1).setValue(false);
+                            Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("isTyping").child(user2).setValue(false);
                         }
                         Intent intent = new Intent(context, ChatActivity.class);
                         intent.putExtra("roomId", roomId);
@@ -172,8 +222,6 @@ public class App extends Application {
 
                     }
                 });
-//                Utils.mDatabase.child(Utils.tbl_chat).child(school._id).child("teachers").setValue(school.teachers);
-//                Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
@@ -209,6 +257,8 @@ public class App extends Application {
                                     activity.startActivity(intent);
                                 } else {
                                     Utils.currentUser._id = Utils.mUser.getUid();
+//status update
+                                    setStatus(1);
 //token update
                                     Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TOKEN).setValue(Utils.getDeviceToken(activity));
                                     // go to main page

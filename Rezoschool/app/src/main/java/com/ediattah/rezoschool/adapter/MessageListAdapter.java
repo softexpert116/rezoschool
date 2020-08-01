@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +78,7 @@ public class MessageListAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(activity);
             view = inflater.inflate(R.layout.cell_message, null);
         }
+        final LinearLayout ly_status = view.findViewById(R.id.ly_status);
         final TextView txt_user = view.findViewById(R.id.txt_user);
         TextView txt_message = view.findViewById(R.id.txt_message);
         final TextView txt_time = view.findViewById(R.id.txt_time);
@@ -85,10 +87,14 @@ public class MessageListAdapter extends BaseAdapter {
         if (message.message.length() == 0) {
             txt_message.setText("[file attached]");
         }
-        if (index_update == i) {
+        txt_message.setTextColor(Color.parseColor("#222222"));
+//        if (index_update == i) {
+//            if (message.receiver_id.equals(Utils.mUser.getUid()) && !message.seen) {
+//                txt_message.setTextColor(Color.parseColor("#A55510"));
+//            }
+//        }
+        if (message.receiver_id.equals(Utils.mUser.getUid()) && !message.seen) {
             txt_message.setTextColor(Color.parseColor("#A55510"));
-        } else {
-            txt_message.setTextColor(Color.parseColor("#222222"));
         }
         txt_time.setText(Utils.getTimeString(new Date(message.timestamp)));
         Utils.mDatabase.child(Utils.tbl_user).child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -99,6 +105,11 @@ public class MessageListAdapter extends BaseAdapter {
                     txt_user.setText(user.name);
                     Glide.with(activity).load(user.photo).apply(new RequestOptions()
                             .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    if (user.status == 0) {
+                        ly_status.setBackground(activity.getResources().getDrawable(R.drawable.status_offline));
+                    } else {
+                        ly_status.setBackground(activity.getResources().getDrawable(R.drawable.status_online));
+                    }
                 }
 
             }

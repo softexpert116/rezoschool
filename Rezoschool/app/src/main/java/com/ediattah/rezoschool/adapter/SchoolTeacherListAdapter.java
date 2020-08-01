@@ -129,6 +129,7 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
                 }
             }
         });
+        final RelativeLayout ly_status = view.findViewById(R.id.ly_status);
         TextView txt_course = view.findViewById(R.id.txt_course);
         txt_course.setText(teacher.courses);
         final TextView txt_teacher = view.findViewById(R.id.txt_teacher);
@@ -159,6 +160,11 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
                             } else {
                                 btn_allow.setText("Allow");
                                 btn_allow.setBackground(context.getDrawable(R.color.colorPrimaryDark));
+                            }
+                            if (user.status == 0) {
+                                ly_status.setBackground(context.getResources().getDrawable(R.drawable.status_offline));
+                            } else {
+                                ly_status.setBackground(context.getResources().getDrawable(R.drawable.status_online));
                             }
                         }
                     }

@@ -98,6 +98,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView txt_type = header.findViewById(R.id.txt_type);
         txt_name.setText(Utils.currentUser.name);
         txt_type.setText(Utils.currentUser.type);
+        LinearLayout ly_status = header.findViewById(R.id.ly_status);
+        if (Utils.currentUser.status == 1) {
+            ly_status.setBackground(getResources().getDrawable(R.drawable.status_online));
+        } else {
+            ly_status.setBackground(getResources().getDrawable(R.drawable.status_offline));
+        }
         ImageView img_photo = (ImageView)header.findViewById(R.id.img_photo);
         Glide.with(this).load(Utils.currentUser.photo).apply(new RequestOptions()
                 .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
@@ -107,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 selectFragment(new ProfileFragment());
                 setTitle(getResources().getString(R.string.user_profile));
                 closeDrawer();
+                getSupportActionBar().hide();
             }
         });
         ImageView img_logout = (ImageView)header.findViewById(R.id.img_lotout);
@@ -114,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
+                App.setStatus(0);
+                Utils.mUser = null;
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(loginIntent);
                 finish();
@@ -182,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             builder.setMessage("Are you going to finish the app?");
             builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog,int id) {
+                    App.setStatus(0);
                     ActivityCompat.finishAffinity(MainActivity.this);
                     System.exit(0);
                 }
@@ -274,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        getSupportActionBar().show();
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;

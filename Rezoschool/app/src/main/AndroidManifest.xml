@@ -22,7 +22,8 @@
         <activity android:name=".ui.NewPaymentActivity" />
         <activity android:name=".ui.NewLevelActivity" />
         <activity android:name=".ui.ImageViewerActivity" />
-        <activity android:name=".ui.ChatActivity" />
+        <activity android:name=".ui.ChatActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.ParentViewExamActivity" />
         <activity android:name=".ui.ParentViewTeacherActivity" />
         <activity android:name=".ui.BulkSMSActivity" />

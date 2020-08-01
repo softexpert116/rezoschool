@@ -2,17 +2,26 @@ package com.ediattah.rezoschool.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +47,10 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ChatActivity extends AppCompatActivity {
     String roomId;
@@ -47,20 +60,33 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<Message> arrayList = new ArrayList<>();
     private Uri imgUri;
     String user_id;
+    TextView txt_title;
+    LinearLayout ly_status;
+    ImageView img_photo;
+    TextView txt_typing;
+    boolean flag_typing = false;
+    int count = 0;
+    Timer timer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Chat");
         App.hideKeyboard(this);
+        txt_title = findViewById(R.id.txt_title);
+        txt_typing = findViewById(R.id.txt_typing);
+        img_photo = findViewById(R.id.img_photo);
+        ly_status = findViewById(R.id.ly_status);
         roomId = getIntent().getStringExtra("roomId");
         user_id = Utils.getChatUserId(roomId);
 //        load_user(user_id);
-
         listView = findViewById(R.id.listView);
         chatListAdapter = new ChatListAdapter(this, arrayList);
+        chatListAdapter.roomId = roomId;
         listView.setAdapter(chatListAdapter);
 
         Button btn_file = findViewById(R.id.btn_file);
@@ -74,6 +100,28 @@ public class ChatActivity extends AppCompatActivity {
         });
         Button btn_send = findViewById(R.id.btn_send);
         final EditText edit_message = findViewById(R.id.edit_message);
+        flag_typing = false;
+        edit_message.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("isTyping").child(Utils.mUser.getUid()).setValue(true);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("isTyping").child(Utils.mUser.getUid()).setValue(false);
+                    }
+                }, 3000);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,18 +129,39 @@ public class ChatActivity extends AppCompatActivity {
                 if (msg.length() == 0) {
                     return;
                 }
-                Message message = new Message("", Utils.mUser.getUid(), user_id, msg, "", System.currentTimeMillis());
-                Utils.mDatabase.child(Utils.tbl_chat).child(roomId).push().setValue(message);
+                Message message = new Message("", Utils.mUser.getUid(), user_id, msg, "", System.currentTimeMillis(), false);
+                Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").push().setValue(message);
                 edit_message.setText("");
             }
         });
         load_user(user_id);
         readMessages();
+        watchTypingEvent();
+    }
+    void watchTypingEvent() {
+        Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("isTyping").child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null) {
+                    boolean isTyping = Boolean.valueOf(dataSnapshot.getValue().toString());
+                    if (isTyping) {
+                        txt_typing.setVisibility(View.VISIBLE);
+                    } else {
+                        txt_typing.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     void readMessages() {
         arrayList.clear();
-        Utils.mDatabase.child(Utils.tbl_chat).child(roomId).addChildEventListener(new ChildEventListener() {
+        Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.getValue()!=null) {
@@ -109,7 +178,13 @@ public class ChatActivity extends AppCompatActivity {
                 if (dataSnapshot.getValue()!=null) {
                     Message message = dataSnapshot.getValue(Message.class);
                     message._id = dataSnapshot.getKey();
-                    arrayList.add(message);
+                    for (int i = 0; i < arrayList.size(); i++) {
+                        if (message._id.equals(arrayList.get(i)._id)) {
+                            arrayList.set(i, message);
+                            break;
+                        }
+                    }
+//                    arrayList.add(message);
                     chatListAdapter.notifyDataSetChanged();
                     listView.smoothScrollToPosition(arrayList.size()-1);
                 }
@@ -150,7 +225,14 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue()!=null) {
                     user = dataSnapshot.getValue(User.class);
-                    setTitle("Chat With " + user.name);
+                    txt_title.setText("Chat With " + user.name);
+                    Glide.with(ChatActivity.this).load(user.photo).apply(new RequestOptions()
+                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    if (user.status == 0) {
+                        ly_status.setBackground(getResources().getDrawable(R.drawable.status_offline));
+                    } else {
+                        ly_status.setBackground(getResources().getDrawable(R.drawable.status_online));
+                    }
                 }
 
             }
@@ -200,8 +282,8 @@ public class ChatActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         progressDialog.dismiss();
                         String downloadUrl = uri.toString();
-                        Message message = new Message("", Utils.mUser.getUid(), user_id, "", downloadUrl, System.currentTimeMillis());
-                        Utils.mDatabase.child(Utils.tbl_chat).child(roomId).push().setValue(message);
+                        Message message = new Message("", Utils.mUser.getUid(), user_id, "", downloadUrl, System.currentTimeMillis(), false);
+                        Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").push().setValue(message);
                     }
                 });
             }
@@ -209,7 +291,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
     public void delete_message(Message message) {
-        Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child(message._id).setValue(null);
+        Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").child(message._id).setValue(null);
     }
     @Override
     public boolean onSupportNavigateUp() {

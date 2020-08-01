@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,6 +94,7 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
                 Toast.makeText(context, "click video", Toast.LENGTH_SHORT).show();
             }
         });
+        final RelativeLayout ly_status = view.findViewById(R.id.ly_status);
         Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -101,6 +103,11 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
                     txt_name.setText(user.name);
                     Glide.with(context).load(user.photo).apply(new RequestOptions()
                             .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    if (user.status == 0) {
+                        ly_status.setBackground(context.getResources().getDrawable(R.drawable.status_offline));
+                    } else {
+                        ly_status.setBackground(context.getResources().getDrawable(R.drawable.status_online));
+                    }
                 }
             }
 

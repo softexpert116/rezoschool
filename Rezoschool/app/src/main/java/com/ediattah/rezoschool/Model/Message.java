@@ -9,14 +9,16 @@ public class Message implements Serializable {
     public String message;
     public String file;
     public long timestamp;
+    public boolean seen;
 
-    public Message(String _id, String sender_id, String receiver_id, String message, String file, long timestamp) {
+    public Message(String _id, String sender_id, String receiver_id, String message, String file, long timestamp, boolean seen) {
         this._id = _id;
         this.sender_id = sender_id;
         this.receiver_id = receiver_id;
         this.message = message;
         this.file = file;
         this.timestamp = timestamp;
+        this.seen = seen;
     }
     public Message() {
         this._id = "";
@@ -25,5 +27,6 @@ public class Message implements Serializable {
         this.message = "";
         this.file = "";
         this.timestamp = 0;
+        this.seen = false;
     }
 }

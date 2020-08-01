@@ -123,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
 
-                User user = new User("", name, "", email, phone, country, city, Utils.currentUser.type, token, true);
+                User user = new User("", name, "", email, phone, country, city, Utils.currentUser.type, token, true, 0);
                 userRegister(user);
             }
         });

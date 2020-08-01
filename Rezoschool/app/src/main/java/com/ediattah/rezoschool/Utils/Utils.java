@@ -74,6 +74,7 @@ public class Utils {
     public static String USER_CITY = "city";
     public static String USER_TOKEN = "token";
     public static String USER_ALLOW = "isAllow";
+    public static String USER_STATUS = "status";
 
     public static String SCHOOL_NUMBER = "number";
     public static String SCHOOL_TYPE = "type";

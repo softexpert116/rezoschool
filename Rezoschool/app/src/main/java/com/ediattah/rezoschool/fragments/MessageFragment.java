@@ -60,10 +60,10 @@ public class MessageFragment extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.getValue()!=null) {
                     boolean flag = dataSnapshot.getKey().contains(Utils.mUser.getUid());
-                    if ( flag) {
+                    if (flag) {
                         ChatRoom chatRoom = new ChatRoom();
                         chatRoom._id = dataSnapshot.getKey();
-                        for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        for (DataSnapshot datas:dataSnapshot.child("messages").getChildren()) {
                             Message message = datas.getValue(Message.class);
                             chatRoom.messages.add(message);
                         }
@@ -80,7 +80,7 @@ public class MessageFragment extends Fragment {
                     if ( flag) {
                         ChatRoom chatRoom = new ChatRoom();
                         chatRoom._id = dataSnapshot.getKey();
-                        for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        for (DataSnapshot datas:dataSnapshot.child("messages").getChildren()) {
                             Message message = datas.getValue(Message.class);
                             chatRoom.messages.add(message);
                         }
