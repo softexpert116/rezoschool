@@ -15,6 +15,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -53,6 +54,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.io.File;
 import java.util.ArrayList;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     NavigationView navigationView;
     FragmentTransaction transaction;
@@ -87,6 +91,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         selectFragment(new TweetsFragment());
         setTitle(getResources().getString(R.string.menu_home));
         setPermission();
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+//        {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+//            {
+//                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_WRITE_EXTERNAL_STORAGE);
+//            }
+//        }
     }
     private void setTitle(String title) {
         txt_title.setText(title);
@@ -131,37 +143,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
     public void setPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ArrayList<String> arrPermissionRequests = new ArrayList<>();
-            arrPermissionRequests.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            arrPermissionRequests.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-            ActivityCompat.requestPermissions(this, arrPermissionRequests.toArray(new String[arrPermissionRequests.size()]), 201);
+            arrPermissionRequests.add(WRITE_EXTERNAL_STORAGE);
+            arrPermissionRequests.add(READ_EXTERNAL_STORAGE);
+//            ActivityCompat.requestPermissions(this, arrPermissionRequests.toArray(new String[arrPermissionRequests.size()]), 201);
+            ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, 201);
+
+
             return;
         } else {
             createDirectory();
         }
     }
     void createDirectory() {
-        String folder_main = App.getApplicationName();
-        File f = new File(Environment.getExternalStorageDirectory(), folder_main);
-        if (!f.exists()) {
-            f.mkdirs();
-        }
-        App.MY_APP_PATH = f.getAbsolutePath();
-        File f2 = new File(Environment.getExternalStorageDirectory() + "/" + folder_main, "image");
+        File assets = getExternalFilesDir("assets");
+//        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "Android", "folder_main");
+//        if (!f.exists()) {
+//            f.mkdir();
+//        }
+        App.MY_APP_PATH = assets.getAbsolutePath();
+        File f2 = new File(App.MY_APP_PATH, "image");
         if (!f2.exists()) {
-            f2.mkdirs();
+            f2.mkdir();
         }
         App.MY_IMAGE_PATH = f2.getAbsolutePath();
+        File f3 = new File(App.MY_APP_PATH, "audio");
+        if (!f3.exists()) {
+            f3.mkdir();
+        }
+        App.MY_AUDIO_PATH = f3.getAbsolutePath();
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 201: {
-                if (grantResults[0] == 0) {
+                if ((grantResults.length > 0) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     createDirectory();
                 } else {
                     Toast.makeText(MainActivity.this, "Permission denied", Toast.LENGTH_SHORT);

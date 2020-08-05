@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".App"
@@ -15,15 +16,17 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.PDFViewerActivity"></activity>
+        <activity android:name=".ui.VoiceRecorderActivity"></activity>
+        <activity android:name=".ui.PDFViewerActivity" />
         <activity android:name=".ui.CourseDetailActivity" />
         <activity android:name=".ui.SchoolAddTeacherActivity" />
         <activity android:name=".ui.SchoolFinanceDetailActivity" />
         <activity android:name=".ui.NewPaymentActivity" />
         <activity android:name=".ui.NewLevelActivity" />
         <activity android:name=".ui.ImageViewerActivity" />
-        <activity android:name=".ui.ChatActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ui.ChatActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.ParentViewExamActivity" />
         <activity android:name=".ui.ParentViewTeacherActivity" />
         <activity android:name=".ui.BulkSMSActivity" />
@@ -59,6 +62,21 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
+        <service
+            android:name=".service.MyFirebaseMessagingService"
+            android:exported="false"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/app_icon" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
     </application>
 
 </manifest>

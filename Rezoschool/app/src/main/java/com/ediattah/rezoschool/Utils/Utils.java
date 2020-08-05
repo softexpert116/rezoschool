@@ -42,6 +42,7 @@ import java.util.Date;
 import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class Utils {
+    public static String fbServerKey = "AAAAJ7tB2oI:APA91bFvxlvHaF4rIhvkhMq6BQu6vQGpdGnT_ntT5m26vx2rxM30I7m4VUQXAeOxXz0oKOxAZy2cEphB-SDAF3OIjr0-RujKPxYJ3Gbjp-lkSoKptjDCBSXCMB2SYTXo-2IWArYGpRrW";
     public static FirebaseAuth auth = FirebaseAuth.getInstance();
     public static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     public static StorageReference mStorage = FirebaseStorage.getInstance().getReference();
@@ -235,6 +236,7 @@ public class Utils {
         }
         return bmpUri;
     }
+
     public static String getDeviceToken(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getString("DEVICE_TOKEN", "");
     }

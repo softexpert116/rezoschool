@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -33,8 +35,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
+
+import me.jagar.chatvoiceplayerlibrary.VoicePlayerView;
 
 public class ChatListAdapter extends BaseAdapter {
     ArrayList<Message> arrayList;
@@ -72,12 +78,35 @@ public class ChatListAdapter extends BaseAdapter {
         } else {
             view = inflater.inflate(R.layout.cell_chat_left, null);
         }
+        CardView card_message = view.findViewById(R.id.card_message);
         RelativeLayout ly_cover = view.findViewById(R.id.ly_cover);
         TextView txt_message = view.findViewById(R.id.txt_message);
         final TextView txt_seen = view.findViewById(R.id.txt_seen);
         final TextView txt_time = view.findViewById(R.id.txt_time);
         final ImageView img_photo = view.findViewById(R.id.img_photo);
         final ImageView img_pic = view.findViewById(R.id.img_pic);
+        final VoicePlayerView voicePlayerView = view.findViewById(R.id.voicePlayerView);
+        voicePlayerView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new BottomSheet.Builder(context,R.style.BottomSheet_StyleDialog).title("Actions").sheet(R.menu.bottom_sheet_audio).listener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case R.id.delete:
+                                if (message.sender_id.equals(Utils.mUser.getUid())) {
+                                    context.delete_message(message);
+                                    Toast.makeText(context, "Voice message deleted!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, "You are not allowed!", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                        }
+                    }
+                }).show();
+                return false;
+            }
+        });
         if (flag_me && message.seen) {
             txt_seen.setVisibility(View.VISIBLE);
         } else {
@@ -165,6 +194,7 @@ public class ChatListAdapter extends BaseAdapter {
         if (message.message.length()>0) {
             txt_message.setVisibility(View.VISIBLE);
             img_pic.setVisibility(View.GONE);
+            voicePlayerView.setVisibility(View.GONE);
             txt_message.setText(message.message);
         } else {
             if (message.file.length() == 0) {
@@ -172,9 +202,25 @@ public class ChatListAdapter extends BaseAdapter {
                 return view;
             }
             txt_message.setVisibility(View.GONE);
-            img_pic.setVisibility(View.VISIBLE);
-            Glide.with(context).load(message.file).apply(new RequestOptions()
-                    .placeholder(R.drawable.default_pic).centerCrop().dontAnimate()).into(img_pic);
+            if (message.file_type.equals("jpeg")) {
+                img_pic.setVisibility(View.VISIBLE);
+                voicePlayerView.setVisibility(View.GONE);
+                Glide.with(context).load(message.file).apply(new RequestOptions()
+                        .placeholder(R.drawable.default_pic).centerCrop().dontAnimate()).into(img_pic);
+            } else if (message.file_type.equals("wav")) {
+                card_message.setCardBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+                img_pic.setVisibility(View.GONE);
+                voicePlayerView.setVisibility(View.VISIBLE);
+                SetAudioTask setAudioTask = new SetAudioTask(voicePlayerView);
+                setAudioTask.execute(message.file);
+//                context.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        voicePlayerView.setAudio(message.file);
+//                    }
+//                });
+
+            }
         }
         txt_time.setText(Utils.getTimeString(new Date(message.timestamp)));
         Utils.mDatabase.child(Utils.tbl_user).child(message.sender_id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -197,6 +243,34 @@ public class ChatListAdapter extends BaseAdapter {
         });
         return view;
     }
+    private class SetAudioTask extends AsyncTask<String, Void, String> {
+        private VoicePlayerView voicePlayerView;
+
+        public SetAudioTask(VoicePlayerView voicePlayerView) {
+            this.voicePlayerView = voicePlayerView;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String path = params[0];
+
+            voicePlayerView.setAudio(path);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
+    }
+
     void do_download(final String url) {
         final ProgressDialog mProgressDialog = new android.app.ProgressDialog(context);
         mProgressDialog.setMessage("Download");
@@ -206,7 +280,7 @@ public class ChatListAdapter extends BaseAdapter {
         mProgressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.setCancelable(false);
-        final String path = App.MY_IMAGE_PATH + "/" + App.getTimestampString() + ".jpg";
+        final String path = App.MY_IMAGE_PATH + File.separator + App.getTimestampString() + ".jpg";
         final DownloadTask downloadTask = new DownloadTask(context, path, new OnTaskResult() {
             @Override
             public void onTaskCompleted() {

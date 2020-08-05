@@ -1,5 +1,6 @@
 package com.ediattah.rezoschool;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationManager;
@@ -16,6 +17,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.util.Base64;
@@ -38,8 +40,10 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -56,10 +60,20 @@ import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.ui.ChatActivity;
 import com.ediattah.rezoschool.ui.LoginActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static android.content.ContentValues.TAG;
 
@@ -79,6 +93,7 @@ public class App extends Application implements LifecycleObserver {
 
     public static String MY_APP_PATH = "";
     public static String MY_IMAGE_PATH = "";
+    public static String MY_AUDIO_PATH = "";
     public static String ediapayUrl = "https://api.ediapay.com/api/";
 
 
@@ -92,6 +107,23 @@ public class App extends Application implements LifecycleObserver {
         app = this;
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+        getFCMToken();
+    }
+    void getFCMToken() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        setPreference("DEVICE_TOKEN", token);
+                    }
+                });
     }
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     private void onAppBackgrounded() {
@@ -289,6 +321,70 @@ public class App extends Application implements LifecycleObserver {
                     }
                 });
     }
+
+    //----------------------------------fcm push notification----------------------------------
+    @SuppressLint("StaticFieldLeak")
+    public static void sendMessage(final String token, final String title, final String body, final String icon, final String message, final Context context) {
+
+        new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    JSONObject root = new JSONObject();
+                    JSONObject notification = new JSONObject();
+                    notification.put("body", body);
+                    notification.put("title", title);
+//                    notification.put("icon", icon);
+
+                    JSONObject data = new JSONObject();
+                    data.put("message", message);
+                    root.put("notification", notification);
+                    root.put("data", data);
+                    root.put("to", token);
+//                    root.put("registration_ids", recipients);
+
+                    String result = postToFCM(root.toString());
+                    Log.d("Main Activity", "Result: " + result);
+                    return result;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                try {
+                    JSONObject resultJson = new JSONObject(result);
+                    int success, failure;
+                    success = resultJson.getInt("success");
+                    failure = resultJson.getInt("failure");
+//                    Toast.makeText(context, "Message Success: " + success + "Message Failed: " + failure, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+//                    Toast.makeText(context, "Message Failed, Unknown error occurred.", Toast.LENGTH_LONG).show();
+                }
+            }
+        }.execute();
+    }
+
+    static String postToFCM(String bodyString) throws IOException {
+        final String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
+        final MediaType JSON
+                = MediaType.parse("application/json; charset=utf-8");
+
+        RequestBody body = RequestBody.create(JSON, bodyString);
+        Request request = new Request.Builder()
+                .url(FCM_MESSAGE_URL)
+                .post(body)
+                .addHeader("Authorization", "key=" + Utils.fbServerKey)
+                .build();
+        OkHttpClient mClient = new OkHttpClient();
+        Response response = mClient.newCall(request).execute();
+        return response.body().string();
+    }
+//---------------------------------------------------------------------------------
+
     public static String getApplicationName() {
         ApplicationInfo applicationInfo = mContext.getApplicationInfo();
         int stringId = applicationInfo.labelRes;

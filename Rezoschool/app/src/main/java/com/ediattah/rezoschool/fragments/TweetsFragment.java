@@ -64,7 +64,7 @@ public class TweetsFragment extends Fragment {
                     for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                         Tweet tweet = childSnapshot.getValue(Tweet.class);
                         tweet._id = childSnapshot.getKey();
-                        arrayList.add(tweet);
+                        arrayList.add(0, tweet);
                     }
                     activity.runOnUiThread(new Runnable() {
                         public void run() {

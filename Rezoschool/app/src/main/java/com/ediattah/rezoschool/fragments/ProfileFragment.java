@@ -208,6 +208,10 @@ public class ProfileFragment extends Fragment {
                     img_status_edit.setVisibility(View.VISIBLE);
 
                 } else {
+                    if (img_status_edit.getTag().equals("save")) {
+                        Utils.showAlert(activity, "Warning","Please save available status.");
+                        return;
+                    }
                     fab.setTag("edit");
                     fab.setImageDrawable(activity.getResources().getDrawable(android.R.drawable.ic_menu_edit));
 

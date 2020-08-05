@@ -86,6 +86,9 @@ public class MessageListAdapter extends BaseAdapter {
         txt_message.setText(message.message);
         if (message.message.length() == 0) {
             txt_message.setText("[file attached]");
+            if (message.file.length() == 0) {
+                txt_message.setText("[chat open]");
+            }
         }
         txt_message.setTextColor(Color.parseColor("#222222"));
 //        if (index_update == i) {
