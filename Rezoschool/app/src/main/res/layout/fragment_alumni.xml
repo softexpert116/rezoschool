@@ -117,7 +117,7 @@
             android:textAllCaps="false"
             android:background="@drawable/btn_round"
             android:textColor="@color/white"
-            android:visibility="gone"
+            android:visibility="visible"
             />
     </RelativeLayout>
 

@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.adapter.StudentBulkSMSListAdapter;
@@ -12,22 +14,27 @@ import com.ediattah.rezoschool.adapter.StudentBulkSMSListAdapter;
 import java.util.ArrayList;
 
 public class BulkSMSActivity extends AppCompatActivity {
-    ArrayList<Student> array_student_accepted = new ArrayList<>();
+    ArrayList<String> array_sel_name = new ArrayList<>();
+    ArrayList<String> array_sel_phone = new ArrayList<>();
+    School sel_school;
+    TextView txt_receivers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bulk_s_m_s);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        sel_school = (School)getIntent().getSerializableExtra("SCHOOL");
         setTitle("Bulk SMS");
-        StudentBulkSMSListAdapter studentBulkSMSListAdapter = new StudentBulkSMSListAdapter(this, array_student_accepted);
-        ListView listView = (ListView)findViewById(R.id.listView);
-//        array_student_accepted.add(new Student(1, 1, 1, 1, true, true));
-//        array_student_accepted.add(new Student(2, 2, 1, 1, true, true));
-//        array_student_accepted.add(new Student(3, 3, 1, 1, true, true));
-//        array_student_accepted.add(new Student(4, 4, 1, 1, true, true));
-//        array_student_accepted.add(new Student(5, 5, 1, 1, true, true));
-        listView.setAdapter(studentBulkSMSListAdapter);
+
+        txt_receivers = findViewById(R.id.txt_receivers);
+        TextView txt_select = findViewById(R.id.txt_select);
+        if (sel_school != null) {
+            txt_select.setText("Select users in school " + sel_school.number);
+            StudentBulkSMSListAdapter studentBulkSMSListAdapter = new StudentBulkSMSListAdapter(this, txt_receivers, sel_school.students, array_sel_name, array_sel_phone);
+            ListView listView = (ListView)findViewById(R.id.listView);
+            listView.setAdapter(studentBulkSMSListAdapter);
+        }
 
     }
     @Override

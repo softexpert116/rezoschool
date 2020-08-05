@@ -98,7 +98,12 @@ public class AlumniFragment extends Fragment {
         btn_bulk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (sel_school == null) {
+                    Utils.showAlert(activity, "Warning", "Please select a school");
+                    return;
+                }
                 Intent intent = new Intent(activity, BulkSMSActivity.class);
+                intent.putExtra("SCHOOL", sel_school);
                 activity.startActivity(intent);
             }
         });
@@ -191,10 +196,10 @@ public class AlumniFragment extends Fragment {
         dlg.show();
     }
     public void read_students() {
-        for (Student student:Utils.currentSchool.students) {
+        for (Student student:sel_school.students) {
             if (student.isAllow) {
                 if (student.uid.equals(Utils.mUser.getUid())) {
-                    continue;
+//                    continue;
                 }
                 array_student_all.add(student);
             }
