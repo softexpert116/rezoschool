@@ -1,6 +1,7 @@
 package com.ediattah.rezoschool.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.fragments.SchoolStudentFragment;
+import com.ediattah.rezoschool.ui.BulkSMSActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -74,10 +76,13 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
             }
         });
         ImageView img_sms = (ImageView)view.findViewById(R.id.img_sms);
+        final User[] sel_user = new User[1];
         img_sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "click sms", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, BulkSMSActivity.class);
+                intent.putExtra("USER", sel_user[0]);
+                context.startActivity(intent);
             }
         });
         ImageView img_call = (ImageView)view.findViewById(R.id.img_call);
@@ -108,6 +113,7 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
                     } else {
                         ly_status.setBackground(context.getResources().getDrawable(R.drawable.status_online));
                     }
+                    sel_user[0] = user;
                 }
             }
 

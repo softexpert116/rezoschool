@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
@@ -55,11 +57,14 @@ import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Message;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
+import com.ediattah.rezoschool.Model.Transaction;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.httpsModule.RestClient;
 import com.ediattah.rezoschool.ui.ChatActivity;
 import com.ediattah.rezoschool.ui.LoginActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
+import com.ediattah.rezoschool.ui.NewPaymentActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,6 +100,7 @@ public class App extends Application implements LifecycleObserver {
     public static String MY_IMAGE_PATH = "";
     public static String MY_AUDIO_PATH = "";
     public static String ediapayUrl = "https://api.ediapay.com/api/";
+    public static String ediaSMSUrl = "http://smpp1.valorisetelecom.com/api/api_http.php";
 
 
     private static final int MAX_SMS_MESSAGE_LENGTH = 160;
@@ -384,6 +390,25 @@ public class App extends Application implements LifecycleObserver {
         return response.body().string();
     }
 //---------------------------------------------------------------------------------
+
+    public static String sendEdiaSMS(String username, String password, String sender, ArrayList<String> array_receivers, String text, String type) throws IOException {
+        String to = TextUtils.join(";", array_receivers);
+        String datetime = Utils.getCurrentDateTimeString();
+        final String urlSMS = "http://smpp1.valorisetelecom.com/api/api_http.php?username=" + username + "&password=" + password + "&sender=" + sender + "&to=" + to + "&text=" + text + "&type=" + type + "&datetime=" + datetime;
+        Request request = new Request.Builder()
+                .url(urlSMS)
+                .get()
+                .addHeader("Content-Type", "application/json")
+                .build();
+        OkHttpClient mClient = new OkHttpClient();
+        Response response = mClient.newCall(request).execute();
+        return response.body().string();
+    }
+
+//    http://smpp1.valorisetelecom.com/api/api_http.php?
+//    username=test2&password=7357378ujs&sender=TEST2
+//&to=22564906603;22564906604;22564906605&text=Hello%20world
+//&type=text&datetime=2020-08-06%2002%3A58%3A00
 
     public static String getApplicationName() {
         ApplicationInfo applicationInfo = mContext.getApplicationInfo();

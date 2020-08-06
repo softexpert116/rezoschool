@@ -2,6 +2,7 @@ package com.ediattah.rezoschool.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.ediattah.rezoschool.Model.Transaction;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.BulkSMSActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -74,6 +76,37 @@ public class FinanceDetailListAdapter extends BaseAdapter {
         final ImageView img_parent = view.findViewById(R.id.img_parent);
         final ImageView img_student = view.findViewById(R.id.img_student);
         final TextView txt_student_name = view.findViewById(R.id.txt_student_name);
+        ImageView img_chat = (ImageView)view.findViewById(R.id.img_chat);
+        img_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.goToChatPage(context, student.parent_id);
+            }
+        });
+        final User[] sel_user = new User[1];
+        ImageView img_sms = (ImageView)view.findViewById(R.id.img_sms);
+        img_sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, BulkSMSActivity.class);
+                intent.putExtra("USER", sel_user[0]);
+                context.startActivity(intent);
+            }
+        });
+        ImageView img_call = (ImageView)view.findViewById(R.id.img_call);
+        img_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "click call", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ImageView img_video = (ImageView)view.findViewById(R.id.img_video);
+        img_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "click video", Toast.LENGTH_SHORT).show();
+            }
+        });
         Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -100,6 +133,7 @@ public class FinanceDetailListAdapter extends BaseAdapter {
                     txt_parent_phone.setText(user.phone);
                     Glide.with(context).load(user.photo).apply(new RequestOptions()
                             .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_parent);
+                    sel_user[0] = user;
                 }
             }
 
@@ -154,34 +188,7 @@ public class FinanceDetailListAdapter extends BaseAdapter {
             txt_new.setText("OLD");
             txt_new.setBackgroundColor(Color.parseColor("#e28e8e"));
         }
-        ImageView img_chat = (ImageView)view.findViewById(R.id.img_chat);
-        img_chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                App.goToChatPage(context, student.parent_id);
-            }
-        });
-        ImageView img_sms = (ImageView)view.findViewById(R.id.img_sms);
-        img_sms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "click sms", Toast.LENGTH_SHORT).show();
-            }
-        });
-        ImageView img_call = (ImageView)view.findViewById(R.id.img_call);
-        img_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "click call", Toast.LENGTH_SHORT).show();
-            }
-        });
-        ImageView img_video = (ImageView)view.findViewById(R.id.img_video);
-        img_video.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "click video", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
         return view;
     }

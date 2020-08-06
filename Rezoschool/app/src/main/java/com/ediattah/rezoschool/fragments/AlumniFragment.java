@@ -199,7 +199,7 @@ public class AlumniFragment extends Fragment {
         for (Student student:sel_school.students) {
             if (student.isAllow) {
                 if (student.uid.equals(Utils.mUser.getUid())) {
-//                    continue;
+                    continue;
                 }
                 array_student_all.add(student);
             }

@@ -268,6 +268,10 @@ public class Utils {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(new Date(System.currentTimeMillis()));
     }
+    public static String getCurrentDateTimeString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return formatter.format(new Date(System.currentTimeMillis()));
+    }
     public static String getDateString(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(date);

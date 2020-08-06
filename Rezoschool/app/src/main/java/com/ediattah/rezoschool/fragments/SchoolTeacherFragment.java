@@ -25,6 +25,7 @@ import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.BulkSMSActivity;
 import com.ediattah.rezoschool.ui.SchoolAddTeacherActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ediattah.rezoschool.R;
@@ -48,6 +49,7 @@ public class SchoolTeacherFragment extends Fragment {
     String sel_userId;
     LinearLayout ly_no_items;
     RelativeLayout ly_bottom;
+    User sel_user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +70,6 @@ public class SchoolTeacherFragment extends Fragment {
                 schoolTeacherListAdapter.sel_index = i;
                 schoolTeacherListAdapter.notifyDataSetChanged();
                 chooseTeacher(Utils.currentSchool.teachers.get(i));
-//                Toast.makeText(activity, "Item Clicked", Toast.LENGTH_SHORT).show();
             }
         });
         ImageView img_chat = v.findViewById(R.id.img_chat);
@@ -78,14 +79,15 @@ public class SchoolTeacherFragment extends Fragment {
                 if (sel_userId != null) {
                     App.goToChatPage(activity, sel_userId);
                 }
-//                Toast.makeText(activity, "click chat", Toast.LENGTH_SHORT).show();
             }
         });
         ImageView img_sms = v.findViewById(R.id.img_sms);
         img_sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, "click sms", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, BulkSMSActivity.class);
+                intent.putExtra("USER", sel_user);
+                activity.startActivity(intent);
             }
         });
         ImageView img_call = v.findViewById(R.id.img_call);
@@ -124,6 +126,7 @@ public class SchoolTeacherFragment extends Fragment {
                             txt_name.setText(user.name);
                             Glide.with(activity).load(user.photo).apply(new RequestOptions()
                                     .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                            sel_user = user;
                         }
                     }
 

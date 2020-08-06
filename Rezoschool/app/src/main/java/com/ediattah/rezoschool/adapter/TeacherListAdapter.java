@@ -1,6 +1,7 @@
 package com.ediattah.rezoschool.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.BulkSMSActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -66,11 +68,14 @@ public class TeacherListAdapter extends BaseAdapter {
 //                Toast.makeText(context, "click chat", Toast.LENGTH_SHORT).show();
             }
         });
+        final User[] sel_user = new User[1];
         ImageView img_sms = (ImageView)view.findViewById(R.id.img_sms);
         img_sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "click sms", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, BulkSMSActivity.class);
+                intent.putExtra("USER", sel_user[0]);
+                context.startActivity(intent);
             }
         });
         ImageView img_call = (ImageView)view.findViewById(R.id.img_call);
@@ -100,6 +105,7 @@ public class TeacherListAdapter extends BaseAdapter {
                     txt_name.setText(user.name);
                     Glide.with(context).load(user.photo).apply(new RequestOptions()
                             .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    sel_user[0] = user;
                 }
             }
 

@@ -22,6 +22,7 @@ import com.ediattah.rezoschool.Model.Level;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.ui.BulkSMSActivity;
 import com.ediattah.rezoschool.ui.NewPaymentActivity;
 import com.ediattah.rezoschool.ui.ParentViewExamActivity;
 import com.ediattah.rezoschool.ui.ParentViewTeacherActivity;
@@ -103,10 +104,13 @@ public class ChildListAdapter extends BaseAdapter {
                 Toast.makeText(activity, "call clicked", Toast.LENGTH_SHORT).show();
             }
         });
+        final User[] sel_user = new User[1];
         img_sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, "sms clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, BulkSMSActivity.class);
+                intent.putExtra("USER", sel_user[0]);
+                activity.startActivity(intent);
             }
         });
         btn_inform.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +183,7 @@ public class ChildListAdapter extends BaseAdapter {
                     txt_name.setText(user.name);
                     Glide.with(activity).load(user.photo).apply(new RequestOptions()
                             .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    sel_user[0] = user;
                 }
             }
 
