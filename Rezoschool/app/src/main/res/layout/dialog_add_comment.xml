@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/colorMainBackground"
     >
     <EditText
         android:id="@+id/edit_comment"
@@ -12,6 +13,7 @@
         android:singleLine="false"
         android:paddingLeft="10dp"
         android:gravity="start"
+        android:textColor="@color/colorText"
         android:layout_margin="10dp"
         />
     <Button

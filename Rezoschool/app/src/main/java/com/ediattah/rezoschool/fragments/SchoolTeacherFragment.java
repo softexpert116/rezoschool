@@ -50,6 +50,7 @@ public class SchoolTeacherFragment extends Fragment {
     LinearLayout ly_no_items;
     RelativeLayout ly_bottom;
     User sel_user;
+    ValueEventListener listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,7 +138,7 @@ public class SchoolTeacherFragment extends Fragment {
                 });
     }
     void teacher_update_listener() {
-        Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("teachers").addValueEventListener(new ValueEventListener() {
+        listener = Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("teachers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Utils.currentSchool.teachers.clear();
@@ -177,6 +178,18 @@ public class SchoolTeacherFragment extends Fragment {
             ly_bottom.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (schoolTeacherListAdapter.listener != null) {
+            Utils.mDatabase.removeEventListener(schoolTeacherListAdapter.listener);
+        }
+        if (listener != null) {
+            Utils.mDatabase.removeEventListener(listener);
+        }
+    }
+
 
     public void onAttach(Context context) {
         super.onAttach(context);

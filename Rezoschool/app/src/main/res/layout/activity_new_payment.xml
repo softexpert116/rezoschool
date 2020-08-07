@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         android:orientation="vertical"
         >
         <TextView
@@ -19,106 +19,146 @@
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
-        <EditText
-            android:id="@+id/edit_student"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="student name"
-            android:inputType="text"
-            android:singleLine="true"
-            android:textSize="20dp"
-            android:enabled="false"
-            android:editable="false"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            android:paddingLeft="5dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Level"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
-            />
-        <EditText
-            android:id="@+id/edit_level_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:hint="level name"
-            android:editable="false"
-            android:enabled="false"
-            android:singleLine="true"
-            android:paddingLeft="5dp"
-            android:textSize="20dp"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Fee per month (XOF)"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
-            />
-        <EditText
-            android:id="@+id/edit_level_fee"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:hint="level fee"
-            android:singleLine="true"
-            android:paddingLeft="5dp"
-            android:enabled="false"
-            android:editable="false"
-            android:textSize="20dp"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            />
+            >
+            <EditText
+                android:id="@+id/edit_student"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="student name"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textSize="20dp"
+                android:enabled="false"
+                android:editable="false"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                android:paddingLeft="5dp"
+                android:background="@color/transparent"
+                />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/gibson_regular"
-            android:text="Amount (XOF)"
-            android:textSize="20dp" />
-        <EditText
-            android:id="@+id/edit_amount"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="numberDecimal"
-            android:hint="0.00"
-            android:paddingLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Level"
             android:textSize="20dp"
-            android:textColor="@color/colorText"
             android:fontFamily="@font/gibson_regular"
             />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_level_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="text"
+                android:hint="level name"
+                android:editable="false"
+                android:enabled="false"
+                android:singleLine="true"
+                android:paddingLeft="5dp"
+                android:background="@color/transparent"
+                android:textSize="20dp"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                />
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Fee per month (XOF)"
+            android:textSize="20dp"
+            android:fontFamily="@font/gibson_regular"
+            />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_level_fee"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="text"
+                android:hint="level fee"
+                android:singleLine="true"
+                android:paddingLeft="5dp"
+                android:enabled="false"
+                android:background="@color/transparent"
+                android:editable="false"
+                android:textSize="20dp"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                />
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/gibson_regular"
+            android:text="Amount (XOF)"
+            android:textSize="20dp" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_amount"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="numberDecimal"
+                android:hint="0.00"
+                android:paddingLeft="5dp"
+                android:background="@color/transparent"
+                android:textSize="20dp"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/gibson_regular"
             android:text="Merchant ID"
             android:textSize="20dp"
             />
-        <EditText
-            android:id="@+id/edit_merchant"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="number"
-            android:hint="1234"
-            android:paddingLeft="5dp"
-            android:textSize="20dp"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_merchant"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="number"
+                android:hint="1234"
+                android:paddingLeft="5dp"
+                android:background="@color/transparent"
+                android:textSize="20dp"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                />
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/gibson_regular"
             android:textSize="20dp"
             android:text="Choose Method"

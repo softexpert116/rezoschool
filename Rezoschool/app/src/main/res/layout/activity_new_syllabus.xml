@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="20dp"
+            android:layout_margin="16dp"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -24,63 +24,89 @@
                 android:fontFamily="@font/gibson_regular"
                 android:text="Date"
                 />
-            <EditText
-                android:id="@+id/edit_date"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:inputType="text"
-                android:hint="01/01/2020"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:focusable="false"
-                android:paddingLeft="5dp"
-                android:editable="false"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:hint="01/01/2020"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:focusable="false"
+                    android:background="@color/transparent"
+                    android:paddingLeft="5dp"
+                    android:editable="false"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="School Number"
                 android:textSize="20dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/gibson_regular"
                 />
-            <EditText
-                android:id="@+id/edit_school"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="school number"
-                android:focusable="false"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:inputType="text"
-                android:editable="false"
-                android:paddingLeft="5dp"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_school"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="school number"
+                    android:focusable="false"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:inputType="text"
+                    android:editable="false"
+                    android:background="@color/transparent"
+                    android:paddingLeft="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Course Name"
                 android:fontFamily="@font/gibson_regular"
                 android:textSize="20dp"
+                android:layout_marginTop="10dp"
                 />
-            <EditText
-                android:id="@+id/edit_course"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="course name"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:inputType="text"
-                android:paddingLeft="5dp"
-                android:focusable="false"
-                android:editable="false"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="course name"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:inputType="text"
+                    android:paddingLeft="5dp"
+                    android:focusable="false"
+                    android:background="@color/transparent"
+                    android:editable="false"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 android:text="TimeSlot"
@@ -91,7 +117,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
                 >
 
             </LinearLayout>
@@ -99,135 +126,191 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 android:text="Course Specific Title"
                 />
-            <EditText
-                android:id="@+id/edit_title"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:inputType="text"
-                android:hint="text"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:paddingLeft="5dp"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:hint="text"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:paddingLeft="5dp"
+                    android:background="@color/transparent"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 android:text="Course General Thematic"
                 />
-            <EditText
-                android:id="@+id/edit_thematic"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:inputType="text"
-                android:hint="text"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:paddingLeft="5dp"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_thematic"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:hint="text"
+                    android:background="@color/transparent"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:paddingLeft="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 android:text="Course Summary (max: 1000 words)"
                 />
-            <EditText
-                android:id="@+id/edit_summary"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="text"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:paddingLeft="5dp"
-                />
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="text"
+                    android:background="@color/transparent"
+                    android:padding="5dp"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 android:text="Next Specific Title"
                 />
-            <EditText
-                android:id="@+id/edit_title_next"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:inputType="text"
-                android:hint="text"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:paddingLeft="5dp"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_title_next"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:hint="text"
+                    android:textSize="20dp"
+                    android:background="@color/transparent"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:paddingLeft="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 android:text="Next General Thematic"
                 />
-            <EditText
-                android:id="@+id/edit_thematic_next"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:inputType="text"
-                android:hint="text"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:paddingLeft="5dp"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_thematic_next"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:hint="text"
+                    android:textSize="20dp"
+                    android:background="@color/transparent"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:paddingLeft="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 android:text="Attachment for Exercise"
                 />
-            <EditText
-                android:id="@+id/edit_attachment"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:inputType="text"
-                android:focusable="false"
-                android:hint="choose file (pdf)"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:paddingLeft="5dp"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_attachment"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:focusable="false"
+                    android:background="@color/transparent"
+                    android:hint="choose file (pdf)"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:paddingLeft="5dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 android:text="Comments for School"
                 />
-            <EditText
-                android:id="@+id/edit_comment"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="text"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:paddingLeft="5dp"
-                />
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="text"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:padding="5dp"
+                    android:background="@color/transparent"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <Button
                 android:id="@+id/btn_create"
                 android:layout_width="match_parent"

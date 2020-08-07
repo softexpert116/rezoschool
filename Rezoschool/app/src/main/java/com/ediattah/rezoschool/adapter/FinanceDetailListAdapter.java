@@ -113,8 +113,12 @@ public class FinanceDetailListAdapter extends BaseAdapter {
                 if (dataSnapshot.getValue()!=null) {
                     User user = dataSnapshot.getValue(User.class);
                     txt_student_name.setText(user.name);
-                    Glide.with(context).load(user.photo).apply(new RequestOptions()
-                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_student);
+                    try {
+                        Glide.with(context).load(user.photo).apply(new RequestOptions()
+                                .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_student);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -131,8 +135,12 @@ public class FinanceDetailListAdapter extends BaseAdapter {
                     txt_parent_email.setText(user.email);
                     txt_parent_name.setText(user.name);
                     txt_parent_phone.setText(user.phone);
-                    Glide.with(context).load(user.photo).apply(new RequestOptions()
-                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_parent);
+                    try {
+                        Glide.with(context).load(user.photo).apply(new RequestOptions()
+                                .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_parent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     sel_user[0] = user;
                 }
             }
@@ -171,8 +179,12 @@ public class FinanceDetailListAdapter extends BaseAdapter {
                             paid += amount;
                         }
                     }
-                    txt_paid.setText(String.valueOf(paid) + "XOF");
-                    txt_remain.setText(String.valueOf(finalFee *12-paid) + "XOF");
+                    try {
+                        txt_paid.setText(String.valueOf(paid) + "XOF");
+                        txt_remain.setText(String.valueOf(finalFee *12-paid) + "XOF");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

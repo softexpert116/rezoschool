@@ -67,7 +67,11 @@ public class SchoolFinanceListAdapter extends BaseAdapter {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue()!=null) {
                     User user = dataSnapshot.getValue(User.class);
-                    txt_student.setText(user.name);
+                    try {
+                        txt_student.setText(user.name);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

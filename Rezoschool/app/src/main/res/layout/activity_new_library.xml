@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -19,73 +19,108 @@
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
-        <EditText
-            android:id="@+id/edit_title"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="book title"
-            android:singleLine="true"
-            android:inputType="text"
-            android:paddingLeft="5dp"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="book title"
+                android:singleLine="true"
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:textColor="@color/colorText"
+                android:textSize="20dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/gibson_regular"
+                />
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/gibson_regular"
             android:text="Overview"
             android:textSize="20dp"
             />
-        <EditText
-            android:id="@+id/edit_description"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:hint="book overview"
-            android:singleLine="false"
-            android:gravity="start"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
-            android:paddingLeft="5dp"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_description"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="book overview"
+                android:singleLine="false"
+                android:gravity="start"
+                android:textColor="@color/colorText"
+                android:textSize="20dp"
+                android:fontFamily="@font/gibson_regular"
+                android:paddingLeft="5dp"
+                android:background="@color/transparent"
+                />
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:text="Url"
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
-        <EditText
-            android:id="@+id/edit_url"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="book url"
-            android:textSize="20dp"
-            android:textColor="@color/colorText"
-            android:singleLine="true"
-            android:inputType="text"
-            android:paddingLeft="5dp"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_url"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="book url"
+                android:textSize="20dp"
+                android:textColor="@color/colorText"
+                android:singleLine="true"
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:background="@color/transparent"
+                />
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:text="Category"
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
-        <EditText
-            android:id="@+id/edit_category"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:singleLine="true"
-            android:textSize="20dp"
-            android:hint="category name"
-            android:inputType="text"
-            android:paddingLeft="5dp"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_category"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:singleLine="true"
+                android:textSize="20dp"
+                android:hint="category name"
+                android:textColor="@color/colorText"
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:background="@color/transparent"
+                />
+        </androidx.cardview.widget.CardView>
+
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,6 +155,7 @@
             android:text="Add"
             android:fontFamily="@font/gibson_bold"
             android:textColor="@android:color/white"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/btn_round" />
     </LinearLayout>
 </RelativeLayout>

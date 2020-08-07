@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         android:orientation="vertical"
         >
         <TextView
@@ -19,41 +19,57 @@
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
-        <EditText
-            android:id="@+id/edit_teacher"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="teacher name"
-            android:inputType="text"
-            android:singleLine="true"
-            android:textSize="20dp"
-            android:focusable="false"
-            android:editable="false"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            android:paddingLeft="5dp"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_teacher"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="teacher name"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textSize="20dp"
+                android:focusable="false"
+                android:editable="false"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                android:paddingLeft="5dp"
+                android:background="@color/transparent"
+                />
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/gibson_regular"
             android:textSize="20dp"
             android:text="Choose Course"
             />
-        <EditText
-            android:id="@+id/edit_course"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:hint="course name"
-            android:focusable="false"
-            android:paddingLeft="5dp"
-            android:editable="false"
-            android:textSize="20dp"
-            android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <EditText
+                android:id="@+id/edit_course"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="text"
+                android:hint="course name"
+                android:focusable="false"
+                android:paddingLeft="5dp"
+                android:editable="false"
+                android:textSize="20dp"
+                android:background="@color/transparent"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                />
+        </androidx.cardview.widget.CardView>
+
         <Button
             android:id="@+id/btn_create"
             android:layout_width="match_parent"

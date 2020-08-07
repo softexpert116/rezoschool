@@ -44,6 +44,7 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
     public int sel_index = 0;
     Context context;
     SchoolTeacherFragment fragment;
+    public ValueEventListener listener;
 
     public SchoolTeacherListAdapter(Context _context, ArrayList<Teacher> _arrayList, int sel_index) {
         context = _context;
@@ -67,6 +68,7 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
         final Teacher teacher = arrayList.get(i);
         boolean flag_new = true;
         if (teacher.courses.length() > 0) {
@@ -145,15 +147,20 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
             }
         });
         final CircleImageView img_photo = view.findViewById(R.id.img_photo);
-        Utils.mDatabase.child(Utils.tbl_user).orderByKey().equalTo(teacher.uid)
+        listener = Utils.mDatabase.child(Utils.tbl_user).orderByKey().equalTo(teacher.uid)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                             User user = childSnapshot.getValue(User.class);
                             txt_teacher.setText(user.name);
-                            Glide.with(context).load(user.photo).apply(new RequestOptions()
-                                    .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                            try {
+                                Glide.with(context).load(user.photo).apply(new RequestOptions()
+                                        .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
                             if (user.isAllow) {
                                 btn_allow.setText("Block");
                                 btn_allow.setBackground(context.getDrawable(R.color.colorAccent));

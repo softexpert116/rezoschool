@@ -63,6 +63,8 @@
                     android:layout_marginTop="-30dp"
                     android:layout_marginRight="40dp"
                     android:layout_alignParentEnd="true"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    app:borderWidth="0dp"
                     android:src="@android:drawable/ic_menu_edit"
                     />
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -72,7 +74,9 @@
                     android:layout_below="@+id/ly_cover"
                     android:layout_marginTop="-30dp"
                     android:layout_marginLeft="40dp"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:src="@android:drawable/ic_menu_revert"
+                    app:borderWidth="0dp"
                     />
             </RelativeLayout>
             <androidx.cardview.widget.CardView

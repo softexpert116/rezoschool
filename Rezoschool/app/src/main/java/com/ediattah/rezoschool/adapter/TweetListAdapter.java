@@ -187,7 +187,7 @@ public class TweetListAdapter extends BaseAdapter {
         int height = (int)(fragment.getResources().getDisplayMetrics().heightPixels*0.25);
         view.setMinimumWidth(width);
         view.setMinimumHeight(height);
-//        dlg.getWindow().setLayout(width, height);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dlg.setContentView(view);
         window.setGravity(Gravity.CENTER);
         dlg.show();

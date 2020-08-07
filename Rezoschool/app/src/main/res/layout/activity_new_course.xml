@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="20dp"
+            android:layout_margin="16dp"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -23,23 +23,31 @@
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 />
-            <EditText
-                android:id="@+id/edit_course"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="course name"
-                android:inputType="text"
-                android:singleLine="true"
-                android:paddingLeft="5dp"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="course name"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:paddingLeft="5dp"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:background="@color/transparent"
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Week days"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 />
@@ -57,29 +65,41 @@
                 >
                 <TextView
                     android:id="@+id/txt_start"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:text="Start Time:"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/gibson_regular"
                     />
-                <EditText
-                    android:id="@+id/edit_start_time"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="datetime"
                     android:layout_toRightOf="@id/txt_start"
                     android:layout_toLeftOf="@+id/btn_clear_time"
-                    android:singleLine="true"
-                    android:focusable="false"
-                    android:editable="false"
-                    />
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    >
+                    <EditText
+                        android:id="@+id/edit_start_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="datetime"
+                        android:singleLine="true"
+                        android:focusable="false"
+                        android:paddingLeft="5dp"
+                        android:textColor="@color/colorText"
+                        android:background="@color/transparent"
+                        android:editable="false"
+                        />
+                </androidx.cardview.widget.CardView>
+
                 <Button
                     android:id="@+id/btn_clear_time"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
                     android:text="Clear"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/white"
                     android:background="@color/colorAccent"
                     />
@@ -91,30 +111,41 @@
                 >
                 <TextView
                     android:id="@+id/txt_end"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:text="End Time:"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/gibson_regular"
                     />
-                <EditText
-                    android:id="@+id/edit_end_time"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/btn_set_time"
-                    android:inputType="datetime"
                     android:layout_toRightOf="@id/txt_end"
-                    android:singleLine="true"
-                    android:focusable="false"
-                    android:editable="false"
-                    android:layout_marginLeft="5dp"
-                    />
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"
+                    >
+                    <EditText
+                        android:id="@+id/edit_end_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="datetime"
+                        android:singleLine="true"
+                        android:focusable="false"
+                        android:background="@color/transparent"
+                        android:editable="false"
+                        android:textColor="@color/colorText"
+                        android:layout_marginLeft="5dp"
+                        />
+                </androidx.cardview.widget.CardView>
+
                 <Button
                     android:id="@+id/btn_set_time"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
                     android:text="Set"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/white"
                     android:background="@color/colorPrimaryDark"
                     />
@@ -132,7 +163,7 @@
                 android:id="@+id/btn_create"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
                 android:text="Create"
                 android:fontFamily="@font/gibson_bold"

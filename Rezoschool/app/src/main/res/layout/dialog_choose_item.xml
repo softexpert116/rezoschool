@@ -5,11 +5,11 @@
     android:orientation="vertical"
     android:background="@color/colorSubBackground"
     >
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:gravity="center"
         >
         <TextView
             android:id="@+id/txt_title"
@@ -20,7 +20,7 @@
             android:textSize="22dp"
             android:textColor="@color/white"
             />
-    </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

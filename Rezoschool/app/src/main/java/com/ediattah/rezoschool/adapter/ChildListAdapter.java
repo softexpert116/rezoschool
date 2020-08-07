@@ -181,8 +181,12 @@ public class ChildListAdapter extends BaseAdapter {
                 if (dataSnapshot.getValue()!=null) {
                     User user = dataSnapshot.getValue(User.class);
                     txt_name.setText(user.name);
-                    Glide.with(activity).load(user.photo).apply(new RequestOptions()
-                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    try {
+                        Glide.with(activity).load(user.photo).apply(new RequestOptions()
+                                .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     sel_user[0] = user;
                 }
             }
@@ -205,18 +209,20 @@ public class ChildListAdapter extends BaseAdapter {
                                 String date_str = Utils.getDateString(absence.date);
                                 String today_str = Utils.getDateString(Calendar.getInstance().getTime());
                                 if (date_str.equals(today_str)) {
-                                    Glide.with(activity).load(absence.url).apply(new RequestOptions()
-                                            .placeholder(R.drawable.default_pic).centerCrop().dontAnimate()).into(img_pic);
-                                    img_pic.setEnabled(false);
-                                    btn_inform.setEnabled(false);
-                                    btn_inform.setBackground(activity.getDrawable(R.drawable.btn_round_gray));
+                                    try {
+                                        Glide.with(activity).load(absence.url).apply(new RequestOptions()
+                                                .placeholder(R.drawable.default_pic).centerCrop().dontAnimate()).into(img_pic);
+                                        img_pic.setEnabled(false);
+                                        btn_inform.setEnabled(false);
+                                        btn_inform.setBackground(activity.getDrawable(R.drawable.btn_round_gray));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
                                     return;
                                 }
                             }
                         }
-//                    txt_name.setText(user.name);
-//                    Glide.with(activity).load(user.photo).apply(new RequestOptions()
-//                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
                     }
                     img_pic.setImageDrawable(activity.getDrawable(R.drawable.default_pic));
                     img_pic.setEnabled(true);
