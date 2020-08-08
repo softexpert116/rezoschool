@@ -211,15 +211,9 @@ public class ChatListAdapter extends BaseAdapter {
                 card_message.setCardBackgroundColor(context.getResources().getColor(android.R.color.transparent));
                 img_pic.setVisibility(View.GONE);
                 voicePlayerView.setVisibility(View.VISIBLE);
+                voicePlayerView.setTimingVisibility(false);
                 SetAudioTask setAudioTask = new SetAudioTask(voicePlayerView);
                 setAudioTask.execute(message.file);
-//                context.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        voicePlayerView.setAudio(message.file);
-//                    }
-//                });
-
             }
         }
         txt_time.setText(Utils.getTimeString(new Date(message.timestamp)));
@@ -253,13 +247,13 @@ public class ChatListAdapter extends BaseAdapter {
         @Override
         protected String doInBackground(String... params) {
             String path = params[0];
-
             voicePlayerView.setAudio(path);
             return null;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(final String result) {
+            voicePlayerView.setTimingVisibility(true);
         }
 
         @Override

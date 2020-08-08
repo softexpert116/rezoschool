@@ -149,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ArrayList<String> arrPermissionRequests = new ArrayList<>();
             arrPermissionRequests.add(WRITE_EXTERNAL_STORAGE);
             arrPermissionRequests.add(READ_EXTERNAL_STORAGE);
-//            ActivityCompat.requestPermissions(this, arrPermissionRequests.toArray(new String[arrPermissionRequests.size()]), 201);
-            ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, 201);
+            ActivityCompat.requestPermissions(this, arrPermissionRequests.toArray(new String[arrPermissionRequests.size()]), 201);
+//            ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, 201);
 
 
             return;
@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
     void createDirectory() {
+        getExternalFilesDir(null);
         File assets = getExternalFilesDir("assets");
 //        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "Android", "folder_main");
 //        if (!f.exists()) {

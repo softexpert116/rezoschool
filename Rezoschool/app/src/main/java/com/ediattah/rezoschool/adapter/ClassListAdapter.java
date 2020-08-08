@@ -132,7 +132,7 @@ public class ClassListAdapter extends BaseAdapter {
                 final Dialog dlg = new Dialog(context);
                 Window window = dlg.getWindow();
                 View view2 = ((Activity)context).getLayoutInflater().inflate(R.layout.dialog_view_items, null);
-                int width = (int)(context.getResources().getDisplayMetrics().widthPixels*0.80);
+                int width = (int)(context.getResources().getDisplayMetrics().widthPixels*0.90);
                 int height = (int)(context.getResources().getDisplayMetrics().heightPixels*0.4);
                 view.setMinimumWidth(width);
                 view.setMinimumHeight(height);
