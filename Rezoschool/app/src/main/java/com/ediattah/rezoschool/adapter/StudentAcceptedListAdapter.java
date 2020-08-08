@@ -72,7 +72,6 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 App.goToChatPage(context, student.uid);
-//                Toast.makeText(context, "click chat", Toast.LENGTH_SHORT).show();
             }
         });
         ImageView img_sms = (ImageView)view.findViewById(R.id.img_sms);

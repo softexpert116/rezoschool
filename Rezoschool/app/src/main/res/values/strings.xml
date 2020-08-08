@@ -26,6 +26,7 @@
     <string name="menu_history">History</string>
     <string name="menu_library">Library</string>
     <string name="menu_school">School</string>
+    <string name="menu_myschool">My School</string>
     <string name="menu_child">Child</string>
     <string name="menu_syllabus">Syllabus</string>
     <string name="menu_invoice">Payment</string>

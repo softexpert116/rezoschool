@@ -333,7 +333,7 @@ public class RegisterActivity extends AppCompatActivity {
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_CITY).setValue(user.city);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TYPE).setValue(Utils.currentUser.type);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TOKEN).setValue(user.token);
-        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_ALLOW).setValue(false);
+        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_ALLOW).setValue(true);
         // currentUser setting --------------
         Utils.currentUser = user;
         Utils.currentUser._id = Utils.mUser.getUid();

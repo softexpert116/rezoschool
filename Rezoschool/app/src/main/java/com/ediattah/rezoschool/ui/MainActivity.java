@@ -30,9 +30,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.App;
+import com.ediattah.rezoschool.Model.Class;
+import com.ediattah.rezoschool.Model.School;
+import com.ediattah.rezoschool.Model.Student;
+import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.fragments.MessageFragment;
 import com.ediattah.rezoschool.fragments.ProfileFragment;
+import com.ediattah.rezoschool.fragments.StudentSchoolFragment;
 import com.ediattah.rezoschool.fragments.TimeslotFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.ediattah.rezoschool.R;
@@ -135,6 +140,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FirebaseAuth.getInstance().signOut();
                 App.setStatus(0);
                 Utils.mUser = null;
+                Utils.currentUser = new User();
+                Utils.currentSchool = new School();
+                Utils.currentStudent = new Student();
+                Utils.currentClass = new Class();
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(loginIntent);
                 finish();
@@ -247,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_syllabus).setVisible(false);
             nav_Menu.findItem(R.id.nav_library).setVisible(true);
             nav_Menu.findItem(R.id.nav_invoice).setVisible(false);
+            nav_Menu.findItem(R.id.nav_myschool).setVisible(false);
             nav_Menu.findItem(R.id.nav_course).setVisible(false);
             nav_Menu.findItem(R.id.nav_alumni).setVisible(false);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
@@ -264,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_syllabus).setVisible(true);
             nav_Menu.findItem(R.id.nav_library).setVisible(true);
             nav_Menu.findItem(R.id.nav_invoice).setVisible(false);
+            nav_Menu.findItem(R.id.nav_myschool).setVisible(false);
             nav_Menu.findItem(R.id.nav_course).setVisible(false);
             nav_Menu.findItem(R.id.nav_alumni).setVisible(false);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
@@ -281,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_syllabus).setVisible(false);
             nav_Menu.findItem(R.id.nav_library).setVisible(false);
             nav_Menu.findItem(R.id.nav_invoice).setVisible(true);
+            nav_Menu.findItem(R.id.nav_myschool).setVisible(false);
             nav_Menu.findItem(R.id.nav_course).setVisible(false);
             nav_Menu.findItem(R.id.nav_alumni).setVisible(false);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
@@ -298,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_syllabus).setVisible(false);
             nav_Menu.findItem(R.id.nav_library).setVisible(true);
             nav_Menu.findItem(R.id.nav_invoice).setVisible(true);
+            nav_Menu.findItem(R.id.nav_myschool).setVisible(true);
             nav_Menu.findItem(R.id.nav_course).setVisible(true);
             nav_Menu.findItem(R.id.nav_alumni).setVisible(true);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
@@ -350,9 +363,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_invoice) {
             selectFragment(new ParentInvoiceFragment());
             setTitle(getResources().getString(R.string.menu_invoice));
+        } else if (id == R.id.nav_myschool) {
+            selectFragment(new StudentSchoolFragment());
+            setTitle(getResources().getString(R.string.menu_myschool));
         } else if (id == R.id.nav_course) {
             selectFragment(new StudentCourseFragment());
-            setTitle(getResources().getString(R.string.menu_course));
+            setTitle(getResources().getString(R.string.menu_timeslot));
         } else if (id == R.id.nav_alumni) {
             selectFragment(new AlumniFragment());
             setTitle(getResources().getString(R.string.menu_alumni));

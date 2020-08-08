@@ -37,9 +37,13 @@
             android:icon="@drawable/ic_school"
             android:title="@string/menu_school" />
         <item
+            android:id="@+id/nav_myschool"
+            android:icon="@drawable/ic_school"
+            android:title="@string/menu_myschool" />
+        <item
             android:id="@+id/nav_course"
             android:icon="@drawable/ic_menu_class"
-            android:title="@string/menu_course" />
+            android:title="@string/menu_timeslot" />
         <item
             android:id="@+id/nav_syllabus"
             android:icon="@drawable/ic_syllabus"
