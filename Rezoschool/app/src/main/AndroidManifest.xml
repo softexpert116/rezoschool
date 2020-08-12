@@ -16,7 +16,9 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.VoiceRecorderActivity"></activity>
+        <activity android:name=".ui.ChooseSchoolActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ui.VoiceRecorderActivity" />
         <activity android:name=".ui.PDFViewerActivity" />
         <activity android:name=".ui.CourseDetailActivity" />
         <activity android:name=".ui.SchoolAddTeacherActivity" />
@@ -65,12 +67,13 @@
 
         <service
             android:name=".service.MyFirebaseMessagingService"
-            android:exported="false"
-            android:directBootAware="true">
+            android:directBootAware="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/app_icon" />

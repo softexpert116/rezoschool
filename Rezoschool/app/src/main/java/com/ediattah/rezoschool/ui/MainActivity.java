@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_class).setVisible(true);
             nav_Menu.findItem(R.id.nav_teacher).setVisible(true);
             nav_Menu.findItem(R.id.nav_student).setVisible(true);
-            nav_Menu.findItem(R.id.nav_callback).setVisible(true);
+//            nav_Menu.findItem(R.id.nav_callback).setVisible(true);
             nav_Menu.findItem(R.id.nav_finance).setVisible(true);
             nav_Menu.findItem(R.id.nav_child).setVisible(false);
             nav_Menu.findItem(R.id.nav_school).setVisible(false);
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_class).setVisible(false);
             nav_Menu.findItem(R.id.nav_teacher).setVisible(false);
             nav_Menu.findItem(R.id.nav_student).setVisible(false);
-            nav_Menu.findItem(R.id.nav_callback).setVisible(true);
+//            nav_Menu.findItem(R.id.nav_callback).setVisible(true);
             nav_Menu.findItem(R.id.nav_finance).setVisible(false);
             nav_Menu.findItem(R.id.nav_child).setVisible(false);
             nav_Menu.findItem(R.id.nav_school).setVisible(true);
@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_class).setVisible(false);
             nav_Menu.findItem(R.id.nav_teacher).setVisible(false);
             nav_Menu.findItem(R.id.nav_student).setVisible(false);
-            nav_Menu.findItem(R.id.nav_callback).setVisible(true);
+//            nav_Menu.findItem(R.id.nav_callback).setVisible(true);
             nav_Menu.findItem(R.id.nav_finance).setVisible(false);
             nav_Menu.findItem(R.id.nav_child).setVisible(true);
             nav_Menu.findItem(R.id.nav_school).setVisible(false);
@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_class).setVisible(false);
             nav_Menu.findItem(R.id.nav_teacher).setVisible(false);
             nav_Menu.findItem(R.id.nav_student).setVisible(false);
-            nav_Menu.findItem(R.id.nav_callback).setVisible(false);
+//            nav_Menu.findItem(R.id.nav_callback).setVisible(false);
             nav_Menu.findItem(R.id.nav_finance).setVisible(false);
             nav_Menu.findItem(R.id.nav_child).setVisible(false);
             nav_Menu.findItem(R.id.nav_school).setVisible(false);
@@ -342,9 +342,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_student) {
             selectFragment(new SchoolStudentFragment());
             setTitle(getResources().getString(R.string.menu_student));
-        } else if (id == R.id.nav_callback) {
-            selectFragment(new SchoolCallbackFragment());
-            setTitle(getResources().getString(R.string.menu_callback));
         } else if (id == R.id.nav_finance) {
             selectFragment(new SchoolFinanceFragment());
             setTitle(getResources().getString(R.string.menu_finance));

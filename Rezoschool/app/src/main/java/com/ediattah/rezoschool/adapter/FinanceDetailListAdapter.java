@@ -105,6 +105,7 @@ public class FinanceDetailListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "click video", Toast.LENGTH_SHORT).show();
+                App.goToVideoCallPage(context);
             }
         });
         Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addValueEventListener(new ValueEventListener() {

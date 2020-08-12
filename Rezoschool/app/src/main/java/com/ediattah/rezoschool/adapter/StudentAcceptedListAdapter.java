@@ -95,7 +95,8 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "click video", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "click video", Toast.LENGTH_SHORT).show();
+                App.goToVideoCallPage(context);
             }
         });
         final RelativeLayout ly_status = view.findViewById(R.id.ly_status);

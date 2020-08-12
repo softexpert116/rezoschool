@@ -102,7 +102,8 @@ public class SchoolTeacherFragment extends Fragment {
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, "click video", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity, "click video", Toast.LENGTH_SHORT).show();
+                App.goToVideoCallPage(activity);
             }
         });
 

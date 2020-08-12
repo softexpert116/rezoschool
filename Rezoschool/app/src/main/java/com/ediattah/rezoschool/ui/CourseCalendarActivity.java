@@ -158,8 +158,6 @@ public class CourseCalendarActivity extends AppCompatActivity {
         ListView listView = dlg.findViewById(R.id.listView);
         TeacherListAdapter teacherListAdapter = new TeacherListAdapter(CourseCalendarActivity.this, list_teacher);
         listView.setAdapter(teacherListAdapter);
-
-        dlg.show();
     }
     @Override
     public void onResume() {

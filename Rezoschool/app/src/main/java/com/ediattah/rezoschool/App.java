@@ -3,6 +3,7 @@ package com.ediattah.rezoschool;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -25,11 +26,15 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -42,10 +47,15 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
+import org.jitsi.meet.sdk.JitsiMeet;
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -60,8 +70,10 @@ import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.Transaction;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.adapter.TeacherListAdapter;
 import com.ediattah.rezoschool.httpsModule.RestClient;
 import com.ediattah.rezoschool.ui.ChatActivity;
+import com.ediattah.rezoschool.ui.CourseCalendarActivity;
 import com.ediattah.rezoschool.ui.LoginActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
 import com.ediattah.rezoschool.ui.NewPaymentActivity;
@@ -150,24 +162,7 @@ public class App extends Application implements LifecycleObserver {
             Utils.currentUser.status = status;
         }
     }
-    public static void checkOnline() {
-        Utils.mDatabase.child("info/connected").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean connected = snapshot.getValue(Boolean.class);
-                if (connected) {
-                    Log.d(TAG, "connected");
-                } else {
-                    Log.d(TAG, "not connected");
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w(TAG, "Listener was cancelled");
-            }
-        });
-    }
     public static void getSchoolInfo() {
         Utils.mDatabase.child(Utils.tbl_school).addValueEventListener(new ValueEventListener() {
             @Override
@@ -221,6 +216,51 @@ public class App extends Application implements LifecycleObserver {
             }
         });
     }
+    public static void goToVideoCallPage(Context context) {
+        URL serverURL;
+        try {
+            serverURL = new URL("https://meet.jit.si");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Invalid server URL!");
+        }
+        JitsiMeetConferenceOptions defaultOptions
+                = new JitsiMeetConferenceOptions.Builder()
+                .setServerURL(serverURL)
+                .setWelcomePageEnabled(false)
+                .build();
+        JitsiMeet.setDefaultConferenceOptions(defaultOptions);
+
+        final Dialog dlg = new Dialog(context);
+        Window window = dlg.getWindow();
+        View view = ((Activity)context).getLayoutInflater().inflate(R.layout.dialog_video_room, null);
+        int width = (int)(context.getResources().getDisplayMetrics().widthPixels*0.80);
+        int height = (int)(context.getResources().getDisplayMetrics().heightPixels*0.2);
+        view.setMinimumWidth(width);
+        view.setMinimumHeight(height);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(view);
+        window.setGravity(Gravity.CENTER);
+        dlg.show();
+        EditText editText = view.findViewById(R.id.edit_room);
+        Button btn_add = view.findViewById(R.id.btn_add);
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String room = editText.getText().toString().trim();
+                if (room.length() == 0) {
+                    return;
+                }
+                JitsiMeetConferenceOptions options
+                        = new JitsiMeetConferenceOptions.Builder()
+                        .setRoom(room)
+                        .build();
+                // Launch the new activity with the given options. The launch() method takes care
+                // of creating the required Intent and passing the options.
+                JitsiMeetActivity.launch(context, options);
+            }
+        });
+    }
     public static void goToChatPage(final Context context, final String user_id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("Do you want to open chat with this person?");
@@ -234,11 +274,9 @@ public class App extends Application implements LifecycleObserver {
                 if (compare < 0) {
                     user1 = myUid;
                     user2 = user_id;
-//                    roomId = myUid + user_id;
                 } else {
                     user1 = user_id;
                     user2 = myUid;
-//                    roomId = user_id + myUid;
                 }
                 roomId = user1 + user2;
 

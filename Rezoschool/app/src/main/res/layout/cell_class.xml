@@ -122,6 +122,9 @@
                             android:textColor="@color/white"
                             android:layout_marginBottom="5dp"
                             android:layout_marginRight="5dp"
+                            android:clickable="false"
+                            android:focusable="false"
+
                             />
                         <Button
                             android:id="@+id/btn_students"
@@ -133,6 +136,8 @@
                             android:layout_marginBottom="5dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
+                            android:clickable="false"
+                            android:focusable="false"
                             />
                     </LinearLayout>
                 </LinearLayout>
@@ -145,6 +150,8 @@
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/ic_erase"
                 android:layout_margin="10dp"
+                android:clickable="false"
+                android:focusable="false"
                 />
         </RelativeLayout>
 

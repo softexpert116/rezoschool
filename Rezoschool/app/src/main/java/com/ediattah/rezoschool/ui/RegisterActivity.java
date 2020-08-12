@@ -37,6 +37,7 @@ import com.hbb20.CountryCodePicker;
 import com.ediattah.rezoschool.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -406,6 +407,11 @@ public class RegisterActivity extends AppCompatActivity {
                 Student student = new Student(Utils.mUser.getUid(), parent_id, school_id, sel_class.name, isNew, false);
                 Utils.currentSchool.students.add(student);
                 Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("students").setValue(Utils.currentSchool.students);
+                HashMap hashMap = new HashMap<String, String>();           //some random data
+                hashMap.put("parent_id", parent_id);
+                hashMap.put("student_id", Utils.mUser.getUid());
+                hashMap.put("isNew", isNew);
+                Utils.mDatabase.child(Utils.tbl_parent_student).push().setValue(hashMap);
                 register_newUser(user);
                 dlg.dismiss();
             }

@@ -55,6 +55,9 @@ public class StudentCourseFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        if (Utils.currentClass.name.length() == 0) {
+            Utils.showAlert(activity, "Warning", "Please apply to the school");
+        }
         return v;
     }
     @Override
