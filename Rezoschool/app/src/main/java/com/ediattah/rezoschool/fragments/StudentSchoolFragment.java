@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -34,9 +35,9 @@ public class StudentSchoolFragment extends Fragment {
     MainActivity activity;
     Button btn_choose;
     TextView txt_status;
-    ImageView img_status, img_photo;
+    ImageView img_status, img_photo, img_parent_photo;
     User schoolUser;
-    TextView txt_school_number, txt_name, txt_email, txt_phone, txt_type, txt_public, txt_class_level, txt_class_name;
+    TextView txt_school_number, txt_name, txt_email, txt_phone, txt_type, txt_public, txt_class_level, txt_class_name, txt_parent_name, txt_parent_email, txt_parent_phone;
     RelativeLayout ly_status;
     LinearLayout ly_tool;
 
@@ -60,7 +61,10 @@ public class StudentSchoolFragment extends Fragment {
         ly_tool = v.findViewById(R.id.ly_tool);
         txt_class_level = v.findViewById(R.id.txt_class_level);
         txt_class_name = v.findViewById(R.id.txt_class_name);
-
+        img_parent_photo = v.findViewById(R.id.img_parent_photo);
+        txt_parent_name = v.findViewById(R.id.txt_parent_name);
+        txt_parent_email = v.findViewById(R.id.txt_parent_email);
+        txt_parent_phone = v.findViewById(R.id.txt_parent_phone);
 
         ImageView img_chat = v.findViewById(R.id.img_chat);
         ImageView img_sms = v.findViewById(R.id.img_sms);
@@ -90,6 +94,39 @@ public class StudentSchoolFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(activity, ChooseSchoolActivity.class);
                 activity.startActivity(intent);
+            }
+        });
+        Utils.mDatabase.child(Utils.tbl_parent_student).orderByChild("student_id").equalTo(Utils.mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null) {
+                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        String parent_id = datas.child("parent_id").getValue(String.class);
+                        Utils.mDatabase.child(Utils.tbl_user).child(parent_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue()!=null) {
+                                    User user = dataSnapshot.getValue(User.class);
+                                    Glide.with(activity).load(user.photo).apply(new RequestOptions()
+                                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_parent_photo);
+                                    txt_parent_name.setText(user.name);
+                                    txt_parent_email.setText(user.email);
+                                    txt_parent_phone.setText(user.phone);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
         return v;

@@ -15,6 +15,7 @@
             android:layout_margin="5dp"
             >
             <LinearLayout
+                android:id="@+id/ly_student"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -138,15 +139,6 @@
                         android:padding="5dp"
                         />
                     <ImageView
-                        android:id="@+id/img_call"
-                        android:layout_width="40dp"
-                        android:layout_height="30dp"
-                        android:src="@android:drawable/stat_sys_phone_call"
-                        android:background="@drawable/btn_round"
-                        android:padding="5dp"
-                        android:layout_marginLeft="10dp"
-                        />
-                    <ImageView
                         android:id="@+id/img_sms"
                         android:layout_width="40dp"
                         android:layout_height="30dp"
@@ -175,6 +167,18 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/frame_round"
+                android:padding="5dp"
+                />
+            <Button
+                android:id="@+id/btn_parent"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:text="Parent"
+                android:background="@drawable/btn_round"
+                android:textColor="@color/white"
+                android:layout_below="@+id/ly_student"
+                android:layout_marginTop="-35dp"
+                android:layout_marginLeft="10dp"
                 android:padding="5dp"
                 />
         </RelativeLayout>

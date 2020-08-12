@@ -86,7 +86,6 @@ public class ChooseSchoolActivity extends AppCompatActivity {
         get_parentId();
     }
     void get_parentId() {
-        String uid = Utils.mUser.getUid();
         Utils.mDatabase.child(Utils.tbl_parent_student).orderByChild("student_id").equalTo(Utils.mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

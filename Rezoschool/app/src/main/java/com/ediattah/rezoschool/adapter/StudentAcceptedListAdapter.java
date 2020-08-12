@@ -1,13 +1,19 @@
 package com.ediattah.rezoschool.adapter;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,19 +90,70 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-        ImageView img_call = (ImageView)view.findViewById(R.id.img_call);
-        img_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "click call", Toast.LENGTH_SHORT).show();
-            }
-        });
         ImageView img_video = (ImageView)view.findViewById(R.id.img_video);
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(context, "click video", Toast.LENGTH_SHORT).show();
                 App.goToVideoCallPage(context);
+            }
+        });
+        Button btn_parent = view.findViewById(R.id.btn_parent);
+        btn_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dlg = new Dialog(context);
+                Window window = dlg.getWindow();
+                View view2 = ((Activity)context).getLayoutInflater().inflate(R.layout.dialog_view_items, null);
+                int width = (int)(context.getResources().getDisplayMetrics().widthPixels*0.90);
+                int height = (int)(context.getResources().getDisplayMetrics().heightPixels*0.4);
+                view.setMinimumWidth(width);
+                view.setMinimumHeight(height);
+                dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dlg.setContentView(view2);
+                window.setGravity(Gravity.CENTER);
+                dlg.show();
+                LinearLayout ly_item = view2.findViewById(R.id.ly_item);
+                ly_item.removeAllViews();
+                LayoutInflater inflater = LayoutInflater.from(context);
+                Utils.mDatabase.child(Utils.tbl_parent_student).orderByChild("student_id").equalTo(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue()!=null) {
+                            for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                                String parent_id = datas.child("parent_id").getValue(String.class);
+                                Utils.mDatabase.child(Utils.tbl_user).child(parent_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.getValue()!=null) {
+                                            User user = dataSnapshot.getValue(User.class);
+                                            View view1 = inflater.inflate(R.layout.cell_user, null);
+                                            ImageView img_photo = view1.findViewById(R.id.img_photo);
+                                            TextView txt_name = view1.findViewById(R.id.txt_name);
+                                            TextView txt_email = view1.findViewById(R.id.txt_email);
+                                            TextView txt_phone = view1.findViewById(R.id.txt_phone);
+                                            Glide.with(context).load(user.photo).apply(new RequestOptions()
+                                                    .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                                            txt_name.setText(user.name);
+                                            txt_email.setText(user.email);
+                                            txt_phone.setText(user.phone);
+                                            ly_item.addView(view1);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
         final RelativeLayout ly_status = view.findViewById(R.id.ly_status);

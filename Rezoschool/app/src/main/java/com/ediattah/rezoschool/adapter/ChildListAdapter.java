@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Absence;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Level;
@@ -87,8 +89,12 @@ public class ChildListAdapter extends BaseAdapter {
         Button btn_teacher = view.findViewById(R.id.btn_teacher);
         Button btn_exam = view.findViewById(R.id.btn_exam);
         Button btn_pay = view.findViewById(R.id.btn_pay);
-        ImageView img_call = view.findViewById(R.id.img_call);
+        ImageView img_school_photo = view.findViewById(R.id.img_school_photo);
+        TextView txt_school_staff = view.findViewById(R.id.txt_school_staff);
+        RelativeLayout ly_status = view.findViewById(R.id.ly_status);
+        ImageView img_chat = view.findViewById(R.id.img_chat);
         ImageView img_sms = view.findViewById(R.id.img_sms);
+        ImageView img_video = view.findViewById(R.id.img_video);
         img_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,13 +104,19 @@ public class ChildListAdapter extends BaseAdapter {
                         .start(activity, fragment);
             }
         });
-        img_call.setOnClickListener(new View.OnClickListener() {
+        final User[] sel_user = new User[1];
+        img_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, "call clicked", Toast.LENGTH_SHORT).show();
+                App.goToChatPage(activity, sel_user[0]._id);
             }
         });
-        final User[] sel_user = new User[1];
+        img_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.goToVideoCallPage(activity);
+            }
+        });
         img_sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,7 +187,7 @@ public class ChildListAdapter extends BaseAdapter {
             }
         });
         txt_class.setText(model.class_name);
-        Utils.mDatabase.child(Utils.tbl_user).child(model.uid).addValueEventListener(new ValueEventListener() {
+        Utils.mDatabase.child(Utils.tbl_user).child(model.uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue()!=null) {
@@ -187,7 +199,6 @@ public class ChildListAdapter extends BaseAdapter {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    sel_user[0] = user;
                 }
             }
 
@@ -256,6 +267,34 @@ public class ChildListAdapter extends BaseAdapter {
                     }
                     txt_school.setText(school.number);
                     txt_level.setText(mlevel + ", " + mfee + "XOF/month");
+
+                    Utils.mDatabase.child(Utils.tbl_user).child(school.uid).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue()!=null) {
+                                User user = dataSnapshot.getValue(User.class);
+                                user._id = dataSnapshot.getKey();
+                                txt_school_staff.setText(user.name);
+                                try {
+                                    Glide.with(activity).load(user.photo).apply(new RequestOptions()
+                                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_school_photo);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                if (user.status == 0) {
+                                    ly_status.setBackground(activity.getResources().getDrawable(R.drawable.status_offline));
+                                } else {
+                                    ly_status.setBackground(activity.getResources().getDrawable(R.drawable.status_online));
+                                }
+                                sel_user[0] = user;
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
 
