@@ -93,19 +93,11 @@ public class FinanceDetailListAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-        ImageView img_call = (ImageView)view.findViewById(R.id.img_call);
-        img_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "click call", Toast.LENGTH_SHORT).show();
-            }
-        });
         ImageView img_video = (ImageView)view.findViewById(R.id.img_video);
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "click video", Toast.LENGTH_SHORT).show();
-                App.goToVideoCallPage(context);
+                App.goToVideoCallPage(sel_user[0], context);
             }
         });
         Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addValueEventListener(new ValueEventListener() {

@@ -279,7 +279,7 @@ public class ChatListAdapter extends BaseAdapter {
             @Override
             public void onTaskCompleted() {
                 mProgressDialog.dismiss();
-                Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Downloaded in " + App.MY_IMAGE_PATH, Toast.LENGTH_LONG).show();
             }
 
             @Override

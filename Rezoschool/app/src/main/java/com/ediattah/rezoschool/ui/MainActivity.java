@@ -1,5 +1,6 @@
 package com.ediattah.rezoschool.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,15 +13,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +44,7 @@ import com.ediattah.rezoschool.fragments.MessageFragment;
 import com.ediattah.rezoschool.fragments.ProfileFragment;
 import com.ediattah.rezoschool.fragments.StudentSchoolFragment;
 import com.ediattah.rezoschool.fragments.TimeslotFragment;
+import com.ediattah.rezoschool.service.NotificationCallback;
 import com.google.android.material.navigation.NavigationView;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.fragments.AlumniFragment;
@@ -55,9 +61,14 @@ import com.ediattah.rezoschool.fragments.StudentCourseFragment;
 import com.ediattah.rezoschool.fragments.TeacherSchoolFragment;
 import com.ediattah.rezoschool.fragments.TeacherSyllabusFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import pl.droidsonroids.gif.GifImageButton;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -69,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView txt_title;
     Toolbar toolbar;
     View header;
+    GifImageButton btn_notify;
+    Button btn_message, btn_video;
+    LinearLayout ly_notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +92,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
 
-
+        btn_message = findViewById(R.id.btn_message);
+        btn_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<String> arrayList = App.readPreference_array_String(App.NewMessage);
+                if (arrayList.size() > 0) {
+                    App.goToChatPage(MainActivity.this, arrayList.get(0));
+                } else {
+                    refreshNotifications();
+                }
+            }
+        });
+        btn_video = findViewById(R.id.btn_video);
+        btn_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<String> arrayList = App.readPreference_array_String(App.NewVideoCall);
+                if (arrayList.size() > 0) {
+                    String room = arrayList.get(0);
+                    App.goToJoinVideoCall(arrayList.get(0), MainActivity.this);
+                    arrayList.remove(room);
+                    App.setPreference_array_String(App.NewVideoCall, arrayList);
+                } else {
+                    refreshNotifications();
+                }
+            }
+        });
+        ly_notification = findViewById(R.id.ly_notification);
+        btn_notify = findViewById(R.id.btn_notify);
+        btn_notify.setTag("0");
+        btn_notify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (btn_notify.getTag().equals("0")) {
+                    ly_notification.setVisibility(View.VISIBLE);
+                    btn_notify.setTag("1");
+                } else {
+                    ly_notification.setVisibility(View.GONE);
+                    btn_notify.setTag("0");
+                }
+            }
+        });
         txt_title = findViewById(R.id.txt_title);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -104,6 +159,70 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_WRITE_EXTERNAL_STORAGE);
 //            }
 //        }
+
+        App.notificationCallback = new NotificationCallback() {
+            @Override
+            public void OnReceivedNotification() {
+                refreshNotifications();
+            }
+        };
+    }
+    void refreshNotifications() {
+        App.cancelAllNotifications();
+        boolean flag_notification = false;
+        btn_notify.setTag("0");
+        ly_notification.setVisibility(View.GONE);
+
+        ArrayList<String> array_message = App.readPreference_array_String(App.NewMessage);
+        ArrayList<String> array_video = App.readPreference_array_String(App.NewVideoCall);
+
+        if (array_message.size() > 0) {
+            flag_notification = true;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btn_message.setVisibility(View.VISIBLE);
+                }
+            });
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btn_message.setVisibility(View.GONE);
+                }
+            });
+        }
+        if (array_video.size() > 0) {
+            flag_notification = true;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btn_video.setVisibility(View.VISIBLE);
+                }
+            });
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btn_video.setVisibility(View.GONE);
+                }
+            });
+        }
+        if (flag_notification) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btn_notify.setVisibility(View.VISIBLE);
+                }
+            });
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btn_notify.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
     }
     private void setTitle(String title) {
         txt_title.setText(title);
@@ -170,21 +289,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     void createDirectory() {
         getExternalFilesDir(null);
         File assets = getExternalFilesDir("assets");
-//        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "Android", "folder_main");
-//        if (!f.exists()) {
-//            f.mkdir();
-//        }
-        App.MY_APP_PATH = assets.getAbsolutePath();
-        File f2 = new File(App.MY_APP_PATH, "image");
-        if (!f2.exists()) {
-            f2.mkdir();
+        if (!assets.exists()) {
+            assets.mkdir();
         }
-        App.MY_IMAGE_PATH = f2.getAbsolutePath();
+        App.MY_APP_PATH = assets.getAbsolutePath();
         File f3 = new File(App.MY_APP_PATH, "audio");
         if (!f3.exists()) {
             f3.mkdir();
         }
         App.MY_AUDIO_PATH = f3.getAbsolutePath();
+
+        File pictures = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures", "rezo");
+        if (!pictures.exists()) {
+            pictures.mkdir();
+        }
+        App.MY_IMAGE_PATH = pictures.getAbsolutePath();
+
     }
 
     @Override
@@ -210,6 +330,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_container, fragment);
         transaction.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshNotifications();
     }
 
     @Override

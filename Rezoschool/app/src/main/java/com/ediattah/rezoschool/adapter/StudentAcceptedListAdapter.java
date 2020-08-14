@@ -94,7 +94,7 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.goToVideoCallPage(context);
+                App.goToVideoCallPage(sel_user[0], context);
             }
         });
         Button btn_parent = view.findViewById(R.id.btn_parent);

@@ -2,29 +2,21 @@ package com.ediattah.rezoschool.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.Time;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,10 +29,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.App;
-import com.ediattah.rezoschool.Model.ChatRoom;
-import com.ediattah.rezoschool.Model.Comment;
 import com.ediattah.rezoschool.Model.Message;
-import com.ediattah.rezoschool.Model.Tweet;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
@@ -56,27 +45,13 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
 import cafe.adriel.androidaudiorecorder.model.AudioChannel;
 import cafe.adriel.androidaudiorecorder.model.AudioSampleRate;
 import cafe.adriel.androidaudiorecorder.model.AudioSource;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class ChatActivity extends AppCompatActivity {
     String roomId;
@@ -166,7 +141,7 @@ public class ChatActivity extends AppCompatActivity {
                     Message message = new Message("", Utils.mUser.getUid(), user_id, msg, "", "", System.currentTimeMillis(), false);
                     Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").push().setValue(message);
                     edit_message.setText("");
-                    App.sendMessage(user.token, "Chat from " + user.name, message.message, "", "", ChatActivity.this);
+                    App.sendPushMessage(user.token, "Chat from " + Utils.currentUser.name, message.message, "", "", ChatActivity.this, App.PUSH_CHAT, Utils.mUser.getUid());
                 } else if (btn_send.getTag().equals("record")) {
                     if (ContextCompat.checkSelfPermission(ChatActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ) {
                         ArrayList<String> arrPermissionRequests = new ArrayList<>();
@@ -187,6 +162,11 @@ public class ChatActivity extends AppCompatActivity {
         readMessages();
         watchTypingEvent();
 
+        ArrayList<String> array_message = App.readPreference_array_String(App.NewMessage);
+        if (array_message.contains(user_id)) {
+            array_message.remove(user_id);
+            App.setPreference_array_String(App.NewMessage, array_message);
+        }
     }
     void goToVoiceRecordPage() {
         Time time = new Time();
@@ -300,8 +280,12 @@ public class ChatActivity extends AppCompatActivity {
                 if (dataSnapshot.getValue()!=null) {
                     user = dataSnapshot.getValue(User.class);
                     txt_title.setText("Chat With " + user.name);
-                    Glide.with(ChatActivity.this).load(user.photo).apply(new RequestOptions()
-                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    try {
+                        Glide.with(ChatActivity.this).load(user.photo).apply(new RequestOptions()
+                                .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     if (user.status == 0) {
                         ly_status.setBackground(getResources().getDrawable(R.drawable.status_offline));
                     } else {
@@ -392,7 +376,7 @@ public class ChatActivity extends AppCompatActivity {
                         String downloadUrl = uri.toString();
                         Message message = new Message("", Utils.mUser.getUid(), user_id, "", downloadUrl, file_type, System.currentTimeMillis(), false);
                         Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").push().setValue(message);
-                        App.sendMessage(user.token, "Chat from " + user.name, "File attached", "", "", ChatActivity.this);
+                        App.sendPushMessage(user.token, "Chat from " + Utils.currentUser.name, "File attached", "", "", ChatActivity.this, App.PUSH_CHAT, Utils.mUser.getUid());
                     }
                 });
             }

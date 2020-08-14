@@ -86,7 +86,7 @@ public class StudentSchoolFragment extends Fragment {
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.goToVideoCallPage(activity);
+                App.goToVideoCallPage(schoolUser, activity);
             }
         });
         btn_choose.setOnClickListener(new View.OnClickListener() {

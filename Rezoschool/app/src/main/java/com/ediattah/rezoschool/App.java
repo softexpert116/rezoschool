@@ -72,6 +72,7 @@ import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.TeacherListAdapter;
 import com.ediattah.rezoschool.httpsModule.RestClient;
+import com.ediattah.rezoschool.service.NotificationCallback;
 import com.ediattah.rezoschool.ui.ChatActivity;
 import com.ediattah.rezoschool.ui.CourseCalendarActivity;
 import com.ediattah.rezoschool.ui.LoginActivity;
@@ -106,7 +107,13 @@ public class App extends Application implements LifecycleObserver {
 
     public static String TIME_FORMAT = "h:mm a"; //, dd/MM/yyyy";
     public static String DATE_FORMAT = "dd/MM/yyyy";
-    public static boolean relogin = false;
+    public static String NewMessage = "NewMessage";
+    public static String NewVideoCall = "NewVideoMessage";
+//    public static ArrayList<String> array_message = new ArrayList<>();
+//    public static ArrayList<JSONObject> array_videoCall = new ArrayList<>();
+
+    public static String PUSH_CHAT = "PUSH_CHAT";
+    public static String PUSH_VIDEO = "PUSH_VIDEO";
 
     public static String MY_APP_PATH = "";
     public static String MY_IMAGE_PATH = "";
@@ -116,7 +123,7 @@ public class App extends Application implements LifecycleObserver {
 
 
     private static final int MAX_SMS_MESSAGE_LENGTH = 160;
-
+    public static NotificationCallback notificationCallback;
 
     @Override
     public void onCreate() {
@@ -216,7 +223,7 @@ public class App extends Application implements LifecycleObserver {
             }
         });
     }
-    public static void goToVideoCallPage(Context context) {
+    public static void goToJoinVideoCall(String room, Context context) {
         URL serverURL;
         try {
             serverURL = new URL("https://meet.jit.si");
@@ -231,41 +238,96 @@ public class App extends Application implements LifecycleObserver {
                 .build();
         JitsiMeet.setDefaultConferenceOptions(defaultOptions);
 
-        final Dialog dlg = new Dialog(context);
-        Window window = dlg.getWindow();
-        View view = ((Activity)context).getLayoutInflater().inflate(R.layout.dialog_video_room, null);
-        int width = (int)(context.getResources().getDisplayMetrics().widthPixels*0.80);
-        int height = (int)(context.getResources().getDisplayMetrics().heightPixels*0.2);
-        view.setMinimumWidth(width);
-        view.setMinimumHeight(height);
-        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dlg.setContentView(view);
-        window.setGravity(Gravity.CENTER);
-        dlg.show();
-        EditText editText = view.findViewById(R.id.edit_room);
-        Button btn_add = view.findViewById(R.id.btn_add);
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String room = editText.getText().toString().trim();
-                if (room.length() == 0) {
-                    return;
-                }
+        JitsiMeetConferenceOptions options
+                = new JitsiMeetConferenceOptions.Builder()
+                .setRoom(room)
+                .setFeatureFlag("recording.enabled",false)
+                .setFeatureFlag("chat.enabled", false)
+                .setFeatureFlag("pip.enabled",false)
+                .setFeatureFlag("add-people.enabled",false)
+                .setFeatureFlag("calendar.enabled",false)
+                .setFeatureFlag("conference-timer.enabled",false)
+                .setFeatureFlag("close-captions.enabled",false)
+                .setFeatureFlag("invite.enabled",false)
+                .setFeatureFlag("live-streaming.enabled",false)
+                .setFeatureFlag("meeting-name.enabled",false)
+                .setFeatureFlag("meeting-password.enabled",false)
+                .setFeatureFlag("raise-hand.enabled",false)
+                .setFeatureFlag("server-url-change.enabled",false)
+                .setFeatureFlag("tile-view.enabled",false)
+                .setFeatureFlag("video-share.enabled",false)
+                .build();
+        // Launch the new activity with the given options. The launch() method takes care
+        // of creating the required Intent and passing the options.
+        JitsiMeetActivity.launch(context, options);
+    }
+    public static void goToVideoCallPage(User user, Context context) {
+        URL serverURL;
+        try {
+            serverURL = new URL("https://meet.jit.si");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Invalid server URL!");
+        }
+        JitsiMeetConferenceOptions defaultOptions
+                = new JitsiMeetConferenceOptions.Builder()
+                .setServerURL(serverURL)
+                .setWelcomePageEnabled(false)
+                .build();
+        JitsiMeet.setDefaultConferenceOptions(defaultOptions);
+
+//        final Dialog dlg = new Dialog(context);
+//        Window window = dlg.getWindow();
+//        View view = ((Activity)context).getLayoutInflater().inflate(R.layout.dialog_video_room, null);
+//        int width = (int)(context.getResources().getDisplayMetrics().widthPixels*0.80);
+//        int height = (int)(context.getResources().getDisplayMetrics().heightPixels*0.2);
+//        view.setMinimumWidth(width);
+//        view.setMinimumHeight(height);
+//        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dlg.setContentView(view);
+//        window.setGravity(Gravity.CENTER);
+//        dlg.show();
+//        EditText editText = view.findViewById(R.id.edit_room);
+//        Button btn_add = view.findViewById(R.id.btn_add);
+//        btn_add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String room = getTimestampString();// editText.getText().toString().trim();
+//                if (room.length() == 0) {
+//                    return;
+//                }
+        String room = getTimestampString();
                 JitsiMeetConferenceOptions options
                         = new JitsiMeetConferenceOptions.Builder()
                         .setRoom(room)
+                        .setFeatureFlag("recording.enabled",false)
+                        .setFeatureFlag("chat.enabled", false)
+                        .setFeatureFlag("pip.enabled",false)
+                        .setFeatureFlag("add-people.enabled",false)
+                        .setFeatureFlag("calendar.enabled",false)
+                        .setFeatureFlag("conference-timer.enabled",false)
+                        .setFeatureFlag("close-captions.enabled",false)
+                        .setFeatureFlag("invite.enabled",false)
+                        .setFeatureFlag("live-streaming.enabled",false)
+                        .setFeatureFlag("meeting-name.enabled",false)
+                        .setFeatureFlag("meeting-password.enabled",false)
+                        .setFeatureFlag("raise-hand.enabled",false)
+                        .setFeatureFlag("server-url-change.enabled",false)
+                        .setFeatureFlag("tile-view.enabled",false)
+                        .setFeatureFlag("video-share.enabled",false)
                         .build();
                 // Launch the new activity with the given options. The launch() method takes care
                 // of creating the required Intent and passing the options.
                 JitsiMeetActivity.launch(context, options);
-            }
-        });
+                sendPushMessage(user.token, "Video Call from " + Utils.currentUser.name, "Please join in room '" + room + "'", "", room, context, App.PUSH_VIDEO, Utils.mUser.getUid());
+//            }
+//        });
     }
     public static void goToChatPage(final Context context, final String user_id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Do you want to open chat with this person?");
-        builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int id) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        builder.setMessage("Do you want to open chat with this person?");
+//        builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog,int id) {
 //                        ArrayList<Teacher> teachers = school.teachers;
                 String myUid = Utils.mUser.getUid();
                 final String roomId;
@@ -298,14 +360,14 @@ public class App extends Application implements LifecycleObserver {
 
                     }
                 });
-            }
-        });
-        builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
+//            }
+//        });
+//        builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//            }
+//        });
+//        AlertDialog alert = builder.create();
+//        alert.show();
     }
     public static void goToMainPage(final Activity activity) {
         //get user info into model
@@ -368,22 +430,28 @@ public class App extends Application implements LifecycleObserver {
 
     //----------------------------------fcm push notification----------------------------------
     @SuppressLint("StaticFieldLeak")
-    public static void sendMessage(final String token, final String title, final String body, final String icon, final String message, final Context context) {
+    public static void sendPushMessage(final String token, final String title, final String body, final String icon, final String room, final Context context, String push_type, String user_id) {
 
         new AsyncTask<String, String, String>() {
             @Override
             protected String doInBackground(String... params) {
                 try {
                     JSONObject root = new JSONObject();
-                    JSONObject notification = new JSONObject();
-                    notification.put("body", body);
-                    notification.put("title", title);
+//                    JSONObject notification = new JSONObject();
+//                    notification.put("body", body);
+//                    notification.put("title", title);
 //                    notification.put("icon", icon);
 
                     JSONObject data = new JSONObject();
-                    data.put("message", message);
-                    root.put("notification", notification);
-                    root.put("data", data);
+                    JSONObject subData = new JSONObject();
+                    subData.put("push_type", push_type);
+                    subData.put("user_id", user_id);
+                    subData.put("body", body);
+                    subData.put("title", title);
+                    subData.put("room", room);
+                    data.put("message", "");
+//                    root.put("notification", notification);
+                    root.put("data", subData);
                     root.put("to", token);
 //                    root.put("registration_ids", recipients);
 
@@ -585,7 +653,6 @@ public class App extends Application implements LifecycleObserver {
     public static void cancelAllNotifications() {
         NotificationManager notificationManager = (NotificationManager)mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
-
     }
 
     public static void social_share(Context context, String url) {

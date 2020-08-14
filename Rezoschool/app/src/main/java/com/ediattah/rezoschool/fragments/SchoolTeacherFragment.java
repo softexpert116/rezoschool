@@ -91,19 +91,11 @@ public class SchoolTeacherFragment extends Fragment {
                 activity.startActivity(intent);
             }
         });
-        ImageView img_call = v.findViewById(R.id.img_call);
-        img_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(activity, "click call", Toast.LENGTH_SHORT).show();
-            }
-        });
         ImageView img_video = v.findViewById(R.id.img_video);
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(activity, "click video", Toast.LENGTH_SHORT).show();
-                App.goToVideoCallPage(activity);
+                App.goToVideoCallPage(sel_user, activity);
             }
         });
 
