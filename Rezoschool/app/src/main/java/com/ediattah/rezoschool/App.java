@@ -69,6 +69,7 @@ import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.Transaction;
 import com.ediattah.rezoschool.Model.User;
+import com.ediattah.rezoschool.Model.VideoGroup;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.TeacherListAdapter;
 import com.ediattah.rezoschool.httpsModule.RestClient;
@@ -260,8 +261,14 @@ public class App extends Application implements LifecycleObserver {
         // Launch the new activity with the given options. The launch() method takes care
         // of creating the required Intent and passing the options.
         JitsiMeetActivity.launch(context, options);
+
+        ArrayList<String> array_video = App.readPreference_array_String(App.NewVideoCall);
+        if (array_video.contains(room)) {
+            array_video.remove(room);
+            App.setPreference_array_String(App.NewVideoCall, array_video);
+        }
     }
-    public static void goToVideoCallPage(User user, Context context) {
+    public static void goToStartVideoCallPage(User user, Context context) {
         URL serverURL;
         try {
             serverURL = new URL("https://meet.jit.si");
@@ -276,30 +283,51 @@ public class App extends Application implements LifecycleObserver {
                 .build();
         JitsiMeet.setDefaultConferenceOptions(defaultOptions);
 
-//        final Dialog dlg = new Dialog(context);
-//        Window window = dlg.getWindow();
-//        View view = ((Activity)context).getLayoutInflater().inflate(R.layout.dialog_video_room, null);
-//        int width = (int)(context.getResources().getDisplayMetrics().widthPixels*0.80);
-//        int height = (int)(context.getResources().getDisplayMetrics().heightPixels*0.2);
-//        view.setMinimumWidth(width);
-//        view.setMinimumHeight(height);
-//        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dlg.setContentView(view);
-//        window.setGravity(Gravity.CENTER);
-//        dlg.show();
-//        EditText editText = view.findViewById(R.id.edit_room);
-//        Button btn_add = view.findViewById(R.id.btn_add);
-//        btn_add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String room = getTimestampString();// editText.getText().toString().trim();
-//                if (room.length() == 0) {
-//                    return;
-//                }
         String room = getTimestampString();
+        JitsiMeetConferenceOptions options
+                = new JitsiMeetConferenceOptions.Builder()
+                .setRoom(room)
+                .setFeatureFlag("recording.enabled",false)
+                .setFeatureFlag("chat.enabled", false)
+                .setFeatureFlag("pip.enabled",false)
+                .setFeatureFlag("add-people.enabled",false)
+                .setFeatureFlag("calendar.enabled",false)
+                .setFeatureFlag("conference-timer.enabled",false)
+                .setFeatureFlag("close-captions.enabled",false)
+                .setFeatureFlag("invite.enabled",false)
+                .setFeatureFlag("live-streaming.enabled",false)
+                .setFeatureFlag("meeting-name.enabled",false)
+                .setFeatureFlag("meeting-password.enabled",false)
+                .setFeatureFlag("raise-hand.enabled",false)
+                .setFeatureFlag("server-url-change.enabled",false)
+                .setFeatureFlag("tile-view.enabled",false)
+                .setFeatureFlag("video-share.enabled",false)
+                .build();
+        // Launch the new activity with the given options. The launch() method takes care
+        // of creating the required Intent and passing the options.
+        JitsiMeetActivity.launch(context, options);
+        sendPushMessage(user.token, "Video Call from " + Utils.currentUser.name, "Please join in room '" + room + "'", "", room, context, App.PUSH_VIDEO, Utils.mUser.getUid());
+//            }
+//        });
+    }
+    public static void goToStartG_VideoCallPage(VideoGroup videoGroup, Context context) {
+        URL serverURL;
+        try {
+            serverURL = new URL("https://meet.jit.si");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Invalid server URL!");
+        }
+        JitsiMeetConferenceOptions defaultOptions
+                = new JitsiMeetConferenceOptions.Builder()
+                .setServerURL(serverURL)
+                .setWelcomePageEnabled(false)
+                .build();
+        JitsiMeet.setDefaultConferenceOptions(defaultOptions);
+
                 JitsiMeetConferenceOptions options
                         = new JitsiMeetConferenceOptions.Builder()
-                        .setRoom(room)
+                        .setRoom(videoGroup.room)
                         .setFeatureFlag("recording.enabled",false)
                         .setFeatureFlag("chat.enabled", false)
                         .setFeatureFlag("pip.enabled",false)
@@ -319,7 +347,9 @@ public class App extends Application implements LifecycleObserver {
                 // Launch the new activity with the given options. The launch() method takes care
                 // of creating the required Intent and passing the options.
                 JitsiMeetActivity.launch(context, options);
-                sendPushMessage(user.token, "Video Call from " + Utils.currentUser.name, "Please join in room '" + room + "'", "", room, context, App.PUSH_VIDEO, Utils.mUser.getUid());
+                for (User user:videoGroup.members) {
+                    sendPushMessage(user.token, "Group Video Call from " + Utils.currentUser.name, "Please join in group '" + videoGroup.name + "'", "", videoGroup.room, context, "", Utils.mUser.getUid());
+                }
 //            }
 //        });
     }
@@ -353,6 +383,12 @@ public class App extends Application implements LifecycleObserver {
                         Intent intent = new Intent(context, ChatActivity.class);
                         intent.putExtra("roomId", roomId);
                         context.startActivity(intent);
+
+                        ArrayList<String> array_message = App.readPreference_array_String(App.NewMessage);
+                        if (array_message.contains(user_id)) {
+                            array_message.remove(user_id);
+                            App.setPreference_array_String(App.NewMessage, array_message);
+                        }
                     }
 
                     @Override

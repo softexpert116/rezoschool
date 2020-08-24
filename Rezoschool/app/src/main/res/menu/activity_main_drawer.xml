@@ -64,6 +64,10 @@
             android:id="@+id/nav_message"
             android:icon="@android:drawable/sym_action_chat"
             android:title="@string/menu_message" />
+        <item
+            android:id="@+id/nav_video"
+            android:icon="@android:drawable/presence_video_online"
+            android:title="@string/menu_video" />
     </group>
 
 </menu>

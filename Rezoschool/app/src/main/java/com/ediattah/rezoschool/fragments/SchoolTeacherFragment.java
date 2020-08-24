@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -95,7 +94,7 @@ public class SchoolTeacherFragment extends Fragment {
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.goToVideoCallPage(sel_user, activity);
+                App.goToStartVideoCallPage(sel_user, activity);
             }
         });
 

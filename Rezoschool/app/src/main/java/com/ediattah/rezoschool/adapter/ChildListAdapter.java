@@ -114,7 +114,7 @@ public class ChildListAdapter extends BaseAdapter {
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.goToVideoCallPage(sel_user[0], activity);
+                App.goToStartVideoCallPage(sel_user[0], activity);
             }
         });
         img_sms.setOnClickListener(new View.OnClickListener() {

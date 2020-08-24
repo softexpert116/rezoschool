@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -28,7 +27,6 @@ import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
-import com.ediattah.rezoschool.fragments.SchoolStudentFragment;
 import com.ediattah.rezoschool.ui.BulkSMSActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -94,7 +92,7 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.goToVideoCallPage(sel_user[0], context);
+                App.goToStartVideoCallPage(sel_user[0], context);
             }
         });
         Button btn_parent = view.findViewById(R.id.btn_parent);

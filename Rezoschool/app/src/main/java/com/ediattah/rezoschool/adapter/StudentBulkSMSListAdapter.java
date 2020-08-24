@@ -68,27 +68,26 @@ public class StudentBulkSMSListAdapter extends BaseAdapter {
         final TextView txt_phone = view.findViewById(R.id.txt_phone);
         TextView txt_new = view.findViewById(R.id.txt_new);
         final CustomCheckBox chk_student = view.findViewById(R.id.chk_student);
-//        chk_student.setChecked(false);
-        chk_student.setOnCheckedChangeListener(new CustomCheckBox.OnCheckedChangeListener() {
+
+//        chk_student.setChecked(array_sel_phone.contains(txt_phone.getText().toString().trim()));
+        chk_student.setChecked(false);
+        chk_student.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CustomCheckBox checkBox, boolean isChecked) {
+            public void onClick(View view) {
                 String name = txt_name.getText().toString().trim();
                 String phone = txt_phone.getText().toString().trim();
-                if (isChecked) {
-                    if (!array_sel_phone.contains(phone)) {
-                        array_sel_phone.add(phone);
-                        array_sel_name.add(name);
-                    }
+                if (!array_sel_phone.contains(phone)) {
+                    array_sel_phone.add(phone);
+                    array_sel_name.add(name);
                 } else {
-                    if (array_sel_phone.contains(phone)) {
-                        array_sel_phone.remove(phone);
-                        array_sel_name.remove(name);
-                    }
+                    array_sel_phone.remove(phone);
+                    array_sel_name.remove(name);
                 }
                 textView.setText("");
                 notifyDataSetChanged();
             }
         });
+
         txt_class.setText(student.class_name);
         if (student.isNew) {
             txt_new.setText("NEW");
@@ -104,7 +103,7 @@ public class StudentBulkSMSListAdapter extends BaseAdapter {
                     User user = dataSnapshot.getValue(User.class);
                     String text = textView.getText().toString();
                     if (array_sel_phone.contains(user.phone)) {
-//                        chk_student.setChecked(true);
+                        chk_student.setChecked(true);
                         if (text.length() == 0) {
                             text += user.name;
                         } else {

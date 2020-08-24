@@ -161,12 +161,6 @@ public class ChatActivity extends AppCompatActivity {
         load_user(user_id);
         readMessages();
         watchTypingEvent();
-
-        ArrayList<String> array_message = App.readPreference_array_String(App.NewMessage);
-        if (array_message.contains(user_id)) {
-            array_message.remove(user_id);
-            App.setPreference_array_String(App.NewMessage, array_message);
-        }
     }
     void goToVoiceRecordPage() {
         Time time = new Time();

@@ -44,6 +44,7 @@ import com.ediattah.rezoschool.fragments.MessageFragment;
 import com.ediattah.rezoschool.fragments.ProfileFragment;
 import com.ediattah.rezoschool.fragments.StudentSchoolFragment;
 import com.ediattah.rezoschool.fragments.TimeslotFragment;
+import com.ediattah.rezoschool.fragments.VideoFragment;
 import com.ediattah.rezoschool.service.NotificationCallback;
 import com.google.android.material.navigation.NavigationView;
 import com.ediattah.rezoschool.R;
@@ -386,6 +387,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_course).setVisible(false);
             nav_Menu.findItem(R.id.nav_alumni).setVisible(false);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
+            nav_Menu.findItem(R.id.nav_video).setVisible(true);
 
         } else if (Utils.currentUser.type.equals(Utils.TEACHER)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
@@ -404,6 +406,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_course).setVisible(false);
             nav_Menu.findItem(R.id.nav_alumni).setVisible(false);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
+            nav_Menu.findItem(R.id.nav_video).setVisible(true);
 
         } else if (Utils.currentUser.type.equals(Utils.PARENT)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
@@ -422,6 +425,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_course).setVisible(false);
             nav_Menu.findItem(R.id.nav_alumni).setVisible(false);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
+            nav_Menu.findItem(R.id.nav_video).setVisible(true);
 
         } else if (Utils.currentUser.type.equals(Utils.STUDENT)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
@@ -440,6 +444,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_course).setVisible(true);
             nav_Menu.findItem(R.id.nav_alumni).setVisible(true);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
+            nav_Menu.findItem(R.id.nav_video).setVisible(true);
 
         }
     }
@@ -498,6 +503,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_message) {
             selectFragment(new MessageFragment());
             setTitle(getResources().getString(R.string.menu_message));
+        } else if (id == R.id.nav_video) {
+            selectFragment(new VideoFragment());
+            setTitle(getResources().getString(R.string.menu_video));
         }
 
         closeDrawer();

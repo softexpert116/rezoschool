@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -82,7 +81,7 @@ public class TeacherListAdapter extends BaseAdapter {
         img_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.goToVideoCallPage(sel_user[0], context);
+                App.goToStartVideoCallPage(sel_user[0], context);
             }
         });
         final TextView txt_name = view.findViewById(R.id.txt_name);
