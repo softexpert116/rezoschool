@@ -34,7 +34,7 @@ public class NewVideoGroupActivity extends AppCompatActivity {
     ArrayList<User> array_teacher = new ArrayList<>();
     ArrayList<User> array_parent = new ArrayList<>();
     ArrayList<User> array_student = new ArrayList<>();
-    ArrayList<User> array_sel = new ArrayList<>();
+    ArrayList<String> array_sel = new ArrayList<>();
     SectionListAdapter sectionListAdapter;
 
     @Override
@@ -62,7 +62,7 @@ public class NewVideoGroupActivity extends AppCompatActivity {
                     return;
                 }
 
-                VideoGroup videoGroup = new VideoGroup("", Utils.currentUser, array_sel, name, App.getTimestampString(), System.currentTimeMillis());
+                VideoGroup videoGroup = new VideoGroup("", Utils.mUser.getUid(), array_sel, name, App.getTimestampString(), System.currentTimeMillis());
                 Utils.mDatabase.child(Utils.tbl_group).orderByChild("name").equalTo(name).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

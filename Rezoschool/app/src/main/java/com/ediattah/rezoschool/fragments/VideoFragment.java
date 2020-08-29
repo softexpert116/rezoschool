@@ -125,11 +125,11 @@ public class VideoFragment extends Fragment {
                     for (DataSnapshot datas:dataSnapshot.getChildren()) {
                         VideoGroup videoGroup = datas.getValue(VideoGroup.class);
                         videoGroup._id = datas.getKey();
-                        if (videoGroup.creator._id.equals(Utils.mUser.getUid())) {
+                        if (videoGroup.creator_id.equals(Utils.mUser.getUid())) {
                             array_my.add(videoGroup);
                         } else {
-                            for (User user:videoGroup.members) {
-                                if (user._id.equals(Utils.mUser.getUid())) {
+                            for (String uid:videoGroup.member_ids) {
+                                if (uid.equals(Utils.mUser.getUid())) {
                                     array_other.add(videoGroup);
                                     break;
                                 }

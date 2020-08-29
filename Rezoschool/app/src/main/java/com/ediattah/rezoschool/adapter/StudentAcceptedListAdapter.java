@@ -160,6 +160,7 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue()!= null) {
                     User user = dataSnapshot.getValue(User.class);
+                    user._id = dataSnapshot.getKey();
                     txt_name.setText(user.name);
                     Glide.with(context).load(user.photo).apply(new RequestOptions()
                             .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);

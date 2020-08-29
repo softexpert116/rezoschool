@@ -65,6 +65,7 @@ public class Utils {
     public static String tbl_transaction = "transactions";
     public static String tbl_parent_student = "parent_student";
     public static String tbl_group = "groups";
+    public static String tbl_video_call = "video_call";
 
     public static String USER_NAME = "name";
     public static String USER_TYPE = "type";

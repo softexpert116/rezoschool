@@ -49,7 +49,10 @@ import androidx.lifecycle.ProcessLifecycleOwner;
 
 import org.jitsi.meet.sdk.JitsiMeet;
 import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetActivityDelegate;
+import org.jitsi.meet.sdk.JitsiMeetActivityInterface;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+import org.jitsi.meet.sdk.JitsiMeetViewListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,9 +62,12 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Message;
@@ -261,12 +267,6 @@ public class App extends Application implements LifecycleObserver {
         // Launch the new activity with the given options. The launch() method takes care
         // of creating the required Intent and passing the options.
         JitsiMeetActivity.launch(context, options);
-
-        ArrayList<String> array_video = App.readPreference_array_String(App.NewVideoCall);
-        if (array_video.contains(room)) {
-            array_video.remove(room);
-            App.setPreference_array_String(App.NewVideoCall, array_video);
-        }
     }
     public static void goToStartVideoCallPage(User user, Context context) {
         URL serverURL;
@@ -306,9 +306,11 @@ public class App extends Application implements LifecycleObserver {
         // Launch the new activity with the given options. The launch() method takes care
         // of creating the required Intent and passing the options.
         JitsiMeetActivity.launch(context, options);
+//        HashMap hashMap_record = new HashMap<String, String>();           //some random data
+//        hashMap_record.put("caller", Utils.mUser.getUid());
+//        hashMap_record.put("receiver", user._id);
+//        Utils.mDatabase.child(Utils.tbl_video_call).child(room).setValue(hashMap_record);
         sendPushMessage(user.token, "Video Call from " + Utils.currentUser.name, "Please join in room '" + room + "'", "", room, context, App.PUSH_VIDEO, Utils.mUser.getUid());
-//            }
-//        });
     }
     public static void goToStartG_VideoCallPage(VideoGroup videoGroup, Context context) {
         URL serverURL;
@@ -347,8 +349,22 @@ public class App extends Application implements LifecycleObserver {
                 // Launch the new activity with the given options. The launch() method takes care
                 // of creating the required Intent and passing the options.
                 JitsiMeetActivity.launch(context, options);
-                for (User user:videoGroup.members) {
-                    sendPushMessage(user.token, "Group Video Call from " + Utils.currentUser.name, "Please join in group '" + videoGroup.name + "'", "", videoGroup.room, context, "", Utils.mUser.getUid());
+                for (String uid:videoGroup.member_ids) {
+                    Utils.mDatabase.child(Utils.tbl_user).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue()!=null) {
+                                User user = dataSnapshot.getValue(User.class);
+                                sendPushMessage(user.token, "Group Video Call from " + Utils.currentUser.name, "Please join in group '" + videoGroup.name + "'", "", videoGroup.room, context, "", Utils.mUser.getUid());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
 //            }
 //        });
@@ -384,11 +400,12 @@ public class App extends Application implements LifecycleObserver {
                         intent.putExtra("roomId", roomId);
                         context.startActivity(intent);
 
-                        ArrayList<String> array_message = App.readPreference_array_String(App.NewMessage);
-                        if (array_message.contains(user_id)) {
-                            array_message.remove(user_id);
-                            App.setPreference_array_String(App.NewMessage, array_message);
-                        }
+                        setPreference(App.NewMessage, "");
+//                        ArrayList<String> array_message = App.readPreference_array_String(App.NewMessage);
+//                        if (array_message.contains(user_id)) {
+//                            array_message.remove(user_id);
+//                            App.setPreference_array_String(App.NewMessage, array_message);
+//                        }
                     }
 
                     @Override
@@ -434,7 +451,8 @@ public class App extends Application implements LifecycleObserver {
 //status update
                                     setStatus(1);
 //token update
-                                    Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TOKEN).setValue(Utils.getDeviceToken(activity));
+                                    String token = Utils.getDeviceToken(activity);
+                                    Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TOKEN).setValue(token);
                                     // go to main page
                                     if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
                                         getSchoolInfo();

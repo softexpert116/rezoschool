@@ -23,9 +23,9 @@ public class SectionListAdapter extends SectionAdapter {
     Context context;
     public boolean isSchool = false;
     ArrayList<User> array_teacher, array_parent, array_student;
-    ArrayList<User> array_sel;
+    ArrayList<String> array_sel;
 
-    public SectionListAdapter(Context context, ArrayList<User> array_teacher, ArrayList<User> array_parent, ArrayList<User> array_student, ArrayList<User> _array_sel) {
+    public SectionListAdapter(Context context, ArrayList<User> array_teacher, ArrayList<User> array_parent, ArrayList<User> array_student, ArrayList<String> _array_sel) {
         this.context = context;
         this.array_teacher = array_teacher;
         this.array_parent = array_parent;
@@ -112,8 +112,8 @@ public class SectionListAdapter extends SectionAdapter {
         final TextView txt_phone = convertView.findViewById(R.id.txt_phone);
         final CustomCheckBox chk_student = convertView.findViewById(R.id.chk_student);
         boolean flag = false;
-        for (User usr:array_sel) {
-            if (usr._id.equals(user._id)) {
+        for (String uid:array_sel) {
+            if (uid.equals(user._id)) {
                 flag = true;
                 break;
             }
@@ -126,8 +126,8 @@ public class SectionListAdapter extends SectionAdapter {
             public void onClick(View view) {
                 int flag_index = -1;
                 for (int ii = 0; ii < array_sel.size(); ii++) {
-                    User usr = array_sel.get(ii);
-                    if (usr._id.equals(finalUser._id)) {
+                    String uid = array_sel.get(ii);
+                    if (uid.equals(finalUser._id)) {
                         flag_index = ii;
                         break;
                     }
@@ -135,7 +135,7 @@ public class SectionListAdapter extends SectionAdapter {
                 if (flag_index > -1) {
                     array_sel.remove(flag_index);
                 } else {
-                    array_sel.add(finalUser);
+                    array_sel.add(finalUser._id);
                 }
                 notifyDataSetChanged();
             }

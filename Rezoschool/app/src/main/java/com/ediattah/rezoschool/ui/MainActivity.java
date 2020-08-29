@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,10 +23,13 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -97,12 +102,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btn_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> arrayList = App.readPreference_array_String(App.NewMessage);
-                if (arrayList.size() > 0) {
-                    App.goToChatPage(MainActivity.this, arrayList.get(0));
-                } else {
-                    refreshNotifications();
-                }
+                selectFragment(new MessageFragment());
+                setTitle(getResources().getString(R.string.menu_message));
+                refreshNotifications();
             }
         });
         btn_video = findViewById(R.id.btn_video);
@@ -111,10 +113,74 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 ArrayList<String> arrayList = App.readPreference_array_String(App.NewVideoCall);
                 if (arrayList.size() > 0) {
-                    String room = arrayList.get(0);
-                    App.goToJoinVideoCall(arrayList.get(0), MainActivity.this);
-                    arrayList.remove(room);
-                    App.setPreference_array_String(App.NewVideoCall, arrayList);
+                    final Dialog dlg = new Dialog(MainActivity.this);
+                    Window window = dlg.getWindow();
+                    View view2 = getLayoutInflater().inflate(R.layout.dialog_view_items, null);
+                    int width = (int)(getResources().getDisplayMetrics().widthPixels*0.90);
+                    int height = (int)(getResources().getDisplayMetrics().heightPixels*0.4);
+                    view.setMinimumWidth(width);
+                    view.setMinimumHeight(height);
+                    dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dlg.setContentView(view2);
+                    window.setGravity(Gravity.CENTER);
+                    dlg.show();
+                    LinearLayout ly_item = view2.findViewById(R.id.ly_item);
+                    ly_item.removeAllViews();
+                    LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+                    for (String vtoken:arrayList) {
+                        String user_id = vtoken.split(" ")[0];
+                        String room = vtoken.split(" ")[1];
+                        Utils.mDatabase.child(Utils.tbl_user).child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue()!=null) {
+                                    User user = dataSnapshot.getValue(User.class);
+                                    View view1 = inflater.inflate(R.layout.cell_video_call, null);
+                                    ImageView img_photo = view1.findViewById(R.id.img_photo);
+                                    TextView txt_name = view1.findViewById(R.id.txt_name);
+                                    TextView txt_email = view1.findViewById(R.id.txt_email);
+                                    TextView txt_phone = view1.findViewById(R.id.txt_phone);
+                                    Glide.with(MainActivity.this).load(user.photo).apply(new RequestOptions()
+                                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+                                    txt_name.setText(user.name);
+                                    txt_email.setText(user.email);
+                                    txt_phone.setText(user.phone);
+                                    Button btn_join = view1.findViewById(R.id.btn_join);
+                                    btn_join.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            dlg.dismiss();
+                                            App.goToJoinVideoCall(room, MainActivity.this);
+                                            ArrayList<String> array_video = App.readPreference_array_String(App.NewVideoCall);
+                                            if (array_video.contains(vtoken)) {
+                                                array_video.remove(vtoken);
+                                                App.setPreference_array_String(App.NewVideoCall, array_video);
+                                            }
+                                        }
+                                    });
+                                    Button btn_cancel = view1.findViewById(R.id.btn_cancel);
+                                    btn_cancel.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            dlg.dismiss();
+                                            ArrayList<String> array_video = App.readPreference_array_String(App.NewVideoCall);
+                                            if (array_video.contains(vtoken)) {
+                                                array_video.remove(vtoken);
+                                                App.setPreference_array_String(App.NewVideoCall, array_video);
+                                            }
+                                            refreshNotifications();
+                                        }
+                                    });
+                                    ly_item.addView(view1);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
                 } else {
                     refreshNotifications();
                 }
@@ -172,24 +238,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         App.cancelAllNotifications();
         boolean flag_notification = false;
         btn_notify.setTag("0");
-        ly_notification.setVisibility(View.GONE);
-
-        ArrayList<String> array_message = App.readPreference_array_String(App.NewMessage);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ly_notification.setVisibility(View.GONE);
+                btn_message.setVisibility(View.GONE);
+                btn_video.setVisibility(View.GONE);
+            }
+        });
+        String new_message = App.readPreference(App.NewMessage, "");
+//        ArrayList<String> array_message = App.readPreference_array_String(App.NewMessage);
         ArrayList<String> array_video = App.readPreference_array_String(App.NewVideoCall);
 
-        if (array_message.size() > 0) {
+        if (new_message.equals("true") && !(getFragmentTitle().equals(getResources().getString(R.string.menu_message)))) {
             flag_notification = true;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     btn_message.setVisibility(View.VISIBLE);
-                }
-            });
-        } else {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    btn_message.setVisibility(View.GONE);
                 }
             });
         }
@@ -227,6 +293,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     private void setTitle(String title) {
         txt_title.setText(title);
+    }
+    private String getFragmentTitle() {
+        return txt_title.getText().toString();
     }
     public void setUserProfile() {
         //Navigation Header Profile
@@ -503,6 +572,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_message) {
             selectFragment(new MessageFragment());
             setTitle(getResources().getString(R.string.menu_message));
+            refreshNotifications();
         } else if (id == R.id.nav_video) {
             selectFragment(new VideoFragment());
             setTitle(getResources().getString(R.string.menu_video));

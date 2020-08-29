@@ -147,6 +147,7 @@ public class StudentSchoolFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue()!=null) {
                     User user = dataSnapshot.getValue(User.class);
+                    user._id = dataSnapshot.getKey();
                     txt_name.setText(user.name);
                     txt_email.setText(user.email);
                     txt_phone.setText(user.phone);

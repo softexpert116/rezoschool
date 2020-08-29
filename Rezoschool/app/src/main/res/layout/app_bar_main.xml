@@ -73,21 +73,21 @@
             android:id="@+id/btn_message"
             android:layout_marginTop="1dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:text="Message"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             />
         <Button
             android:id="@+id/btn_video"
             android:layout_marginTop="1dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:text="Video Call"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             android:layout_marginBottom="1dp"
             />
     </LinearLayout>

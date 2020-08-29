@@ -115,6 +115,7 @@ public class SchoolTeacherFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                             User user = childSnapshot.getValue(User.class);
+                            user._id = childSnapshot.getKey();
                             sel_userId = childSnapshot.getKey();
                             txt_name.setText(user.name);
                             Glide.with(activity).load(user.photo).apply(new RequestOptions()

@@ -85,22 +85,48 @@ public class VideoGroupListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.cell_video_group, null);
         }
         final TextView txt_creator = view.findViewById(R.id.txt_creator);
-        txt_creator.setText(model.creator.name);
         final TextView txt_name = view.findViewById(R.id.txt_name);
         txt_name.setText(model.name);
         ImageView img_creator = view.findViewById(R.id.img_creator);
-        Glide.with(context).load(model.creator.photo).apply(new RequestOptions()
-                .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_creator);
+        Utils.mDatabase.child(Utils.tbl_user).child(model.creator_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null) {
+                    User user = dataSnapshot.getValue(User.class);
+                    txt_creator.setText(user.name);
+                    Glide.with(context).load(user.photo).apply(new RequestOptions()
+                            .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_creator);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         LinearLayout ly_members = view.findViewById(R.id.ly_members);
         ly_members.removeAllViews();
-        for (User user:model.members) {
+        for (String uid:model.member_ids) {
             CircleImageView img = new CircleImageView(context);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(50, 50);
             lp.setMargins(5, 0, 0, 0);
             img.setLayoutParams(lp);
-            Glide.with(context).load(user.photo).apply(new RequestOptions()
-                    .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img);
             ly_members.addView(img);
+            Utils.mDatabase.child(Utils.tbl_user).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue()!=null) {
+                        User user = dataSnapshot.getValue(User.class);
+                        Glide.with(context).load(user.photo).apply(new RequestOptions()
+                                .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
         Button btn_call = (Button)view.findViewById(R.id.btn_call);
         btn_call.setOnClickListener(new View.OnClickListener() {

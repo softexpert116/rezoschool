@@ -47,15 +47,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String room = data.get("room");
 
         if (push_type.equals(App.PUSH_CHAT)) {
-            ArrayList<String> arrayList = App.readPreference_array_String(App.NewMessage);
-            if (!arrayList.contains(user_id)) {
-                arrayList.add(0, user_id);
-                App.setPreference_array_String(App.NewMessage, arrayList);
-            }
+            App.setPreference(App.NewMessage, "true");
         } else if (push_type.equals(App.PUSH_VIDEO)) {
+            String vtoken = user_id + " " + room;
             ArrayList<String> arrayList = App.readPreference_array_String(App.NewVideoCall);
-            if (!arrayList.contains(room)) {
-                arrayList.add(0, room);
+            if (!arrayList.contains(vtoken)) {
+                arrayList.add(0, vtoken);
                 App.setPreference_array_String(App.NewVideoCall, arrayList);
             }
         }
@@ -66,19 +63,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         final String mainActivity = getPackageName() + ".ui.MainActivity";
         final String chatActivity = getPackageName() + ".ui.ChatActivity";
 
+        sendNotification(title, body, data);
         if (currentClass.equals(mainActivity)) {
             App.notificationCallback.OnReceivedNotification();
             return;
         } else if(currentClass.equals(chatActivity) && push_type.equals(App.NewMessage)) {
-            ArrayList<String> arrayList = App.readPreference_array_String(App.NewMessage);
-            if (arrayList.contains(user_id)) {
-                arrayList.remove(user_id);
-                App.setPreference_array_String(App.NewMessage, arrayList);
-            }
             App.cancelAllNotifications();
             return;
         } else {
-            sendNotification(title, body, data);
+
         }
 
 
@@ -92,12 +85,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        sendRegistrationToServer(token);
         App.setPreference("DEVICE_TOKEN", token);
     }
-    /**
-     * Create and show a custom notification containing the received FCM message.
-     *
-     * @param notification FCM notification payload received.
-     * @param data FCM data payload received.
-     */
+
     private void sendNotification(String title, String body, Map<String, String> data) {
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.app_icon);
 
