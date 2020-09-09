@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     View header;
     GifImageButton btn_notify;
-    Button btn_message, btn_video;
+    Button btn_message, btn_video, btn_video_group;
     LinearLayout ly_notification;
 
     @Override
@@ -104,6 +104,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 selectFragment(new MessageFragment());
                 setTitle(getResources().getString(R.string.menu_message));
+                refreshNotifications();
+            }
+        });
+        btn_video_group = findViewById(R.id.btn_video_group);
+        btn_video_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectFragment(new VideoFragment());
+                setTitle(getResources().getString(R.string.menu_video));
                 refreshNotifications();
             }
         });
@@ -244,12 +253,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ly_notification.setVisibility(View.GONE);
                 btn_message.setVisibility(View.GONE);
                 btn_video.setVisibility(View.GONE);
+                btn_video_group.setVisibility(View.GONE);
             }
         });
         String new_message = App.readPreference(App.NewMessage, "");
-//        ArrayList<String> array_message = App.readPreference_array_String(App.NewMessage);
-        ArrayList<String> array_video = App.readPreference_array_String(App.NewVideoCall);
-
         if (new_message.equals("true") && !(getFragmentTitle().equals(getResources().getString(R.string.menu_message)))) {
             flag_notification = true;
             runOnUiThread(new Runnable() {
@@ -259,6 +266,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
         }
+
+        ArrayList<String> array_video_group = App.readPreference_array_String(App.NewVideoGroup);
+        if (array_video_group.size() > 0) {
+            flag_notification = true;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btn_video_group.setVisibility(View.VISIBLE);
+                }
+            });
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btn_video_group.setVisibility(View.GONE);
+                }
+            });
+        }
+
+        ArrayList<String> array_video = App.readPreference_array_String(App.NewVideoCall);
         if (array_video.size() > 0) {
             flag_notification = true;
             runOnUiThread(new Runnable() {

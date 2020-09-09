@@ -55,6 +55,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 arrayList.add(0, vtoken);
                 App.setPreference_array_String(App.NewVideoCall, arrayList);
             }
+        } else if (push_type.equals(App.PUSH_VIDEO_GROUP)) {
+            String vtoken = user_id + " " + room;
+            ArrayList<String> arrayList = App.readPreference_array_String(App.NewVideoGroup);
+            if (!arrayList.contains(vtoken)) {
+                arrayList.add(0, vtoken);
+                App.setPreference_array_String(App.NewVideoGroup, arrayList);
+            }
         }
 
         ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);

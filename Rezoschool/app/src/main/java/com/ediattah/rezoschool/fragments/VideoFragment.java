@@ -41,13 +41,14 @@ public class VideoFragment extends Fragment {
     VideoGroupListAdapter videoGroupListAdapter;
     ArrayList<VideoGroup> array_my = new ArrayList<>();
     ArrayList<VideoGroup> array_other = new ArrayList<>();
+    ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_video, container, false);
-        ListView listView = v.findViewById(R.id.listView);
+        listView = v.findViewById(R.id.listView);
         videoGroupListAdapter = new VideoGroupListAdapter(activity, this, array_my);
         listView.setAdapter(videoGroupListAdapter);
         btn_my = v.findViewById(R.id.btn_my);
@@ -55,27 +56,13 @@ public class VideoFragment extends Fragment {
         btn_my.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_other.setTextColor(Color.parseColor("#d0d0d0"));
-                btn_my.setTextColor(getResources().getColor(R.color.colorText));
-                btn_my.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
-                btn_other.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                flag_my = true;
-
-                videoGroupListAdapter = new VideoGroupListAdapter(activity, VideoFragment.this, array_my);
-                listView.setAdapter(videoGroupListAdapter);
+                setTab(0);
             }
         });
         btn_other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_my.setTextColor(Color.parseColor("#d0d0d0"));
-                btn_other.setTextColor(getResources().getColor(R.color.colorText));
-                btn_my.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                btn_other.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
-                flag_my = false;
-
-                videoGroupListAdapter = new VideoGroupListAdapter(activity, VideoFragment.this, array_other);
-                listView.setAdapter(videoGroupListAdapter);
+                setTab(1);
             }
         });
         FloatingActionButton fab = v.findViewById(R.id.fab);
@@ -113,7 +100,34 @@ public class VideoFragment extends Fragment {
                 alert.show();
             }
         });
+
+        ArrayList<String> array_video_group = App.readPreference_array_String(App.NewVideoGroup);
+        if (array_video_group.size() > 0) {
+            setTab(1);
+        } else {
+            setTab(0);
+        }
         return v;
+    }
+    void setTab(int index) {
+        if (index == 0) {
+            btn_other.setTextColor(Color.parseColor("#d0d0d0"));
+            btn_my.setTextColor(getResources().getColor(R.color.colorText));
+            btn_my.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
+            btn_other.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            flag_my = true;
+
+            videoGroupListAdapter = new VideoGroupListAdapter(activity, VideoFragment.this, array_my);
+        } else {
+            btn_my.setTextColor(Color.parseColor("#d0d0d0"));
+            btn_other.setTextColor(getResources().getColor(R.color.colorText));
+            btn_my.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            btn_other.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
+            flag_my = false;
+
+            videoGroupListAdapter = new VideoGroupListAdapter(activity, VideoFragment.this, array_other);
+        }
+        listView.setAdapter(videoGroupListAdapter);
     }
     public void read_videoGroup() {
         array_my.clear();

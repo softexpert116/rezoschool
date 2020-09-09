@@ -115,12 +115,14 @@ public class App extends Application implements LifecycleObserver {
     public static String TIME_FORMAT = "h:mm a"; //, dd/MM/yyyy";
     public static String DATE_FORMAT = "dd/MM/yyyy";
     public static String NewMessage = "NewMessage";
+    public static String NewVideoGroup = "NewVideoGroup";
     public static String NewVideoCall = "NewVideoMessage";
 //    public static ArrayList<String> array_message = new ArrayList<>();
 //    public static ArrayList<JSONObject> array_videoCall = new ArrayList<>();
 
     public static String PUSH_CHAT = "PUSH_CHAT";
     public static String PUSH_VIDEO = "PUSH_VIDEO";
+    public static String PUSH_VIDEO_GROUP = "PUSH_VIDEO_GROUP";
 
     public static String MY_APP_PATH = "";
     public static String MY_IMAGE_PATH = "";
@@ -355,7 +357,7 @@ public class App extends Application implements LifecycleObserver {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getValue()!=null) {
                                 User user = dataSnapshot.getValue(User.class);
-                                sendPushMessage(user.token, "Group Video Call from " + Utils.currentUser.name, "Please join in group '" + videoGroup.name + "'", "", videoGroup.room, context, "", Utils.mUser.getUid());
+                                sendPushMessage(user.token, "Group Video Call from " + Utils.currentUser.name, "Please join in group '" + videoGroup.name + "'", "", videoGroup.room, context, PUSH_VIDEO_GROUP, Utils.mUser.getUid());
                             }
                         }
 

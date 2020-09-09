@@ -144,6 +144,12 @@ public class VideoGroupListAdapter extends BaseAdapter {
                             App.goToStartG_VideoCallPage(model, context);
                         } else {
                             App.goToJoinVideoCall(model.name, context);
+                            ArrayList<String> array_video_group = App.readPreference_array_String(App.NewVideoGroup);
+                            String vtoken = model.creator_id + " " + model.room;
+                            if (array_video_group.contains(vtoken)) {
+                                array_video_group.remove(vtoken);
+                                App.setPreference_array_String(App.NewVideoGroup, array_video_group);
+                            }
                         }
                     }
                 });
@@ -158,8 +164,21 @@ public class VideoGroupListAdapter extends BaseAdapter {
         Button btn_remove = (Button)view.findViewById(R.id.btn_remove);
         if (fragment.flag_my) {
             btn_remove.setVisibility(View.VISIBLE);
+            btn_call.setText("Start call");
+            btn_call.setEnabled(true);
+            btn_call.setBackground(context.getDrawable(R.drawable.btn_round));
         } else {
             btn_remove.setVisibility(View.GONE);
+            btn_call.setText("Join call");
+            ArrayList<String> array_video_group = App.readPreference_array_String(App.NewVideoGroup);
+            String vtoken = model.creator_id + " " + model.room;
+            if (array_video_group.contains(vtoken)) {
+                btn_call.setEnabled(true);
+                btn_call.setBackground(context.getDrawable(R.drawable.btn_round));
+            } else {
+                btn_call.setEnabled(false);
+                btn_call.setBackground(context.getDrawable(R.drawable.btn_round_gray));
+            }
         }
         btn_remove.setOnClickListener(new View.OnClickListener() {
             @Override
