@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.CourseTime;
 import com.ediattah.rezoschool.Model.School;
@@ -336,18 +337,20 @@ public class TeacherSchoolFragment extends Fragment {
     }
     void course_update_listener(final School school) {
         txt_school_course.setText("My Courses in school " + school.number);
-        Utils.mDatabase.child(Utils.tbl_school).child(school._id).child("courses").addValueEventListener(new ValueEventListener() {
+        Utils.mDatabase.child(Utils.tbl_school).child(school._id).child("classes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 array_course.clear();
                 if (dataSnapshot.getValue() != null) {
                     for(DataSnapshot datas: dataSnapshot.getChildren()){
-                        Course course = datas.getValue(Course.class);
-                        for (Teacher teacher:school.teachers) {
-                            if (teacher.uid.equals(Utils.mUser.getUid())) {
-                                ArrayList<String> arrayStrList = new ArrayList<String>(Arrays.asList(teacher.courses.split(",")));
-                                if (arrayStrList.contains(course.name)) {
-                                    array_course.add(course);
+                        Class _class = datas.getValue(Class.class);
+                        for (Course course:_class.courses) {
+                            for (Teacher teacher:school.teachers) {
+                                if (teacher.uid.equals(Utils.mUser.getUid())) {
+                                    ArrayList<String> arrayStrList = new ArrayList<String>(Arrays.asList(teacher.courses.split(",")));
+                                    if (arrayStrList.contains(course.name)) {
+                                        array_course.add(course);
+                                    }
                                 }
                             }
                         }

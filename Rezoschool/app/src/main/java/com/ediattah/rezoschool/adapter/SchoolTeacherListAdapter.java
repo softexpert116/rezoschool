@@ -24,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.Model.User;
@@ -229,12 +230,12 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
         dlg.show();
         ListView listView = dlg.findViewById(R.id.listView);
         final ArrayList<Course> array_course_sel = new ArrayList<>();
-        final SchoolCourseListAdapter schoolCourseListAdapter = new SchoolCourseListAdapter(context, Utils.currentSchool.courses, array_course_sel);
+        final SchoolCourseListAdapter schoolCourseListAdapter = new SchoolCourseListAdapter(context, App.school_courses, array_course_sel);
         listView.setAdapter(schoolCourseListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Course course = Utils.currentSchool.courses.get(i);
+                Course course = App.school_courses.get(i);
                 if (array_course_sel.contains(course)) {
                     array_course_sel.remove(course);
                 } else {

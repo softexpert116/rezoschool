@@ -16,7 +16,8 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.NewVideoGroupActivity"></activity>
+        <activity android:name=".ui.TimeslotActivity"></activity>
+        <activity android:name=".ui.NewVideoGroupActivity" />
         <activity
             android:name=".ui.ChooseSchoolActivity"
             android:theme="@style/AppTheme.NoActionBar" />

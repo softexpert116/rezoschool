@@ -152,7 +152,11 @@ public class FinanceDetailListAdapter extends BaseAdapter {
         for (Level le:Utils.currentSchool.levels) {
             if (le.name.equals(level)) {
                 txt_student_level.setText(le.name + ", " + le.fee + "XOF/month");
-                fee = Float.valueOf(le.fee);
+                if (le.fee.trim().length() == 0) {
+                    fee = 0;
+                } else {
+                    fee = Float.valueOf(le.fee);
+                }
                 break;
             }
         }

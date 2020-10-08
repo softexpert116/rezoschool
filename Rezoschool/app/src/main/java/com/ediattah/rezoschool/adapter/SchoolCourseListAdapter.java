@@ -18,12 +18,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.CourseTime;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.ui.MainActivity;
 import com.ediattah.rezoschool.ui.NewSyllabusActivity;
+import com.ediattah.rezoschool.ui.TimeslotActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -35,6 +37,7 @@ public class SchoolCourseListAdapter extends BaseAdapter {
     ArrayList<Course> array_sel;
     public boolean flag_class = false;
     public boolean flag_syllabus = false;
+    public boolean flag_timeslot = false;
     public CourseTime sel_courseTime;
     Context context;
 
@@ -70,6 +73,7 @@ public class SchoolCourseListAdapter extends BaseAdapter {
         txt_name.setText(_course.name);
 
         Button btn_remove = (Button)view.findViewById(R.id.btn_remove);
+
         btn_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,15 +81,24 @@ public class SchoolCourseListAdapter extends BaseAdapter {
                 builder.setMessage("Are you going to remove this item?");
                 builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                        for (int i = 0; i < Utils.currentSchool.courses.size(); i++) {
-                            Course course = Utils.currentSchool.courses.get(i);
+                        TimeslotActivity activity = (TimeslotActivity)context;
+                        for (int i = 0; i < activity.sel_class.courses.size(); i++) {
+                            Course course = activity.sel_class.courses.get(i);
                             if (course.name.equals(_course.name)) {
-                                Utils.currentSchool.courses.remove(i);
+                                activity.sel_class.courses.remove(i);
                                 break;
                             }
                         }
-                        Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("courses").setValue(Utils.currentSchool.courses);
+                        for (int i = 0; i < Utils.currentSchool.classes.size(); i++) {
+                            Class _class = Utils.currentSchool.classes.get(i);
+                            if (_class.name.equals(activity.sel_class.name)) {
+                                Utils.currentSchool.classes.set(i, activity.sel_class);
+                                break;
+                            }
+                        }
+                        Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("classes").setValue(Utils.currentSchool.classes);
                         Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
                     }
                 });
                 builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
@@ -108,6 +121,9 @@ public class SchoolCourseListAdapter extends BaseAdapter {
             btn_remove.setVisibility(View.GONE);
         } else {
             btn_remove.setVisibility(View.VISIBLE);
+        }
+        if (flag_timeslot) {
+            btn_remove.setVisibility(View.GONE);
         }
         LinearLayout ly_time = view.findViewById(R.id.ly_time);
         if (_course.times.size() == 0) {

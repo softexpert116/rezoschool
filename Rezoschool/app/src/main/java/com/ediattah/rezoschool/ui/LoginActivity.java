@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                     number = edit_phone.getText().toString().trim();
                     sendSMS(country_code + number);
                 } else {
-                    Toast.makeText(LoginActivity.this, "Please input your mobile number.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.please_input_your_mobile_number), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCodeSent(String verificationID, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "SMS Code has been sent to your phone.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.sms_code_has_been_sent_to_your_phone), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LoginActivity.this, OTPActivity.class);
                 intent.putExtra("country_code", country_code);
                 intent.putExtra("number", number);
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 "+" + mobileNumber, 60, TimeUnit.SECONDS, this, mCallback
         );
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Wait...");
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
         progressDialog.show();
     }
 }

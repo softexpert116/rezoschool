@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.ChatRoom;
 import com.ediattah.rezoschool.Model.Message;
 import com.ediattah.rezoschool.R;
@@ -50,6 +51,7 @@ public class MessageFragment extends Fragment {
             }
         });
         readMessages();
+        App.setPreference(App.NewMessage, "false");
         return v;
     }
 

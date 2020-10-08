@@ -117,7 +117,7 @@ public class App extends Application implements LifecycleObserver {
     public static String NewMessage = "NewMessage";
     public static String NewVideoGroup = "NewVideoGroup";
     public static String NewVideoCall = "NewVideoMessage";
-//    public static ArrayList<String> array_message = new ArrayList<>();
+    public static ArrayList<Course> school_courses = new ArrayList<>();
 //    public static ArrayList<JSONObject> array_videoCall = new ArrayList<>();
 
     public static String PUSH_CHAT = "PUSH_CHAT";
@@ -189,6 +189,12 @@ public class App extends Application implements LifecycleObserver {
                         school._id = datas.getKey();
                         if (school.uid.equals(Utils.mUser.getUid())) {
                             Utils.currentSchool = school;
+                            school_courses.clear();
+                            for (Class _class:Utils.currentSchool.classes) {
+                                for (Course _course:_class.courses) {
+                                    school_courses.add(_course);
+                                }
+                            }
                         }
                     }
                 }

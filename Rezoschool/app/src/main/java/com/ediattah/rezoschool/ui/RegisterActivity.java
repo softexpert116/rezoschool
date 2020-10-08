@@ -107,18 +107,18 @@ public class RegisterActivity extends AppCompatActivity {
                 String phone = country_code + number;
                 phone1 = country_code1 + number1;
                 if (email.length()*name.length()*city.length() == 0) {
-                    Utils.showAlert(RegisterActivity.this, "Warning", "Please fill in blank fields");
+                    Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 if (Utils.currentUser.type.equals(Utils.SCHOOL) || Utils.currentUser.type.equals(Utils.TEACHER) || Utils.currentUser.type.equals(Utils.STUDENT)) {
                     if (school_number.length() == 0) {
-                        Utils.showAlert(RegisterActivity.this, "Warning", "Please fill in blank fields");
+                        Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                         return;
                     }
                 }
                 if (Utils.currentUser.type.equals(Utils.STUDENT)) {
                     if (number1.length() == 0) {
-                        Utils.showAlert(RegisterActivity.this, "Warning", "Please fill in blank fields");
+                        Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                         return;
                     }
                 }
@@ -210,7 +210,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Showing progress dialog at user registration time.
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Wait...");
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
         progressDialog.show();
 
         // check if exists phone in user table
@@ -220,7 +220,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getValue() != null) {
                             progressDialog.dismiss();
-                            Utils.showAlert(RegisterActivity.this, "Warning", "Phone number already exists!");
+                            Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.phone_number_already_exists));
                             return;
                         } else {
                             if (Utils.currentUser.type.equals(Utils.PARENT)) {
@@ -237,7 +237,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                 for(DataSnapshot datas: dataSnapshot.getChildren()){
                                                     // already exist
                                                     if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
-                                                        Utils.showAlert(RegisterActivity.this, "Warning", "School already exists!");
+                                                        Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.school_already_exists));
                                                     } else {
                                                         // get school_id by school_number
                                                         final String school_id = datas.getKey();
@@ -271,14 +271,14 @@ public class RegisterActivity extends AppCompatActivity {
                                                                         for (DataSnapshot datas:dataSnapshot.getChildren()) {
                                                                             User parent = datas.getValue(User.class);
                                                                             if (!parent.type.equals(Utils.PARENT)) {
-                                                                                Utils.showAlert(RegisterActivity.this, "Warning", "Invalid parent number!");
+                                                                                Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.invalid_parent_number));
                                                                                 return;
                                                                             } else {
                                                                                 openAddClassDialog(school_id, datas.getKey(), user);
                                                                             }
                                                                         }
                                                                     } else {
-                                                                        Utils.showAlert(RegisterActivity.this, "Warning", "Invalid parent number!");
+                                                                        Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.invalid_parent_number));
                                                                     }
                                                                 }
 
@@ -301,7 +301,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                     // school staff register
                                                     register_newUser(user);
                                                 } else {
-                                                    Utils.showAlert(RegisterActivity.this, "Warning", "Invalid school number!");
+                                                    Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.invalid_school_number));
                                                 }
 
                                             }
@@ -338,7 +338,7 @@ public class RegisterActivity extends AppCompatActivity {
         // currentUser setting --------------
         Utils.currentUser = user;
         Utils.currentUser._id = Utils.mUser.getUid();
-        String msg = "Successfully registered! You can login after you are allowed by Admin.";
+        String msg = getResources().getString(R.string.successfully_registered);
         Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -357,7 +357,7 @@ public class RegisterActivity extends AppCompatActivity {
         window.setGravity(Gravity.CENTER);
         dlg.show();
         TextView txt_title = dlg.findViewById(R.id.txt_title);
-        txt_title.setText("Choose Class");
+        txt_title.setText(getResources().getString(R.string.choose_class));
         ListView listView = dlg.findViewById(R.id.listView);
         final ArrayList<Class> array_class = new ArrayList<>();
         final ClassListAdapter classAdapter = new ClassListAdapter(this, array_class);

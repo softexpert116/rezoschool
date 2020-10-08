@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 selectFragment(new MessageFragment());
-                setTitle(getResources().getString(R.string.menu_message));
+                setTitle(getResources().getString(R.string.message));
                 refreshNotifications();
             }
         });
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 selectFragment(new VideoFragment());
-                setTitle(getResources().getString(R.string.menu_video));
+                setTitle(getResources().getString(R.string.group_v_call));
                 refreshNotifications();
             }
         });
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // First fragment loading...
         selectFragment(new TweetsFragment());
-        setTitle(getResources().getString(R.string.menu_home));
+        setTitle(getResources().getString(R.string.rs_tweets));
         setPermission();
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         String new_message = App.readPreference(App.NewMessage, "");
-        if (new_message.equals("true") && !(getFragmentTitle().equals(getResources().getString(R.string.menu_message)))) {
+        if (new_message.equals("true") && !(getFragmentTitle().equals(getResources().getString(R.string.message)))) {
             flag_notification = true;
             runOnUiThread(new Runnable() {
                 @Override
@@ -556,53 +556,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_home) {
             selectFragment(new TweetsFragment());
-            setTitle(getResources().getString(R.string.menu_home));
+            setTitle(getResources().getString(R.string.rs_tweets));
         } else if (id == R.id.nav_timeslot) {
             selectFragment(new TimeslotFragment());
-            setTitle(getResources().getString(R.string.menu_timeslot));
+            setTitle(getResources().getString(R.string.timeslots));
         } else if (id == R.id.nav_class) {
             selectFragment(new SchoolClassFragment());
-            setTitle(getResources().getString(R.string.menu_class));
+            setTitle(getResources().getString(R.string._class));
         } else if (id == R.id.nav_teacher) {
             selectFragment(new SchoolTeacherFragment());
-            setTitle(getResources().getString(R.string.menu_teacher));
+            setTitle(getResources().getString(R.string.teacher));
         } else if (id == R.id.nav_student) {
             selectFragment(new SchoolStudentFragment());
-            setTitle(getResources().getString(R.string.menu_student));
+            setTitle(getResources().getString(R.string.student));
         } else if (id == R.id.nav_finance) {
             selectFragment(new SchoolFinanceFragment());
-            setTitle(getResources().getString(R.string.menu_finance));
+            setTitle(getResources().getString(R.string.finance));
         } else if (id == R.id.nav_library) {
             selectFragment(new LibraryFragment());
-            setTitle(getResources().getString(R.string.menu_library));
+            setTitle(getResources().getString(R.string.library));
         } else if (id == R.id.nav_school) {
             selectFragment(new TeacherSchoolFragment());
-            setTitle(getResources().getString(R.string.menu_school));
+            setTitle(getResources().getString(R.string.school));
         } else if (id == R.id.nav_syllabus) {
             selectFragment(new TeacherSyllabusFragment());
-            setTitle(getResources().getString(R.string.menu_syllabus));
+            setTitle(getResources().getString(R.string.syllabus));
         } else if (id == R.id.nav_child) {
             selectFragment(new ParentStudentFragment());
-            setTitle(getResources().getString(R.string.menu_child));
+            setTitle(getResources().getString(R.string.child));
         } else if (id == R.id.nav_invoice) {
             selectFragment(new ParentInvoiceFragment());
-            setTitle(getResources().getString(R.string.menu_invoice));
+            setTitle(getResources().getString(R.string.finance));
         } else if (id == R.id.nav_myschool) {
             selectFragment(new StudentSchoolFragment());
-            setTitle(getResources().getString(R.string.menu_myschool));
+            setTitle(getResources().getString(R.string.my_school));
         } else if (id == R.id.nav_course) {
             selectFragment(new StudentCourseFragment());
-            setTitle(getResources().getString(R.string.menu_timeslot));
+            setTitle(getResources().getString(R.string.timeslots));
         } else if (id == R.id.nav_alumni) {
             selectFragment(new AlumniFragment());
-            setTitle(getResources().getString(R.string.menu_alumni));
+            setTitle(getResources().getString(R.string.alumni));
         } else if (id == R.id.nav_message) {
             selectFragment(new MessageFragment());
-            setTitle(getResources().getString(R.string.menu_message));
+            setTitle(getResources().getString(R.string.message));
             refreshNotifications();
         } else if (id == R.id.nav_video) {
             selectFragment(new VideoFragment());
-            setTitle(getResources().getString(R.string.menu_video));
+            setTitle(getResources().getString(R.string.group_v_call));
         }
 
         closeDrawer();

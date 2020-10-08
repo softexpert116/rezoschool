@@ -20,6 +20,7 @@ import com.ediattah.rezoschool.Model.Level;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.SchoolLevelListAdapter;
 import com.ediattah.rezoschool.ui.NewLevelActivity;
+import com.ediattah.rezoschool.ui.TimeslotActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.R;
@@ -107,6 +108,11 @@ public class SchoolClassFragment extends Fragment {
                     listView.setAdapter(classListAdapter);
                     flag = 0;
                     setTabWithFlag(flag);
+                } else if (flag == 0) {
+                    Class sel_class = classListAdapter.arrayList.get(i);
+                    Intent intent = new Intent(activity, TimeslotActivity.class);
+                    intent.putExtra("sel_class", sel_class);
+                    activity.startActivity(intent);
                 }
             }
         });

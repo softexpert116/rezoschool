@@ -72,39 +72,7 @@
                     android:background="@color/transparent"
                     />
             </androidx.cardview.widget.CardView>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gibson_regular"
-                    android:textSize="20dp"
-                    android:text="Courses"
-                    />
-                <TextView
-                    android:id="@+id/txt_course"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Click here to choose"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    />
-            </RelativeLayout>
-            <LinearLayout
-                android:id="@+id/ly_course"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
-                >
-
-            </LinearLayout>
+            
             <Button
                 android:id="@+id/btn_create"
                 android:layout_width="match_parent"

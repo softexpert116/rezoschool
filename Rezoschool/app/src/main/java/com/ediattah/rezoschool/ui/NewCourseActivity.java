@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.dpro.widgets.OnWeekdaysChangeListener;
 import com.dpro.widgets.WeekdaysPicker;
 import com.ediattah.rezoschool.App;
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.CourseTime;
 import com.ediattah.rezoschool.R;
@@ -38,13 +39,17 @@ public class NewCourseActivity extends AppCompatActivity {
     LinearLayout ly_time;
     ArrayList<CourseTime> times = new ArrayList<>();
     int sel_day = 2;
+//    Class sel_class;
+//    TimeslotActivity timeslotActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Create New Course");
+
+//        sel_class = (Class)getIntent().getSerializableExtra("sel_class");
+        setTitle("Create New Course in " + TimeslotActivity.sel_class.name + " Class");
         App.hideKeyboard(this);
         ly_time = findViewById(R.id.ly_time);
         final EditText edit_course = (EditText)findViewById(R.id.edit_course);
@@ -59,19 +64,27 @@ public class NewCourseActivity extends AppCompatActivity {
                     Utils.showAlert(NewCourseActivity.this, "Warning", "Please add times");
                 } else {
                     boolean flag = false;
-                    for (Course course: Utils.currentSchool.courses) {
+                    for (Course course: TimeslotActivity.sel_class.courses) {
                         if (course.name.equals(course_name)) {
                             flag = true;
                             break;
                         }
                     }
                     if (flag) {
-                        Utils.showAlert(NewCourseActivity.this, "Warning", "The course name already exists.");
+                        Utils.showAlert(NewCourseActivity.this, "Warning", "The course name already exists in class " + TimeslotActivity.sel_class.name + ".");
                         return;
                     }
                     Course course = new Course(course_name, times);
-                    Utils.currentSchool.courses.add(course);
-                    Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("courses").setValue(Utils.currentSchool.courses);
+                    TimeslotActivity.sel_class.courses.add(course);
+                    for (int i = 0; i < Utils.currentSchool.classes.size(); i++) {
+                        Class _class = Utils.currentSchool.classes.get(i);
+                        if (_class.name.equals(TimeslotActivity.sel_class.name)) {
+                            Utils.currentSchool.classes.set(i, TimeslotActivity.sel_class);
+                            break;
+                        }
+                    }
+//                    Utils.currentSchool.courses.add(course);
+                    Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("classes").setValue(Utils.currentSchool.classes);
                     Toast.makeText(NewCourseActivity.this, "Successfully created!", Toast.LENGTH_SHORT).show();
                 }
             }

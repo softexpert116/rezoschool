@@ -32,7 +32,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sel_course = (Course)getIntent().getSerializableExtra("COURSE");
-        setTitle("Timeslots for " + sel_course.name + " course");
+        setTitle("Timeslots in " + sel_course.name + " Course");
 
         TextView txt_course = findViewById(R.id.txt_course);
         WeekdaysPicker weekdaysPicker = findViewById(R.id.weekdays);

@@ -150,12 +150,12 @@ public class SchoolAddTeacherActivity extends AppCompatActivity {
         dlg.show();
         ListView listView = dlg.findViewById(R.id.listView);
         array_course_sel.clear();
-        schoolCourseListAdapter = new SchoolCourseListAdapter(this, Utils.currentSchool.courses, array_course_sel);
+        schoolCourseListAdapter = new SchoolCourseListAdapter(this, App.school_courses, array_course_sel);
         listView.setAdapter(schoolCourseListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Course course = Utils.currentSchool.courses.get(i);
+                Course course = App.school_courses.get(i);
                 if (array_course_sel.contains(course)) {
                     array_course_sel.remove(course);
                 } else {

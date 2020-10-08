@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ediattah.rezoschool.App;
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.CourseTime;
 import com.ediattah.rezoschool.Model.School;
@@ -365,10 +366,16 @@ public class NewSyllabusActivity extends AppCompatActivity {
         txt_title.setText("Choose Course Timeslot");
         ListView listView = dlgCourse.findViewById(R.id.listView);
         final ArrayList<Course> array_course_sel = new ArrayList<>();
-        final SchoolCourseListAdapter courseAdapter = new SchoolCourseListAdapter(this, sel_school.courses, array_course_sel);
+        ArrayList<Course> arrayList = new ArrayList<>();
+        for (Class _class:sel_school.classes) {
+            for (Course _course:_class.courses) {
+                arrayList.add(_course);
+            }
+        }
+        final SchoolCourseListAdapter courseAdapter = new SchoolCourseListAdapter(this, arrayList, array_course_sel);
         courseAdapter.flag_syllabus = true;
         listView.setAdapter(courseAdapter);
-        if (sel_school.courses.size() == 0) {
+        if (arrayList.size() == 0) {
             ly_no_items.setVisibility(View.VISIBLE);
         } else {
             ly_no_items.setVisibility(View.GONE);

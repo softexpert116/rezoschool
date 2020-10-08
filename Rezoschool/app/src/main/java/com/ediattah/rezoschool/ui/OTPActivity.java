@@ -52,11 +52,11 @@ public class OTPActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String input_code = edit_code.getText().toString();
                 if (input_code.length() == 0 || input_code.equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please input the security number", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_input_security_number), Toast.LENGTH_LONG).show();
 
                 } else if (input_code.length() < 6) {
 
-                    Toast.makeText(getApplicationContext(), "Please match length of security number", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_match_length_of_security_number), Toast.LENGTH_LONG).show();
                 } else {
                     try {
                         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationID, input_code);
@@ -71,7 +71,7 @@ public class OTPActivity extends AppCompatActivity {
     public void signInWithPhone(PhoneAuthCredential credential)
     {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Wait...");
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
         progressDialog.show();
         Utils.auth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -105,7 +105,7 @@ public class OTPActivity extends AppCompatActivity {
                         } else {
                             progressDialog.dismiss();
 //                            Utils.showAlert(OTPActivity.this, "Warning", task.getException().getMessage());
-                            Toast.makeText(OTPActivity.this, "OTP verification failed! Please try again..", Toast.LENGTH_LONG).show();
+                            Toast.makeText(OTPActivity.this, getResources().getString(R.string.otp_verification_failed_please_try_again), Toast.LENGTH_LONG).show();
                         }
 
                     }

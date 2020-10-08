@@ -155,6 +155,8 @@ public class ClassListAdapter extends BaseAdapter {
                     final TextView txt_school_t = view1.findViewById(R.id.txt_school_t);
                     final TextView txt_school = view1.findViewById(R.id.txt_school);
                     final ImageView img_photo = view1.findViewById(R.id.img_photo);
+                    Button btn_parent = view1.findViewById(R.id.btn_parent);
+                    btn_parent.setVisibility(View.GONE);
                     LinearLayout ly_tool = view1.findViewById(R.id.ly_tool);
                     ly_tool.setVisibility(View.GONE);
                     txt_class_t.setText("Email: ");
@@ -197,7 +199,7 @@ public class ClassListAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialog,int id) {
                         for (int i = 0; i < Utils.currentSchool.classes.size(); i++) {
                             Class aClass = Utils.currentSchool.classes.get(i);
-                            if (aClass.name.equals(aClass.name)) {
+                            if (aClass.name.equals(_class.name)) {
                                 Utils.currentSchool.classes.remove(i);
                                 break;
                             }

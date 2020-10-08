@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.ediattah.rezoschool.App;
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Tweet;
 import com.ediattah.rezoschool.R;
@@ -38,17 +40,19 @@ public class TimeslotFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_timeslot, container, false);
-        schoolCourseListAdapter = new SchoolCourseListAdapter(activity, Utils.currentSchool.courses, null);
+
+        schoolCourseListAdapter = new SchoolCourseListAdapter(activity, App.school_courses, null);
+        schoolCourseListAdapter.flag_timeslot = true;
         listView = view.findViewById(R.id.listView);
         listView.setAdapter(schoolCourseListAdapter);
-        FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity, NewCourseActivity.class);
-                activity.startActivity(intent);
-            }
-        });
+//        FloatingActionButton fab = view.findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(activity, NewCourseActivity.class);
+//                activity.startActivity(intent);
+//            }
+//        });
         return view;
     }
     void course_update_listener() {
@@ -80,7 +84,7 @@ public class TimeslotFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        course_update_listener();
+//        course_update_listener();
     }
 
     public void onAttach(Context context) {
