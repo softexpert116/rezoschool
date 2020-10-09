@@ -56,7 +56,7 @@ public class NewStudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_student);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Add New Student");
+        setTitle(getResources().getString(R.string.add_new_student));
         App.hideKeyboard(this);
         final CountryCodePicker countryCodePicker = (CountryCodePicker)findViewById(R.id.txt_countryCode);
         countryCodePicker.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
@@ -98,7 +98,7 @@ public class NewStudentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (edit_school.getText().toString().trim().length() == 0) {
-                    Utils.showAlert(NewStudentActivity.this, "Warning", "Please add school number!");
+                    Utils.showAlert(NewStudentActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_add_school_number));
                     return;
                 }
                 openAddClassDialog();
@@ -112,11 +112,11 @@ public class NewStudentActivity extends AppCompatActivity {
                 String email = edit_email.getText().toString().trim();
                 String number = edit_number.getText().toString().trim();
                 if (name.length()*email.length()*number.length() == 0) {
-                    Utils.showAlert(NewStudentActivity.this, "Warning", "Please fill in the blank field");
+                    Utils.showAlert(NewStudentActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 if (sel_school.number.length()*sel_class.name.length() == 0) {
-                    Utils.showAlert(NewStudentActivity.this, "Warning", "Please fill in the blank field");
+                    Utils.showAlert(NewStudentActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 final CountryCodePicker countryCodePicker = (CountryCodePicker)findViewById(R.id.txt_countryCode);
@@ -124,7 +124,7 @@ public class NewStudentActivity extends AppCompatActivity {
                 final String phone = country_code + number;
 
                 progressDialog = new ProgressDialog(NewStudentActivity.this);
-                progressDialog.setMessage("Please Wait...");
+                progressDialog.setMessage(getResources().getString(R.string.please_wait));
                 progressDialog.show();
                 // phone number check by sms
 
@@ -136,7 +136,7 @@ public class NewStudentActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getValue() != null) {
                             progressDialog.dismiss();
-                            Utils.showAlert(NewStudentActivity.this, "Warning", "Phone number already exists!");
+                            Utils.showAlert(NewStudentActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.phone_number_already_exists));
                             return;
                         } else {
                             FirebaseAuth.getInstance().createUserWithEmailAndPassword("qq@gmail.com", "123456").addOnCompleteListener(new OnCompleteListener<AuthResult>() {

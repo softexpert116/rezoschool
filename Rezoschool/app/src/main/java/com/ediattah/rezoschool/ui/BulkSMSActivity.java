@@ -52,13 +52,13 @@ public class BulkSMSActivity extends AppCompatActivity {
         TextView txt_select = findViewById(R.id.txt_select);
         CardView cardView = findViewById(R.id.card_select);
         if (sel_school != null) {
-            setTitle("Bulk SMS");
-            txt_select.setText("Select users in school " + sel_school.number);
+            setTitle(getResources().getString(R.string.bulk_sms));
+            txt_select.setText(getResources().getString(R.string.select_users_in_school_) + sel_school.number);
             StudentBulkSMSListAdapter studentBulkSMSListAdapter = new StudentBulkSMSListAdapter(this, txt_receivers, sel_school.students, array_sel_name, array_sel_phone);
             ListView listView = (ListView)findViewById(R.id.listView);
             listView.setAdapter(studentBulkSMSListAdapter);
         } else {
-            setTitle("SMS");
+            setTitle(getResources().getString(R.string.sms));
             txt_select.setVisibility(View.GONE);
             cardView.setVisibility(View.GONE);
             txt_receivers.setText(user.name);
@@ -73,11 +73,11 @@ public class BulkSMSActivity extends AppCompatActivity {
                 String senderID = edit_senderID.getText().toString().trim();
                 String text = edit_text.getText().toString().trim();
                 if (username.length()*password.length()*senderID.length()*text.length() == 0) {
-                    Utils.showAlert(BulkSMSActivity.this, "Warning", "Please fill in the blank field");
+                    Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 if (array_sel_phone.size() == 0) {
-                    Utils.showAlert(BulkSMSActivity.this, "Warning", "Please add receiver");
+                    Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 sendEdiaSMS(username, password, senderID, array_sel_phone, text, "text");
@@ -86,7 +86,7 @@ public class BulkSMSActivity extends AppCompatActivity {
     }
     private void sendEdiaSMS(String username, String password, String sender, ArrayList<String> array_receivers, String text, String type) {
         mDialog = new ProgressDialog(this);
-        mDialog.setMessage("Sending SMS...");
+        mDialog.setMessage(getResources().getString(R.string.sending_sms));
         mDialog.setCancelable(false);
         mDialog.show();
         String to = TextUtils.join(";", array_receivers);
@@ -113,7 +113,7 @@ public class BulkSMSActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(BulkSMSActivity.this, "Successfully sent", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BulkSMSActivity.this, getResources().getString(R.string.successfully_sent), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else if (response.contains("ERROR:")) {
@@ -121,7 +121,7 @@ public class BulkSMSActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Utils.showAlert(BulkSMSActivity.this, "Error", error);
+                            Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.error), error);
                         }
                     });
                 }

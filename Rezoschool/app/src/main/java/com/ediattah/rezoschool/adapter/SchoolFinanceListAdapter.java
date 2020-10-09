@@ -90,10 +90,10 @@ public class SchoolFinanceListAdapter extends BaseAdapter {
         txt_transactionid.setText(model.transactionid);
         TextView txt_status = view.findViewById(R.id.txt_status);
         if (model.status.equals("100")) {
-            txt_status.setText("SUCCESS");
+            txt_status.setText(context.getResources().getString(R.string.success));
             txt_status.setBackgroundColor(Color.parseColor("#c3edb9"));
         } else {
-            txt_status.setText("QUEUED");
+            txt_status.setText(context.getResources().getString(R.string.queued));
             txt_status.setBackgroundColor(Color.parseColor("#e28e8e"));
         }
         Button btn_remove = (Button)view.findViewById(R.id.btn_remove);
@@ -106,14 +106,14 @@ public class SchoolFinanceListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you going to remove this item?");
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setMessage(context.getResources().getString(R.string.are_you_going_to_remove_this_item));
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         Utils.mDatabase.child(Utils.tbl_transaction).child(model._id).setValue(null);
-                        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.successfully_deleted), Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });

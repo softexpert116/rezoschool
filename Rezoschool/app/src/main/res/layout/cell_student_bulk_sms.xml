@@ -40,7 +40,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
-                    android:text="Name: "
+                    android:text="@string/name_"
                     android:fontFamily="@font/gibson_regular"
                     />
                 <TextView
@@ -62,7 +62,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
-                    android:text="Class: "
+                    android:text="@string/class_"
                     android:fontFamily="@font/gibson_regular"
                     />
                 <TextView
@@ -84,7 +84,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
-                    android:text="Phone: "
+                    android:text="@string/phone_"
                     android:fontFamily="@font/gibson_regular"
                     />
                 <TextView
@@ -112,7 +112,7 @@
             android:id="@+id/txt_new"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:text="NEW"
+            android:text="@string/_new"
             android:background="@color/colorPrimary"
             android:textColor="@color/white"
             android:paddingRight="5dp"

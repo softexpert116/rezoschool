@@ -49,7 +49,7 @@ public class NewCourseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 //        sel_class = (Class)getIntent().getSerializableExtra("sel_class");
-        setTitle("Create New Course in " + TimeslotActivity.sel_class.name + " Class");
+        setTitle(getResources().getString(R.string.create_new_course_in_) + TimeslotActivity.sel_class.name + " " + getResources().getString(R.string._class));
         App.hideKeyboard(this);
         ly_time = findViewById(R.id.ly_time);
         final EditText edit_course = (EditText)findViewById(R.id.edit_course);
@@ -59,9 +59,9 @@ public class NewCourseActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String course_name = edit_course.getText().toString().trim();
                 if (course_name.length() == 0) {
-                    Utils.showAlert(NewCourseActivity.this, "Warning", "Please fill in course name");
+                    Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                 } else if (times.size() == 0) {
-                    Utils.showAlert(NewCourseActivity.this, "Warning", "Please add times");
+                    Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_add_times));
                 } else {
                     boolean flag = false;
                     for (Course course: TimeslotActivity.sel_class.courses) {
@@ -71,7 +71,7 @@ public class NewCourseActivity extends AppCompatActivity {
                         }
                     }
                     if (flag) {
-                        Utils.showAlert(NewCourseActivity.this, "Warning", "The course name already exists in class " + TimeslotActivity.sel_class.name + ".");
+                        Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.the_course_name_already_exists_in_class_) + TimeslotActivity.sel_class.name + ".");
                         return;
                     }
                     Course course = new Course(course_name, times);
@@ -85,7 +85,7 @@ public class NewCourseActivity extends AppCompatActivity {
                     }
 //                    Utils.currentSchool.courses.add(course);
                     Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("classes").setValue(Utils.currentSchool.classes);
-                    Toast.makeText(NewCourseActivity.this, "Successfully created!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewCourseActivity.this, getResources().getString(R.string.successfully_created), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -111,7 +111,7 @@ public class NewCourseActivity extends AppCompatActivity {
                 String start_time = edit_start_time.getText().toString().trim();
                 String end_time = edit_end_time.getText().toString().trim();
                 if (start_time.length()*end_time.length() == 0) {
-                    Utils.showAlert(NewCourseActivity.this, "Warning", "Please fill in start and end time");
+                    Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 CourseTime courseTime = new CourseTime(sel_day, start_time, end_time);
@@ -150,7 +150,7 @@ public class NewCourseActivity extends AppCompatActivity {
                     }
                 };
                 TimePickerDialog timePickerDialog = new TimePickerDialog(NewCourseActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, hour, minute, true);
-                timePickerDialog.setTitle("Choose hour:");
+                timePickerDialog.setTitle(getResources().getString(R.string.choose_hour));
                 timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 timePickerDialog.show();
             }
@@ -174,7 +174,7 @@ public class NewCourseActivity extends AppCompatActivity {
                     }
                 };
                 TimePickerDialog timePickerDialog = new TimePickerDialog(NewCourseActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, hour, minute, true);
-                timePickerDialog.setTitle("Choose hour:");
+                timePickerDialog.setTitle(getResources().getString(R.string.choose_hour));
                 timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 timePickerDialog.show();
             }

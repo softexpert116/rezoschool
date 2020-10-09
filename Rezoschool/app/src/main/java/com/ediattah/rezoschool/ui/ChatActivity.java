@@ -273,7 +273,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue()!=null) {
                     user = dataSnapshot.getValue(User.class);
-                    txt_title.setText("Chat With " + user.name);
+                    txt_title.setText(getResources().getString(R.string.chat_with) + user.name);
                     try {
                         Glide.with(ChatActivity.this).load(user.photo).apply(new RequestOptions()
                                 .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
@@ -304,13 +304,13 @@ public class ChatActivity extends AppCompatActivity {
                 if (grantResults[0] == 0) {
                     goToVoiceRecordPage();
                 } else {
-                    Toast.makeText(ChatActivity.this, "Permission denied", Toast.LENGTH_SHORT);
+                    Toast.makeText(ChatActivity.this, getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT);
                     finish();
                 }
                 break;
             }
             default:
-                Toast.makeText(ChatActivity.this, "Permission denied", Toast.LENGTH_SHORT);
+                Toast.makeText(ChatActivity.this, getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT);
                 finish();
         }
     }
@@ -324,7 +324,7 @@ public class ChatActivity extends AppCompatActivity {
                 uploadFileToFirebase(result.getUri(), "jpeg");
 //                Glide.with(EventCreateActivity.this).load(result.getUri()).centerCrop().placeholder(R.drawable.profile).dontAnimate().into(img_event);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.cropping_failed) + result.getError(), Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == VOICE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -339,7 +339,7 @@ public class ChatActivity extends AppCompatActivity {
 // Create the file metadata
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Uploading...");
+        progressDialog.setMessage(getResources().getString(R.string.uploading));
         progressDialog.show();
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -370,7 +370,7 @@ public class ChatActivity extends AppCompatActivity {
                         String downloadUrl = uri.toString();
                         Message message = new Message("", Utils.mUser.getUid(), user_id, "", downloadUrl, file_type, System.currentTimeMillis(), false);
                         Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").push().setValue(message);
-                        App.sendPushMessage(user.token, "Chat from " + Utils.currentUser.name, "File attached", "", "", ChatActivity.this, App.PUSH_CHAT, Utils.mUser.getUid());
+                        App.sendPushMessage(user.token, getResources().getString(R.string.chat_from_) + Utils.currentUser.name, getResources().getString(R.string.file_attached), "", "", ChatActivity.this, App.PUSH_CHAT, Utils.mUser.getUid());
                     }
                 });
             }

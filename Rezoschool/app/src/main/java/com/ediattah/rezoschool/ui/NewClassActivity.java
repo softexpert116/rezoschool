@@ -47,7 +47,7 @@ public class NewClassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Create New Class");
+        setTitle(getResources().getString(R.string.create_new_class));
         App.hideKeyboard(this);
 
         edit_level = findViewById(R.id.edit_level);
@@ -74,7 +74,7 @@ public class NewClassActivity extends AppCompatActivity {
                 final String level = edit_level.getText().toString().trim();
                 final String name = edit_name.getText().toString().trim();
                 if (level.length()*name.length() == 0) {
-                    Utils.showAlert(NewClassActivity.this, "Warning", "Please fill in the blank field");
+                    Utils.showAlert(NewClassActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 boolean flag = false;
@@ -85,7 +85,7 @@ public class NewClassActivity extends AppCompatActivity {
                     }
                 }
                 if (flag) {
-                    Utils.showAlert(NewClassActivity.this, "Warning", "The class name already exists.");
+                    Utils.showAlert(NewClassActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.the_class_name_already_exists));
                     return;
                 }
                 Class _class = new Class(level, name, array_course_sel);
@@ -104,7 +104,7 @@ public class NewClassActivity extends AppCompatActivity {
 //                }
                 Utils.currentSchool.classes.add(_class);
                 Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("classes").setValue(Utils.currentSchool.classes);
-                Toast.makeText(NewClassActivity.this, "Successfully created!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewClassActivity.this, getResources().getString(R.string.successfully_created), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -176,7 +176,7 @@ public class NewClassActivity extends AppCompatActivity {
         window.setGravity(Gravity.CENTER);
         dlg.show();
         TextView txt_title = dlg.findViewById(R.id.txt_title);
-        txt_title.setText("Choose Level");
+        txt_title.setText(getResources().getString(R.string.choose_level));
         ListView listView = dlg.findViewById(R.id.listView);
         schoolLevelListAdapter = new SchoolLevelListAdapter(this, Utils.currentSchool.levels);
         schoolLevelListAdapter.flag_list = true;

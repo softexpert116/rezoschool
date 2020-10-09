@@ -69,15 +69,15 @@ public class LibraryListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you going to remove this item?");
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setMessage(context.getResources().getString(R.string.are_you_going_to_remove_this_item));
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         Utils.mDatabase.child(Utils.tbl_library).child(model._id).setValue(null);
-                        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.successfully_deleted), Toast.LENGTH_SHORT).show();
                         fragment.read_library();
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
@@ -91,7 +91,7 @@ public class LibraryListAdapter extends BaseAdapter {
         btn_public.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (btn_public.getText().toString().equals("Public")) {
+                if (btn_public.getText().toString().equals(context.getResources().getString(R.string._public))) {
                     Utils.mDatabase.child(Utils.tbl_library).child(model._id).child("isPublic").setValue(true);
                 } else {
                     Utils.mDatabase.child(Utils.tbl_library).child(model._id).child("isPublic").setValue(false);
@@ -99,10 +99,10 @@ public class LibraryListAdapter extends BaseAdapter {
             }
         });
         if (model.isPublic) {
-            btn_public.setText("Private");
+            btn_public.setText(context.getResources().getString(R.string._private));
             btn_public.setBackground(context.getDrawable(R.color.colorAccent));
         } else {
-            btn_public.setText("Public");
+            btn_public.setText(context.getResources().getString(R.string._public));
             btn_public.setBackground(context.getDrawable(R.color.colorPrimaryDark));
         }
         if (Utils.currentUser.type.equals(Utils.SCHOOL)) {

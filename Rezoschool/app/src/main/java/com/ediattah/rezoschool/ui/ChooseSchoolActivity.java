@@ -78,7 +78,7 @@ public class ChooseSchoolActivity extends AppCompatActivity {
                 Utils.currentSchool = sel_school;
                 Utils.currentClass = sel_class;
                 Utils.mDatabase.child(Utils.tbl_school).child(sel_school._id).setValue(sel_school);
-                Toast.makeText(getApplicationContext(), "Successfully applied to school " + sel_school.number, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfully_applied_to_school_) + sel_school.number, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -96,7 +96,7 @@ public class ChooseSchoolActivity extends AppCompatActivity {
                     }
                 }
                 if (parent_id == null) {
-                    Toast.makeText(getApplicationContext(), "There is no parent for this student", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.there_is_no_parent_for_this_student), Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }

@@ -40,7 +40,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
-                    android:text="Name: "
+                    android:text="@string/name_"
                     android:fontFamily="@font/gibson_regular"
                     />
                 <TextView
@@ -62,7 +62,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
-                    android:text="Email: "
+                    android:text="@string/email_"
                     android:fontFamily="@font/gibson_regular"
                     />
                 <TextView
@@ -84,7 +84,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
-                    android:text="Phone: "
+                    android:text="@string/phone_"
                     android:fontFamily="@font/gibson_regular"
                     />
                 <TextView

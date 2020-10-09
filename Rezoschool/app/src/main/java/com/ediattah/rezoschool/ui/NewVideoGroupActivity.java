@@ -42,7 +42,7 @@ public class NewVideoGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_video_group);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("New Video Group");
+        setTitle(getResources().getString(R.string.new_video_group));
         App.hideKeyboard(this);
         HeaderListView listView = findViewById(R.id.listView);
         sectionListAdapter = new SectionListAdapter(this, array_teacher, array_parent, array_student, array_sel);
@@ -54,11 +54,11 @@ public class NewVideoGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String name = edit_name.getText().toString().trim();
                 if (name.length() == 0) {
-                    Utils.showAlert(NewVideoGroupActivity.this, "Warning", "Please input group name");
+                    Utils.showAlert(NewVideoGroupActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_input_group_name));
                     return;
                 }
                 if (array_sel.size() == 0) {
-                    Utils.showAlert(NewVideoGroupActivity.this, "Warning", "Please select group members");
+                    Utils.showAlert(NewVideoGroupActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_select_group_members));
                     return;
                 }
 
@@ -67,10 +67,10 @@ public class NewVideoGroupActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getValue()!=null) {
-                            Utils.showAlert(NewVideoGroupActivity.this, "Warning", "The group name already exists!");
+                            Utils.showAlert(NewVideoGroupActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.the_group_name_already_exists));
                         } else {
                             Utils.mDatabase.child(Utils.tbl_group).push().setValue(videoGroup);
-                            Toast.makeText(NewVideoGroupActivity.this, "Successfully created!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewVideoGroupActivity.this, getResources().getString(R.string.successfully_created), Toast.LENGTH_SHORT).show();
                         }
                     }
 

@@ -17,7 +17,7 @@
             android:id="@+id/edit_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Type category here"
+            android:hint="@string/type_category_here"
             android:background="@drawable/frame_round"
             android:padding="10dp"
             android:singleLine="true"
@@ -46,7 +46,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Items"
+                    android:text="@string/no_items"
                     />
 
             </LinearLayout>

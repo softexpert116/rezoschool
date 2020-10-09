@@ -209,7 +209,7 @@ public class ProfileFragment extends Fragment {
 
                 } else {
                     if (img_status_edit.getTag().equals("save")) {
-                        Utils.showAlert(activity, "Warning","Please save available status.");
+                        Utils.showAlert(activity, getResources().getString(R.string.warning),getResources().getString(R.string.please_save_available_status));
                         return;
                     }
                     fab.setTag("edit");
@@ -232,7 +232,7 @@ public class ProfileFragment extends Fragment {
                     final String email = edit_email.getText().toString().trim();
                     final String city = edit_city.getText().toString().trim();
                     if (name.length()*email.length()*city.length() == 0) {
-                        Utils.showAlert(activity, "Warning", "Please fill in blank field!");
+                        Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                         return;
                     }
                     String school_number = "";
@@ -241,7 +241,7 @@ public class ProfileFragment extends Fragment {
                     if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
                         school_number = edit_school_number.getText().toString().trim();
                         if (school_number.length() == 0) {
-                            Utils.showAlert(activity, "Warning", "Please fill in blank field!");
+                            Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                             return;
                         }
                     }
@@ -257,7 +257,7 @@ public class ProfileFragment extends Fragment {
                         isPublic = true;
                     }
                     progressDialog = new ProgressDialog(activity);
-                    progressDialog.setMessage("Please Wait...");
+                    progressDialog.setMessage(getResources().getString(R.string.please_wait));
                     progressDialog.show();
                     StorageMetadata metadata = new StorageMetadata.Builder()
                             .setContentType("image/jpeg")
@@ -310,7 +310,7 @@ public class ProfileFragment extends Fragment {
         }
         progressDialog.dismiss();
         activity.setUserProfile();
-        Toast.makeText(activity, "Successfully updated!", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, getResources().getString(R.string.successfully_updated), Toast.LENGTH_LONG).show();
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -325,7 +325,7 @@ public class ProfileFragment extends Fragment {
                                 .placeholder(R.drawable.profile).centerCrop().dontAnimate()).into(img_photo);
                 img_photo.setBackground(activity.getDrawable(R.drawable.app_icon));
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Toast.makeText(activity, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, getResources().getString(R.string.cropping_failed) + result.getError(), Toast.LENGTH_LONG).show();
             }
         }
     }

@@ -49,7 +49,7 @@ public class NewPaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_payment);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("New Payment");
+        setTitle(getResources().getString(R.string.new_payment));
         App.hideKeyboard(this);
         sel_student = (Student)getIntent().getSerializableExtra("OBJECT");
 
@@ -86,7 +86,7 @@ public class NewPaymentActivity extends AppCompatActivity {
                 String amountStr = edit_amount.getText().toString().trim();
                 merchantID = edit_merchant.getText().toString().trim();
                 if (amountStr.length()*merchantID.length() == 0) {
-                    Utils.showAlert(NewPaymentActivity.this, "Warning", "Please in the blank field");
+                    Utils.showAlert(NewPaymentActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 amount = Float.valueOf(amountStr);
@@ -97,7 +97,7 @@ public class NewPaymentActivity extends AppCompatActivity {
     }
     private void merchant_pay_ediaRequest() {
         mDialog = new ProgressDialog(this);
-        mDialog.setMessage("Payment processing...");
+        mDialog.setMessage(getResources().getString(R.string.payment_processing));
         mDialog.setCancelable(false);
         mDialog.show();
         final JSONObject object = new JSONObject();
@@ -131,7 +131,7 @@ public class NewPaymentActivity extends AppCompatActivity {
 
                     switch (pay_code) {
                         case 200:
-                            _error = "Payment queued";
+                            _error = getResources().getString(R.string.payment_queued);
                             transactionid = jsonObject.getString("transactionid");
                             pay_link = jsonObject.getString("url");
                             final String finalPay_link = pay_link;
@@ -145,7 +145,7 @@ public class NewPaymentActivity extends AppCompatActivity {
                             Utils.mDatabase.child(Utils.tbl_transaction).push().setValue(transaction);
                             break;
                         case 100:
-                            _error = "Payment success";
+                            _error = getResources().getString(R.string.payment_success);
                             break;
                         default:
                             _error = jsonObject.getString("error");
@@ -167,7 +167,7 @@ public class NewPaymentActivity extends AppCompatActivity {
     }
     private void payment_status_ediaRequest() {
         mDialog = new ProgressDialog(this);
-        mDialog.setMessage("Loading...");
+        mDialog.setMessage(getResources().getString(R.string.loading));
         mDialog.setCancelable(false);
         mDialog.show();
         final JSONObject object = new JSONObject();
@@ -194,23 +194,23 @@ public class NewPaymentActivity extends AppCompatActivity {
 
                     switch (pay_code) {
                         case 200:
-                            _error = "Payment queued";
+                            _error = getResources().getString(R.string.payment_queued);
                             transactionid = jsonObject.getString("transactionid");
                             pay_link = jsonObject.getString("url");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(NewPaymentActivity.this, "Payment queued.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(NewPaymentActivity.this, getResources().getString(R.string.payment_queued), Toast.LENGTH_SHORT).show();
                                 }
                             });
 
                             break;
                         case 100:
-                            _error = "Payment success";
+                            _error = getResources().getString(R.string.payment_success);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(NewPaymentActivity.this, "Payment has been processed successfully.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(NewPaymentActivity.this, getResources().getString(R.string.payment_success), Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -271,7 +271,7 @@ public class NewPaymentActivity extends AppCompatActivity {
                 if (dataSnapshot.getValue()!=null) {
                     User user = dataSnapshot.getValue(User.class);
                     edit_student.setText(user.name);
-                    txt_mobile.setText("Mobile Number: " + user.phone);
+                    txt_mobile.setText(getResources().getString(R.string.mobile_number) + ": " + user.phone);
                 }
             }
 

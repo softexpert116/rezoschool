@@ -55,7 +55,7 @@ public class StudentDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Student Presence & Absence");
+        setTitle(getResources().getString(R.string.student_presence_absence));
         student = (Student) getIntent().getSerializableExtra("OBJECT");
 
         txt_result_day = findViewById(R.id.txt_result_day);
@@ -178,7 +178,7 @@ public class StudentDetailActivity extends AppCompatActivity {
                                         } else {
                                             Utils.mDatabase.child(Utils.tbl_exam).child(exam._id).child("result").setValue(result);
                                         }
-                                        Toast.makeText(StudentDetailActivity.this, "Successfully updated!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(StudentDetailActivity.this, getResources().getString(R.string.successfully_updated), Toast.LENGTH_SHORT).show();
                                         return;
                                     } else {
                                     }
@@ -189,7 +189,7 @@ public class StudentDetailActivity extends AppCompatActivity {
                         if (result.length() > 0) {
                             Utils.mDatabase.child(Utils.tbl_exam).push().setValue(new Exam("", sel_date, result, Utils.currentSchool._id, student.uid));
                         }
-                        Toast.makeText(StudentDetailActivity.this, "Successfully updated!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StudentDetailActivity.this, getResources().getString(R.string.successfully_updated), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -365,13 +365,13 @@ public class StudentDetailActivity extends AppCompatActivity {
         String evaluation = "";
         if (result != "") {
             if (Float.parseFloat(result) >= 4.5) {
-                evaluation = "Excellent";
+                evaluation = getResources().getString(R.string.excellent);
             } else if (Float.parseFloat(result) >= 4) {
-                evaluation = "Good";
+                evaluation = getResources().getString(R.string.good);
             } else if (Float.parseFloat(result) >= 3) {
-                evaluation = "Normal";
+                evaluation = getResources().getString(R.string.normal);
             } else {
-                evaluation = "Poor";
+                evaluation = getResources().getString(R.string.poor);
             }
         }
         return evaluation;

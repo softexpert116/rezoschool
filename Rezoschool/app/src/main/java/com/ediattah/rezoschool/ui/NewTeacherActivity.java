@@ -20,7 +20,7 @@ public class NewTeacherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_teacher);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Add Teacher");
+        setTitle(getResources().getString(R.string.add_new_teacher));
         App.hideKeyboard(this);
 
         listView = findViewById(R.id.listView);

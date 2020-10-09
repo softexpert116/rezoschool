@@ -78,8 +78,8 @@ public class SchoolCourseListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you going to remove this item?");
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setMessage(context.getResources().getString(R.string.are_you_going_to_remove_this_item));
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         TimeslotActivity activity = (TimeslotActivity)context;
                         for (int i = 0; i < activity.sel_class.courses.size(); i++) {
@@ -97,11 +97,11 @@ public class SchoolCourseListAdapter extends BaseAdapter {
                             }
                         }
                         Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("classes").setValue(Utils.currentSchool.classes);
-                        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.successfully_deleted), Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });

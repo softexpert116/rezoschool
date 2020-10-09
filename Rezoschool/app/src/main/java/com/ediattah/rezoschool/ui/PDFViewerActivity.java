@@ -23,7 +23,7 @@ public class PDFViewerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p_d_f_viewer);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("PDF Viewer");
+        setTitle(getResources().getString(R.string.pdf_viewer));
         String attach = getIntent().getStringExtra("Attach");
         pdfView = findViewById(R.id.pdfView);
 

@@ -30,7 +30,7 @@ public class SchoolFinanceDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_finance_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Finance Details");
+        setTitle(getResources().getString(R.string.finance_details));
         listView = findViewById(R.id.listView);
         financeDetailListAdapter = new FinanceDetailListAdapter(this, array_student_accepted);
         listView.setAdapter(financeDetailListAdapter);

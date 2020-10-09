@@ -188,10 +188,10 @@ public class FinanceDetailListAdapter extends BaseAdapter {
             }
         });
         if (student.isNew) {
-            txt_new.setText("NEW");
+            txt_new.setText(context.getResources().getString(R.string._new));
             txt_new.setBackgroundColor(Color.parseColor("#c3edb9"));
         } else {
-            txt_new.setText("OLD");
+            txt_new.setText(context.getResources().getString(R.string.old));
             txt_new.setBackgroundColor(Color.parseColor("#e28e8e"));
         }
 

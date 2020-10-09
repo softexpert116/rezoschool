@@ -32,7 +32,7 @@ public class ParentViewTeacherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_teacher);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sel_student = (Student)getIntent().getSerializableExtra("OBJECT");
-        setTitle("Teachers");
+        setTitle(getResources().getString(R.string.teacher));
 
         ListView listView = findViewById(R.id.listView);
         teacherListAdapter = new TeacherListAdapter(this, arrayList);

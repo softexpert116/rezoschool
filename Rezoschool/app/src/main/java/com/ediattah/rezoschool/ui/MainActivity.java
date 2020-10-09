@@ -412,13 +412,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if ((grantResults.length > 0) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     createDirectory();
                 } else {
-                    Toast.makeText(MainActivity.this, "Permission denied", Toast.LENGTH_SHORT);
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT);
                     finish();
                 }
                 break;
             }
             default:
-                Toast.makeText(MainActivity.this, "Permission denied", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT);
                 finish();
         }
     }
@@ -442,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Are you going to finish the app?");
+            builder.setMessage(getResources().getString(R.string.are_you_going_to_finish_the_app));
             builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog,int id) {
                     App.setStatus(0);
@@ -450,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     System.exit(0);
                 }
             });
-            builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                 }
             });

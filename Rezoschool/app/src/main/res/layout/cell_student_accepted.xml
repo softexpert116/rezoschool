@@ -60,7 +60,7 @@
                             <TextView
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
-                                android:text="Name: "
+                                android:text="@string/name_"
                                 android:fontFamily="@font/gibson_regular"
                                 android:textSize="20dp"
                                 />
@@ -83,7 +83,7 @@
                                 android:id="@+id/txt_class_t"
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
-                                android:text="Class: "
+                                android:text="@string/class_"
                                 android:fontFamily="@font/gibson_regular"
                                 android:textSize="20dp"
                                 />
@@ -106,7 +106,7 @@
                                 android:id="@+id/txt_school_t"
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
-                                android:text="School: "
+                                android:text="@string/school_"
                                 android:fontFamily="@font/gibson_regular"
                                 android:textSize="20dp"
                                 />
@@ -162,7 +162,7 @@
                 android:id="@+id/txt_new"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NEW"
+                android:text="@string/_new"
                 android:fontFamily="@font/gibson_bold"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
@@ -173,7 +173,7 @@
                 android:id="@+id/btn_parent"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
-                android:text="Parent"
+                android:text="@string/parent"
                 android:background="@drawable/btn_round"
                 android:textColor="@color/white"
                 android:layout_below="@+id/ly_student"

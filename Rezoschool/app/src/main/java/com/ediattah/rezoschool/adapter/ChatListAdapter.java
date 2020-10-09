@@ -89,16 +89,16 @@ public class ChatListAdapter extends BaseAdapter {
         voicePlayerView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                new BottomSheet.Builder(context,R.style.BottomSheet_StyleDialog).title("Actions").sheet(R.menu.bottom_sheet_audio).listener(new DialogInterface.OnClickListener() {
+                new BottomSheet.Builder(context,R.style.BottomSheet_StyleDialog).title(context.getResources().getString(R.string.actions)).sheet(R.menu.bottom_sheet_audio).listener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case R.id.delete:
                                 if (message.sender_id.equals(Utils.mUser.getUid())) {
                                     context.delete_message(message);
-                                    Toast.makeText(context, "Voice message deleted!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getResources().getString(R.string.voice_message_deleted), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(context, "You are not allowed!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getResources().getString(R.string.you_are_not_allowed), Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                         }
@@ -125,21 +125,21 @@ public class ChatListAdapter extends BaseAdapter {
                         switch (which) {
                             case R.id.copy_text:
                                 Utils.copy_text(context, message.message);
-                                Toast.makeText(context, "Message copied to clipboard!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.message_copied_to_clipboard), Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.share_text:
                                 Intent intent = new Intent(android.content.Intent.ACTION_SEND);
                                 intent.setType("text/plain");
-                                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Chat");
+                                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.message_from_chat));
                                 intent.putExtra(android.content.Intent.EXTRA_TEXT, message.message);
-                                context.startActivity(Intent.createChooser(intent, "Share via"));
+                                context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.share_via)));
                                 break;
                             case R.id.delete:
                                 if (message.sender_id.equals(Utils.mUser.getUid())) {
                                     context.delete_message(message);
-                                    Toast.makeText(context, "Message deleted!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getResources().getString(R.string.message_deleted), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(context, "You are not allowed!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getResources().getString(R.string.you_are_not_allowed), Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                         }
@@ -159,7 +159,7 @@ public class ChatListAdapter extends BaseAdapter {
         img_pic.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                new BottomSheet.Builder(context,R.style.BottomSheet_StyleDialog).title("Actions").sheet(R.menu.bottom_sheet_img).listener(new DialogInterface.OnClickListener() {
+                new BottomSheet.Builder(context,R.style.BottomSheet_StyleDialog).title(context.getResources().getString(R.string.actions)).sheet(R.menu.bottom_sheet_img).listener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -168,21 +168,21 @@ public class ChatListAdapter extends BaseAdapter {
                                 break;
                             case R.id.copy_url:
                                 Utils.copy_text(context, message.file);
-                                Toast.makeText(context, "Image Url copied to clipboard!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.image_url_copied_to_clipboard), Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.share_url:
                                 Intent intent = new Intent(android.content.Intent.ACTION_SEND);
                                 intent.setType("text/plain");
-                                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Image Url");
+                                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.image_url));
                                 intent.putExtra(android.content.Intent.EXTRA_TEXT, message.file);
-                                context.startActivity(Intent.createChooser(intent, "Share via"));
+                                context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.share_via)));
                                 break;
                             case R.id.delete:
                                 if (message.sender_id.equals(Utils.mUser.getUid())) {
                                     context.delete_message(message);
-                                    Toast.makeText(context, "Image deleted!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getResources().getString(R.string.image_deleted), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(context, "You are not allowed!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getResources().getString(R.string.you_are_not_allowed), Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                         }
@@ -267,7 +267,7 @@ public class ChatListAdapter extends BaseAdapter {
 
     void do_download(final String url) {
         final ProgressDialog mProgressDialog = new android.app.ProgressDialog(context);
-        mProgressDialog.setMessage("Download");
+        mProgressDialog.setMessage(context.getResources().getString(R.string.download));
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setProgressNumberFormat(null);
         mProgressDialog.setProgressPercentFormat(null);
@@ -279,12 +279,12 @@ public class ChatListAdapter extends BaseAdapter {
             @Override
             public void onTaskCompleted() {
                 mProgressDialog.dismiss();
-                Toast.makeText(context,"Downloaded in " + App.MY_IMAGE_PATH, Toast.LENGTH_LONG).show();
+                Toast.makeText(context,context.getResources().getString(R.string.downloaded_in_) + App.MY_IMAGE_PATH, Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onTaskStarted() {
-                mProgressDialog.setMessage("Downloading image...");
+                mProgressDialog.setMessage(context.getResources().getString(R.string.downloading_image_));
                 mProgressDialog.show();
             }
 

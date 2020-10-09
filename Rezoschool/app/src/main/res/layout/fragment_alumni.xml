@@ -27,7 +27,7 @@
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:paddingLeft="35dp"
-            android:hint="school name"
+            android:hint="@string/school_name"
             android:text=""
             android:textSize="20dp"
             android:textColor="@color/colorText"
@@ -59,7 +59,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="35dp"
             android:textSize="20dp"
-            android:hint="student name"
+            android:hint="@string/student_name"
             android:inputType="text"
             android:textColor="@color/colorText"
             android:imeOptions="actionSearch"
@@ -93,7 +93,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Items"
+                    android:text="@string/no_items"
                     />
 
             </LinearLayout>
@@ -110,7 +110,7 @@
             android:id="@+id/btn_bulk_sms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bulk SMS"
+            android:text="@string/bulk_sms"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"

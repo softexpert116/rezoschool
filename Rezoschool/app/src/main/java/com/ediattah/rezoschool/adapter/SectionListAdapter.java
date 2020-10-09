@@ -157,19 +157,19 @@ public class SectionListAdapter extends SectionAdapter {
             convertView = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, null);
         }
         convertView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
-        String headerText = "Teacher";
+        String headerText = context.getResources().getString(R.string.teacher);
         switch (section) {
             case 0:
 
-                headerText = "Teacher";
+                headerText = context.getResources().getString(R.string.teacher);
                 break;
             case 1:
 
-                headerText = "Parent";
+                headerText = context.getResources().getString(R.string.parent);
                 break;
             case 2:
 
-                headerText = "Student";
+                headerText = context.getResources().getString(R.string.student);
                 break;
         }
         ((TextView) convertView).setText(headerText);

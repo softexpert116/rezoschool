@@ -44,7 +44,7 @@
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:textAlignment="textEnd"
-                            android:text="Name: "
+                            android:text="@string/name_"
                             android:textSize="20dp"
                             android:fontFamily="@font/gibson_regular"
                             />
@@ -68,7 +68,7 @@
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:textAlignment="textEnd"
-                            android:text="Course: "
+                            android:text="@string/courses_"
                             android:textSize="20dp"
                             android:fontFamily="@font/gibson_regular"
                             />

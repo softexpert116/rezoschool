@@ -91,8 +91,8 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you sure to reset courses?");
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setMessage(context.getResources().getString(R.string.are_you_going_to_remove_this_item));
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         Teacher teacher2 = new Teacher(teacher.uid, "");
                         for (int i = 0; i < Utils.currentSchool.teachers.size(); i++) {
@@ -105,7 +105,7 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
                         Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("teachers").setValue(Utils.currentSchool.teachers);
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
@@ -115,9 +115,9 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
         });
         Button btn_syllabus = view.findViewById(R.id.btn_syllabus);
         if (flag_new) {
-            btn_syllabus.setText("Add Course");
+            btn_syllabus.setText(context.getResources().getString(R.string.add_course));
         } else {
-            btn_syllabus.setText("Syllabus");
+            btn_syllabus.setText(context.getResources().getString(R.string.syllabus));
         }
         final boolean finalFlag_new = flag_new;
         btn_syllabus.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +140,7 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
         btn_allow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (btn_allow.getText().toString().equals("Allow")) {
+                if (btn_allow.getText().toString().equals(context.getResources().getString(R.string.allow))) {
                     Utils.mDatabase.child(Utils.tbl_user).child(teacher.uid).child("isAllow").setValue(true);
                 } else {
                     Utils.mDatabase.child(Utils.tbl_user).child(teacher.uid).child("isAllow").setValue(false);
@@ -163,10 +163,10 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
                             }
 
                             if (user.isAllow) {
-                                btn_allow.setText("Block");
+                                btn_allow.setText(context.getResources().getString(R.string.block));
                                 btn_allow.setBackground(context.getDrawable(R.color.colorAccent));
                             } else {
-                                btn_allow.setText("Allow");
+                                btn_allow.setText(context.getResources().getString(R.string.allow));
                                 btn_allow.setBackground(context.getDrawable(R.color.colorPrimaryDark));
                             }
                             if (user.status == 0) {
@@ -187,8 +187,8 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you going to remove this item?");
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setMessage(context.getResources().getString(R.string.are_you_going_to_remove_this_item));
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         for (int i = 0; i < Utils.currentSchool.teachers.size(); i++) {
                             Teacher teacher1 = Utils.currentSchool.teachers.get(i);
@@ -198,10 +198,10 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
                             }
                         }
                         Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("teachers").setValue(Utils.currentSchool.teachers);
-                        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.successfully_deleted), Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
@@ -257,7 +257,7 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
                     }
                 }
                 if (courses.length() == 0) {
-                    Toast.makeText(context, "Please choose a course", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.please_choose_a_course), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 teacher.courses = courses;

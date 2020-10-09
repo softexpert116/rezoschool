@@ -85,9 +85,9 @@ public class MessageListAdapter extends BaseAdapter {
         final ImageView img_photo = view.findViewById(R.id.img_photo);
         txt_message.setText(message.message);
         if (message.message.length() == 0) {
-            txt_message.setText("[file attached]");
+            txt_message.setText("["+ activity.getResources().getString(R.string.file_attached) + "]");
             if (message.file.length() == 0) {
-                txt_message.setText("[chat open]");
+                txt_message.setText("[" + activity.getResources().getString(R.string.chat_open) + "]");
             }
         }
         txt_message.setTextColor(Color.parseColor("#222222"));

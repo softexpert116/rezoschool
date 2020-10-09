@@ -32,7 +32,7 @@ public class FinanceSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finance_setting);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Fee Setting");
+        setTitle(getResources().getString(R.string.fee_setting));
 
         edit_fee = findViewById(R.id.edit_fee);
 
@@ -58,7 +58,7 @@ public class FinanceSettingActivity extends AppCompatActivity {
                 }
                 arrayList.get(schoolLevelFeeListAdapter.sel_index).fee = fee;
                 Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("levels").setValue(arrayList);
-                Toast.makeText(FinanceSettingActivity.this, "Successfully updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FinanceSettingActivity.this, getResources().getString(R.string.successfully_updated), Toast.LENGTH_SHORT).show();
             }
         });
         level_update_listener();

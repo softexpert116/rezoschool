@@ -70,7 +70,7 @@ public class NewSyllabusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_syllabus);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Create New Syllabus");
+        setTitle(getResources().getString(R.string.create_new_syllabus));
         App.hideKeyboard(this);
         sel_date = (Date)getIntent().getSerializableExtra("Date");
         ly_times = findViewById(R.id.ly_times);
@@ -95,7 +95,7 @@ public class NewSyllabusActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (sel_school == null) {
-                    Utils.showAlert(NewSyllabusActivity.this, "Warning", "Please select school number.");
+                    Utils.showAlert(NewSyllabusActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_select_school_number));
                     return;
                 }
                 openAddCourseDialog();
@@ -121,7 +121,7 @@ public class NewSyllabusActivity extends AppCompatActivity {
                     }
                 };
                 DatePickerDialog datePickerDialog = new DatePickerDialog(NewSyllabusActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myDateListener, year, month, date);
-                datePickerDialog.setTitle("Choose date:");
+                datePickerDialog.setTitle(getResources().getString(R.string.choose_date));
                 datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 datePickerDialog.show();
             }
@@ -142,16 +142,16 @@ public class NewSyllabusActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String course = edit_course.getText().toString().trim();
                 if (course.length() == 0) {
-                    Utils.showAlert(NewSyllabusActivity.this, "Warning", "Please fill in the blank field");
+                    Utils.showAlert(NewSyllabusActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 if (sel_date == null || sel_school == null) {
-                    Utils.showAlert(NewSyllabusActivity.this, "Warning", "Please fill in the blank field");
+                    Utils.showAlert(NewSyllabusActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 String dayOfTheWeek = (String) DateFormat.format("EEEE", sel_date);
                 if (!dayOfTheWeek.equals(Utils.getDayStrFromInt(sel_courseTime.dayOfWeek))) {
-                    Utils.showAlert(NewSyllabusActivity.this, "Warning", "Date doesn't match with the course timeslot.\nPlease try other one.");
+                    Utils.showAlert(NewSyllabusActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.date_does_not_match_with_course_timeslot_please_try_other_one));
                     return;
                 }
                 String title = edit_title.getText().toString().trim();
@@ -173,14 +173,14 @@ public class NewSyllabusActivity extends AppCompatActivity {
                                 String date = Utils.getDateString(syllabus.date);
                                 if (date.equals(date1) && syllabus.time.start_time.equals(syllabus1.time.start_time) &&
                                         syllabus.time.end_time.equals(syllabus1.time.end_time) && syllabus.time.dayOfWeek == syllabus1.time.dayOfWeek) {
-                                    Utils.showAlert(NewSyllabusActivity.this, "Warning", "A syllabus already set in the same timeslot.");
+                                    Utils.showAlert(NewSyllabusActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.a_syllabus_already_set_in_the_same_timeslot));
                                     return;
                                 }
                             }
                         }
                         if (fileuri!=null) {
                             final ProgressDialog progressDialog = new ProgressDialog(NewSyllabusActivity.this);
-                            progressDialog.setMessage("Please Wait...");
+                            progressDialog.setMessage(getResources().getString(R.string.please_wait));
                             progressDialog.show();
                             StorageMetadata metadata = new StorageMetadata.Builder()
                                     .setContentType("application/pdf")
@@ -220,7 +220,7 @@ public class NewSyllabusActivity extends AppCompatActivity {
     }
     void submitSyllabus(Syllabus syllabus) {
         Utils.mDatabase.child(Utils.tbl_syllabus).push().setValue(syllabus);
-        Toast.makeText(NewSyllabusActivity.this, "Successfully created!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(NewSyllabusActivity.this, getResources().getString(R.string.successfully_created), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -291,7 +291,7 @@ public class NewSyllabusActivity extends AppCompatActivity {
         dlg.show();
         TextView txt_title = dlg.findViewById(R.id.txt_title);
         final LinearLayout ly_no_items = dlg.findViewById(R.id.ly_no_items);
-        txt_title.setText("Choose School");
+        txt_title.setText(getResources().getString(R.string.choose_school));
         ListView listView = dlg.findViewById(R.id.listView);
         final ArrayList<School> array_all_school = new ArrayList<>();
         final SchoolListAdapter schoolAdapter = new SchoolListAdapter(this, array_all_school);
@@ -363,7 +363,7 @@ public class NewSyllabusActivity extends AppCompatActivity {
         dlgCourse.show();
         final LinearLayout ly_no_items = dlgCourse.findViewById(R.id.ly_no_items);
         TextView txt_title = dlgCourse.findViewById(R.id.txt_title);
-        txt_title.setText("Choose Course Timeslot");
+        txt_title.setText(getResources().getString(R.string.choose_course_timeslot));
         ListView listView = dlgCourse.findViewById(R.id.listView);
         final ArrayList<Course> array_course_sel = new ArrayList<>();
         ArrayList<Course> arrayList = new ArrayList<>();

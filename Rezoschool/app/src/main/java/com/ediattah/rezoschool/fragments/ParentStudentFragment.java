@@ -100,7 +100,7 @@ public class ParentStudentFragment extends Fragment {
                 childListAdapter.notifyDataSetChanged();
 //                Glide.with(EventCreateActivity.this).load(result.getUri()).centerCrop().placeholder(R.drawable.profile).dontAnimate().into(img_event);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Toast.makeText(activity, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, getResources().getString(R.string.cropping_failed) + result.getError(), Toast.LENGTH_LONG).show();
             }
         }
     }

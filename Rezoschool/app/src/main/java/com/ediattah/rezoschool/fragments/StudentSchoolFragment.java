@@ -136,10 +136,10 @@ public class StudentSchoolFragment extends Fragment {
         txt_school_number.setText(Utils.currentSchool.number);
         txt_type.setText(Utils.currentSchool.type);
         if (Utils.currentSchool.isPublic) {
-            txt_public.setText("Public");
+            txt_public.setText(getResources().getString(R.string._public));
             txt_public.setBackgroundColor(Color.parseColor("#0000ff"));
         } else {
-            txt_public.setText("Private");
+            txt_public.setText(getResources().getString(R.string._public));
             txt_public.setBackgroundColor(Color.parseColor("#7f00ff"));
         }
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.currentSchool.uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -177,11 +177,11 @@ public class StudentSchoolFragment extends Fragment {
             btn_choose.setEnabled(false);
             txt_public.setVisibility(View.VISIBLE);
             if (Utils.currentStudent.isAllow) {
-                txt_status.setText("Accepted");
+                txt_status.setText(getResources().getString(R.string.accepted));
                 img_status.setImageDrawable(activity.getDrawable(R.drawable.ic_accepted1));
                 ly_tool.setVisibility(View.VISIBLE);
             } else {
-                txt_status.setText("Pending");
+                txt_status.setText(getResources().getString(R.string.pending));
                 img_status.setImageDrawable(activity.getDrawable(R.drawable.ic_pending1));
                 ly_tool.setVisibility(View.GONE);
             }

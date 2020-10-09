@@ -46,7 +46,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="textEnd"
-                                android:text="Auth Number: "
+                                android:text="@string/auth_number_"
                                 android:textColor="@color/white"
                                 android:fontFamily="@font/gibson_regular"
                                 />
@@ -70,7 +70,7 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/white"
-                                android:text="School Type: "
+                                android:text="@string/school_type_"
                                 android:fontFamily="@font/gibson_regular"
                                 />
                             <TextView
@@ -112,7 +112,7 @@
                 android:layout_width="50dp"
                 android:layout_height="17dp"
                 android:background="@color/colorAccent"
-                android:text="Public"
+                android:text="@string/_public"
                 android:textSize="10dp"
                 android:textColor="@color/white"
                 android:gravity="center"

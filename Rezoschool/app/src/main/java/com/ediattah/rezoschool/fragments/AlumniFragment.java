@@ -99,7 +99,7 @@ public class AlumniFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (sel_school == null) {
-                    Utils.showAlert(activity, "Warning", "Please select a school");
+                    Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_select_a_school));
                     return;
                 }
                 Intent intent = new Intent(activity, BulkSMSActivity.class);
@@ -139,7 +139,7 @@ public class AlumniFragment extends Fragment {
         window.setGravity(Gravity.CENTER);
         dlg.show();
         TextView txt_title = dlg.findViewById(R.id.txt_title);
-        txt_title.setText("Choose School");
+        txt_title.setText(getResources().getString(R.string.choose_school));
         ListView listView = dlg.findViewById(R.id.listView);
         final ArrayList<School> array_all_school = new ArrayList<>();
         final SchoolListAdapter schoolAdapter = new SchoolListAdapter(activity, array_all_school);

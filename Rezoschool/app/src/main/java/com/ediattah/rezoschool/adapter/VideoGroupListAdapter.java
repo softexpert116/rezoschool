@@ -134,11 +134,11 @@ public class VideoGroupListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 if (fragment.flag_my) {
-                    builder.setMessage("Are you going to start a group video call?");
+                    builder.setMessage(context.getResources().getString(R.string.are_you_going_to_start_a_group_video_call));
                 } else {
-                    builder.setMessage("Are you going to join a group video call?");
+                    builder.setMessage(context.getResources().getString(R.string.are_you_going_to_join_a_group_video_call));
                 }
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         if (fragment.flag_my) {
                             App.goToStartG_VideoCallPage(model, context);
@@ -153,7 +153,7 @@ public class VideoGroupListAdapter extends BaseAdapter {
                         }
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
@@ -164,12 +164,12 @@ public class VideoGroupListAdapter extends BaseAdapter {
         Button btn_remove = (Button)view.findViewById(R.id.btn_remove);
         if (fragment.flag_my) {
             btn_remove.setVisibility(View.VISIBLE);
-            btn_call.setText("Start call");
+            btn_call.setText(context.getResources().getString(R.string.start_call));
             btn_call.setEnabled(true);
             btn_call.setBackground(context.getDrawable(R.drawable.btn_round));
         } else {
             btn_remove.setVisibility(View.GONE);
-            btn_call.setText("Join call");
+            btn_call.setText(context.getResources().getString(R.string.join_call));
             ArrayList<String> array_video_group = App.readPreference_array_String(App.NewVideoGroup);
             String vtoken = model.creator_id + " " + model.room;
             if (array_video_group.contains(vtoken)) {
@@ -184,15 +184,15 @@ public class VideoGroupListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you going to remove this item?");
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setMessage(context.getResources().getString(R.string.are_you_going_to_remove_this_item));
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         Utils.mDatabase.child(Utils.tbl_group).child(model._id).setValue(null);
-                        Toast.makeText(context, "Successfully removed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.successfully_deleted), Toast.LENGTH_SHORT).show();
                         fragment.read_videoGroup();
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });

@@ -37,7 +37,7 @@ public class CourseStudentActivity extends AppCompatActivity {
         sel_school = (School) getIntent().getSerializableExtra("SCHOOL");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Students per " + sel_course.name + " course");
+        setTitle(getResources().getString(R.string.students_per) + sel_course.name + " " + getResources().getString(R.string.course));
 
         ListView listView = findViewById(R.id.listView);
         ly_no_items = findViewById(R.id.ly_no_items);

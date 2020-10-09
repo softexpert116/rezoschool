@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Student"
+            android:text="@string/student"
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
@@ -28,7 +28,7 @@
                 android:id="@+id/edit_student"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="student name"
+                android:hint="@string/student_name"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="20dp"
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Level"
+            android:text="@string/level"
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:inputType="text"
-                android:hint="level name"
+                android:hint="@string/level_name"
                 android:editable="false"
                 android:enabled="false"
                 android:singleLine="true"
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Fee per month (XOF)"
+            android:text="@string/fee_per_month_xof"
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:inputType="text"
-                android:hint="level fee"
+                android:hint="@string/level_fee"
                 android:singleLine="true"
                 android:paddingLeft="5dp"
                 android:enabled="false"
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/gibson_regular"
-            android:text="Amount (XOF)"
+            android:text="@string/amount_xof"
             android:textSize="20dp" />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -133,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/gibson_regular"
-            android:text="Merchant ID"
+            android:text="@string/merchant_id"
             android:textSize="20dp"
             />
         <androidx.cardview.widget.CardView
@@ -161,7 +161,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/gibson_regular"
             android:textSize="20dp"
-            android:text="Choose Method"
+            android:text="@string/choose_method"
             />
         <RadioGroup
             android:id="@+id/pay_method"
@@ -199,7 +199,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorText"
-            android:text="Mobile Number: 123456"
+            android:text="@string/mobile_number"
             android:fontFamily="@font/gibson_regular"
             android:textSize="18dp"
             android:layout_marginTop="10dp"
@@ -210,7 +210,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:text="Pay"
+            android:text="@string/pay"
             android:fontFamily="@font/gibson_bold"
             android:textColor="@android:color/white"
             android:background="@drawable/btn_round" />

@@ -53,7 +53,7 @@
                 android:id="@+id/edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Enter your text here"
+                android:hint="@string/enter_your_text_here"
                 android:textSize="15dp"
                 android:inputType="text|textMultiLine"
                 android:gravity="top"
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Create"
+            android:text="@string/create"
             android:fontFamily="@font/gibson_bold"
             android:textColor="@android:color/white"
             android:background="@drawable/btn_round" />

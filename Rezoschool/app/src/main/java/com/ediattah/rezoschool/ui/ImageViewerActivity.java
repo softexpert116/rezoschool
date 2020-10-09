@@ -17,7 +17,7 @@ public class ImageViewerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_viewer);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Image Viewer");
+        setTitle(getResources().getString(R.string.image_viewer));
 
         String url = getIntent().getStringExtra("url");
         PhotoView photoView = (PhotoView)findViewById(R.id.iv_photo);

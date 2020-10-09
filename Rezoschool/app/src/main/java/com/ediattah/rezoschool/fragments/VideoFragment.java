@@ -79,11 +79,11 @@ public class VideoFragment extends Fragment {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 if (flag_my) {
-                    builder.setMessage("Are you going to start a group video call?");
+                    builder.setMessage(getResources().getString(R.string.are_you_going_to_start_a_group_video_call));
                 } else {
-                    builder.setMessage("Are you going to join a group video call?");
+                    builder.setMessage(getResources().getString(R.string.are_you_going_to_join_a_group_video_call));
                 }
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         if (flag_my) {
                             App.goToStartG_VideoCallPage(array_my.get(i), activity);
@@ -92,7 +92,7 @@ public class VideoFragment extends Fragment {
                         }
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });

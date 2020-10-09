@@ -40,7 +40,7 @@
                     android:id="@+id/txt_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SCHOOL"
+                    android:text="@string/school"
                     android:layout_margin="20dp"
                     android:textSize="20dp"
                     android:textStyle="bold"
@@ -110,7 +110,7 @@
                             android:id="@+id/txt_available"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Available"
+                            android:text="@string/available"
                             android:background="@color/white"
                             android:padding="5dp"
                             android:textColor="#707070"
@@ -119,7 +119,7 @@
                             android:id="@+id/txt_unavailable"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Unavailable"
+                            android:text="@string/unavailable"
                             android:padding="5dp"
                             android:visibility="gone"
                             android:textColor="#707070"
@@ -152,14 +152,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="@string/name"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
                         android:id="@+id/edit_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="user name"
+                        android:hint="@string/username"
                         android:inputType="text"
                         android:singleLine="true"
                         android:layout_marginLeft="20dp"
@@ -170,14 +170,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Email"
+                        android:text="@string/email"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
                         android:id="@+id/edit_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="email address"
+                        android:hint="@string/email_address"
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
                         android:layout_marginLeft="20dp"
@@ -188,14 +188,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Phone"
+                        android:text="@string/phone"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
                         android:id="@+id/edit_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="phone number"
+                        android:hint="@string/phone_number"
                         android:enabled="false"
                         android:textColor="@color/colorText"
                         android:inputType="phone"
@@ -206,7 +206,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Country"
+                        android:text="@string/country"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
@@ -214,7 +214,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:hint="country name"
+                        android:hint="@string/course_name"
                         android:fontFamily="@font/gibson_regular"
                         android:textColor="@color/colorText"
                         android:singleLine="true"
@@ -224,14 +224,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="City"
+                        android:text="@string/city"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
                         android:id="@+id/edit_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="city name"
+                        android:hint="@string/city_name"
                         android:layout_marginLeft="20dp"
                         android:singleLine="true"
                         android:fontFamily="@font/gibson_regular"
@@ -249,13 +249,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="School Number"
+                            android:text="@string/school_number"
                             />
                         <EditText
                             android:id="@+id/edit_school_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="school number"
+                            android:hint="@string/school_number"
                             android:singleLine="true"
                             android:layout_marginLeft="20dp"
                             android:textColor="@color/colorText"
@@ -278,7 +278,7 @@
                                     android:id="@+id/radio_primary"
                                     android:layout_width="150dp"
                                     android:layout_height="wrap_content"
-                                    android:text="Primary School"
+                                    android:text="@string/primary_school"
                                     android:fontFamily="@font/gibson_regular"
                                     />
                                 <RadioButton
@@ -287,7 +287,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:fontFamily="@font/gibson_regular"
-                                    android:text="Secondary School"
+                                    android:text="@string/secondary_school"
                                     />
                             </RadioGroup>
                         </LinearLayout>
@@ -309,7 +309,7 @@
                                     android:id="@+id/radio_private"
                                     android:layout_width="150dp"
                                     android:layout_height="wrap_content"
-                                    android:text="Private laïc"
+                                    android:text="@string/private_laic"
                                     android:fontFamily="@font/gibson_regular"
                                     />
                                 <RadioButton
@@ -318,7 +318,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:fontFamily="@font/gibson_regular"
-                                    android:text="Private confessional"
+                                    android:text="@string/private_confessional"
                                     />
                             </RadioGroup>
                         </LinearLayout>

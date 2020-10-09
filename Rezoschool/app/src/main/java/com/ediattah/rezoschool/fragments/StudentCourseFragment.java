@@ -56,7 +56,7 @@ public class StudentCourseFragment extends Fragment {
             }
         });
         if (Utils.currentClass.name.length() == 0) {
-            Utils.showAlert(activity, "Warning", "Please apply to the school");
+            Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_apply_to_a_school));
         }
         return v;
     }

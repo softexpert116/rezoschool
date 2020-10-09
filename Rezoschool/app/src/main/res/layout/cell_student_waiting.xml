@@ -46,7 +46,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="textEnd"
                             android:textSize="20dp"
-                            android:text="Name: "
+                            android:text="@string/name_"
                             android:fontFamily="@font/gibson_regular"
                             />
                         <TextView
@@ -70,7 +70,7 @@
                             android:layout_width="80dp"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/gibson_regular"
-                            android:text="Class: "
+                            android:text="@string/class_"
                             android:textAlignment="textEnd"
                             android:textSize="20dp" />
                         <TextView
@@ -90,7 +90,7 @@
                     android:id="@+id/txt_new"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="NEW"
+                    android:text="@string/_new"
                     android:fontFamily="@font/gibson_bold"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="10dp"
@@ -115,7 +115,7 @@
                         android:id="@+id/btn_accept"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:text="Accept"
+                        android:text="@string/accept"
                         android:textAllCaps="false"
                         android:background="@drawable/btn_round"
                         android:textColor="@color/white"
@@ -127,7 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginLeft="20dp"
-                        android:text="Reject"
+                        android:text="@string/reject"
                         android:textAllCaps="false"
                         android:background="@drawable/btn_round_reject"
                         android:textColor="@color/white"

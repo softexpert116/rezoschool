@@ -45,7 +45,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="textEnd"
-                                android:text="Level: "
+                                android:text="@string/level_"
                                 android:textSize="20dp"
                                 android:fontFamily="@font/gibson_regular"
                                 />
@@ -69,7 +69,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="textEnd"
-                                android:text="Name: "
+                                android:text="@string/name_"
                                 android:textSize="20dp"
                                 android:fontFamily="@font/gibson_regular"
                                 />
@@ -94,7 +94,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Courses: "
+                        android:text="@string/courses_"
                         android:textSize="20dp"
                         />
                     <TextView
@@ -115,9 +115,10 @@
                         >
                         <Button
                             android:id="@+id/btn_course_detail"
-                            android:layout_width="150dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="35dp"
-                            android:text="Course Details"
+                            android:text="@string/course_details"
                             android:background="@color/colorPrimaryDark"
                             android:textColor="@color/white"
                             android:layout_marginBottom="5dp"
@@ -128,9 +129,10 @@
                             />
                         <Button
                             android:id="@+id/btn_students"
-                            android:layout_width="110dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="35dp"
-                            android:text="Students"
+                            android:text="@string/students"
                             android:background="@color/colorPrimaryDark"
                             android:textColor="@color/white"
                             android:layout_marginBottom="5dp"

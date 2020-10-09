@@ -20,7 +20,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:text="My Group"
+                android:text="@string/my_group"
                 android:textSize="20dp"
                 android:textColor="@color/colorText"
                 android:focusable="false"
@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:textSize="20dp"
                 android:background="@color/colorPrimary"
-                android:text="Other Group"
+                android:text="@string/other_group"
                 android:textColor="#d0d0d0"
                 android:focusable="false"
                 android:fontFamily="@font/gibson_bold"
@@ -86,7 +86,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Items"
+                android:text="@string/no_items"
                 />
 
         </LinearLayout>

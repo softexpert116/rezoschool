@@ -129,11 +129,11 @@ public class ChildListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 if (fragment.imgUri == null) {
-                    Utils.showAlert(activity, "Warning", "Please upload a picture.");
+                    Utils.showAlert(activity, activity.getResources().getString(R.string.warning), activity.getResources().getString(R.string.please_upload_a_picture));
                     return;
                 }
                 final ProgressDialog progressDialog = new ProgressDialog(activity);
-                progressDialog.setMessage("Please Wait...");
+                progressDialog.setMessage(activity.getResources().getString(R.string.please_wait));
                 progressDialog.show();
                 StorageMetadata metadata = new StorageMetadata.Builder()
                         .setContentType("image/jpeg")
@@ -154,7 +154,7 @@ public class ChildListAdapter extends BaseAdapter {
                                 Absence absence = new Absence("", Calendar.getInstance().getTime(), downloadUrl, model.school_id, model.uid);
                                 Utils.mDatabase.child(Utils.tbl_absence).push().setValue(absence);
                                 progressDialog.dismiss();
-                                Toast.makeText(activity, "Successfully submitted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, activity.getResources().getString(R.string.successfully_submitted), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

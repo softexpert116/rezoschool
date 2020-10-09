@@ -49,7 +49,7 @@ public class TeacherDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_teacher_detail);
         sel_teacher = (Teacher)getIntent().getSerializableExtra("TEACHER");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Teacher Syllabus of the Courses ");
+        setTitle(getResources().getString(R.string.teacher_syllabus_of_the_courses));
 
         ly_no_items = findViewById(R.id.ly_no_items);
         calendarView = findViewById(R.id.calendarView);

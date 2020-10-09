@@ -318,7 +318,7 @@ public class App extends Application implements LifecycleObserver {
 //        hashMap_record.put("caller", Utils.mUser.getUid());
 //        hashMap_record.put("receiver", user._id);
 //        Utils.mDatabase.child(Utils.tbl_video_call).child(room).setValue(hashMap_record);
-        sendPushMessage(user.token, "Video Call from " + Utils.currentUser.name, "Please join in room '" + room + "'", "", room, context, App.PUSH_VIDEO, Utils.mUser.getUid());
+        sendPushMessage(user.token, context.getResources().getString(R.string.video_call_from_) + Utils.currentUser.name, context.getString(R.string.please_join_in_room_) + "'" + room + "'", "", room, context, App.PUSH_VIDEO, Utils.mUser.getUid());
     }
     public static void goToStartG_VideoCallPage(VideoGroup videoGroup, Context context) {
         URL serverURL;
@@ -363,7 +363,7 @@ public class App extends Application implements LifecycleObserver {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getValue()!=null) {
                                 User user = dataSnapshot.getValue(User.class);
-                                sendPushMessage(user.token, "Group Video Call from " + Utils.currentUser.name, "Please join in group '" + videoGroup.name + "'", "", videoGroup.room, context, PUSH_VIDEO_GROUP, Utils.mUser.getUid());
+                                sendPushMessage(user.token, context.getResources().getString(R.string.video_call_from_) + Utils.currentUser.name, context.getString(R.string.please_join_in_group_) + "'" + videoGroup.name + "'", "", videoGroup.room, context, PUSH_VIDEO_GROUP, Utils.mUser.getUid());
                             }
                         }
 
@@ -450,7 +450,7 @@ public class App extends Application implements LifecycleObserver {
                                 Utils.currentUser = datas.getValue(User.class);
                                 if (!Utils.currentUser.isAllow) {
                                     FirebaseAuth.getInstance().signOut();
-                                    Toast.makeText(activity, "You are not allowed yet.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.you_are_not_allowed), Toast.LENGTH_LONG).show();
 //                                    Utils.showAlert(activity, "Warning", "You are not allowed yet.");
                                     Intent intent = new Intent(activity, LoginActivity.class);
                                     activity.startActivity(intent);

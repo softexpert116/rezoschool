@@ -42,7 +42,7 @@ public class SchoolAddTeacherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_add_teacher);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Add New Teacher");
+        setTitle(getResources().getString(R.string.add_new_teacher));
         App.hideKeyboard(this);
         edit_teacher = findViewById(R.id.edit_teacher);
         edit_teacher.setOnClickListener(new View.OnClickListener() {
@@ -64,13 +64,13 @@ public class SchoolAddTeacherActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String courses = edit_course.getText().toString();
                 if (edit_teacher.getText().toString().length()*courses.length() == 0) {
-                    Utils.showAlert(SchoolAddTeacherActivity.this, "Warning", "Please fill in the blank field");
+                    Utils.showAlert(SchoolAddTeacherActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 Teacher teacher = new Teacher(sel_user._id, courses);
                 Utils.currentSchool.teachers.add(teacher);
                 Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("teachers").setValue(Utils.currentSchool.teachers);
-                Toast.makeText(SchoolAddTeacherActivity.this, "Successfully created!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SchoolAddTeacherActivity.this, getResources().getString(R.string.successfully_created), Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -119,7 +119,7 @@ public class SchoolAddTeacherActivity extends AppCompatActivity {
         dlg.show();
         ListView listView = dlg.findViewById(R.id.listView);
         TextView txt_title = dlg.findViewById(R.id.txt_title);
-        txt_title.setText("Choose Teacher");
+        txt_title.setText(getResources().getString(R.string.choose_teacher));
         UserListAdapter userListAdapter = new UserListAdapter(this, array_user);
         listView.setAdapter(userListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

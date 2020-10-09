@@ -127,7 +127,7 @@ public class TweetListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Utils.mDatabase.child(Utils.tbl_tweet).child(tweet._id).child("like").setValue(tweet.like+1);
-                Toast.makeText(activity, "You like this tweet!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getResources().getString(R.string.you_like_this_tweet), Toast.LENGTH_SHORT).show();
             }
         });
         ImageButton ibtn_dislike = view.findViewById(R.id.ibtn_dislike);
@@ -135,7 +135,7 @@ public class TweetListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Utils.mDatabase.child(Utils.tbl_tweet).child(tweet._id).child("dislike").setValue(tweet.dislike+1);
-                Toast.makeText(activity, "You dislike this tweet!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getResources().getString(R.string.you_dislike_this_tweet), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -198,14 +198,14 @@ public class TweetListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 String txt_comment = edit_comment.getText().toString().trim();
                 if (txt_comment.length() == 0) {
-                    Utils.showAlert(activity, "Warning", "Please fill in blank field");
+                    Utils.showAlert(activity, activity.getResources().getString(R.string.warning), activity.getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 Comment comment = new Comment("", Utils.mUser.getUid(), txt_comment, Utils.getCurrentDateString());
                 tweet.comments.add(comment);
                 Utils.mDatabase.child(Utils.tbl_tweet).child(tweet._id).child("comments").setValue(tweet.comments);
                 dlg.dismiss();
-                Toast.makeText(activity, "You've committed successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getResources().getString(R.string.you_committed_successfully), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onVerificationFailed(FirebaseException e) {
                 progressDialog.dismiss();
                 Log.d("msg", e.getLocalizedMessage());
-                Utils.showAlert(LoginActivity.this, "Warning", e.getMessage());
+                Utils.showAlert(LoginActivity.this, getResources().getString(R.string.error), e.getMessage());
             }
 
             @Override

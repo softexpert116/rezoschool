@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Course"
+                android:text="@string/course"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 />
@@ -32,7 +32,7 @@
                     android:id="@+id/edit_course"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:hint="course name"
+                    android:hint="@string/course_name"
                     android:inputType="text"
                     android:singleLine="true"
                     android:paddingLeft="5dp"
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Week days"
+                android:text="@string/weekdays"
                 android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
@@ -67,7 +67,7 @@
                     android:id="@+id/txt_start"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="Start Time:"
+                    android:text="@string/start_time"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/gibson_regular"
                     />
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
-                    android:text="Clear"
+                    android:text="@string/clear"
                     android:layout_centerVertical="true"
                     android:textColor="@color/white"
                     android:background="@color/colorAccent"
@@ -113,7 +113,7 @@
                     android:id="@+id/txt_end"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="End Time:"
+                    android:text="@string/end_time"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/gibson_regular"
                     />
@@ -144,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
-                    android:text="Set"
+                    android:text="@string/set"
                     android:layout_centerVertical="true"
                     android:textColor="@color/white"
                     android:background="@color/colorPrimaryDark"
@@ -165,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
-                android:text="Create"
+                android:text="@string/create"
                 android:fontFamily="@font/gibson_bold"
                 android:textColor="@android:color/white"
                 android:background="@drawable/btn_round" />

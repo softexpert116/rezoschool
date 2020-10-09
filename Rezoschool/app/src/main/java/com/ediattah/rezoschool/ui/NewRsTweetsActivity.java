@@ -36,7 +36,7 @@ public class NewRsTweetsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_rs_tweets);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("New RS Tweets");
+        setTitle(getResources().getString(R.string.new_rs_tweets));
         App.hideKeyboard(this);
 
         ImageView img_click = (ImageView)findViewById(R.id.img_click);
@@ -55,11 +55,11 @@ public class NewRsTweetsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 text = edit_text.getText().toString().trim();
                 if (imgUri == null || text.length() == 0) {
-                    Utils.showAlert(NewRsTweetsActivity.this, "Warning", "Please fill in blank field!");
+                    Utils.showAlert(NewRsTweetsActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 progressDialog = new ProgressDialog(NewRsTweetsActivity.this);
-                progressDialog.setMessage("Please Wait...");
+                progressDialog.setMessage(getResources().getString(R.string.please_wait));
                 progressDialog.show();
 
                 // file upload
@@ -88,7 +88,7 @@ public class NewRsTweetsActivity extends AppCompatActivity {
                         String downloadUrl = uri.toString();
                         Tweet tweet = new Tweet("", Utils.mUser.getUid(), downloadUrl, text, Utils.getCurrentDateString(), 0, 0, new ArrayList<Comment>());
                         Utils.mDatabase.child(Utils.tbl_tweet).push().setValue(tweet);
-                        Toast.makeText(NewRsTweetsActivity.this, "Successfully created!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(NewRsTweetsActivity.this, getResources().getString(R.string.successfully_created), Toast.LENGTH_LONG).show();
                         finish();
                     }
                 });
@@ -106,7 +106,7 @@ public class NewRsTweetsActivity extends AppCompatActivity {
                 ((ImageView) findViewById(R.id.img_pic)).setImageURI(result.getUri());
 //                Glide.with(EventCreateActivity.this).load(result.getUri()).centerCrop().placeholder(R.drawable.profile).dontAnimate().into(img_event);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.cropping_failed) + ": " + result.getError(), Toast.LENGTH_LONG).show();
             }
         }
     }

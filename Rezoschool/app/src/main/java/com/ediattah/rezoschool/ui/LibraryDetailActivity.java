@@ -24,10 +24,10 @@ public class LibraryDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(library.title);
         if (!URLUtil.isValidUrl(library.url)) {
-            Utils.showAlert(this, "Error", "Invalid url!");
+            Utils.showAlert(this, "Error", getResources().getString(R.string.invalid_url));
             return;
         }
-        final ProgressDialog pd = ProgressDialog.show(this, "", "Loading...",true);
+        final ProgressDialog pd = ProgressDialog.show(this, "", getResources().getString(R.string.loading),true);
         String doc="<iframe src='" + library.url + "' width='100%' height='100%' style='border: none;'></iframe>";
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setPluginState(WebSettings.PluginState.ON);

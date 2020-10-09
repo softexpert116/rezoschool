@@ -124,7 +124,7 @@ public class ClassListAdapter extends BaseAdapter {
                 student_count += 1;
             }
         }
-        btn_students.setText("Students(" + String.valueOf(student_count) + ")");
+        btn_students.setText(context.getResources().getString(R.string.student)+"(" + String.valueOf(student_count) + ")");
         final int finalStudent_count = student_count;
         btn_students.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,8 +159,8 @@ public class ClassListAdapter extends BaseAdapter {
                     btn_parent.setVisibility(View.GONE);
                     LinearLayout ly_tool = view1.findViewById(R.id.ly_tool);
                     ly_tool.setVisibility(View.GONE);
-                    txt_class_t.setText("Email: ");
-                    txt_school_t.setText("Phone: ");
+                    txt_class_t.setText(context.getResources().getString(R.string.email) + ": ");
+                    txt_school_t.setText(context.getResources().getString(R.string.phone) + ": ");
                     Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -185,7 +185,7 @@ public class ClassListAdapter extends BaseAdapter {
                 if (finalStudent_count > 0) {
                     dlg.show();
                 } else {
-                    Toast.makeText(context, "The class has no students yet.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.the_class_has_no_student), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -194,8 +194,8 @@ public class ClassListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you going to remove this item?");
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setMessage(context.getResources().getString(R.string.are_you_going_to_remove_this_item));
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         for (int i = 0; i < Utils.currentSchool.classes.size(); i++) {
                             Class aClass = Utils.currentSchool.classes.get(i);
@@ -205,10 +205,10 @@ public class ClassListAdapter extends BaseAdapter {
                             }
                         }
                         Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("classes").setValue(Utils.currentSchool.classes);
-                        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.successfully_deleted), Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });

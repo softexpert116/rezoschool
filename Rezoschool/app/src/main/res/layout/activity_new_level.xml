@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Level"
+            android:text="@string/level"
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
@@ -28,7 +28,7 @@
                 android:id="@+id/edit_level"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="level name"
+                android:hint="@string/level_name"
                 android:inputType="text"
                 android:singleLine="true"
                 android:paddingLeft="5dp"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:text="Create"
+            android:text="@string/create"
             android:fontFamily="@font/gibson_bold"
             android:textColor="@android:color/white"
             android:background="@drawable/btn_round" />

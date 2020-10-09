@@ -66,10 +66,10 @@ public class SchoolListAdapter extends BaseAdapter {
         txt_type.setText(school.type);
         TextView txt_public = view.findViewById(R.id.txt_public);
         if (school.isPublic) {
-            txt_public.setText("Public");
+            txt_public.setText(context.getResources().getString(R.string._public));
             txt_public.setBackgroundColor(Color.parseColor("#0000ff"));
         } else {
-            txt_public.setText("Private");
+            txt_public.setText(context.getResources().getString(R.string._private));
             txt_public.setBackgroundColor(Color.parseColor("#7f00ff"));
         }
         Button btn_remove = view.findViewById(R.id.btn_remove);
@@ -80,8 +80,8 @@ public class SchoolListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you going to remove this item?");
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setMessage(context.getResources().getString(R.string.are_you_going_to_remove_this_item));
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
 //                        ArrayList<Teacher> teachers = school.teachers;
                         for (int i = 0; i < school.teachers.size(); i++) {
@@ -92,10 +92,10 @@ public class SchoolListAdapter extends BaseAdapter {
                             }
                         }
                         Utils.mDatabase.child(Utils.tbl_school).child(school._id).child("teachers").setValue(school.teachers);
-                        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.successfully_deleted), Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });

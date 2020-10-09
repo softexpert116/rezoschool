@@ -38,7 +38,7 @@ public class NewLibraryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_library);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Add New Document");
+        setTitle(getResources().getString(R.string.add_new_document));
         App.hideKeyboard(this);
         final EditText edit_title = findViewById(R.id.edit_title);
         final EditText edit_description = findViewById(R.id.edit_description);
@@ -68,26 +68,26 @@ public class NewLibraryActivity extends AppCompatActivity {
                 final String url = edit_url.getText().toString().trim();
                 final String category = edit_category.getText().toString().trim();
                 if (title.length()*description.length()*url.length()*category.length() == 0) {
-                    Utils.showAlert(NewLibraryActivity.this, "Warning", "Plese fill in the blank field");
+                    Utils.showAlert(NewLibraryActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
                 if (!URLUtil.isValidUrl(url)) {
-                    Utils.showAlert(NewLibraryActivity.this, "Warning", "Invalid url!");
+                    Utils.showAlert(NewLibraryActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.invalid_url));
                     return;
                 }
                 progressDialog = new ProgressDialog(NewLibraryActivity.this);
-                progressDialog.setMessage("Please Wait...");
+                progressDialog.setMessage(getResources().getString(R.string.please_wait));
                 progressDialog.show();
                 Utils.mDatabase.child(Utils.tbl_library).orderByChild("title").equalTo(title).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         progressDialog.dismiss();
                         if (dataSnapshot.getValue() != null) {
-                            Utils.showAlert(NewLibraryActivity.this, "Warning", "The title already exists!");
+                            Utils.showAlert(NewLibraryActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.the_title_already_exists));
                         } else {
                             Library library = new Library("", Utils.mUser.getUid(), Utils.currentSchool._id, title, description, url, category, isPublic, true);
                             Utils.mDatabase.child(Utils.tbl_library).push().setValue(library);
-                            Toast.makeText(NewLibraryActivity.this, "Successfully submitted!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(NewLibraryActivity.this, getResources().getString(R.string.successfully_submitted), Toast.LENGTH_LONG).show();
                         }
                     }
 

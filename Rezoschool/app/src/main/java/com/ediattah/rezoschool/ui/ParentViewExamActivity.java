@@ -33,7 +33,7 @@ public class ParentViewExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_parent_view_exam);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sel_student = (Student)getIntent().getSerializableExtra("OBJECT");
-        setTitle("Exam results");
+        setTitle(getResources().getString(R.string.exam_results));
         listView = findViewById(R.id.listView);
         examListAdapter = new ExamListAdapter(this, arrayList);
         listView.setAdapter(examListAdapter);

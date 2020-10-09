@@ -124,7 +124,7 @@ public class LibraryFragment extends Fragment {
     }
     public void read_library() {
         if (Utils.currentSchool._id.length() == 0) {
-            Utils.showAlert(activity, "Warning", "Please select a school");
+            Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_select_a_school));
             return;
         }
         Utils.mDatabase.child(Utils.tbl_library).orderByChild("school_id").equalTo(Utils.currentSchool._id).addValueEventListener(new ValueEventListener() {

@@ -35,7 +35,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:textAlignment="textEnd"
-                        android:text="Student: "
+                        android:text="@string/student_"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <TextView
@@ -58,7 +58,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:textAlignment="textEnd"
-                        android:text="Method: "
+                        android:text="@string/method_"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <TextView
@@ -81,7 +81,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:textAlignment="textEnd"
-                        android:text="Amount (XOF): "
+                        android:text="@string/amount_xof_"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <TextView
@@ -104,7 +104,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:textAlignment="textEnd"
-                        android:text="Date: "
+                        android:text="@string/date_"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <TextView
@@ -127,7 +127,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:textAlignment="textEnd"
-                        android:text="Transaction ID: "
+                        android:text="@string/transaction_id_"
                         android:fontFamily="@font/gibson_regular"
                         />
                     <TextView

@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/gibson_regular"
-        android:text="Course Specific Title"
+        android:text="@string/course_specific_title"
         android:textStyle="bold"
         android:textSize="17dp"
         />
@@ -96,7 +96,7 @@
         android:layout_marginTop="5dp"
         android:textSize="17dp"
         android:fontFamily="@font/gibson_regular"
-        android:text="Course General Thematic"
+        android:text="@string/course_general_thematic"
         android:textStyle="bold"
         />
     <androidx.cardview.widget.CardView
@@ -123,7 +123,7 @@
         android:layout_marginTop="5dp"
         android:textSize="17dp"
         android:fontFamily="@font/gibson_regular"
-        android:text="Course Summary"
+        android:text="@string/course_summary"
         android:textStyle="bold"
         />
     <androidx.cardview.widget.CardView
@@ -150,7 +150,7 @@
         android:layout_marginTop="5dp"
         android:textSize="17dp"
         android:fontFamily="@font/gibson_regular"
-        android:text="Next Specific Title"
+        android:text="@string/next_specific_title"
         android:textStyle="bold"
         />
     <androidx.cardview.widget.CardView
@@ -176,7 +176,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/gibson_regular"
-        android:text="Next General Thematic"
+        android:text="@string/next_general_thematic"
         android:textStyle="bold"
         android:textSize="17dp"
         />
@@ -202,7 +202,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/gibson_regular"
-        android:text="Attachment for Exercise"
+        android:text="@string/attachment_for_exercise"
         android:textStyle="bold"
         android:textSize="17dp"
         />
@@ -229,7 +229,7 @@
                 android:id="@+id/txt_attachment_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="View"
+                android:text="@string/view_doc"
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/colorPrimaryDark"
                 />
@@ -242,7 +242,7 @@
         android:layout_marginTop="5dp"
         android:textSize="17dp"
         android:fontFamily="@font/gibson_regular"
-        android:text="Comments for School"
+        android:text="@string/comments_for_school"
         android:textStyle="bold"
         />
     <androidx.cardview.widget.CardView

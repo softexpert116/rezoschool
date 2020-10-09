@@ -85,10 +85,10 @@ public class DayCourseListAdapter extends BaseAdapter {
         txt_title_next.setText(syllabus.title_next);
         txt_thematic_next.setText(syllabus.thematic_next);
         if (syllabus.attach.length() == 0) {
-            txt_attach.setText("no file");
+            txt_attach.setText(context.getResources().getString(R.string.no_file));
             txt_attachment_view.setVisibility(View.GONE);
         } else {
-            txt_attach.setText("pdf file");
+            txt_attach.setText(context.getResources().getString(R.string.pdf_file));
             txt_attachment_view.setVisibility(View.VISIBLE);
         }
         txt_comment.setText(syllabus.comment);
@@ -107,7 +107,7 @@ public class DayCourseListAdapter extends BaseAdapter {
                 if (dataSnapshot.getValue()!=null) {
                     for (DataSnapshot datas:dataSnapshot.getChildren()) {
                         School school = datas.getValue(School.class);
-                        txt_school.setText("School: " + school.number);
+                        txt_school.setText(context.getResources().getString(R.string.school_) + school.number);
                     }
                 }
             }
@@ -127,14 +127,14 @@ public class DayCourseListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you going to remove this item?");
-                builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                builder.setMessage(context.getResources().getString(R.string.are_you_going_to_remove_this_item));
+                builder.setPositiveButton(context.getResources().getString(R.string.ok),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         Utils.mDatabase.child(Utils.tbl_syllabus).child(syllabus._id).setValue(null);
-                        Toast.makeText(context, "Successfully removed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.successfully_deleted), Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });

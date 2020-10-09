@@ -55,7 +55,7 @@ public class CourseCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_calendar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Calendar per Course ");
+        setTitle(getResources().getString(R.string.calendar_per_course_));
         sel_course = (Course)getIntent().getSerializableExtra("OBJECT");
         ly_no_items = findViewById(R.id.ly_no_items);
         calendarView = findViewById(R.id.calendarView);

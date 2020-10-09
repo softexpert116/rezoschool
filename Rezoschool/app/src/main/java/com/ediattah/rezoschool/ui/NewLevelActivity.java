@@ -21,7 +21,7 @@ public class NewLevelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_level);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Create New Level");
+        setTitle(getResources().getString(R.string.create_new_level));
         App.hideKeyboard(this);
         final EditText edit_level = (EditText)findViewById(R.id.edit_level);
         Button btn_create = (Button)findViewById(R.id.btn_create);
@@ -30,7 +30,7 @@ public class NewLevelActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String level_name = edit_level.getText().toString().trim();
                 if (level_name.length() == 0) {
-                    Utils.showAlert(NewLevelActivity.this, "Warning", "Please fill in the blank field");
+                    Utils.showAlert(NewLevelActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                 } else {
                     boolean flag = false;
                     for (Level level: Utils.currentSchool.levels) {
@@ -40,13 +40,13 @@ public class NewLevelActivity extends AppCompatActivity {
                         }
                     }
                     if (flag) {
-                        Utils.showAlert(NewLevelActivity.this, "Warning", "The level name already exists.");
+                        Utils.showAlert(NewLevelActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.the_level_name_already_exists));
                         return;
                     }
                     Level level = new Level(level_name, "");
                     Utils.currentSchool.levels.add(level);
                     Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("levels").setValue(Utils.currentSchool.levels);
-                    Toast.makeText(NewLevelActivity.this, "Successfully created!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewLevelActivity.this, getResources().getString(R.string.successfully_created), Toast.LENGTH_SHORT).show();
                 }
             }
         });

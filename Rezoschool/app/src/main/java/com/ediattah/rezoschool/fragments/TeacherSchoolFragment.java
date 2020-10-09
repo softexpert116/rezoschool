@@ -114,7 +114,7 @@ public class TeacherSchoolFragment extends Fragment {
         dlg.show();
         final LinearLayout ly_no_items = dlg.findViewById(R.id.ly_no_items);
         TextView txt_title = dlg.findViewById(R.id.txt_title);
-        txt_title.setText("Choose Courses");
+        txt_title.setText(getResources().getString(R.string.choose_course_timeslot));
         ListView listView = dlg.findViewById(R.id.listView);
         final ArrayList<Course> array_all_course = new ArrayList<>();
         final ArrayList<Course> array_course_sel = new ArrayList<>();
@@ -221,7 +221,7 @@ public class TeacherSchoolFragment extends Fragment {
         window.setGravity(Gravity.CENTER);
         dlg.show();
         TextView txt_title = dlg.findViewById(R.id.txt_title);
-        txt_title.setText("Choose School");
+        txt_title.setText(getResources().getString(R.string.choose_school));
         final LinearLayout ly_no_items = dlg.findViewById(R.id.ly_no_items);
         ListView listView = dlg.findViewById(R.id.listView);
         final ArrayList<School> array_all_school = new ArrayList<>();
@@ -336,7 +336,7 @@ public class TeacherSchoolFragment extends Fragment {
         });
     }
     void course_update_listener(final School school) {
-        txt_school_course.setText("My Courses in school " + school.number);
+        txt_school_course.setText(getResources().getString(R.string.my_courses_in_school_) + school.number);
         Utils.mDatabase.child(Utils.tbl_school).child(school._id).child("classes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

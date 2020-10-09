@@ -84,7 +84,7 @@
                 android:id="@+id/txt_seen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="delivered"
+                android:text="@string/delivered"
                 android:layout_marginLeft="10dp"
                 android:textStyle="italic"
                 android:visibility="visible"

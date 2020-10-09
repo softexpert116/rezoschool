@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Teacher"
+            android:text="@string/teacher"
             android:textSize="20dp"
             android:fontFamily="@font/gibson_regular"
             />
@@ -28,7 +28,7 @@
                 android:id="@+id/edit_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="teacher name"
+                android:hint="@string/teacher_name"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="20dp"
@@ -47,7 +47,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/gibson_regular"
             android:textSize="20dp"
-            android:text="Choose Course"
+            android:text="@string/course"
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:inputType="text"
-                android:hint="course name"
+                android:hint="@string/course_name"
                 android:focusable="false"
                 android:paddingLeft="5dp"
                 android:editable="false"
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:text="Create"
+            android:text="@string/create"
             android:fontFamily="@font/gibson_bold"
             android:textColor="@android:color/white"
             android:background="@drawable/btn_round" />
