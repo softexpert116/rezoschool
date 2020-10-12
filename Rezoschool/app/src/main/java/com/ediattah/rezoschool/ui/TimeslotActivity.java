@@ -26,7 +26,7 @@ public class TimeslotActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeslot);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sel_class = (Class)getIntent().getSerializableExtra("sel_class");
-        setTitle(getResources().getString(R.string.timeslots_for_) + sel_class.name + " " + getResources().getString(R.string._class));
+        setTitle(getResources().getString(R.string.timeslots_for_) + " " + sel_class.name + " " + getResources().getString(R.string._class));
 
 
         FloatingActionButton fab = findViewById(R.id.fab);

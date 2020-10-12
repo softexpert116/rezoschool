@@ -318,7 +318,7 @@ public class App extends Application implements LifecycleObserver {
 //        hashMap_record.put("caller", Utils.mUser.getUid());
 //        hashMap_record.put("receiver", user._id);
 //        Utils.mDatabase.child(Utils.tbl_video_call).child(room).setValue(hashMap_record);
-        sendPushMessage(user.token, context.getResources().getString(R.string.video_call_from_) + Utils.currentUser.name, context.getString(R.string.please_join_in_room_) + "'" + room + "'", "", room, context, App.PUSH_VIDEO, Utils.mUser.getUid());
+        sendPushMessage(user.token, context.getResources().getString(R.string.video_call_from_) + " " + Utils.currentUser.name, context.getString(R.string.please_join_in_room_) + " '" + room + "'", "", room, context, App.PUSH_VIDEO, Utils.mUser.getUid());
     }
     public static void goToStartG_VideoCallPage(VideoGroup videoGroup, Context context) {
         URL serverURL;
@@ -363,7 +363,7 @@ public class App extends Application implements LifecycleObserver {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getValue()!=null) {
                                 User user = dataSnapshot.getValue(User.class);
-                                sendPushMessage(user.token, context.getResources().getString(R.string.video_call_from_) + Utils.currentUser.name, context.getString(R.string.please_join_in_group_) + "'" + videoGroup.name + "'", "", videoGroup.room, context, PUSH_VIDEO_GROUP, Utils.mUser.getUid());
+                                sendPushMessage(user.token, context.getResources().getString(R.string.video_call_from_) + " " + Utils.currentUser.name, context.getString(R.string.please_join_in_group_) + " '" + videoGroup.name + "'", "", videoGroup.room, context, PUSH_VIDEO_GROUP, Utils.mUser.getUid());
                             }
                         }
 

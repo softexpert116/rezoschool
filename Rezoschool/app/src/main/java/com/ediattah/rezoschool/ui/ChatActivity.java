@@ -370,7 +370,7 @@ public class ChatActivity extends AppCompatActivity {
                         String downloadUrl = uri.toString();
                         Message message = new Message("", Utils.mUser.getUid(), user_id, "", downloadUrl, file_type, System.currentTimeMillis(), false);
                         Utils.mDatabase.child(Utils.tbl_chat).child(roomId).child("messages").push().setValue(message);
-                        App.sendPushMessage(user.token, getResources().getString(R.string.chat_from_) + Utils.currentUser.name, getResources().getString(R.string.file_attached), "", "", ChatActivity.this, App.PUSH_CHAT, Utils.mUser.getUid());
+                        App.sendPushMessage(user.token, getResources().getString(R.string.chat_from_) + " " + Utils.currentUser.name, getResources().getString(R.string.file_attached), "", "", ChatActivity.this, App.PUSH_CHAT, Utils.mUser.getUid());
                     }
                 });
             }

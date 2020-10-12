@@ -53,7 +53,7 @@ public class BulkSMSActivity extends AppCompatActivity {
         CardView cardView = findViewById(R.id.card_select);
         if (sel_school != null) {
             setTitle(getResources().getString(R.string.bulk_sms));
-            txt_select.setText(getResources().getString(R.string.select_users_in_school_) + sel_school.number);
+            txt_select.setText(getResources().getString(R.string.select_users_in_school_) + " " + sel_school.number);
             StudentBulkSMSListAdapter studentBulkSMSListAdapter = new StudentBulkSMSListAdapter(this, txt_receivers, sel_school.students, array_sel_name, array_sel_phone);
             ListView listView = (ListView)findViewById(R.id.listView);
             listView.setAdapter(studentBulkSMSListAdapter);

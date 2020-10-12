@@ -45,14 +45,14 @@ public class TimeslotFragment extends Fragment {
         schoolCourseListAdapter.flag_timeslot = true;
         listView = view.findViewById(R.id.listView);
         listView.setAdapter(schoolCourseListAdapter);
-//        FloatingActionButton fab = view.findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(activity, NewCourseActivity.class);
-//                activity.startActivity(intent);
-//            }
-//        });
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, NewCourseActivity.class);
+                activity.startActivity(intent);
+            }
+        });
         return view;
     }
     void course_update_listener() {

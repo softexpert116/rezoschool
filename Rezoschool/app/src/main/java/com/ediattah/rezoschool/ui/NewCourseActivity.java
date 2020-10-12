@@ -3,14 +3,19 @@ package com.ediattah.rezoschool.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -21,8 +26,11 @@ import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.CourseTime;
+import com.ediattah.rezoschool.Model.Student;
+import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.adapter.ClassListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -32,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 public class NewCourseActivity extends AppCompatActivity {
@@ -39,47 +48,55 @@ public class NewCourseActivity extends AppCompatActivity {
     LinearLayout ly_time;
     ArrayList<CourseTime> times = new ArrayList<>();
     int sel_day = 2;
-//    Class sel_class;
-//    TimeslotActivity timeslotActivity;
+    EditText edit_class;
+    Class sel_class;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        App.hideKeyboard(this);
 //        sel_class = (Class)getIntent().getSerializableExtra("sel_class");
-        setTitle(getResources().getString(R.string.create_new_course_in_) + TimeslotActivity.sel_class.name + " " + getResources().getString(R.string._class));
+        setTitle(getResources().getString(R.string.create_new_course));
         App.hideKeyboard(this);
         ly_time = findViewById(R.id.ly_time);
+        edit_class = (EditText)findViewById(R.id.edit_class);
+        edit_class.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAddClassDialog();
+            }
+        });
         final EditText edit_course = (EditText)findViewById(R.id.edit_course);
         Button btn_create = (Button)findViewById(R.id.btn_create);
         btn_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String class_name = edit_class.getText().toString().trim();
                 final String course_name = edit_course.getText().toString().trim();
-                if (course_name.length() == 0) {
+                if (course_name.length()*class_name.length() == 0) {
                     Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                 } else if (times.size() == 0) {
                     Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_add_times));
                 } else {
                     boolean flag = false;
-                    for (Course course: TimeslotActivity.sel_class.courses) {
+                    for (Course course: sel_class.courses) {
                         if (course.name.equals(course_name)) {
                             flag = true;
                             break;
                         }
                     }
                     if (flag) {
-                        Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.the_course_name_already_exists_in_class_) + TimeslotActivity.sel_class.name + ".");
+                        Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.the_course_name_already_exists_in_class_) + sel_class.name + ".");
                         return;
                     }
                     Course course = new Course(course_name, times);
-                    TimeslotActivity.sel_class.courses.add(course);
+                    sel_class.courses.add(course);
                     for (int i = 0; i < Utils.currentSchool.classes.size(); i++) {
                         Class _class = Utils.currentSchool.classes.get(i);
-                        if (_class.name.equals(TimeslotActivity.sel_class.name)) {
-                            Utils.currentSchool.classes.set(i, TimeslotActivity.sel_class);
+                        if (_class.name.equals(sel_class.name)) {
+                            Utils.currentSchool.classes.set(i, sel_class);
                             break;
                         }
                     }
@@ -198,6 +215,43 @@ public class NewCourseActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    public void openAddClassDialog() {
+        final Dialog dlg = new Dialog(this);
+        Window window = dlg.getWindow();
+        View view = getLayoutInflater().inflate(R.layout.dialog_choose_item, null);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.80);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.4);
+        view.setMinimumWidth(width);
+        view.setMinimumHeight(height);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(view);
+        window.setGravity(Gravity.CENTER);
+        dlg.show();
+        TextView txt_title = dlg.findViewById(R.id.txt_title);
+        txt_title.setText(getResources().getString(R.string.choose_class));
+        ListView listView = dlg.findViewById(R.id.listView);
+        final ClassListAdapter classAdapter = new ClassListAdapter(this, Utils.currentSchool.classes);
+        classAdapter.sel_index = 0;
+        listView.setAdapter(classAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                classAdapter.sel_index = i;
+                classAdapter.notifyDataSetChanged();
+            }
+        });
+        final Button btn_choose = (Button)dlg.findViewById(R.id.btn_choose);
+
+        btn_choose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sel_class = Utils.currentSchool.classes.get(classAdapter.sel_index);
+                edit_class.setText(sel_class.name);
+                dlg.dismiss();
+            }
+        });
+        dlg.show();
     }
     void order_times() {
         Collections.sort(times, new Comparator<CourseTime>() {
