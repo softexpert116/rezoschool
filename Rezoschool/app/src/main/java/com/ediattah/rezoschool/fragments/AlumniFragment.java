@@ -99,7 +99,7 @@ public class AlumniFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (sel_school == null) {
-                    Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_select_a_school));
+                    Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_select_school_in_school_menu));
                     return;
                 }
                 Intent intent = new Intent(activity, BulkSMSActivity.class);

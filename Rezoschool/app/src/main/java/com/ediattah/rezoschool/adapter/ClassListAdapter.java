@@ -108,7 +108,7 @@ public class ClassListAdapter extends BaseAdapter {
                     TextView txt_time = view1.findViewById(R.id.txt_time);
                     Button btn_remove = view1.findViewById(R.id.btn_remove);
                     btn_remove.setVisibility(View.GONE);
-                    txt_course.setText(course.name);
+                    txt_course.setText(course.name + " x " + course.coef);
                     CourseTime courseTime = course.times.get(0);
                     txt_day.setText(Utils.getDayStrFromInt(courseTime.dayOfWeek));
                     txt_time.setText(courseTime.start_time + " ~ " + courseTime.end_time);
@@ -226,6 +226,9 @@ public class ClassListAdapter extends BaseAdapter {
         } else {
             ly_sel.setBackground(context.getDrawable(R.color.white));
             btn_remove.setVisibility(View.VISIBLE);
+        }
+        if (sel_index == -2) {
+            btn_remove.setVisibility(View.GONE);
         }
         return view;
     }

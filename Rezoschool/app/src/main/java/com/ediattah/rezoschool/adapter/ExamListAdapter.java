@@ -46,7 +46,11 @@ public class ExamListAdapter extends BaseAdapter {
         }
         TextView txt_result = view.findViewById(R.id.txt_result);
         TextView txt_date = view.findViewById(R.id.txt_date);
-        txt_result.setText(exam.result);
+        TextView txt_course = view.findViewById(R.id.txt_course);
+        TextView txt_title = view.findViewById(R.id.txt_title);
+        txt_course.setText(exam.course_name + " x " + exam.course_coef);
+        txt_title.setText(exam.title);
+        txt_result.setText(exam.num1 + " / " + exam.num2);
         txt_date.setText(Utils.getDateString(exam.date));
         return view;
     }

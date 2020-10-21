@@ -70,7 +70,7 @@ public class SchoolCourseListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.cell_course, null);
         }
         TextView txt_name = view.findViewById(R.id.txt_name);
-        txt_name.setText(_course.name);
+        txt_name.setText(_course.name + " x " + _course.coef);
 
         Button btn_remove = (Button)view.findViewById(R.id.btn_remove);
 
@@ -199,7 +199,7 @@ public class SchoolCourseListAdapter extends BaseAdapter {
                         public void onClick(View view) {
                             ArrayList<CourseTime> arrayList = new ArrayList<>();
                             arrayList.add(courseTime1);
-                            Course course = new Course(_course.name, arrayList);
+                            Course course = new Course(_course.name, _course.coef, arrayList);
                             boolean flag = false;
                             int flag_index = 0;
                             for (int k = 0; k < array_sel.size(); k++) {
@@ -230,7 +230,7 @@ public class SchoolCourseListAdapter extends BaseAdapter {
                         public void onClick(View view) {
                             ArrayList<CourseTime> arrayList = new ArrayList<>();
                             arrayList.add(finalCourseTime);
-                            Course course = new Course(_course.name, arrayList);
+                            Course course = new Course(_course.name, _course.coef, arrayList);
                             boolean flag = false;
                             int flag_index = 0;
                             for (int k = 0; k < array_sel.size(); k++) {

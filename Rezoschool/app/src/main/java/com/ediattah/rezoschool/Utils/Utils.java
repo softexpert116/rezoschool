@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.ediattah.rezoschool.Model.ChatRoom;
 import com.ediattah.rezoschool.Model.Class;
+import com.ediattah.rezoschool.Model.Quarter;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.User;
@@ -34,7 +35,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -202,6 +205,44 @@ public class Utils {
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         return calendar.getTimeInMillis();
+    }
+
+    public static Quarter getCurrentQuarter(Date sel_date) {
+        int m = sel_date.getMonth();
+        int y = sel_date.getYear() + 1900;
+        long first_time = 0, last_time = 0;
+        String name = "1";
+        if (m >= 0 && m <= 2) {
+            first_time = getTimestampFromDateString("01-01-" + String.valueOf(y));
+            last_time = getTimestampFromDateString("31-03-" + String.valueOf(y));
+            name = "1";
+        } else if (m >= 3 && m <= 5) {
+            first_time = getTimestampFromDateString("01-04-" + String.valueOf(y));
+            last_time = getTimestampFromDateString("30-06-" + String.valueOf(y));
+            name = "2";
+        } else if (m >= 6 && m <= 8) {
+            first_time = getTimestampFromDateString("01-07-" + String.valueOf(y));
+            last_time = getTimestampFromDateString("31-09-" + String.valueOf(y));
+            name = "3";
+        } else if (m >= 9 && m <= 11) {
+            first_time = getTimestampFromDateString("01-10-" + String.valueOf(y));
+            last_time = getTimestampFromDateString("31-12-" + String.valueOf(y));
+            name = "4";
+        }
+        Quarter quarter = new Quarter(name, first_time, last_time);
+        return quarter;
+    }
+    public static long getTimestampFromDateString(String dateStr) {
+        String str_date= dateStr; //"13-09-2011";
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+        try {
+            date = (Date)formatter.parse(str_date);
+        } catch (Exception e) {
+
+        }
+        System.out.println("Today is " +date.getTime());
+        return date.getTime();
     }
 
     public static String convertFromBitmap(Bitmap bm) {

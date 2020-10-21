@@ -49,6 +49,10 @@
             android:icon="@drawable/ic_syllabus"
             android:title="@string/syllabus" />
         <item
+            android:id="@+id/nav_exam"
+            android:icon="@drawable/ic_menu_exam"
+            android:title="@string/exam" />
+        <item
             android:id="@+id/nav_alumni"
             android:icon="@drawable/ic_alumni"
             android:title="@string/alumni" />

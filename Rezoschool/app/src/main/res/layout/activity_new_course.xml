@@ -35,6 +35,8 @@
                     android:hint="@string/choose_class"
                     android:inputType="text"
                     android:singleLine="true"
+                    android:focusable="false"
+                    android:editable="false"
                     android:paddingLeft="5dp"
                     android:textSize="20dp"
                     android:textColor="@color/colorText"
@@ -48,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/course"
                 android:textSize="20dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/gibson_regular"
                 />
             <androidx.cardview.widget.CardView
@@ -69,7 +72,34 @@
                     android:background="@color/transparent"
                     />
             </androidx.cardview.widget.CardView>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/coefficient_max"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/gibson_regular"
+                />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+                <EditText
+                    android:id="@+id/edit_coef"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="1"
+                    android:text="1"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:paddingLeft="5dp"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/gibson_regular"
+                    android:background="@color/transparent"
+                    />
+            </androidx.cardview.widget.CardView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

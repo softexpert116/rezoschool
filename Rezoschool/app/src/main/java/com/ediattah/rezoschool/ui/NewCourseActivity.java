@@ -48,7 +48,7 @@ public class NewCourseActivity extends AppCompatActivity {
     LinearLayout ly_time;
     ArrayList<CourseTime> times = new ArrayList<>();
     int sel_day = 2;
-    EditText edit_class;
+    EditText edit_class, edit_coef;
     Class sel_class;
 
     @Override
@@ -62,6 +62,7 @@ public class NewCourseActivity extends AppCompatActivity {
         App.hideKeyboard(this);
         ly_time = findViewById(R.id.ly_time);
         edit_class = (EditText)findViewById(R.id.edit_class);
+        edit_coef = (EditText)findViewById(R.id.edit_coef);
         edit_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,10 +76,14 @@ public class NewCourseActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String class_name = edit_class.getText().toString().trim();
                 final String course_name = edit_course.getText().toString().trim();
-                if (course_name.length()*class_name.length() == 0) {
+                final String coef = edit_coef.getText().toString().trim();
+
+                if (course_name.length()*class_name.length()*coef.length() == 0) {
                     Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                 } else if (times.size() == 0) {
                     Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_add_times));
+                } else if (Integer.valueOf(coef) > 4 || Integer.valueOf(coef) < 1) {
+                    Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.coef_limit));
                 } else {
                     boolean flag = false;
                     for (Course course: sel_class.courses) {
@@ -91,7 +96,7 @@ public class NewCourseActivity extends AppCompatActivity {
                         Utils.showAlert(NewCourseActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.the_course_name_already_exists_in_class_) + sel_class.name + ".");
                         return;
                     }
-                    Course course = new Course(course_name, times);
+                    Course course = new Course(course_name, coef, times);
                     sel_class.courses.add(course);
                     for (int i = 0; i < Utils.currentSchool.classes.size(); i++) {
                         Class _class = Utils.currentSchool.classes.get(i);
@@ -232,17 +237,20 @@ public class NewCourseActivity extends AppCompatActivity {
         txt_title.setText(getResources().getString(R.string.choose_class));
         ListView listView = dlg.findViewById(R.id.listView);
         final ClassListAdapter classAdapter = new ClassListAdapter(this, Utils.currentSchool.classes);
-        classAdapter.sel_index = 0;
+        classAdapter.sel_index = -2;
         listView.setAdapter(classAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                classAdapter.sel_index = i;
-                classAdapter.notifyDataSetChanged();
+//                classAdapter.sel_index = i;
+//                classAdapter.notifyDataSetChanged();
+                sel_class = Utils.currentSchool.classes.get(i);
+                edit_class.setText(sel_class.name);
+                dlg.dismiss();
             }
         });
         final Button btn_choose = (Button)dlg.findViewById(R.id.btn_choose);
-
+        btn_choose.setVisibility(View.GONE);
         btn_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

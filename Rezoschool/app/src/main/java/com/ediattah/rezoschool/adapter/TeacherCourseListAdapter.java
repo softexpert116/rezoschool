@@ -60,7 +60,7 @@ public class TeacherCourseListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.cell_course, null);
         }
         TextView txt_name = view.findViewById(R.id.txt_name);
-        txt_name.setText(_course.name);
+        txt_name.setText(_course.name + " x " + _course.coef);
 
         Button btn_remove = (Button)view.findViewById(R.id.btn_remove);
         RelativeLayout ly_sel = view.findViewById(R.id.ly_sel);

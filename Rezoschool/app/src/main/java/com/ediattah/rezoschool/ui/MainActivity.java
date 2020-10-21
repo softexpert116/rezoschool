@@ -45,6 +45,7 @@ import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.fragments.ExamFragment;
 import com.ediattah.rezoschool.fragments.MessageFragment;
 import com.ediattah.rezoschool.fragments.ProfileFragment;
 import com.ediattah.rezoschool.fragments.StudentSchoolFragment;
@@ -484,6 +485,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_alumni).setVisible(false);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
             nav_Menu.findItem(R.id.nav_video).setVisible(true);
+            nav_Menu.findItem(R.id.nav_exam).setVisible(true);
 
         } else if (Utils.currentUser.type.equals(Utils.TEACHER)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
@@ -503,6 +505,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_alumni).setVisible(false);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
             nav_Menu.findItem(R.id.nav_video).setVisible(true);
+            nav_Menu.findItem(R.id.nav_exam).setVisible(true);
 
         } else if (Utils.currentUser.type.equals(Utils.PARENT)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
@@ -522,6 +525,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_alumni).setVisible(false);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
             nav_Menu.findItem(R.id.nav_video).setVisible(true);
+            nav_Menu.findItem(R.id.nav_exam).setVisible(false);
 
         } else if (Utils.currentUser.type.equals(Utils.STUDENT)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
@@ -541,6 +545,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_alumni).setVisible(true);
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
             nav_Menu.findItem(R.id.nav_video).setVisible(true);
+            nav_Menu.findItem(R.id.nav_exam).setVisible(false);
 
         }
     }
@@ -603,6 +608,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_video) {
             selectFragment(new VideoFragment());
             setTitle(getResources().getString(R.string.group_v_call));
+        } else if (id == R.id.nav_exam) {
+            selectFragment(new ExamFragment());
+            setTitle(getResources().getString(R.string.exam));
         }
 
         closeDrawer();

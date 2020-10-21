@@ -30,6 +30,7 @@
     <string name="choose_level">Choose Level</string>
     <string name="create_new_course_in_">Create new course in </string>
     <string name="please_add_times">Please add times</string>
+    <string name="coef_limit">Coefficient should be from 1 to 4</string>
     <string name="the_course_name_already_exists_in_class_">The course name already exists in class </string>
     <string name="choose_hour">Choose Hour</string>
     <string name="the_level_name_already_exists">The level name already exists</string>
@@ -62,9 +63,12 @@
     <string name="view_doc">View Doc</string>
     <string name="evaluation">Evaluation: </string>
     <string name="exam_result">Exam Result: </string>
+    <string name="exam">Exam</string>
+    <string name="view">View</string>
     <string name="update">Update</string>
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
+    <string name="quarterly">Quarterly</string>
     <string name="teacher_syllabus_of_the_courses">Teacher Syllabus of the Courses</string>
     <string name="please_join_in_group_">Please join in group </string>
     <string name="you_are_not_allowed">You are not allowed</string>
@@ -124,6 +128,7 @@
     <string name="please_apply_to_a_school">Please apply to a school</string>
     <string name="choose_date">Choose Date</string>
     <string name="error">Error</string>
+    <string name="select_students">Select Students</string>
     <string name="select_users">Select Users</string>
     <string name="cropping_failed">Cropping failed: </string>
     <string name="file_attached">File attached</string>
@@ -134,12 +139,15 @@
     <string name="enter_your_text_here">Enter your text here</string>
     <string name="create">Create</string>
     <string name="successfully_updated">Successfully Updated!</string>
+    <string name="no_exam_result">No exam result</string>
     <string name="school">School</string>
     <string name="parent">Parent</string>
     <string name="student">Student</string>
     <string name="timeslots">Time Slots</string>
     <string name="create_new_course">Create New Course</string>
     <string name="course">Course</string>
+    <string name="coefficient">Coefficient</string>
+    <string name="coefficient_max">Coefficient (Max:4)</string>
     <string name="course_name">Course Name</string>
     <string name="weekdays">Weekdays</string>
     <string name="start_time">Start Time</string>
@@ -198,6 +206,8 @@
     <string name="category">Category</string>
     <string name="category_name">Category Name</string>
     <string name="warning">Warning</string>
+    <string name="please_select_student_and_date">Please select student and date</string>
+    <string name="please_select_school_in_school_menu">Please select a school in school menu</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="message">Message</string>
     <string name="chat_open">Chat Open</string>
@@ -307,7 +317,8 @@
     <string name="please_join_in_room_">Please join in room </string>
     <string name="chat_from_">Chat from </string>
     <string name="permission_denied">Permission denied.</string>
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

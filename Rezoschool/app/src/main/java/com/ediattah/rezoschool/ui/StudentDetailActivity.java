@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,9 +22,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Absence;
+import com.ediattah.rezoschool.Model.Class;
+import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Exam;
+import com.ediattah.rezoschool.Model.Quarter;
 import com.ediattah.rezoschool.Model.Student;
+import com.ediattah.rezoschool.adapter.SchoolCourseListAdapter;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.ediattah.rezoschool.R;
@@ -40,15 +46,18 @@ import java.util.List;
 public class StudentDetailActivity extends AppCompatActivity {
     Calendar currentCalendar;
     CompactCalendarView calendarView;
-    TextView txt_month, txt_result_day, txt_evaluation_day, txt_result_week, txt_evaluation_week, txt_absence_week, txt_result_month, txt_evaluation_month, txt_absence_month;
+    TextView txt_month, txt_result_day, txt_evaluation_day, txt_evaluation_quarter, txt_result_quarter, txt_result_week, txt_evaluation_week, txt_absence_week, txt_result_month, txt_evaluation_month, txt_absence_month, txt_absence_quarter;
     LinearLayout ly_absence;
     Date sel_date;
     Student student;
     String sel_absence_url;
     RelativeLayout ly_absence_cover;
     ImageView img_absence;
-
+    EditText edit_course;
+    TextView txt_quarter;
     ArrayList<Event> list_event = new ArrayList<>();
+    ArrayList<Course> array_courses = new ArrayList<>();
+    Course sel_course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +66,23 @@ public class StudentDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getResources().getString(R.string.student_presence_absence));
         student = (Student) getIntent().getSerializableExtra("OBJECT");
-
+        for (Class _class:Utils.currentSchool.classes) {
+            if (_class.name.equals(student.class_name)) {
+                array_courses = _class.courses;
+                break;
+            }
+        }
+        if (array_courses.size() > 0) {
+            sel_course = array_courses.get(0);
+        }
+        edit_course = findViewById(R.id.edit_course);
+        edit_course.setText(sel_course.name + " x " + sel_course.coef);
+        edit_course.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAddCourseDialog();
+            }
+        });
         txt_result_day = findViewById(R.id.txt_result_day);
         txt_evaluation_day = findViewById(R.id.txt_evaluation_day);
         txt_result_week = findViewById(R.id.txt_result_week);
@@ -66,6 +91,10 @@ public class StudentDetailActivity extends AppCompatActivity {
         txt_result_month = findViewById(R.id.txt_result_month);
         txt_evaluation_month = findViewById(R.id.txt_evaluation_month);
         txt_absence_month = findViewById(R.id.txt_absence_month);
+        txt_result_quarter = findViewById(R.id.txt_result_quarter);
+        txt_evaluation_quarter = findViewById(R.id.txt_evaluation_quarter);
+        txt_absence_quarter = findViewById(R.id.txt_absence_quarter);
+        txt_quarter = findViewById(R.id.txt_quarter);
         Button btn_update = findViewById(R.id.btn_update);
         Button btn_justification = findViewById(R.id.btn_justification);
         ly_absence = findViewById(R.id.ly_absence);
@@ -117,8 +146,8 @@ public class StudentDetailActivity extends AppCompatActivity {
                         String m_name = list.get(i).getData().toString();
                         if (m_name.contains("Exam")) {
                             Exam exam = (Exam) list.get(i).getData();
-                            txt_result_day.setText(exam.result);
-                            txt_evaluation_day.setText(getEvaluation(exam.result));
+                            txt_result_day.setText(exam.num1 + " / " + exam.num2);
+                            txt_evaluation_day.setText(getEvaluation(exam.num1, exam.num2));
                         } else {
                             Absence absence = (Absence)list.get(i).getData();
                             ly_absence.setVisibility(View.VISIBLE);
@@ -130,8 +159,10 @@ public class StudentDetailActivity extends AppCompatActivity {
                 }
                 get_exam_weekly();
                 get_exam_monthly();
+                get_exam_quarterly();
                 get_absence_weekly();
                 get_absence_monthly();
+                get_absence_quarterly();
             }
 
             @Override
@@ -142,6 +173,38 @@ public class StudentDetailActivity extends AppCompatActivity {
             }
         });
         get_exams();
+        get_absences();
+
+    }
+    public void openAddCourseDialog() {
+        final Dialog dlg = new Dialog(this);
+        Window window = dlg.getWindow();
+        View view = getLayoutInflater().inflate(R.layout.dialog_choose_item, null);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.80);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.4);
+        view.setMinimumWidth(width);
+        view.setMinimumHeight(height);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(view);
+        window.setGravity(Gravity.CENTER);
+        dlg.show();
+        ListView listView = dlg.findViewById(R.id.listView);
+        final SchoolCourseListAdapter schoolCourseListAdapter = new SchoolCourseListAdapter(this, array_courses, null);
+        schoolCourseListAdapter.flag_timeslot = true;
+        listView.setAdapter(schoolCourseListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                sel_course = App.school_courses.get(i);
+                edit_course.setText(sel_course.name + " x " + sel_course.coef);
+                get_exams();
+                dlg.dismiss();
+
+            }
+        });
+        Button btn_choose = (Button)dlg.findViewById(R.id.btn_choose);
+        btn_choose.setVisibility(View.GONE);
+        dlg.show();
     }
     public void openUpdateResultDialog(final String sel_date_str) {
         final Dialog dlg = new Dialog(this);
@@ -186,10 +249,10 @@ public class StudentDetailActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        if (result.length() > 0) {
-                            Utils.mDatabase.child(Utils.tbl_exam).push().setValue(new Exam("", sel_date, result, Utils.currentSchool._id, student.uid));
-                        }
-                        Toast.makeText(StudentDetailActivity.this, getResources().getString(R.string.successfully_updated), Toast.LENGTH_SHORT).show();
+//                        if (result.length() > 0) {
+//                            Utils.mDatabase.child(Utils.tbl_exam).push().setValue(new Exam("", sel_date, result, Utils.currentSchool._id, student.uid, "", ""));
+//                        }
+//                        Toast.makeText(StudentDetailActivity.this, getResources().getString(R.string.successfully_updated), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -215,6 +278,9 @@ public class StudentDetailActivity extends AppCompatActivity {
                 if (dataSnapshot.getValue()!=null) {
                     for (DataSnapshot datas:dataSnapshot.getChildren()) {
                         Exam exam = datas.getValue(Exam.class);
+                        if (!exam.course_name.equals(sel_course.name)) {
+                            continue;
+                        }
                         exam._id = datas.getKey();
                         assert exam != null;
                         if (exam.uid.equals(student.uid)) {
@@ -222,15 +288,14 @@ public class StudentDetailActivity extends AppCompatActivity {
                             calendarView.addEvent(ev);
                             list_event.add(ev);
                             if (Utils.getDateString(exam.date).equals(Utils.getDateString(sel_date))) {
-                                txt_result_day.setText(exam.result);
-                                txt_evaluation_day.setText(getEvaluation(exam.result));
+                                txt_result_day.setText(exam.num1 + " / " + exam.num2);
+                                txt_evaluation_day.setText(getEvaluation(exam.num1, exam.num2));
                             }
                         }
                     }
-                    get_absences();
                     get_exam_weekly();
                     get_exam_monthly();
-                    get_absence_monthly();
+                    get_exam_quarterly();
                 }
             }
 
@@ -242,7 +307,7 @@ public class StudentDetailActivity extends AppCompatActivity {
     }
     void get_exam_weekly() {
         txt_result_week.setText("");
-        float result = 0;
+        int num1 = 0, num2 = 0;
         ArrayList<Event> arrayList = new ArrayList<>();
         for (Event event:list_event) {
             String m_name = event.getData().toString();
@@ -252,7 +317,7 @@ public class StudentDetailActivity extends AppCompatActivity {
                 long lastDayTime = Utils.getFirstDayOfWeek(sel_date)+3600*1000*24*7;
                 if (exam.date.getTime() >= firstDayTime && exam.date.getTime() < lastDayTime) {
                     arrayList.add(event);
-                    result += Float.parseFloat(exam.result);
+                    num1 += exam.num1*Integer.parseInt(exam.course_coef); num2 += exam.num2*Integer.parseInt(exam.course_coef);
                 }
             }
         }
@@ -260,14 +325,13 @@ public class StudentDetailActivity extends AppCompatActivity {
             txt_result_week.setText("");
             txt_evaluation_week.setText("");
         } else {
-            String resultStr = Utils.df.format(result/arrayList.size());
-            txt_result_week.setText(resultStr);
-            txt_evaluation_week.setText(getEvaluation(resultStr));
+            txt_result_week.setText(num1 + " / " + num2);
+            txt_evaluation_week.setText(getEvaluation(num1, num2));
         }
     }
     void get_exam_monthly() {
         txt_result_month.setText("");
-        float result = 0;
+        int num1 = 0, num2 = 0;
         ArrayList<Event> arrayList = new ArrayList<>();
         for (Event event:list_event) {
             String m_name = event.getData().toString();
@@ -276,7 +340,7 @@ public class StudentDetailActivity extends AppCompatActivity {
                 long firstDayTime = Utils.getFirstDayOfMonth(sel_date);
                 if (exam.date.getTime() >= firstDayTime && exam.date.getTime() < Utils.getLastDayOfMonth(sel_date)) {
                     arrayList.add(event);
-                    result += Float.parseFloat(exam.result);
+                    num1 += exam.num1*Integer.parseInt(exam.course_coef); num2 += exam.num2*Integer.parseInt(exam.course_coef);
                 }
             }
         }
@@ -284,9 +348,32 @@ public class StudentDetailActivity extends AppCompatActivity {
             txt_result_month.setText("");
             txt_evaluation_month.setText("");
         } else {
-            String resultStr = Utils.df.format(result/arrayList.size());
-            txt_result_month.setText(resultStr);
-            txt_evaluation_month.setText(getEvaluation(resultStr));
+            txt_result_month.setText(num1 + " / " + num2);
+            txt_evaluation_month.setText(getEvaluation(num1, num2));
+        }
+    }
+    void get_exam_quarterly() {
+        Quarter quarter = Utils.getCurrentQuarter(sel_date);
+        txt_result_quarter.setText("");
+        txt_quarter.setText("Quarterly - " + quarter.name + "th");
+        int num1 = 0, num2 = 0;
+        ArrayList<Event> arrayList = new ArrayList<>();
+        for (Event event:list_event) {
+            String m_name = event.getData().toString();
+            if (m_name.contains("Exam")) {
+                Exam exam = (Exam)event.getData();
+                if (exam.date.getTime() >= quarter.first_time && exam.date.getTime() <= quarter.last_time) {
+                    arrayList.add(event);
+                    num1 += exam.num1*Integer.parseInt(exam.course_coef); num2 += exam.num2*Integer.parseInt(exam.course_coef);
+                }
+            }
+        }
+        if (arrayList.size() == 0) {
+            txt_result_quarter.setText("");
+            txt_evaluation_quarter.setText("");
+        } else {
+            txt_result_quarter.setText(num1 + " / " + num2);
+            txt_evaluation_quarter.setText(getEvaluation(num1, num2));
         }
     }
     void get_absence_weekly() {
@@ -329,6 +416,25 @@ public class StudentDetailActivity extends AppCompatActivity {
             txt_absence_month.setText(String.valueOf(arrayList.size()));
         }
     }
+    void get_absence_quarterly() {
+        Quarter quarter = Utils.getCurrentQuarter(sel_date);
+        txt_absence_quarter.setText("");
+        ArrayList<Event> arrayList = new ArrayList<>();
+        for (Event event:list_event) {
+            String m_name = event.getData().toString();
+            if (m_name.contains("Absence")) {
+                Absence absence = (Absence)event.getData();
+                if (absence.date.getTime() >= quarter.first_time && absence.date.getTime() <= quarter.last_time) {
+                    arrayList.add(event);
+                }
+            }
+        }
+        if (arrayList.size() == 0) {
+            txt_absence_quarter.setText("");
+        } else {
+            txt_absence_quarter.setText(String.valueOf(arrayList.size()));
+        }
+    }
     void get_absences() {
         ly_absence.setVisibility(View.GONE);
         Utils.mDatabase.child(Utils.tbl_absence).orderByChild("school_id").equalTo(Utils.currentSchool._id).addValueEventListener(new ValueEventListener() {
@@ -352,6 +458,7 @@ public class StudentDetailActivity extends AppCompatActivity {
                     }
                     get_absence_weekly();
                     get_absence_monthly();
+                    get_exam_quarterly();
                 }
             }
 
@@ -361,18 +468,17 @@ public class StudentDetailActivity extends AppCompatActivity {
             }
         });
     }
-    String getEvaluation(String result) {
+    String getEvaluation(int num1, int num2) {
         String evaluation = "";
-        if (result != "") {
-            if (Float.parseFloat(result) >= 4.5) {
-                evaluation = getResources().getString(R.string.excellent);
-            } else if (Float.parseFloat(result) >= 4) {
-                evaluation = getResources().getString(R.string.good);
-            } else if (Float.parseFloat(result) >= 3) {
-                evaluation = getResources().getString(R.string.normal);
-            } else {
-                evaluation = getResources().getString(R.string.poor);
-            }
+        float val = (float)num1/num2;
+        if (val >= 0.9) {
+            evaluation = getResources().getString(R.string.excellent);
+        } else if (val >= 0.8) {
+            evaluation = getResources().getString(R.string.good);
+        } else if (val >= 0.5) {
+            evaluation = getResources().getString(R.string.normal);
+        } else {
+            evaluation = getResources().getString(R.string.poor);
         }
         return evaluation;
     }

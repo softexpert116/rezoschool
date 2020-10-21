@@ -40,10 +40,10 @@ public class TimeslotFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_timeslot, container, false);
+        listView = view.findViewById(R.id.listView);
 
         schoolCourseListAdapter = new SchoolCourseListAdapter(activity, App.school_courses, null);
         schoolCourseListAdapter.flag_timeslot = true;
-        listView = view.findViewById(R.id.listView);
         listView.setAdapter(schoolCourseListAdapter);
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +84,7 @@ public class TimeslotFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        schoolCourseListAdapter.notifyDataSetChanged();
 //        course_update_listener();
     }
 

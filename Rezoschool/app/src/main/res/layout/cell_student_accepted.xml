@@ -179,6 +179,8 @@
                 android:layout_below="@+id/ly_student"
                 android:layout_marginTop="-35dp"
                 android:layout_marginLeft="10dp"
+                android:focusable="false"
+                android:clickable="false"
                 android:padding="5dp"
                 />
         </RelativeLayout>

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="130dp"
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
@@ -17,12 +17,12 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"
-                android:text="@string/result_"
+                android:text="@string/course"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 />
             <TextView
-                android:id="@+id/txt_result"
+                android:id="@+id/txt_course"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -35,13 +35,37 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             >
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"
-                android:text="@string/date_"
+                android:text="@string/title"
+                android:textSize="20dp"
+                android:fontFamily="@font/gibson_regular"
+                />
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=""
+                android:textSize="20dp"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:text="@string/date"
                 android:textSize="20dp"
                 android:fontFamily="@font/gibson_regular"
                 />
@@ -56,7 +80,30 @@
                 android:fontFamily="@font/gibson_regular"
                 />
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            >
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:text="@string/result"
+                android:textSize="20dp"
+                android:fontFamily="@font/gibson_regular"
+                />
+            <TextView
+                android:id="@+id/txt_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text=""
+                android:textSize="20dp"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/gibson_regular"
+                />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.CourseTime;
@@ -355,6 +356,7 @@ public class TeacherSchoolFragment extends Fragment {
                             }
                         }
                     }
+                    App.school_courses = array_course;
                 }
                 activity.runOnUiThread(new Runnable() {
                     public void run() {
