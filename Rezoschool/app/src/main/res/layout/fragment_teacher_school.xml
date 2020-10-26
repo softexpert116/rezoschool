@@ -39,7 +39,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.9"
+        android:layout_weight="0.3"
         app:cardBackgroundColor="@color/colorSubBackground"
         >
         <ListView
@@ -52,35 +52,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="15dp"></LinearLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:background="@color/colorPrimaryDark"
         >
-        <TextView
-            android:id="@+id/txt_school_course"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn_course"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/my_courses_in_school_"
-            android:fontFamily="@font/gibson_regular"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_margin="10dp"
+            android:text="@string/course"
+            android:background="#00000000"
+            android:textColor="@color/white"
+            />
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white_background"
+            android:layout_margin="3dp"
             />
         <Button
-            android:id="@+id/btn_add_course"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:text="@string/add_course"
-            android:fontFamily="@font/gibson_regular"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="10dp"
-            android:background="@drawable/btn_round"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:visibility="gone"
+            android:id="@+id/btn_class"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/_class"
+            android:background="#00000000"
+            android:textColor="@color/gray"
             />
-    </RelativeLayout>
+    </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -94,6 +96,13 @@
             android:layout_width="match_parent"
             android:divider="@android:color/transparent"
             android:layout_height="match_parent"
+            />
+        <ListView
+            android:id="@+id/list_class"
+            android:layout_width="match_parent"
+            android:divider="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
             />
     </androidx.cardview.widget.CardView>
 
