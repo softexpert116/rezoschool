@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ediattah.rezoschool.App;
+import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Exam;
 import com.ediattah.rezoschool.Model.Student;
@@ -31,6 +32,7 @@ import com.ediattah.rezoschool.Model.Tweet;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
+import com.ediattah.rezoschool.adapter.ClassListAdapter;
 import com.ediattah.rezoschool.adapter.SchoolCourseListAdapter;
 import com.ediattah.rezoschool.adapter.UserListAdapter;
 import com.ediattah.rezoschool.ui.MainActivity;
@@ -50,7 +52,8 @@ public class ExamFragment extends Fragment {
     MainActivity mainActivity;
     ArrayList<User> array_user = new ArrayList<>();
     User sel_user;
-    EditText edit_student, edit_course, edit_title, edit_date, edit_num1, edit_num2, edit_coef;
+    Class sel_class;
+    EditText edit_class, edit_student, edit_course, edit_title, edit_date, edit_num1, edit_num2, edit_coef;
 //    Course sel_course;
     Date sel_date;
     @Override
@@ -59,6 +62,7 @@ public class ExamFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_exam, container, false);
         App.hideKeyboard(mainActivity);
+        edit_class = v.findViewById(R.id.edit_class);
         edit_student = v.findViewById(R.id.edit_student);
         edit_course = v.findViewById(R.id.edit_course);
         edit_coef = v.findViewById(R.id.edit_coef);
@@ -68,9 +72,18 @@ public class ExamFragment extends Fragment {
         edit_num2 = v.findViewById(R.id.edit_num2);
         Button btn_view = v.findViewById(R.id.btn_view);
         Button btn_update = v.findViewById(R.id.btn_update);
+        edit_class.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAddClassDialog();
+            }
+        });
         edit_student.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (sel_class == null) {
+                    return;
+                }
                 openAddStudentDialog();
             }
         });
@@ -110,7 +123,7 @@ public class ExamFragment extends Fragment {
         if (Utils.currentSchool._id.equals("")) {
             Utils.showAlert(mainActivity, getResources().getString(R.string.warning), getResources().getString(R.string.please_select_school_in_school_menu));
         }
-        read_students();
+//        read_students();
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,9 +221,15 @@ public class ExamFragment extends Fragment {
         return v;
     }
     public void read_students() {
+        if (sel_class == null) {
+            return;
+        }
         array_user.clear();
         for (Student student: Utils.currentSchool.students) {
             if (student.isAllow) {
+                if (!student.class_name.equals(sel_class.name)) {
+                    continue;
+                }
                 Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -228,6 +247,39 @@ public class ExamFragment extends Fragment {
                 });
             }
         }
+    }
+    public void openAddClassDialog() {
+        final Dialog dlg = new Dialog(mainActivity);
+        Window window = dlg.getWindow();
+        View view = getLayoutInflater().inflate(R.layout.dialog_choose_item, null);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.80);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.4);
+        view.setMinimumWidth(width);
+        view.setMinimumHeight(height);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(view);
+        window.setGravity(Gravity.CENTER);
+        dlg.show();
+        ListView listView = dlg.findViewById(R.id.listView);
+        TextView txt_title = dlg.findViewById(R.id.txt_title);
+        txt_title.setText(getResources().getString(R.string.choose_class));
+        ClassListAdapter classListAdapter = new ClassListAdapter(mainActivity, Utils.currentSchool.classes);
+        classListAdapter.sel_index = -2;
+        listView.setAdapter(classListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                sel_class = Utils.currentSchool.classes.get(i);
+                dlg.dismiss();
+                edit_class.setText(sel_class.name);
+                sel_user = null;
+                edit_student.setText("");
+                read_students();
+            }
+        });
+        Button btn_choose = (Button)dlg.findViewById(R.id.btn_choose);
+        btn_choose.setVisibility(View.GONE);
+        dlg.show();
     }
     public void openAddStudentDialog() {
         final Dialog dlg = new Dialog(mainActivity);
