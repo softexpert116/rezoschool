@@ -95,6 +95,7 @@
     <string name="you_like_this_tweet">You like this tweet!</string>
     <string name="you_dislike_this_tweet">You dislike this tweet!</string>
     <string name="you_committed_successfully">You committed successfully</string>
+    <string name="you_reported_successfully">You reported successfully</string>
     <string name="please_choose_a_course">Please choose a course</string>
     <string name="amount_xof_">Amount(XOF): </string>
     <string name="transaction_id_">Transaction ID: </string>

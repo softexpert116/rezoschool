@@ -60,6 +60,7 @@ public class Utils {
     public static String tbl_user = "users";
     public static String tbl_school = "schools";
     public static String tbl_tweet = "tweets";
+    public static String tbl_report = "reports";
     public static String tbl_library = "library";
     public static String tbl_exam = "exams";
     public static String tbl_absence = "absences";

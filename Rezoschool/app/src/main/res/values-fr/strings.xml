@@ -103,6 +103,7 @@
     <string name="you_like_this_tweet">Vous aimez ce tweet!</string>
     <string name="you_dislike_this_tweet">Vous n´aimez pas ce tweet!</string>
     <string name="you_committed_successfully">Vous vous êtes engagé avec succès</string>
+    <string name="you_reported_successfully">Vous avez signalé avec succès</string>
     <string name="join_call">Rejoindre l´appel</string>
 
     <string name="available">Disponible</string>

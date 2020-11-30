@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        App.hideKeyboard(this);
 
         btn_message = findViewById(R.id.btn_message);
         btn_message.setOnClickListener(new View.OnClickListener() {

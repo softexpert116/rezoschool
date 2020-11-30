@@ -1,7 +1,6 @@
 package com.ediattah.rezoschool.adapter;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,21 +17,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.Model.Comment;
+import com.ediattah.rezoschool.Model.Report;
 import com.ediattah.rezoschool.Model.Tweet;
 import com.ediattah.rezoschool.Model.User;
+import com.ediattah.rezoschool.Model.VideoGroup;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.fragments.TweetsFragment;
 import com.ediattah.rezoschool.ui.ImageViewerActivity;
-import com.ediattah.rezoschool.ui.LoginActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
-import com.ediattah.rezoschool.ui.RegisterActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Repo;
 
 import java.util.ArrayList;
 
@@ -119,7 +121,7 @@ public class TweetListAdapter extends BaseAdapter {
         ibtn_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAddDialog(tweet);
+                openCommentDialog(tweet);
             }
         });
         ImageButton ibtn_like = view.findViewById(R.id.ibtn_like);
@@ -136,6 +138,13 @@ public class TweetListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Utils.mDatabase.child(Utils.tbl_tweet).child(tweet._id).child("dislike").setValue(tweet.dislike+1);
                 Toast.makeText(activity, activity.getResources().getString(R.string.you_dislike_this_tweet), Toast.LENGTH_SHORT).show();
+            }
+        });
+        ImageButton ibtn_report = view.findViewById(R.id.ibtn_report);
+        ibtn_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openReportDialog(tweet);
             }
         });
 
@@ -179,7 +188,7 @@ public class TweetListAdapter extends BaseAdapter {
         });
         return view;
     }
-    public void openAddDialog(final Tweet tweet) {
+    public void openCommentDialog(final Tweet tweet) {
         final Dialog dlg = new Dialog(activity);
         Window window = dlg.getWindow();
         View view = fragment.getLayoutInflater().inflate(R.layout.dialog_add_comment, null);
@@ -206,6 +215,64 @@ public class TweetListAdapter extends BaseAdapter {
                 Utils.mDatabase.child(Utils.tbl_tweet).child(tweet._id).child("comments").setValue(tweet.comments);
                 dlg.dismiss();
                 Toast.makeText(activity, activity.getResources().getString(R.string.you_committed_successfully), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void openReportDialog(final Tweet tweet) {
+        final Dialog dlg = new Dialog(activity);
+        Window window = dlg.getWindow();
+        View view = fragment.getLayoutInflater().inflate(R.layout.dialog_add_report, null);
+        int width = (int)(fragment.getResources().getDisplayMetrics().widthPixels*0.85);
+        int height = (int)(fragment.getResources().getDisplayMetrics().heightPixels*0.25);
+        view.setMinimumWidth(width);
+        view.setMinimumHeight(height);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(view);
+        window.setGravity(Gravity.CENTER);
+        dlg.show();
+        final EditText edit_report = (EditText)view.findViewById(R.id.edit_report);
+        Button btn_report = (Button)view.findViewById(R.id.btn_report);
+        btn_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txt_report = edit_report.getText().toString().trim();
+                if (txt_report.length() == 0) {
+                    Utils.showAlert(activity, activity.getResources().getString(R.string.warning), activity.getResources().getString(R.string.please_fill_in_blank_field));
+                    return;
+                }
+                Report report1 = new Report("", Utils.mUser.getUid(), tweet._id, txt_report);
+                Utils.mDatabase.child(Utils.tbl_report).orderByChild("uid").equalTo(Utils.mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue()!=null) {
+                            String report_id = "";
+                            for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                                Report report = datas.getValue(Report.class);
+                                report._id = datas.getKey();
+                                if (report.tweet_id.equals(tweet._id)) {
+                                    report_id = report._id;
+                                    break;
+                                }
+                            }
+                            if (report_id.length() > 0) {
+                                Utils.mDatabase.child(Utils.tbl_report).child(report_id).child("content").setValue(txt_report);
+                            } else {
+                                Utils.mDatabase.child(Utils.tbl_report).push().setValue(report1);
+                            }
+                            dlg.dismiss();
+                            Toast.makeText(activity, activity.getResources().getString(R.string.you_reported_successfully), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Utils.mDatabase.child(Utils.tbl_report).push().setValue(report1);
+                            dlg.dismiss();
+                            Toast.makeText(activity, activity.getResources().getString(R.string.you_reported_successfully), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
     }
