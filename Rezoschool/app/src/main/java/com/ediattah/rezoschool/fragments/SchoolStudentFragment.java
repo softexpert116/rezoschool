@@ -43,6 +43,8 @@ public class SchoolStudentFragment extends Fragment {
     StudentWaitingListAdapter studentWaitingListAdapter;
     TextView txt_waiting;
     LinearLayout ly_no_items;
+    LinearLayout ly_accepted, ly_waiting;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,13 +55,17 @@ public class SchoolStudentFragment extends Fragment {
         ly_no_items = v.findViewById(R.id.ly_no_items);
         btn_accepted = v.findViewById(R.id.btn_accepted);
         btn_waiting = v.findViewById(R.id.btn_waiting);
+        ly_accepted = v.findViewById(R.id.ly_accepted);
+        ly_waiting = v.findViewById(R.id.ly_waiting);
         btn_accepted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_waiting.setTextColor(Color.parseColor("#d0d0d0"));
-                btn_accepted.setTextColor(getResources().getColor(R.color.colorText));
-                btn_accepted.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
-                btn_waiting.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                ly_accepted.setVisibility(View.VISIBLE);
+                ly_waiting.setVisibility(View.INVISIBLE);
+//                btn_waiting.setTextColor(Color.parseColor("#d0d0d0"));
+//                btn_accepted.setTextColor(getResources().getColor(R.color.colorText));
+//                btn_accepted.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
+//                btn_waiting.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 flag_accepted = true;
                 listView.setAdapter(studentAcceptedListAdapter);
                 read_students();
@@ -68,10 +74,12 @@ public class SchoolStudentFragment extends Fragment {
         btn_waiting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_accepted.setTextColor(Color.parseColor("#d0d0d0"));
-                btn_waiting.setTextColor(getResources().getColor(R.color.colorText));
-                btn_accepted.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                btn_waiting.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
+                ly_accepted.setVisibility(View.INVISIBLE);
+                ly_waiting.setVisibility(View.VISIBLE);
+//                btn_accepted.setTextColor(Color.parseColor("#d0d0d0"));
+//                btn_waiting.setTextColor(getResources().getColor(R.color.colorText));
+//                btn_accepted.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//                btn_waiting.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
                 flag_accepted = false;
                 listView.setAdapter(studentWaitingListAdapter);
                 read_students();
@@ -107,8 +115,18 @@ public class SchoolStudentFragment extends Fragment {
                 array_student_waiting.add(student);
             }
         }
-        studentAcceptedListAdapter.notifyDataSetChanged();
-        studentWaitingListAdapter.notifyDataSetChanged();
+        ly_no_items.setVisibility(View.GONE);
+        if (flag_accepted) {
+            if (array_student_accepted.size() == 0) {
+                ly_no_items.setVisibility(View.VISIBLE);
+            }
+            studentAcceptedListAdapter.notifyDataSetChanged();
+        } else {
+            if (array_student_waiting.size() == 0) {
+                ly_no_items.setVisibility(View.VISIBLE);
+            }
+            studentWaitingListAdapter.notifyDataSetChanged();
+        }
         if (array_student_waiting.size() > 0) {
             txt_waiting.setText(String.valueOf(array_student_waiting.size()));
             txt_waiting.setVisibility(View.VISIBLE);

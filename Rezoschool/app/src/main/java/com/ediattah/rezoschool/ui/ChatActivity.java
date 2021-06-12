@@ -273,7 +273,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue()!=null) {
                     user = dataSnapshot.getValue(User.class);
-                    txt_title.setText(getResources().getString(R.string.chat_with) + user.name);
+                    txt_title.setText(getResources().getString(R.string.chat_with) + " " + user.name);
                     try {
                         Glide.with(ChatActivity.this).load(user.photo).apply(new RequestOptions()
                                 .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);

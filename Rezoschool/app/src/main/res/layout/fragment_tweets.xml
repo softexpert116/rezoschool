@@ -7,10 +7,31 @@
     tools:context=".fragments.TweetsFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/hView"
+        android:layout_marginTop="5dp"
+        >
+        <LinearLayout
+            android:id="@+id/ly_header"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="200dp" />
+    </HorizontalScrollView>
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/hView"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_light"
+        android:layout_below="@+id/hView"
         />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

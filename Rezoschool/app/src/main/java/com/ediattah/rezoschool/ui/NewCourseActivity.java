@@ -47,7 +47,7 @@ public class NewCourseActivity extends AppCompatActivity {
     EditText edit_start_time, edit_end_time;
     LinearLayout ly_time;
     ArrayList<CourseTime> times = new ArrayList<>();
-    int sel_day = 2;
+    int sel_day = 0;
     EditText edit_class, edit_coef;
     Class sel_class;
 
@@ -207,7 +207,30 @@ public class NewCourseActivity extends AppCompatActivity {
             @Override
             public void onChange(View view, int clickedDayOfWeek, List<Integer> selectedDays) {
                 // Do Something
-                sel_day = clickedDayOfWeek;
+                switch (clickedDayOfWeek) {
+                    case 2:
+                        sel_day = 0;
+                        break;
+                    case 3:
+                        sel_day = 1;
+                        break;
+                    case 4:
+                        sel_day = 2;
+                        break;
+                    case 5:
+                        sel_day = 3;
+                        break;
+                    case 6:
+                        sel_day = 4;
+                        break;
+                    case 7:
+                        sel_day = 5;
+                        break;
+                    case 1:
+                        sel_day = 6;
+                        break;
+                    default:break;
+                }
                 edit_start_time.setText("");
                 edit_end_time.setText("");
 
@@ -285,7 +308,8 @@ public class NewCourseActivity extends AppCompatActivity {
                 ly_row.setLayoutParams(lp);
                 ly_row.setPadding(10, 5, 10, 5);
                 ly_row.setOrientation(LinearLayout.VERTICAL);
-                ly_row.setBackgroundColor(Color.parseColor("#A9F1D3"));
+                ly_row.setBackground(getDrawable(R.color.gray_light));
+//                ly_row.setBackgroundColor(Color.parseColor("#A9F1D3"));
                 TextView txt_day = new TextView(this);
                 LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 lp1.setMargins(0, 5, 0, 0);
@@ -295,6 +319,7 @@ public class NewCourseActivity extends AppCompatActivity {
                 txt_day.setTextColor(Color.parseColor("#D81B60"));
                 ly_row.addView(txt_day);
                 TextView txt_start_time = new TextView(this);
+                txt_start_time.setTextColor(Color.parseColor("#111111"));
                 txt_start_time.setText(courseTime.start_time + "~" + courseTime.end_time);
                 ly_row.addView(txt_start_time);
                 ly_time.addView(ly_row);

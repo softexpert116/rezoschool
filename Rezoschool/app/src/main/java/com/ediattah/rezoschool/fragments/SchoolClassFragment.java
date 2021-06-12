@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.ediattah.rezoschool.Model.Course;
@@ -42,7 +43,7 @@ public class SchoolClassFragment extends Fragment {
     int flag = 2;
     ListView listView;
     ClassListAdapter classListAdapter;
-
+    LinearLayout ly_level, ly_class;
     SchoolLevelListAdapter schoolLevelListAdapter;
 
     @Override
@@ -52,6 +53,8 @@ public class SchoolClassFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_class_school, container, false);
         btn_class = v.findViewById(R.id.btn_class);
         btn_level = v.findViewById(R.id.btn_level);
+        ly_level = v.findViewById(R.id.ly_level);
+        ly_class = v.findViewById(R.id.ly_class);
         setTabWithFlag(flag);
 
         classListAdapter = new ClassListAdapter(activity, Utils.currentSchool.classes);
@@ -119,16 +122,12 @@ public class SchoolClassFragment extends Fragment {
         return v;
     }
     void setTabWithFlag(int flag) {
-        btn_level.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        btn_class.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        ly_level.setVisibility(View.INVISIBLE);
+        ly_class.setVisibility(View.INVISIBLE);
         if (flag == 0) {
-            btn_level.setTextColor(Color.parseColor("#d0d0d0"));
-            btn_class.setTextColor(getResources().getColor(R.color.colorText));
-            btn_class.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
+            ly_class.setVisibility(View.VISIBLE);
         } else {
-            btn_class.setTextColor(Color.parseColor("#d0d0d0"));
-            btn_level.setTextColor(getResources().getColor(R.color.colorText));
-            btn_level.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
+            ly_level.setVisibility(View.VISIBLE);
         }
     }
 

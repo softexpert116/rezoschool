@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             android:text="@string/resend_verification_code_in_59_seconds"
             android:textAlignment="center"
             android:textColor="@android:color/white"/>
@@ -51,10 +51,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/btn_round"
+            android:background="@drawable/btn_round_white"
             android:text="@string/verify"
-            android:fontFamily="@font/gibson_bold"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/colorPrimary"/>
 
     </LinearLayout>
 

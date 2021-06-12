@@ -16,6 +16,9 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
@@ -48,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (Utils.CheckEditTextIsEmptyOrNot(edit_phone)) {
                     country_code = txt_countryCode.getSelectedCountryCode();
                     number = edit_phone.getText().toString().trim();
+                    number = number.replace(" ", "");
+                    number = number.replace("-", "");
                     sendSMS(country_code + number);
                 } else {
                     Toast.makeText(LoginActivity.this, getResources().getString(R.string.please_input_your_mobile_number), Toast.LENGTH_LONG).show();
@@ -69,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onVerificationFailed(FirebaseException e) {
                 progressDialog.dismiss();
                 Log.d("msg", e.getLocalizedMessage());
+//                e.printStackTrace();
                 Utils.showAlert(LoginActivity.this, getResources().getString(R.string.error), e.getMessage());
             }
 
@@ -83,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.startActivity(intent);
             }
         };
+
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+" + mobileNumber, 60, TimeUnit.SECONDS, this, mCallback
         );

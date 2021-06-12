@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        app:cardBackgroundColor="@color/colorSubBackground"
+        app:cardBackgroundColor="@color/white"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                             android:background="@drawable/status_offline"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginBottom="3dp"
                             android:layout_marginRight="0dp"
                             />
                     </RelativeLayout>
@@ -61,16 +61,13 @@
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:text="@string/name_"
-                                android:fontFamily="@font/gibson_regular"
-                                android:textSize="20dp"
+                                android:textColor="@color/colorText"
                                 />
                             <TextView
                                 android:id="@+id/txt_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/gibson_regular"
                                 android:textColor="@color/colorText"
-                                android:textSize="20dp"
                                 />
                         </LinearLayout>
                         <LinearLayout
@@ -84,16 +81,13 @@
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:text="@string/class_"
-                                android:fontFamily="@font/gibson_regular"
-                                android:textSize="20dp"
+                                android:textColor="@color/colorText"
                                 />
                             <TextView
                                 android:id="@+id/txt_class"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/gibson_regular"
                                 android:textColor="@color/colorText"
-                                android:textSize="20dp"
                                 />
                         </LinearLayout>
                         <LinearLayout
@@ -107,16 +101,13 @@
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:text="@string/school_"
-                                android:fontFamily="@font/gibson_regular"
-                                android:textSize="20dp"
+                                android:textColor="@color/colorText"
                                 />
                             <TextView
                                 android:id="@+id/txt_school"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/gibson_regular"
                                 android:textColor="@color/colorText"
-                                android:textSize="20dp"
                                 />
                         </LinearLayout>
                     </LinearLayout>
@@ -163,7 +154,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_new"
-                android:fontFamily="@font/gibson_bold"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/frame_round"

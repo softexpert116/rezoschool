@@ -81,10 +81,10 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
         }
         Button btn_reset = view.findViewById(R.id.btn_reset);
         if (flag_new) {
-            btn_reset.setBackgroundColor(Color.parseColor("#a0a0a0"));
+//            btn_reset.setBackgroundColor(Color.parseColor("#a0a0a0"));
             btn_reset.setEnabled(false);
         } else {
-            btn_reset.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark));
+//            btn_reset.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
             btn_reset.setEnabled(true);
         }
         btn_reset.setOnClickListener(new View.OnClickListener() {
@@ -164,10 +164,10 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
 
                             if (user.isAllow) {
                                 btn_allow.setText(context.getResources().getString(R.string.block));
-                                btn_allow.setBackground(context.getDrawable(R.color.colorAccent));
+//                                btn_allow.setBackground(context.getDrawable(R.color.colorAccent));
                             } else {
                                 btn_allow.setText(context.getResources().getString(R.string.allow));
-                                btn_allow.setBackground(context.getDrawable(R.color.colorPrimaryDark));
+//                                btn_allow.setBackground(context.getDrawable(R.color.colorPrimaryDark));
                             }
                             if (user.status == 0) {
                                 ly_status.setBackground(context.getResources().getDrawable(R.drawable.status_offline));
@@ -210,9 +210,9 @@ public class SchoolTeacherListAdapter extends BaseAdapter {
             }
         });
         RelativeLayout ly_sel = view.findViewById(R.id.ly_sel);
-        ly_sel.setBackground(context.getDrawable(R.color.colorSubBackground));
+        ly_sel.setBackground(context.getDrawable(R.color.white));
         if (sel_index == i) {
-            ly_sel.setBackground(context.getDrawable(R.color.colorPrimaryLight));
+            ly_sel.setBackground(context.getDrawable(R.color.gray_light));
         }
         return view;
     }

@@ -16,15 +16,23 @@
             android:padding="20dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageView"
+            <RelativeLayout
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_marginTop="20dp"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/logo1" />
+                android:background="@drawable/circle_shape_white"
+                >
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/logo1" />
+            </RelativeLayout>
 
             <LinearLayout
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
@@ -45,8 +53,8 @@
                     android:layout_marginLeft="15dp"
                     android:background="@android:color/transparent"
                     android:hint="@string/name"
-                    android:fontFamily="@font/gibson_regular"
-                    android:textColor="#000000"
+
+                    android:textColor="@color/colorText"
                     android:singleLine="true"
                     android:inputType="text" />
 
@@ -73,9 +81,9 @@
                     android:layout_marginLeft="15dp"
                     android:background="@android:color/transparent"
                     android:hint="@string/email_address"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorText"
                     android:singleLine="true"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:inputType="textEmailAddress" />
 
             </LinearLayout>
@@ -103,9 +111,9 @@
                     android:singleLine="true"
                     android:background="@android:color/transparent"
                     android:hint="@string/school_authorization"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorText"
                     android:inputType="number"
-                    android:fontFamily="@font/gibson_regular" />
+                     />
 
             </LinearLayout>
 
@@ -134,19 +142,19 @@
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:text="@string/primary_school"
-                            android:fontFamily="@font/gibson_regular"
-                            android:textColor="@android:color/white"
-                            android:buttonTint="@android:color/white"
+
+                            android:textColor="@color/white"
+                            android:buttonTint="@color/white"
                             />
                         <RadioButton
                             android:id="@+id/radio_secondary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:fontFamily="@font/gibson_regular"
+
                             android:text="@string/secondary_school"
-                            android:textColor="@android:color/white"
-                            android:buttonTint="@android:color/white"
+                            android:textColor="@color/white"
+                            android:buttonTint="@color/white"
                             />
                     </RadioGroup>
                 </LinearLayout>
@@ -169,19 +177,19 @@
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:text="@string/private_laic"
-                            android:fontFamily="@font/gibson_regular"
-                            android:textColor="@android:color/white"
-                            android:buttonTint="@android:color/white"
+
+                            android:textColor="@color/white"
+                            android:buttonTint="@color/white"
                             />
                         <RadioButton
                             android:id="@+id/radio_public"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:fontFamily="@font/gibson_regular"
+
                             android:text="@string/private_confessional"
-                            android:textColor="@android:color/white"
-                            android:buttonTint="@android:color/white"
+                            android:textColor="@color/white"
+                            android:buttonTint="@color/white"
                             />
                     </RadioGroup>
                 </LinearLayout>
@@ -219,9 +227,9 @@
                     android:hint="@string/phone_number"
                     android:enabled="false"
                     android:singleLine="true"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorText"
                     android:inputType="phone"
-                    android:fontFamily="@font/gibson_regular" />
+                     />
 
             </LinearLayout>
             <LinearLayout
@@ -258,7 +266,7 @@
                     android:singleLine="true"
                     android:textColor="#000000"
                     android:inputType="phone"
-                    android:fontFamily="@font/gibson_regular" />
+                     />
 
             </LinearLayout>
 
@@ -285,8 +293,8 @@
                     android:hint="@string/country_name"
                     android:enabled="false"
                     android:singleLine="true"
-                    android:textColor="#000000"
-                    android:fontFamily="@font/gibson_regular" />
+                    android:textColor="@color/colorText"
+                     />
 
             </LinearLayout>
 
@@ -311,9 +319,9 @@
                     android:layout_marginLeft="15dp"
                     android:background="@android:color/transparent"
                     android:hint="@string/city_name"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorText"
                     android:singleLine="true"
-                    android:fontFamily="@font/gibson_regular" />
+                     />
 
             </LinearLayout>
             <LinearLayout
@@ -330,8 +338,8 @@
                     android:text="I am a"
                     android:textSize="16dp"
                     android:layout_marginLeft="20dp"
-                    android:fontFamily="@font/gibson_regular"
-                    android:textColor="@android:color/white"
+
+                    android:textColor="@color/white"
                     />
                 <RadioGroup
                     android:layout_width="match_parent"
@@ -346,19 +354,19 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Old Student"
-                        android:fontFamily="@font/gibson_regular"
-                        android:textColor="@android:color/white"
-                        android:buttonTint="@android:color/white"
+
+                        android:textColor="@color/white"
+                        android:buttonTint="@color/white"
                         />
                     <RadioButton
                         android:id="@+id/radio_new"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/gibson_regular"
+
                         android:text="New Student"
-                        android:textColor="@android:color/white"
-                        android:buttonTint="@android:color/white"
+                        android:textColor="@color/white"
+                        android:buttonTint="@color/white"
                         />
                 </RadioGroup>
             </LinearLayout>
@@ -374,8 +382,8 @@
                     android:text="@string/i_want_to_be_a"
                     android:textSize="16dp"
                     android:layout_marginLeft="20dp"
-                    android:fontFamily="@font/gibson_regular"
-                    android:textColor="@android:color/white"
+
+                    android:textColor="@color/white"
                     />
                 <RadioGroup
                     android:layout_width="match_parent"
@@ -390,51 +398,150 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/school"
-                        android:fontFamily="@font/gibson_regular"
-                        android:textColor="@android:color/white"
-                        android:buttonTint="@android:color/white"
+
+                        android:textColor="@color/white"
+                        android:buttonTint="@color/white"
                         />
                     <RadioButton
                         android:id="@+id/radio_teacher"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/gibson_regular"
+
                         android:text="@string/teacher"
-                        android:textColor="@android:color/white"
-                        android:buttonTint="@android:color/white"
+                        android:textColor="@color/white"
+                        android:buttonTint="@color/white"
                         />
                     <RadioButton
                         android:id="@+id/radio_parent"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/gibson_regular"
+
                         android:text="@string/parent"
-                        android:textColor="@android:color/white"
-                        android:buttonTint="@android:color/white"
+                        android:textColor="@color/white"
+                        android:buttonTint="@color/white"
                         />
                     <RadioButton
                         android:id="@+id/radio_student"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/gibson_regular"
+
                         android:text="@string/student"
-                        android:textColor="@android:color/white"
-                        android:buttonTint="@android:color/white"
+                        android:textColor="@color/white"
+                        android:buttonTint="@color/white"
                         />
                 </RadioGroup>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SMS"
+                android:textSize="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                />
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:background="@drawable/frame_round">
+
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ico_name" />
+
+                <EditText
+                    android:id="@+id/edit_username_sms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/username"
+
+                    android:textColor="@color/colorText"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:background="@drawable/frame_round">
+
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ico_password" />
+
+                <EditText
+                    android:id="@+id/edit_password_sms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/password"
+
+                    android:textColor="@color/colorText"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:background="@drawable/frame_round">
+
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ico_name" />
+
+                <EditText
+                    android:id="@+id/edit_senderID_sms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/sender_id"
+
+                    android:textColor="@color/colorText"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btn_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/btn_round"
+                android:background="@drawable/btn_round_white"
                 android:text="@string/register"
-                android:fontFamily="@font/gibson_bold"
-                android:textColor="@android:color/white"/>
+                android:layout_marginBottom="50dp"
+                android:textColor="@color/colorPrimary"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

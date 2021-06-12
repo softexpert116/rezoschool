@@ -44,9 +44,6 @@ public class BulkSMSActivity extends AppCompatActivity {
         sel_school = (School)getIntent().getSerializableExtra("SCHOOL");
         user = (User)getIntent().getSerializableExtra("USER");
 
-        final EditText edit_username = findViewById(R.id.edit_username);
-        final EditText edit_password = findViewById(R.id.edit_password);
-        final EditText edit_senderID = findViewById(R.id.edit_senderID);
         final EditText edit_text = findViewById(R.id.edit_text);
         txt_receivers = findViewById(R.id.txt_receivers);
         TextView txt_select = findViewById(R.id.txt_select);
@@ -68,19 +65,16 @@ public class BulkSMSActivity extends AppCompatActivity {
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = edit_username.getText().toString().trim();
-                String password = edit_password.getText().toString().trim();
-                String senderID = edit_senderID.getText().toString().trim();
                 String text = edit_text.getText().toString().trim();
-                if (username.length()*password.length()*senderID.length()*text.length() == 0) {
-                    Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
-                    return;
-                }
+//                if (Utils.currentUser.username_sms.length()*Utils.currentUser.password_sms.length()*Utils.currentUser.senderID.length()*text.length() == 0) {
+//                    Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
+//                    return;
+//                }
                 if (array_sel_phone.size() == 0) {
                     Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
-                sendEdiaSMS(username, password, senderID, array_sel_phone, text, "text");
+                sendEdiaSMS(Utils.currentUser.username, Utils.currentUser.password, Utils.currentUser.senderID, array_sel_phone, text, "text");
             }
         });
     }

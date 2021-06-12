@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/level"
                 android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                     android:focusable="false"
                     android:editable="false"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:paddingLeft="5dp"
                     android:background="@color/transparent"
                     />
@@ -51,7 +51,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/class_name"
                 android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                     android:paddingLeft="5dp"
                     android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:background="@color/transparent"
                     />
             </androidx.cardview.widget.CardView>

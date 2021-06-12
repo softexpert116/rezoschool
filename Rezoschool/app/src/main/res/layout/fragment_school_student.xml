@@ -9,7 +9,8 @@
     <RelativeLayout
         android:id="@+id/ly_tab"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,25 +20,22 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
                 android:text="@string/accepted"
-                android:textSize="20dp"
-                android:textColor="@color/colorText"
+                android:background="@color/transparent"
+                android:textColor="@color/white"
                 android:focusable="false"
-                android:fontFamily="@font/gibson_bold"
                 />
+
             <Button
                 android:id="@+id/btn_waiting"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="20dp"
-                android:background="@color/colorPrimary"
-                android:text="@string/waiting"
-                android:textColor="#d0d0d0"
+                android:background="@color/transparent"
                 android:focusable="false"
-                android:fontFamily="@font/gibson_bold"
-                />
+                android:text="@string/waiting"
+                android:textColor="@color/white"
+                 />
         </LinearLayout>
         <TextView
             android:id="@+id/txt_waiting"
@@ -53,16 +51,31 @@
             android:gravity="center"
             android:visibility="gone"
             />
-        <RelativeLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#d0d0d0"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            ></RelativeLayout>
-
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/ly_tab"
+        android:layout_marginTop="-10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+        <LinearLayout
+            android:id="@+id/ly_accepted"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorMainBackground"
+            android:orientation="horizontal" />
+        <LinearLayout
+            android:id="@+id/ly_waiting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:background="@color/colorMainBackground"
+            android:orientation="horizontal" />
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

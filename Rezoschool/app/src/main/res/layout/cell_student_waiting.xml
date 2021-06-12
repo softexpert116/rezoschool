@@ -6,7 +6,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorSubBackground"
+        app:cardBackgroundColor="@color/white"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,8 +22,8 @@
                 >
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_photo"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/default_user"
                     android:layout_centerVertical="true"
@@ -35,7 +35,6 @@
                     android:orientation="vertical"
                     android:layout_gravity="center_vertical"
                     android:layout_toRightOf="@+id/img_photo"
-                    android:layout_toLeftOf="@+id/chk_teacher"
                     android:layout_centerVertical="true"
                     >
                     <LinearLayout
@@ -45,9 +44,9 @@
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:textAlignment="textEnd"
-                            android:textSize="20dp"
                             android:text="@string/name_"
-                            android:fontFamily="@font/gibson_regular"
+                            android:textColor="@color/colorText"
+
                             />
                         <TextView
                             android:id="@+id/txt_name"
@@ -55,9 +54,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text=""
-                            android:textSize="20dp"
                             android:textColor="@color/colorText"
-                            android:fontFamily="@font/gibson_regular"
+
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -65,23 +63,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         >
-
                         <TextView
                             android:layout_width="80dp"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/gibson_regular"
+
                             android:text="@string/class_"
                             android:textAlignment="textEnd"
-                            android:textSize="20dp" />
+                            android:textColor="@color/colorText"
+                            />
                         <TextView
                             android:id="@+id/txt_class"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text=""
-                            android:textSize="20dp"
                             android:textColor="@color/colorText"
-                            android:fontFamily="@font/gibson_regular"
+
                             />
                     </LinearLayout>
 
@@ -91,7 +88,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/_new"
-                    android:fontFamily="@font/gibson_bold"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/frame_round"
@@ -116,7 +112,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:text="@string/accept"
-                        android:textAllCaps="false"
                         android:background="@drawable/btn_round"
                         android:textColor="@color/white"
                         android:focusable="false"
@@ -128,7 +123,6 @@
                         android:layout_height="30dp"
                         android:layout_marginLeft="20dp"
                         android:text="@string/reject"
-                        android:textAllCaps="false"
                         android:background="@drawable/btn_round_reject"
                         android:textColor="@color/white"
                         android:focusable="false"

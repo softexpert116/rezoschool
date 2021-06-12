@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:fontFamily="@font/gibson_regular"
+
         android:gravity="center"
         android:text="Please input video room name below"
         />

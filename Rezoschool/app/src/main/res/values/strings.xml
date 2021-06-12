@@ -212,7 +212,7 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="message">Message</string>
     <string name="chat_open">Chat Open</string>
-    <string name="chat_with">Chat With</string>
+    <string name="chat_with">Chat With </string>
     <string name="type_your_message_here">Type your message here</string>
     <string name="delivered">Delivered</string>
     <string name="uploading">Uploading…</string>
@@ -319,7 +319,9 @@
     <string name="chat_from_">Chat from </string>
     <string name="permission_denied">Permission denied.</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="exams_per_month">Students of Exams Per Month</string>
+    <string name="monthly_top_members">Monthly Top Members</string>
+    <string name="quarterly_top_members">Quarterly Top Members</string>
 
 
 </resources>

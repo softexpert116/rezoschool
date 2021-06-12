@@ -161,7 +161,7 @@ public class ExamFragment extends Fragment {
                                     }
                                 }
                             }
-                            Utils.mDatabase.child(Utils.tbl_exam).push().setValue(new Exam("", sel_date, Integer.valueOf(num1), Integer.valueOf(num2), Utils.currentSchool._id, sel_user._id, course_name, course_coef, title));
+                            Utils.mDatabase.child(Utils.tbl_exam).push().setValue(new Exam("", sel_date, Integer.valueOf(num1), Integer.valueOf(num2), Utils.currentSchool._id, sel_user._id, course_name, course_coef, title, sel_date.getTime()));
                             Toast.makeText(mainActivity, getResources().getString(R.string.successfully_updated), Toast.LENGTH_SHORT).show();
                         }
 

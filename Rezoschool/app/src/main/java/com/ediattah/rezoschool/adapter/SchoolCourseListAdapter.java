@@ -114,7 +114,7 @@ public class SchoolCourseListAdapter extends BaseAdapter {
         if (array_sel != null) {
             for (Course course:array_sel) {
                 if (course.name.equals(_course.name)) {
-                    ly_sel.setBackground(context.getDrawable(R.color.colorPrimary));
+                    ly_sel.setBackground(context.getDrawable(R.color.gray_light));
                     break;
                 }
             }

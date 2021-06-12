@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        app:cardBackgroundColor="@color/colorSubBackground"
+        app:cardBackgroundColor="@color/white"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
                     android:text="@string/name_"
-                    android:fontFamily="@font/gibson_regular"
+
                     />
                 <TextView
                     android:id="@+id/txt_name"
@@ -50,7 +50,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="Olga"
                     android:textColor="@android:color/black"
-                    android:fontFamily="@font/gibson_regular"
+
                     />
             </LinearLayout>
             <LinearLayout
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
                     android:text="@string/class_"
-                    android:fontFamily="@font/gibson_regular"
+
                     />
                 <TextView
                     android:id="@+id/txt_class"
@@ -72,7 +72,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="CP1A"
                     android:textColor="@android:color/black"
-                    android:fontFamily="@font/gibson_regular"
+
                     />
             </LinearLayout>
             <LinearLayout
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
                     android:text="@string/phone_"
-                    android:fontFamily="@font/gibson_regular"
+
                     />
                 <TextView
                     android:id="@+id/txt_phone"
@@ -94,7 +94,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="12345678"
                     android:textColor="@android:color/black"
-                    android:fontFamily="@font/gibson_regular"
+
                     />
             </LinearLayout>
         </LinearLayout>

@@ -29,12 +29,11 @@
             android:paddingLeft="35dp"
             android:hint="@string/school_name"
             android:text=""
-            android:textSize="20dp"
             android:textColor="@color/colorText"
             android:inputType="text"
             android:editable="false"
             android:imeOptions="actionSearch"
-            android:fontFamily="@font/gibson_regular"
+
             android:background="@android:color/transparent"
             />
     </RelativeLayout>
@@ -58,12 +57,11 @@
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:paddingLeft="35dp"
-            android:textSize="20dp"
             android:hint="@string/student_name"
             android:inputType="text"
             android:textColor="@color/colorText"
             android:imeOptions="actionSearch"
-            android:fontFamily="@font/gibson_regular"
+
             android:background="@android:color/transparent"
             />
     </RelativeLayout>

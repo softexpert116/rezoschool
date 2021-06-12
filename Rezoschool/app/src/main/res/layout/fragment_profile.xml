@@ -33,7 +33,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/profile_bg"
-                        android:alpha="0.2"
+                        android:alpha="0.1"
                         />
                 </RelativeLayout>
                 <TextView
@@ -63,7 +63,7 @@
                     android:layout_marginTop="-30dp"
                     android:layout_marginRight="40dp"
                     android:layout_alignParentEnd="true"
-                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorAccent"
                     app:borderWidth="0dp"
                     android:src="@android:drawable/ic_menu_edit"
                     />
@@ -74,7 +74,7 @@
                     android:layout_below="@+id/ly_cover"
                     android:layout_marginTop="-30dp"
                     android:layout_marginLeft="40dp"
-                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorAccent"
                     android:src="@android:drawable/ic_menu_revert"
                     app:borderWidth="0dp"
                     />
@@ -153,7 +153,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/name"
-                        android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
                         android:id="@+id/edit_name"
@@ -163,7 +162,6 @@
                         android:inputType="text"
                         android:singleLine="true"
                         android:layout_marginLeft="20dp"
-                        android:fontFamily="@font/gibson_regular"
                         android:textColor="@color/colorText"
                         />
                     <TextView
@@ -171,7 +169,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/email"
-                        android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
                         android:id="@+id/edit_email"
@@ -181,7 +178,6 @@
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
                         android:layout_marginLeft="20dp"
-                        android:fontFamily="@font/gibson_regular"
                         android:textColor="@color/colorText"
                         />
                     <TextView
@@ -189,7 +185,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/phone"
-                        android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
                         android:id="@+id/edit_phone"
@@ -200,14 +195,13 @@
                         android:textColor="@color/colorText"
                         android:inputType="phone"
                         android:layout_marginLeft="20dp"
-                        android:fontFamily="@font/gibson_regular" />
+                        />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/country"
-                        android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
                         android:id="@+id/edit_country"
@@ -215,7 +209,6 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="@string/course_name"
-                        android:fontFamily="@font/gibson_regular"
                         android:textColor="@color/colorText"
                         android:singleLine="true"
                         android:layout_marginLeft="20dp"
@@ -225,7 +218,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/city"
-                        android:fontFamily="@font/gibson_regular"
                         />
                     <EditText
                         android:id="@+id/edit_city"
@@ -234,8 +226,58 @@
                         android:hint="@string/city_name"
                         android:layout_marginLeft="20dp"
                         android:singleLine="true"
-                        android:fontFamily="@font/gibson_regular"
                         android:textColor="@color/colorText"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/username"
+                        android:visibility="gone"
+                        />
+                    <EditText
+                        android:id="@+id/edit_username_sms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/username"
+                        android:layout_marginLeft="20dp"
+                        android:singleLine="true"
+                        android:visibility="gone"
+                        android:textColor="@color/colorText"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/password"
+                        android:visibility="gone"
+                        />
+                    <EditText
+                        android:id="@+id/edit_password_sms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password"
+                        android:layout_marginLeft="20dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorText"
+                        android:visibility="gone"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:text="@string/sender_id"
+                        />
+                    <EditText
+                        android:id="@+id/edit_senderID_sms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/sender_id"
+                        android:layout_marginLeft="20dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorText"
+                        android:visibility="gone"
                         />
 
                     <LinearLayout
@@ -244,6 +286,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="gone"
+                        android:layout_marginBottom="50dp"
                         >
                         <TextView
                             android:layout_width="match_parent"
@@ -279,14 +322,12 @@
                                     android:layout_width="150dp"
                                     android:layout_height="wrap_content"
                                     android:text="@string/primary_school"
-                                    android:fontFamily="@font/gibson_regular"
                                     />
                                 <RadioButton
                                     android:id="@+id/radio_secondary"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
-                                    android:fontFamily="@font/gibson_regular"
                                     android:text="@string/secondary_school"
                                     />
                             </RadioGroup>
@@ -310,14 +351,12 @@
                                     android:layout_width="150dp"
                                     android:layout_height="wrap_content"
                                     android:text="@string/private_laic"
-                                    android:fontFamily="@font/gibson_regular"
                                     />
                                 <RadioButton
                                     android:id="@+id/radio_public"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
-                                    android:fontFamily="@font/gibson_regular"
                                     android:text="@string/private_confessional"
                                     />
                             </RadioGroup>

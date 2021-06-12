@@ -8,7 +8,7 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        app:cardBackgroundColor="@color/colorSubBackground"
+        app:cardBackgroundColor="@color/gray_light"
         android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -40,6 +40,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textColor="@color/colorText"
                         android:textStyle="bold"
                         />
                     <TextView
@@ -48,6 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textColor="@color/colorText"
                         />
                 </LinearLayout>
                 <TextView
@@ -57,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="13dp"
                     android:text=""
+                    android:textColor="@color/colorText"
                     />
             </LinearLayout>
         </RelativeLayout>

@@ -16,10 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textSize="20dp"
             android:text="School: 1234"
             android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_bold"
             />
     </LinearLayout>
     <RelativeLayout
@@ -28,7 +26,7 @@
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="200dp"
-            android:background="@drawable/course"
+            android:background="@drawable/frame_round_dark"
             android:orientation="vertical"
             android:gravity="center"
             android:padding="10dp"
@@ -39,10 +37,9 @@
                 android:layout_height="wrap_content"
                 android:text="English"
                 android:textStyle="bold"
-                android:textSize="20dp"
                 android:gravity="center_vertical"
                 android:padding="2dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:textColor="@color/white"
                 />
             <TextView
@@ -51,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:text="05:00PM ~ 07:00PM"
                 android:textColor="@color/white"
-                android:textSize="17dp"
                 />
         </LinearLayout>
         <Button
@@ -67,10 +63,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:fontFamily="@font/gibson_regular"
+
         android:text="@string/course_specific_title"
         android:textStyle="bold"
-        android:textSize="17dp"
         />
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -85,8 +80,7 @@
             android:gravity="center_vertical"
             android:textColor="@color/colorText"
             android:text=""
-            android:fontFamily="@font/gibson_regular"
-            android:textSize="20dp"
+
             android:layout_marginLeft="10dp"
             />
     </androidx.cardview.widget.CardView>
@@ -94,8 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="17dp"
-        android:fontFamily="@font/gibson_regular"
+
         android:text="@string/course_general_thematic"
         android:textStyle="bold"
         />
@@ -112,8 +105,7 @@
             android:gravity="center_vertical"
             android:textColor="@color/colorText"
             android:layout_marginLeft="10dp"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
     </androidx.cardview.widget.CardView>
 
@@ -121,8 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="17dp"
-        android:fontFamily="@font/gibson_regular"
+
         android:text="@string/course_summary"
         android:textStyle="bold"
         />
@@ -138,9 +129,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:textSize="20dp"
             android:textColor="@color/colorText"
-            android:fontFamily="@font/gibson_regular"
+
             />
     </androidx.cardview.widget.CardView>
 
@@ -148,8 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="17dp"
-        android:fontFamily="@font/gibson_regular"
+
         android:text="@string/next_specific_title"
         android:textStyle="bold"
         />
@@ -166,8 +155,7 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textColor="@color/colorText"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
     </androidx.cardview.widget.CardView>
 
@@ -175,10 +163,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:fontFamily="@font/gibson_regular"
+
         android:text="@string/next_general_thematic"
         android:textStyle="bold"
-        android:textSize="17dp"
         />
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -192,19 +179,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textColor="@color/colorText"
-            android:textSize="20dp"
             android:gravity="center_vertical"
-            android:fontFamily="@font/gibson_regular"
+
             />
     </androidx.cardview.widget.CardView>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:fontFamily="@font/gibson_regular"
+
         android:text="@string/attachment_for_exercise"
         android:textStyle="bold"
-        android:textSize="17dp"
         />
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -222,15 +207,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
-                android:textSize="17dp"
+
                 />
             <TextView
                 android:id="@+id/txt_attachment_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/view_doc"
-                android:layout_marginLeft="20dp"
+
                 android:textColor="@color/colorPrimaryDark"
                 />
         </LinearLayout>
@@ -240,8 +224,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="17dp"
-        android:fontFamily="@font/gibson_regular"
+
         android:text="@string/comments_for_school"
         android:textStyle="bold"
         />
@@ -258,8 +241,7 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textColor="@color/colorText"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
     </androidx.cardview.widget.CardView>
 

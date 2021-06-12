@@ -320,6 +320,10 @@
     <string name="chat_from_">Chat de </string>
     <string name="permission_denied">Permission refusée.</string>
 
+    <string name="exams_per_month">Étudiants d´examens par mois</string>
+    <string name="monthly_top_members">Mensuel Meilleur Membres</string>
+    <string name="quarterly_top_members">Trimestriel Meilleur Membres</string>
+
 
 
 </resources>

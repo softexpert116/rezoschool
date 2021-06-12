@@ -13,8 +13,9 @@ public class Exam implements Serializable {
     public String course_name;
     public String course_coef;
     public String title;
+    public long timestamp;
 
-    public Exam(String _id, Date date, int num1, int num2, String school_id, String uid, String course_name, String course_coef, String title) {
+    public Exam(String _id, Date date, int num1, int num2, String school_id, String uid, String course_name, String course_coef, String title, long timestamp) {
         this._id = _id;
         this.date = date;
         this.num1 = num1;
@@ -24,6 +25,7 @@ public class Exam implements Serializable {
         this.course_name = course_name;
         this.course_coef = course_coef;
         this.title = title;
+        this.timestamp = timestamp;
     }
     public Exam() {
         this._id = "";
@@ -35,5 +37,6 @@ public class Exam implements Serializable {
         this.course_name = "";
         this.course_coef = "";
         this.title = "";
+        this.timestamp = 0;
     }
 }

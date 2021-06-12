@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Teacher;
 import com.ediattah.rezoschool.R;
@@ -72,6 +73,13 @@ public class SchoolListAdapter extends BaseAdapter {
             txt_public.setText(context.getResources().getString(R.string._private));
             txt_public.setBackgroundColor(Color.parseColor("#7f00ff"));
         }
+        Button btn_chat = view.findViewById(R.id.btn_chat);
+        btn_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                App.goToChatPage(context, school.uid);
+            }
+        });
         Button btn_remove = view.findViewById(R.id.btn_remove);
         if (flag_view) {
             btn_remove.setVisibility(View.GONE);

@@ -28,7 +28,6 @@
             android:hint="@string/search"
             android:inputType="text"
             android:imeOptions="actionSearch"
-            android:fontFamily="@font/gibson_regular"
             android:background="@android:color/transparent"
             />
     </RelativeLayout>

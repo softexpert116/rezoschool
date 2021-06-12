@@ -14,8 +14,11 @@ public class User implements Serializable {
     public String token;
     public boolean isAllow;
     public int status;
+    public String username;
+    public String password;
+    public String senderID;
 
-    public User(String _id, String name, String photo, String email, String phone, String country, String city, String type, String token, boolean isAllow, int status) {
+    public User(String _id, String name, String photo, String email, String phone, String country, String city, String type, String token, boolean isAllow, int status, String username_sms, String password_sms, String senderID) {
         this._id = _id;
         this.name = name;
         this.photo = photo;
@@ -27,6 +30,9 @@ public class User implements Serializable {
         this.token = token;
         this.isAllow = isAllow;
         this.status = status;
+        this.username = username_sms;
+        this.password = password_sms;
+        this.senderID = senderID;
     }
     public User() {
         this._id = "";
@@ -40,5 +46,8 @@ public class User implements Serializable {
         this.token = "";
         this.isAllow = false;
         this.status = 0;
+        this.username = "";
+        this.password = "";
+        this.senderID = "";
     }
 }

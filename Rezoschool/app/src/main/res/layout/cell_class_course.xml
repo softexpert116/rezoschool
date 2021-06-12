@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:padding="5dp"
-        android:background="@color/colorSubBackground"
+        android:background="@color/white"
         >
         <TextView
             android:id="@+id/txt_course"
@@ -19,9 +19,9 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:textStyle="bold"
-            android:textColor="@color/colorAccent"
-            android:textSize="25dp"
-            android:fontFamily="@font/gibson_regular"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+
             />
         <Button
             android:id="@+id/btn_remove"
@@ -42,10 +42,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Monday"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textColor="@color/colorText"
                 android:textStyle="bold"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <TextView
                 android:id="@+id/txt_time"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:text="12:00PM ~ 01:00PM"
                 android:layout_marginLeft="10dp"
-                android:textSize="18dp"
+                android:textSize="16dp"
                 android:padding="10dp"
                 android:background="@drawable/frame_round_dark"
                 android:textColor="@color/white"

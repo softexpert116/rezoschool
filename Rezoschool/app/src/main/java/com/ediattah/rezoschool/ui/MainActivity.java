@@ -48,6 +48,7 @@ import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.fragments.ExamFragment;
 import com.ediattah.rezoschool.fragments.MessageFragment;
 import com.ediattah.rezoschool.fragments.ProfileFragment;
+import com.ediattah.rezoschool.fragments.SchoolExamFragment;
 import com.ediattah.rezoschool.fragments.StudentSchoolFragment;
 import com.ediattah.rezoschool.fragments.TimeslotFragment;
 import com.ediattah.rezoschool.fragments.VideoFragment;
@@ -350,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportActionBar().hide();
             }
         });
-        ImageView img_logout = (ImageView)header.findViewById(R.id.img_lotout);
+        ImageView img_logout = (ImageView)header.findViewById(R.id.img_logout);
         img_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -609,7 +610,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             selectFragment(new VideoFragment());
             setTitle(getResources().getString(R.string.group_v_call));
         } else if (id == R.id.nav_exam) {
-            selectFragment(new ExamFragment());
+//            selectFragment(new ExamFragment());
+            selectFragment(new SchoolExamFragment());
             setTitle(getResources().getString(R.string.exam));
         }
 

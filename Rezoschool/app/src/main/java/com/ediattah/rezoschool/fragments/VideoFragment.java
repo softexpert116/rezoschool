@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class VideoFragment extends Fragment {
     ArrayList<VideoGroup> array_my = new ArrayList<>();
     ArrayList<VideoGroup> array_other = new ArrayList<>();
     ListView listView;
+    LinearLayout ly_my, ly_other;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +53,8 @@ public class VideoFragment extends Fragment {
         listView = v.findViewById(R.id.listView);
         videoGroupListAdapter = new VideoGroupListAdapter(activity, this, array_my);
         listView.setAdapter(videoGroupListAdapter);
+        ly_my = v.findViewById(R.id.ly_my);
+        ly_other = v.findViewById(R.id.ly_other);
         btn_my = v.findViewById(R.id.btn_my);
         btn_other = v.findViewById(R.id.btn_other);
         btn_my.setOnClickListener(new View.OnClickListener() {
@@ -110,20 +114,24 @@ public class VideoFragment extends Fragment {
         return v;
     }
     void setTab(int index) {
+        ly_my.setVisibility(View.INVISIBLE);
+        ly_other.setVisibility(View.INVISIBLE);
         if (index == 0) {
-            btn_other.setTextColor(Color.parseColor("#d0d0d0"));
-            btn_my.setTextColor(getResources().getColor(R.color.colorText));
-            btn_my.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
-            btn_other.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//            btn_other.setTextColor(Color.parseColor("#d0d0d0"));
+//            btn_my.setTextColor(getResources().getColor(R.color.colorText));
+//            btn_my.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
+//            btn_other.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             flag_my = true;
+            ly_my.setVisibility(View.VISIBLE);
 
             videoGroupListAdapter = new VideoGroupListAdapter(activity, VideoFragment.this, array_my);
         } else {
-            btn_my.setTextColor(Color.parseColor("#d0d0d0"));
-            btn_other.setTextColor(getResources().getColor(R.color.colorText));
-            btn_my.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            btn_other.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
+//            btn_my.setTextColor(Color.parseColor("#d0d0d0"));
+//            btn_other.setTextColor(getResources().getColor(R.color.colorText));
+//            btn_my.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//            btn_other.setBackgroundColor(getResources().getColor(R.color.colorMainBackground));
             flag_my = false;
+            ly_other.setVisibility(View.VISIBLE);
 
             videoGroupListAdapter = new VideoGroupListAdapter(activity, VideoFragment.this, array_other);
         }

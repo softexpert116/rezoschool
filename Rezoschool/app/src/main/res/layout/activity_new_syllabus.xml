@@ -20,8 +20,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
                 android:text="@string/date"
                 />
             <androidx.cardview.widget.CardView
@@ -35,9 +33,8 @@
                     android:layout_height="40dp"
                     android:inputType="text"
                     android:hint="01/01/2020"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:focusable="false"
                     android:background="@color/transparent"
                     android:paddingLeft="5dp"
@@ -49,9 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/school_number"
-                android:textSize="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -64,9 +60,8 @@
                     android:layout_height="40dp"
                     android:hint="@string/school_number"
                     android:focusable="false"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:inputType="text"
                     android:editable="false"
                     android:background="@color/transparent"
@@ -78,8 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/course_name"
-                android:fontFamily="@font/gibson_regular"
-                android:textSize="20dp"
+
                 android:layout_marginTop="10dp"
                 />
             <androidx.cardview.widget.CardView
@@ -92,9 +86,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:hint="@string/course_name"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:inputType="text"
                     android:paddingLeft="5dp"
                     android:focusable="false"
@@ -107,8 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="@string/timeslots"
                 />
 
@@ -127,8 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="@string/course_specific_title"
                 />
             <androidx.cardview.widget.CardView
@@ -142,9 +133,8 @@
                     android:layout_height="40dp"
                     android:inputType="text"
                     android:hint="@string/text"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:paddingLeft="5dp"
                     android:background="@color/transparent"
                     />
@@ -154,8 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="@string/course_general_thematic"
                 />
             <androidx.cardview.widget.CardView
@@ -170,9 +159,8 @@
                     android:inputType="text"
                     android:hint="@string/text"
                     android:background="@color/transparent"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:paddingLeft="5dp"
                     />
             </androidx.cardview.widget.CardView>
@@ -181,8 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="@string/course_summary"
                 />
             <androidx.cardview.widget.CardView
@@ -197,9 +184,8 @@
                     android:hint="@string/text"
                     android:background="@color/transparent"
                     android:padding="5dp"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     />
             </androidx.cardview.widget.CardView>
 
@@ -207,8 +193,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="@string/next_specific_title"
                 />
             <androidx.cardview.widget.CardView
@@ -222,10 +207,9 @@
                     android:layout_height="40dp"
                     android:inputType="text"
                     android:hint="@string/text"
-                    android:textSize="20dp"
                     android:background="@color/transparent"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:paddingLeft="5dp"
                     />
             </androidx.cardview.widget.CardView>
@@ -234,8 +218,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="@string/next_general_thematic"
                 />
             <androidx.cardview.widget.CardView
@@ -249,10 +232,9 @@
                     android:layout_height="40dp"
                     android:inputType="text"
                     android:hint="@string/text"
-                    android:textSize="20dp"
                     android:background="@color/transparent"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:paddingLeft="5dp"
                     />
             </androidx.cardview.widget.CardView>
@@ -261,8 +243,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="@string/attachment_for_exercise"
                 />
             <androidx.cardview.widget.CardView
@@ -278,9 +259,8 @@
                     android:focusable="false"
                     android:background="@color/transparent"
                     android:hint="@string/choose_file_pdf"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:paddingLeft="5dp"
                     />
             </androidx.cardview.widget.CardView>
@@ -289,8 +269,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="@string/comments_for_school"
                 />
             <androidx.cardview.widget.CardView
@@ -303,9 +282,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/text"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:padding="5dp"
                     android:background="@color/transparent"
                     />
@@ -318,7 +296,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
                 android:text="@string/create"
-                android:fontFamily="@font/gibson_bold"
                 android:textColor="@android:color/white"
                 android:background="@drawable/btn_round" />
         </LinearLayout>

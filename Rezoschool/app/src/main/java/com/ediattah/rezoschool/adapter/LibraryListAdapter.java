@@ -100,10 +100,10 @@ public class LibraryListAdapter extends BaseAdapter {
         });
         if (model.isPublic) {
             btn_public.setText(context.getResources().getString(R.string._private));
-            btn_public.setBackground(context.getDrawable(R.color.colorAccent));
+//            btn_public.setBackground(context.getDrawable(R.color.colorAccent));
         } else {
             btn_public.setText(context.getResources().getString(R.string._public));
-            btn_public.setBackground(context.getDrawable(R.color.colorPrimaryDark));
+//            btn_public.setBackground(context.getDrawable(R.color.colorPrimaryDark));
         }
         if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
             btn_remove.setVisibility(View.VISIBLE);

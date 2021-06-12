@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/colorSubBackground"
+        app:cardBackgroundColor="@color/white"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,10 +24,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/student"
                     android:textAlignment="center"
-                    android:background="@color/colorPrimaryDark"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimary"
                     android:padding="5dp"
-                    android:alpha="0.7"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -55,16 +53,14 @@
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:text="@string/name_"
-                                android:fontFamily="@font/gibson_regular"
-                                android:textSize="20dp"
+
                                 />
                             <TextView
                                 android:id="@+id/txt_student_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/gibson_regular"
+
                                 android:textColor="@color/colorText"
-                                android:textSize="20dp"
                                 />
                         </LinearLayout>
                         <LinearLayout
@@ -76,16 +72,14 @@
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:text="@string/class_"
-                                android:fontFamily="@font/gibson_regular"
-                                android:textSize="20dp"
+
                                 />
                             <TextView
                                 android:id="@+id/txt_student_class"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/gibson_regular"
+
                                 android:textColor="@color/colorText"
-                                android:textSize="20dp"
                                 />
                         </LinearLayout>
                         <LinearLayout
@@ -97,16 +91,14 @@
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:text="@string/level_"
-                                android:fontFamily="@font/gibson_regular"
-                                android:textSize="20dp"
+
                                 />
                             <TextView
                                 android:id="@+id/txt_student_level"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/gibson_regular"
+
                                 android:textColor="@color/colorText"
-                                android:textSize="20dp"
                                 />
                         </LinearLayout>
                     </LinearLayout>
@@ -125,14 +117,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/paid_"
-                            android:fontFamily="@font/gibson_regular"
-                            android:textSize="20dp"
+
                             />
                         <TextView
                             android:id="@+id/txt_paid"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/gibson_regular"
+
                             android:textColor="@color/colorText"
                             android:textSize="20dp"
                             />
@@ -146,14 +137,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/remain_"
-                            android:fontFamily="@font/gibson_regular"
-                            android:textSize="20dp"
+
                             />
                         <TextView
                             android:id="@+id/txt_remain"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/gibson_regular"
+
                             android:textColor="@color/colorText"
                             android:textSize="20dp"
                             />
@@ -171,11 +161,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/parent"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimary"
                     android:padding="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/colorAccent"
-                    android:alpha="0.7"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -286,7 +274,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_new"
-                android:fontFamily="@font/gibson_bold"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/frame_round"

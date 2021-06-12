@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="10dp"
-                android:background="@color/colorSubBackground"
+                android:background="@color/white"
                 >
 
                 <LinearLayout
@@ -31,8 +31,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="120dp"
                         android:text="Group Creator: "
-                        android:fontFamily="@font/gibson_regular"
-                        android:textSize="17dp"
+                        android:textColor="@color/colorText"
                         />
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/img_creator"
@@ -44,10 +43,8 @@
                         android:id="@+id/txt_creator"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:text="Olga"
+                        android:text=""
                         android:textColor="@color/colorText"
-                        android:fontFamily="@font/gibson_regular"
-                        android:textSize="20dp"
                         android:layout_marginLeft="5dp"
                         />
                 </LinearLayout>
@@ -60,18 +57,14 @@
                         android:layout_height="wrap_content"
                         android:layout_width="120dp"
                         android:text="Group Name: "
-                        android:fontFamily="@font/gibson_regular"
-                        android:textSize="17dp"
-                        />
+                        android:textColor="@color/colorText"                        />
                     <TextView
                         android:id="@+id/txt_name"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:text="MyGroup1"
+                        android:text=""
                         android:textStyle="bold"
                         android:textColor="@color/colorText"
-                        android:fontFamily="@font/gibson_regular"
-                        android:textSize="20dp"
                         android:layout_marginLeft="0dp"
                         />
                 </LinearLayout>
@@ -79,8 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="120dp"
                     android:text="Group Members: "
-                    android:fontFamily="@font/gibson_regular"
-                    android:textSize="17dp"
+                    android:textColor="@color/colorText"
                     />
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -103,7 +95,7 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:text="Video call"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/btn_round"
                     android:textColor="@color/white"
                     />

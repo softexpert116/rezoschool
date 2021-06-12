@@ -71,6 +71,9 @@ public class Utils {
     public static String tbl_group = "groups";
     public static String tbl_video_call = "video_call";
 
+    public static String USER_USERNAME = "username";
+    public static String USER_PASSWORD = "password";
+    public static String USER_SENDERID = "senderID";
     public static String USER_NAME = "name";
     public static String USER_TYPE = "type";
     public static String USER_EMAIL = "email";
@@ -232,6 +235,9 @@ public class Utils {
         }
         Quarter quarter = new Quarter(name, first_time, last_time);
         return quarter;
+    }
+    public static long getTimestamp() {
+        return System.currentTimeMillis()/1000;
     }
     public static long getTimestampFromDateString(String dateStr) {
         String str_date= dateStr; //"13-09-2011";

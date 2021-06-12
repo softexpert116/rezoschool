@@ -23,7 +23,7 @@
                     android:layout_margin="3dp"
                     android:padding="10dp"
                     android:gravity="center_vertical"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@color/white"
                     >
                     <ImageView
                         android:layout_width="30dp"
@@ -47,8 +47,8 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="textEnd"
                                 android:text="@string/auth_number_"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/gibson_regular"
+                                android:textColor="@color/colorText"
+
                                 />
                             <TextView
                                 android:id="@+id/txt_number"
@@ -56,8 +56,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:text="CP1A"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/gibson_regular"
+                                android:textColor="@color/colorText"
+
                                 />
                         </LinearLayout>
                         <LinearLayout
@@ -69,9 +69,9 @@
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="textEnd"
-                                android:textColor="@color/white"
+                                android:textColor="@color/colorText"
                                 android:text="@string/school_type_"
-                                android:fontFamily="@font/gibson_regular"
+
                                 />
                             <TextView
                                 android:id="@+id/txt_type"
@@ -79,8 +79,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:text="Primary"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/gibson_regular"
+                                android:textColor="@color/colorText"
+
                                 />
                         </LinearLayout>
                     </LinearLayout>
@@ -116,7 +116,18 @@
                 android:textSize="10dp"
                 android:textColor="@color/white"
                 android:gravity="center"
-                android:fontFamily="@font/gibson_regular"
+
+                />
+            <Button
+                android:id="@+id/btn_chat"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="50dp"
+                android:layout_alignParentEnd="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:background="@android:drawable/stat_notify_chat"
+                android:layout_marginTop="30dp"
                 />
         </RelativeLayout>
 

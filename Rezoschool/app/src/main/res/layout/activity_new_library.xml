@@ -16,8 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -33,9 +32,8 @@
                 android:inputType="text"
                 android:paddingLeft="5dp"
                 android:textColor="@color/colorText"
-                android:textSize="20dp"
                 android:background="@color/transparent"
-                android:fontFamily="@font/gibson_regular"
+
                 />
         </androidx.cardview.widget.CardView>
 
@@ -43,9 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/gibson_regular"
+
             android:text="@string/overview"
-            android:textSize="20dp"
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -60,8 +57,7 @@
                 android:singleLine="false"
                 android:gravity="start"
                 android:textColor="@color/colorText"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 android:paddingLeft="5dp"
                 android:background="@color/transparent"
                 />
@@ -72,8 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/url"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -85,7 +80,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:hint="@string/book_url"
-                android:textSize="20dp"
                 android:textColor="@color/colorText"
                 android:singleLine="true"
                 android:inputType="text"
@@ -99,8 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/category"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -112,7 +105,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:singleLine="true"
-                android:textSize="20dp"
                 android:hint="@string/category_name"
                 android:textColor="@color/colorText"
                 android:inputType="text"
@@ -135,14 +127,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/_public"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <RadioButton
                 android:id="@+id/radio_private"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="@string/_private"
                 />
         </RadioGroup>
@@ -153,7 +145,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/add"
-            android:fontFamily="@font/gibson_bold"
             android:textColor="@android:color/white"
             android:layout_marginBottom="10dp"
             android:background="@drawable/btn_round" />

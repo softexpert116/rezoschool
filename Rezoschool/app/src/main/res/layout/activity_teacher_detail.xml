@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2019-8"
-            android:fontFamily="@font/gibson_regular"
+
             android:textColor="@color/white"
             android:textSize="25dp"
             android:layout_marginTop="10dp"
@@ -37,7 +37,7 @@
         app:compactCalendarTextSize="18sp"
         app:compactCalendarBackgroundColor="@color/calendar_background"
         app:compactCalendarTextColor="#fff"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#E9A673"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/gray"
         app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
         app:compactCalendarMultiEventIndicatorColor="#2BDADA"
         />

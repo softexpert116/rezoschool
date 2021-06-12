@@ -74,34 +74,13 @@ public class TweetListAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(activity);
             view = inflater.inflate(R.layout.cell_tweet, null);
         }
-        final TextView txt_name = (TextView)view.findViewById(R.id.txt_name);
-        TextView txt_date = (TextView)view.findViewById(R.id.txt_date);
+//        TextView txt_date = (TextView)view.findViewById(R.id.txt_date);
         TextView txt_description = (TextView)view.findViewById(R.id.txt_description);
-        final CircleImageView img_user = view.findViewById(R.id.img_user);
         ImageView img_media = view.findViewById(R.id.img_media);
         TextView txt_like = view.findViewById(R.id.txt_like);
         TextView txt_dislike = view.findViewById(R.id.txt_dislike);
-        Utils.mDatabase.child(Utils.tbl_user).orderByKey().equalTo(tweet.uid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                            User user = childSnapshot.getValue(User.class);
-                            txt_name.setText(user.name);
-                            Glide.with(activity).load(user.photo).apply(new RequestOptions()
-                                    .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_user);
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                        Log.w( "loadPost:onCancelled", databaseError.toException());
-                        // ...
-                    }
-                });
-
-        txt_date.setText(tweet.date);
+//        txt_date.setText(tweet.date);
         txt_description.setText(tweet.description);
         txt_like.setText(String.valueOf(tweet.like));
         txt_dislike.setText(String.valueOf(tweet.dislike));
@@ -117,13 +96,6 @@ public class TweetListAdapter extends BaseAdapter {
             }
         });
 
-        ImageButton ibtn_comment = view.findViewById(R.id.ibtn_comment);
-        ibtn_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openCommentDialog(tweet);
-            }
-        });
         ImageButton ibtn_like = view.findViewById(R.id.ibtn_like);
         ibtn_like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,76 +120,9 @@ public class TweetListAdapter extends BaseAdapter {
             }
         });
 
-        // ui thread for updating view!!!
-        final View finalView = view;
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                final LinearLayout ly_feedback= finalView.findViewById(R.id.ly_feedback);
-                final LayoutInflater inflater = LayoutInflater.from(activity);
-                ly_feedback.removeAllViews();
-                for(Comment comment: tweet.comments) {
-                    View view1 = inflater.inflate(R.layout.cell_tweet_comment, null);
-                    TextView txt_comment = (TextView)view1.findViewById(R.id.txt_comment);
-                    TextView txt_date = (TextView)view1.findViewById(R.id.txt_date);
-                    final TextView txt_name = (TextView)view1.findViewById(R.id.txt_name);
-                    final ImageView img_publisher = (ImageView)view1.findViewById(R.id.img_publisher);
-                    txt_comment.setText(comment.comment);
-                    txt_date.setText(comment.date);
-
-                    Utils.mDatabase.child(Utils.tbl_user).orderByKey().equalTo(comment.uid)
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                                        User user = childSnapshot.getValue(User.class);
-                                        txt_name.setText(user.name);
-                                        Glide.with(activity).load(user.photo).apply(new RequestOptions()
-                                                .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_publisher);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    Log.w( "loadPost:onCancelled", databaseError.toException());
-                                }
-                            });
-                    ly_feedback.addView(view1);
-                }
-
-            }
-        });
         return view;
     }
-    public void openCommentDialog(final Tweet tweet) {
-        final Dialog dlg = new Dialog(activity);
-        Window window = dlg.getWindow();
-        View view = fragment.getLayoutInflater().inflate(R.layout.dialog_add_comment, null);
-        int width = (int)(fragment.getResources().getDisplayMetrics().widthPixels*0.85);
-        int height = (int)(fragment.getResources().getDisplayMetrics().heightPixels*0.25);
-        view.setMinimumWidth(width);
-        view.setMinimumHeight(height);
-        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dlg.setContentView(view);
-        window.setGravity(Gravity.CENTER);
-        dlg.show();
-        final EditText edit_comment = (EditText)view.findViewById(R.id.edit_comment);
-        Button btn_add = (Button)view.findViewById(R.id.btn_add);
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String txt_comment = edit_comment.getText().toString().trim();
-                if (txt_comment.length() == 0) {
-                    Utils.showAlert(activity, activity.getResources().getString(R.string.warning), activity.getResources().getString(R.string.please_fill_in_blank_field));
-                    return;
-                }
-                Comment comment = new Comment("", Utils.mUser.getUid(), txt_comment, Utils.getCurrentDateString());
-                tweet.comments.add(comment);
-                Utils.mDatabase.child(Utils.tbl_tweet).child(tweet._id).child("comments").setValue(tweet.comments);
-                dlg.dismiss();
-                Toast.makeText(activity, activity.getResources().getString(R.string.you_committed_successfully), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+
     public void openReportDialog(final Tweet tweet) {
         final Dialog dlg = new Dialog(activity);
         Window window = dlg.getWindow();

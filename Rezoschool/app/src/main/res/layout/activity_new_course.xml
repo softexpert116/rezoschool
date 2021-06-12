@@ -20,8 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_class"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -38,9 +37,8 @@
                     android:focusable="false"
                     android:editable="false"
                     android:paddingLeft="5dp"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:background="@color/transparent"
                     />
             </androidx.cardview.widget.CardView>
@@ -49,9 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/course"
-                android:textSize="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -66,9 +63,8 @@
                     android:inputType="text"
                     android:singleLine="true"
                     android:paddingLeft="5dp"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:background="@color/transparent"
                     />
             </androidx.cardview.widget.CardView>
@@ -76,9 +72,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/coefficient_max"
-                android:textSize="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -94,9 +89,8 @@
                     android:inputType="number"
                     android:singleLine="true"
                     android:paddingLeft="5dp"
-                    android:textSize="20dp"
                     android:textColor="@color/colorText"
-                    android:fontFamily="@font/gibson_regular"
+
                     android:background="@color/transparent"
                     />
             </androidx.cardview.widget.CardView>
@@ -105,8 +99,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/weekdays"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <com.dpro.widgets.WeekdaysPicker
                 android:id="@+id/weekdays"
@@ -126,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/start_time"
                     android:layout_centerVertical="true"
-                    android:fontFamily="@font/gibson_regular"
+
                     />
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -172,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/end_time"
                     android:layout_centerVertical="true"
-                    android:fontFamily="@font/gibson_regular"
+
                     />
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -223,7 +216,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
                 android:text="@string/create"
-                android:fontFamily="@font/gibson_bold"
                 android:textColor="@android:color/white"
                 android:background="@drawable/btn_round" />
         </LinearLayout>

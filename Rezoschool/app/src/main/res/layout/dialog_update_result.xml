@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Update Result"
-            android:fontFamily="@font/gibson_regular"
+
             android:textSize="22dp"
             android:textColor="@color/white"
             />
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"
                 android:text="Result: "
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <EditText
                 android:id="@+id/edit_result"
@@ -47,7 +47,7 @@
                 android:layout_marginRight="20dp"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
-                android:fontFamily="@font/gibson_regular"
+
                 />
         </LinearLayout>
         <Button

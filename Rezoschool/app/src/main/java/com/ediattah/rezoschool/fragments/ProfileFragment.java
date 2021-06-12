@@ -83,6 +83,9 @@ public class ProfileFragment extends Fragment {
         TextView txt_type = v.findViewById(R.id.txt_type);
         txt_type.setText(Utils.currentUser.type);
         LinearLayout ly_school = (LinearLayout) v.findViewById(R.id.ly_school);
+//        final EditText edit_username = (EditText)v.findViewById(R.id.edit_username_sms);
+//        final EditText edit_password = (EditText)v.findViewById(R.id.edit_password_sms);
+//        final EditText edit_senderID = (EditText)v.findViewById(R.id.edit_senderID_sms);
         final EditText edit_name = (EditText)v.findViewById(R.id.edit_name);
         final EditText edit_email = (EditText)v.findViewById(R.id.edit_email);
         EditText edit_country = (EditText)v.findViewById(R.id.edit_country);
@@ -149,6 +152,9 @@ public class ProfileFragment extends Fragment {
                 txt_available.setBackgroundColor(activity.getResources().getColor(R.color.white));
             }
         });
+//        edit_username.setText(Utils.currentUser.username);
+//        edit_password.setText(Utils.currentUser.password);
+//        edit_senderID.setText(Utils.currentUser.senderID);
         edit_name.setText(Utils.currentUser.name);
         edit_email.setText(Utils.currentUser.email);
         edit_phone.setText(Utils.currentUser.phone);
@@ -179,6 +185,9 @@ public class ProfileFragment extends Fragment {
             ly_school.setVisibility(View.GONE);
         }
 
+//        edit_username.setEnabled(false);
+//        edit_password.setEnabled(false);
+//        edit_senderID.setEnabled(false);
         edit_name.setEnabled(false);
         edit_email.setEnabled(false);
         edit_city.setEnabled(false);
@@ -196,6 +205,9 @@ public class ProfileFragment extends Fragment {
                     fab.setTag("save");
                     fab.setImageDrawable(activity.getResources().getDrawable(android.R.drawable.ic_menu_save));
 
+//                    edit_username.setEnabled(true);
+//                    edit_password.setEnabled(true);
+//                    edit_senderID.setEnabled(true);
                     edit_name.setEnabled(true);
                     edit_email.setEnabled(true);
                     edit_city.setEnabled(true);
@@ -215,6 +227,9 @@ public class ProfileFragment extends Fragment {
                     fab.setTag("edit");
                     fab.setImageDrawable(activity.getResources().getDrawable(android.R.drawable.ic_menu_edit));
 
+//                    edit_username.setEnabled(false);
+//                    edit_password.setEnabled(false);
+//                    edit_senderID.setEnabled(false);
                     edit_name.setEnabled(false);
                     edit_email.setEnabled(false);
                     edit_city.setEnabled(false);
@@ -228,6 +243,9 @@ public class ProfileFragment extends Fragment {
 
 
 
+//                    final String username_sms = edit_username.getText().toString().trim();
+//                    final String password_sms = edit_password.getText().toString().trim();
+//                    final String senderID_sms = edit_senderID.getText().toString().trim();
                     final String name = edit_name.getText().toString().trim();
                     final String email = edit_email.getText().toString().trim();
                     final String city = edit_city.getText().toString().trim();
@@ -299,9 +317,13 @@ public class ProfileFragment extends Fragment {
             Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_PHOTO).setValue(downloadUrl);
             Utils.currentUser.photo = downloadUrl;
         }
+//        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_USERNAME).setValue(username_sms);
+//        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_PASSWORD).setValue(password_sms);
+//        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_SENDERID).setValue(senderID_sms);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_EMAIL).setValue(email);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_CITY).setValue(city);
         Utils.currentUser.name = name; Utils.currentUser.email = email; Utils.currentUser.city = city;
+//        Utils.currentUser.username = username_sms; Utils.currentUser.password = password_sms; Utils.currentUser.senderID = senderID_sms;
         if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
             Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child(Utils.SCHOOL_NUMBER).setValue(school_number);
             Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child(Utils.SCHOOL_TYPE).setValue(type);

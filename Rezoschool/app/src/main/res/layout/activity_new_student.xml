@@ -16,7 +16,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:fontFamily="@font/gibson_bold"
             />
         <EditText
             android:id="@+id/edit_name"
@@ -126,14 +125,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="New Student"
-                android:fontFamily="@font/gibson_regular"
+
                 />
             <RadioButton
                 android:id="@+id/radio_old"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gibson_regular"
+
                 android:text="Old Student"
                 />
         </RadioGroup>

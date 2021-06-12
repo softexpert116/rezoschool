@@ -36,7 +36,7 @@
             android:textAlignment="center"
             android:text="Your payment is under queue. Please click the below button to complete your payment."
             android:textColor="@color/colorPrimary"
-            android:fontFamily="@font/gibson_regular"
+
             android:textSize="18dp"
             />
         <Button

@@ -16,8 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/teacher"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -31,11 +30,10 @@
                 android:hint="@string/teacher_name"
                 android:inputType="text"
                 android:singleLine="true"
-                android:textSize="20dp"
                 android:focusable="false"
                 android:editable="false"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
+
                 android:paddingLeft="5dp"
                 android:background="@color/transparent"
                 />
@@ -45,8 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/gibson_regular"
-            android:textSize="20dp"
+
             android:text="@string/course"
             />
         <androidx.cardview.widget.CardView
@@ -63,10 +60,9 @@
                 android:focusable="false"
                 android:paddingLeft="5dp"
                 android:editable="false"
-                android:textSize="20dp"
                 android:background="@color/transparent"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
+
                 />
         </androidx.cardview.widget.CardView>
 

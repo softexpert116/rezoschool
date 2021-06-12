@@ -16,8 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/student"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -31,11 +30,10 @@
                 android:hint="@string/student_name"
                 android:inputType="text"
                 android:singleLine="true"
-                android:textSize="20dp"
                 android:enabled="false"
                 android:editable="false"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
+
                 android:paddingLeft="5dp"
                 android:background="@color/transparent"
                 />
@@ -46,8 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/level"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -65,9 +62,8 @@
                 android:singleLine="true"
                 android:paddingLeft="5dp"
                 android:background="@color/transparent"
-                android:textSize="20dp"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
+
                 />
         </androidx.cardview.widget.CardView>
 
@@ -76,8 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/fee_per_month_xof"
-            android:textSize="20dp"
-            android:fontFamily="@font/gibson_regular"
+
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -95,9 +90,8 @@
                 android:enabled="false"
                 android:background="@color/transparent"
                 android:editable="false"
-                android:textSize="20dp"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
+
                 />
         </androidx.cardview.widget.CardView>
 
@@ -106,9 +100,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/gibson_regular"
+
             android:text="@string/amount_xof"
-            android:textSize="20dp" />
+            />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -122,9 +116,8 @@
                 android:hint="0.00"
                 android:paddingLeft="5dp"
                 android:background="@color/transparent"
-                android:textSize="20dp"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
+
                 />
         </androidx.cardview.widget.CardView>
 
@@ -132,9 +125,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/gibson_regular"
+
             android:text="@string/merchant_id"
-            android:textSize="20dp"
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -149,9 +141,8 @@
                 android:hint="1234"
                 android:paddingLeft="5dp"
                 android:background="@color/transparent"
-                android:textSize="20dp"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/gibson_regular"
+
                 />
         </androidx.cardview.widget.CardView>
 
@@ -159,8 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/gibson_regular"
-            android:textSize="20dp"
+
             android:text="@string/choose_method"
             />
         <RadioGroup
@@ -200,8 +190,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorText"
             android:text="@string/mobile_number"
-            android:fontFamily="@font/gibson_regular"
-            android:textSize="18dp"
             android:layout_marginTop="10dp"
             />
         <Button
@@ -211,7 +199,6 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/pay"
-            android:fontFamily="@font/gibson_bold"
             android:textColor="@android:color/white"
             android:background="@drawable/btn_round" />
     </LinearLayout>

@@ -45,7 +45,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:background="@drawable/frame_border"
             android:layout_marginTop="20dp"
             >
@@ -58,7 +58,6 @@
                 android:inputType="text|textMultiLine"
                 android:gravity="top"
                 android:padding="5dp"
-                android:fontFamily="@font/gibson_regular"
                 android:textColor="@color/colorText"
                 android:background="@null"
                 />
@@ -69,7 +68,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/create"
-            android:fontFamily="@font/gibson_bold"
             android:textColor="@android:color/white"
             android:background="@drawable/btn_round" />
 

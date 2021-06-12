@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#10B1A0</color>
-    <color name="colorPrimaryLight">#1EC6AE</color>
-    <color name="colorPrimaryDark">#04917E</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="blue">#031cd7</color>
+    <color name="colorPrimary">#F77F00</color>
+    <color name="colorPrimaryLight">#FDA74B</color>
+    <color name="colorPrimaryDark">#CF7302</color>
+    <color name="colorAccent">#000053</color>
+    <color name="colorAccentLight">#7474CF</color>
+    <color name="blue">#000053</color>
     <color name="white">#ffffff</color>
     <color name="white_background">#efefef</color>
     <color name="transparent">#00000000</color>
     <color name="off_white">#f5f2d0</color>
     <color name="grey">#A9A9A9</color>
-    <color name="calendar_background">#17AF99</color>
-    <color name="colorMainBackground">#D9F4E9</color>
-    <color name="colorSubBackground">#A9F1D3</color>
-    <color name="colorText">#222222</color>
+    <color name="calendar_background">#FDA74B</color>
+    <color name="colorMainBackground">#e0e0e0</color>
+    <color name="colorSubBackground">#efefef</color>
+    <color name="colorText">#111111</color>
+    <color name="orange">#F77F00</color>
+    <color name="orange_dark">#FF8C00</color>
+    <color name="coral">#FF7F50</color>
+
 </resources>

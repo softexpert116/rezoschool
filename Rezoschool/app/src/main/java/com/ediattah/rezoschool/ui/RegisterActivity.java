@@ -56,6 +56,9 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         App.hideKeyboard(this);
 
+//        final EditText edit_username = (EditText)findViewById(R.id.edit_username_sms);
+//        final EditText edit_password = (EditText)findViewById(R.id.edit_password_sms);
+//        final EditText edit_senderID = (EditText)findViewById(R.id.edit_senderID_sms);
         final EditText edit_name = (EditText)findViewById(R.id.edit_name);
         final EditText edit_country = (EditText)findViewById(R.id.edit_country);
         final EditText edit_phone = (EditText)findViewById(R.id.edit_phone);
@@ -96,6 +99,9 @@ public class RegisterActivity extends AppCompatActivity {
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                String username_sms = edit_username.getText().toString().trim();
+//                String password_sms = edit_password.getText().toString().trim();
+//                String senderID_sms = edit_senderID.getText().toString().trim();
                 String email = edit_email.getText().toString().trim();
                 String name = edit_name.getText().toString().trim();
                 school_number = edit_school_number.getText().toString().trim();
@@ -104,6 +110,8 @@ public class RegisterActivity extends AppCompatActivity {
                 country_code1 = countryCodePicker1.getSelectedCountryCode();
                 String token = Utils.getDeviceToken(RegisterActivity.this);
                 number1 = edit_phone1.getText().toString().trim();
+                number1 = number1.replace(" ", "");
+                number1 = number1.replace("-", "");
                 String phone = country_code + number;
                 phone1 = country_code1 + number1;
                 if (email.length()*name.length()*city.length() == 0) {
@@ -124,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
 
-                User user = new User("", name, "", email, phone, country, city, Utils.currentUser.type, token, true, 0);
+                User user = new User("", name, "", email, phone, country, city, Utils.currentUser.type, token, true, 0, "", "", "");
                 userRegister(user);
             }
         });
@@ -406,7 +414,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Class sel_class = array_class.get(classAdapter.sel_index);
                 Student student = new Student(Utils.mUser.getUid(), parent_id, school_id, sel_class.name, isNew, false);
                 Utils.currentSchool.students.add(student);
-                Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child("students").setValue(Utils.currentSchool.students);
+                Utils.mDatabase.child(Utils.tbl_school).child(school_id).child("students").push().setValue(Utils.currentSchool.students);
                 HashMap hashMap = new HashMap<String, String>();           //some random data
                 hashMap.put("parent_id", parent_id);
                 hashMap.put("student_id", Utils.mUser.getUid());
