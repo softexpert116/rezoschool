@@ -38,14 +38,9 @@ import com.ediattah.rezoschool.Model.Tweet;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
-import com.ediattah.rezoschool.adapter.ClassListAdapter;
-import com.ediattah.rezoschool.adapter.SchoolCourseListAdapter;
 import com.ediattah.rezoschool.adapter.UserListAdapter;
 import com.ediattah.rezoschool.ui.ExamActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
-import com.ediattah.rezoschool.ui.StudentDetailActivity;
-import com.ediattah.rezoschool.ui.TweetDetailActivity;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -75,9 +70,7 @@ public class SchoolExamFragment extends Fragment {
     ArrayList<String> m_sorted, q_sorted;
     ArrayList<User> array_user = new ArrayList<>();
     User sel_student;
-//    Course sel_course;
-//    Class sel_class;
-    Button btn_student, btn_course, btn_class;
+    Button btn_student;
     MaterialSpinner spinner0, spinner11, spinner12, spinner21, spinner22, spinner_year0, spinner_year1, spinner_year2;
     List<String> periodList = new ArrayList<>();
     List<String> courseList = new ArrayList<>();
@@ -143,6 +136,13 @@ public class SchoolExamFragment extends Fragment {
                 loadExams(1);
             }
         });
+        spinner_year2.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                sel_year2 = Integer.valueOf(yearList.get(position))-2000+100;
+                loadExams(2);
+            }
+        });
         spinner11.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
@@ -150,6 +150,12 @@ public class SchoolExamFragment extends Fragment {
                     return;
                 }
                 loadExams(1);
+            }
+        });
+        spinner21.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                loadExams(2);
             }
         });
         spinner12.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
@@ -161,13 +167,61 @@ public class SchoolExamFragment extends Fragment {
                 loadExams(1);
             }
         });
+        spinner22.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                loadExams(2);
+                String _sel_course = courseList.get(spinner22.getSelectedIndex());
+                String _sel_course_name = "";
+                for (Course course:App.school_courses) {
+                    if (_sel_course.contains(course.name)) {
+                        _sel_course_name = course.name;
+                        break;
+                    }
+                }
+
+                img_teacher.setImageResource(R.drawable.default_user);
+                txt_teacher.setText("");
+                if (_sel_course_name.equals("")) return;
+                for (Teacher teacher:Utils.currentSchool.teachers) {
+                    if (teacher.courses.contains(_sel_course_name)) {
+                        Utils.mDatabase.child(Utils.tbl_user).child(teacher.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue() != null) {
+                                    User user = dataSnapshot.getValue(User.class);
+                                    user._id = dataSnapshot.getKey();
+                                    txt_teacher.setText(user.name);
+                                    try {
+                                        Glide.with(activity).load(user.photo).apply(new RequestOptions()
+                                                .placeholder(R.drawable.default_pic).centerCrop().dontAnimate()).into(img_teacher);
+                                    }catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                System.out.println("The read failed: " + databaseError.getCode());
+                            }
+                        });
+                        break;
+                    }
+                }
+
+            }
+        });
         spinner0.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                /*
                 String _sel_course = courseList.get(position);
+                examArr = new ArrayList<>();
                 for (int i = 0; i < 12; i++) {
-                    examArr.set(i, 0.0f);
+                    examArr.add(0.0f);
                 }
+                xArr = new ArrayList<String>(monthList);
                 Utils.mDatabase.child(Utils.tbl_exam).orderByChild("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
@@ -178,10 +232,11 @@ public class SchoolExamFragment extends Fragment {
                                 exam._id = datas.getKey();
                                 if (!exam.school_id.equals(Utils.currentSchool._id)) continue;
                                 if (sel_year0 != exam.date.getYear()) continue;
+                                int _month = exam.date.getMonth();
                                 if (_sel_course.equals("All")) {
-                                    examArr.set(exam.date.getMonth(), examArr.get(exam.date.getMonth())+1);
+                                    examArr.set(_month, examArr.get(_month)+1);
                                 } else if (_sel_course.equals(exam.course_name + " x " + exam.course_coef)) {
-                                    examArr.set(exam.date.getMonth(), examArr.get(exam.date.getMonth())+1);
+                                    examArr.set(_month, examArr.get(_month)+1);
                                 }
                             }
                             initChart(chartView, initGraphData(examArr));
@@ -193,6 +248,9 @@ public class SchoolExamFragment extends Fragment {
 
                     }
                 });
+
+                 */
+                loadExams(0);
             }
         });
 
@@ -204,33 +262,14 @@ public class SchoolExamFragment extends Fragment {
             }
         });
 
-//        btn_course = v.findViewById(R.id.btn_course);
-//        btn_course.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openAddCourseDialog();
-//            }
-//        });
-//        btn_class = v.findViewById(R.id.btn_class);
-//        btn_class.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openAddClassDialog();
-//            }
-//        });
         img_student = v.findViewById(R.id.img_student);
         img_teacher = v.findViewById(R.id.img_teacher);
         txt_teacher = v.findViewById(R.id.txt_teacher);
         chartView = (NChart) v.findViewById(R.id.chartView);
         chartViewStudent = (NChart) v.findViewById(R.id.chartViewStudent);
         chartViewTeacher = (NChart) v.findViewById(R.id.chartViewTeacher);
-        chartViewClass = (NChart) v.findViewById(R.id.chartViewClass);
         ly_month = v.findViewById(R.id.ly_month);
         ly_quarter = v.findViewById(R.id.ly_quarter);
-//        initMonthlyTop(); initQuarterlyTop();
-
-
-
 
         Button btn_exam = v.findViewById(R.id.btn_exam);
         btn_exam.setOnClickListener(new View.OnClickListener() {
@@ -241,15 +280,9 @@ public class SchoolExamFragment extends Fragment {
             }
         });
 
-        for (int i = 0; i < Utils.currentSchool.students.size(); i++) {
-            Student student = Utils.currentSchool.students.get(i);
-            if (!student.isAllow) continue;
-            st_array.add(i, Utils.currentSchool.students.get(i).uid);
-            m_array.add(i, 0.0f);
-            q_array.add(i, 0.0f);
-        }
         loadExams(0);
         read_students();
+
         return v;
     }
     void loadExams(int type) {
@@ -263,6 +296,16 @@ public class SchoolExamFragment extends Fragment {
         int index21 = spinner21.getSelectedIndex();
         switch (type) {
             case 0:
+                st_array = new ArrayList<>();
+                m_array = new ArrayList<>();
+                q_array = new ArrayList<>();
+                for (int i = 0; i < Utils.currentSchool.students.size(); i++) {
+                    Student student = Utils.currentSchool.students.get(i);
+                    if (!student.isAllow) continue;
+                    st_array.add(i, Utils.currentSchool.students.get(i).uid);
+                    m_array.add(i, 0.0f);
+                    q_array.add(i, 0.0f);
+                }
                 n = 12;
                 xArr = new ArrayList<String>(monthList);
                 break;
@@ -276,12 +319,15 @@ public class SchoolExamFragment extends Fragment {
                 } else if (index11 == 0) {
                     n = 0;
                 }
+                break;
             case 2:
-                if (index11 == 1) {
+                if (index21 == 1) {
                     n = 12;
-                } else if (index11 == 2) {
+                    xArr = new ArrayList<String>(monthList);
+                } else if (index21 == 2) {
                     n = 4;
-                } else if (index11 == 0) {
+                    xArr = new ArrayList<String>(quartList);
+                } else if (index21 == 0) {
                     n = 0;
                 }
                 break;
@@ -300,59 +346,60 @@ public class SchoolExamFragment extends Fragment {
                         Exam exam = datas.getValue(Exam.class);
                         exam._id = datas.getKey();
                         if (!exam.school_id.equals(Utils.currentSchool._id)) continue;
-
+                        float res = (float) exam.num1 / exam.num2;
                         int _month = exam.date.getMonth();
                         int _date = exam.date.getDate();
                         if (type == 0) {
                             if (sel_year0 != exam.date.getYear()) continue;
+                            String _sel_course = courseList.get(spinner0.getSelectedIndex());
+                            if (!_sel_course.equals("All")) {
+                                if (!_sel_course.equals(exam.course_name + " x " + exam.course_coef)) {
+                                    continue;
+                                }
+                            }
                             examArr.set(_month, examArr.get(_month)+1);
                             for (int j = 0; j < st_array.size(); j++) {
                                 if (exam.uid.equals(st_array.get(j))) {
                                     if (month == exam.date.getMonth()) {
-                                        float val = (float) exam.num1 / exam.num2;
                                         if (m_array.get(j) > 0) {
-                                            m_array.set(j, (m_array.get(j) + val) / 2);
+                                            m_array.set(j, (m_array.get(j) + res) / 2);
                                         } else {
-                                            m_array.set(j, (m_array.get(j) + val));
+                                            m_array.set(j, (m_array.get(j) + res));
                                         }
                                     }
                                     if (month >= 0 && month < 3) {
                                         if (_month >= 0 && _month < 3) {
-                                            float val = (float) exam.num1 / exam.num2;
                                             if (q_array.get(j) > 0) {
-                                                q_array.set(j, (q_array.get(j) + val) / 2);
+                                                q_array.set(j, (q_array.get(j) + res) / 2);
                                             } else {
-                                                q_array.set(j, (q_array.get(j) + val));
+                                                q_array.set(j, (q_array.get(j) + res));
                                             }
                                         }
                                     }
                                     if (month >= 3 && month < 6) {
                                         if (_month >= 3 && _month < 6) {
-                                            float val = (float) exam.num1 / exam.num2;
                                             if (q_array.get(j) > 0) {
-                                                q_array.set(j, (q_array.get(j) + val) / 2);
+                                                q_array.set(j, (q_array.get(j) + res) / 2);
                                             } else {
-                                                q_array.set(j, (q_array.get(j) + val));
+                                                q_array.set(j, (q_array.get(j) + res));
                                             }
                                         }
                                     }
                                     if (month >= 6 && month < 9) {
                                         if (_month >= 6 && _month < 9) {
-                                            float val = (float) exam.num1 / exam.num2;
                                             if (q_array.get(j) > 0) {
-                                                q_array.set(j, (q_array.get(j) + val) / 2);
+                                                q_array.set(j, (q_array.get(j) + res) / 2);
                                             } else {
-                                                q_array.set(j, (q_array.get(j) + val));
+                                                q_array.set(j, (q_array.get(j) + res));
                                             }
                                         }
                                     }
                                     if (month >= 9 && month < 12) {
                                         if (_month >= 9 && _month < 12) {
-                                            float val = (float) exam.num1 / exam.num2;
                                             if (q_array.get(j) > 0) {
-                                                q_array.set(j, (q_array.get(j) + val) / 2);
+                                                q_array.set(j, (q_array.get(j) + res) / 2);
                                             } else {
-                                                q_array.set(j, (q_array.get(j) + val));
+                                                q_array.set(j, (q_array.get(j) + res));
                                             }
                                         }
                                     }
@@ -369,12 +416,10 @@ public class SchoolExamFragment extends Fragment {
                                     continue;
                                 }
                             }
-                            float res = (float) exam.num1 / exam.num2;
-                            int index = spinner11.getSelectedIndex();
-                            switch (index) {
+                            switch (spinner11.getSelectedIndex()) {
                                 case 0:
                                     examArr.add(res);
-                                    xArr.add(String.valueOf(_month+1) + "/" + String.valueOf(_date));
+                                    xArr.add((_month + 1) + "/" + _date);
                                     break;
                                 case 1:
                                     if (examArr.get(_month) == 0) {
@@ -417,29 +462,66 @@ public class SchoolExamFragment extends Fragment {
                                 default:
                             }
                         } else if (type == 2) {
-//                            if (!exam.course_name.equals(sel_course.name) || !exam.course_coef.equals(sel_course.coef)) {
-//                                continue;
-//                            }
-//                            float res = (float) exam.num1 / exam.num2;
-//                            if (intArray[_month] == 0) {
-//                                intArray[_month] += res;
-//                            } else {
-//                                intArray[_month] += res;
-//                                intArray[_month] /= 2;
-//                            }
-                        } else if (type == 3) {
-//                            for (Course course : sel_class.courses) {
-//                                if (course.name.equals(exam.course_name) && course.coef.equals(exam.course_coef)) {
-//                                    float res = (float) exam.num1 / exam.num2;
-//                                    if (intArray[_month] == 0) {
-//                                        intArray[_month] += res;
-//                                    } else {
-//                                        intArray[_month] += res;
-//                                        intArray[_month] /= 2;
-//                                    }
-//                                    break;
-//                                }
-//                            }
+                            if (sel_year2 != exam.date.getYear()) continue;
+                            String _sel_course = courseList.get(spinner22.getSelectedIndex());
+                            if (!_sel_course.equals("All")) {
+                                if (!_sel_course.equals(exam.course_name + " x " + exam.course_coef)) {
+                                    continue;
+                                }
+                            }
+                            switch (spinner21.getSelectedIndex()) {
+                                case 0:
+                                    String xKey = (_month + 1) + "/" + _date;
+                                    if (xArr.contains(xKey)) {
+                                        int ii = xArr.indexOf(xKey);
+                                        float val = examArr.get(ii);
+                                        examArr.set(ii, (val+res)/2);
+                                    } else {
+                                        examArr.add(res);
+                                        xArr.add(xKey);
+                                    }
+                                    break;
+                                case 1:
+                                    if (examArr.get(_month) == 0) {
+                                        examArr.set(_month, res);
+                                    } else {
+                                        examArr.set(_month, (examArr.get(_month)+res)/2);
+                                    }
+                                    break;
+                                case 2:
+                                    if (_month >= 0 && _month < 3) {
+                                        if (examArr.get(0) == 0) {
+                                            examArr.set(0, res);
+                                        } else {
+                                            examArr.set(0, (examArr.get(0)+res)/2);
+                                        }
+                                    }
+                                    if (_month >= 3 && _month < 6) {
+                                        if (examArr.get(1) == 0) {
+                                            examArr.set(1, res);
+                                        } else {
+                                            examArr.set(1, (examArr.get(1)+res)/2);
+                                        }
+                                    }
+                                    if (_month >= 6 && _month < 9) {
+                                        if (examArr.get(2) == 0) {
+                                            examArr.set(2, res);
+                                        } else {
+                                            examArr.set(2, (examArr.get(2)+res)/2);
+                                        }
+                                    }
+                                    if (_month >= 9 && _month < 12) {
+                                        if (examArr.get(3) == 0) {
+                                            examArr.set(3, res);
+                                        } else {
+                                            examArr.set(3, (examArr.get(3)+res)/2);
+                                        }
+                                    }
+                                    break;
+
+                                default:
+                            }
+
                         }
 
                     }
@@ -449,18 +531,22 @@ public class SchoolExamFragment extends Fragment {
                     ArrayList<String> tmpArr = new ArrayList<>(st_array);
                     m_sorted = sortWithIndex(st_array,m_array);
                     q_sorted = sortWithIndex(tmpArr,q_array);
-                    initMonthlyTop();
-                    initQuarterlyTop();
-                } else if (type == 1) {
-                    try {
-                        initChart(chartViewStudent, initGraphData(examArr));
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if (Utils.checkZeroArray(m_array)) {
+                        ly_month.removeAllViews();
+                    } else {
+                        initMonthlyTop();
                     }
+                    if (Utils.checkZeroArray(q_array)) {
+                        ly_quarter.removeAllViews();
+                    } else {
+                        initQuarterlyTop();
+                    }
+
+                    loadExams(2);
+                } else if (type == 1) {
+                    initChart(chartViewStudent, initGraphData(examArr));
                 } else if (type == 2) {
-//                    initChart(chartViewCourse, initGraphData(intArray));
-                } else if (type == 3) {
-//                    initChart(chartViewClass, initGraphData(intArray));
+                    initChart(chartViewTeacher, initGraphData(examArr));
                 }
             }
 
@@ -567,7 +653,7 @@ public class SchoolExamFragment extends Fragment {
         nChart.setBarWidth(40);
         nChart.setInterval(10);
         nChart.setAbove(0);
-        nChart.setSelectedModed(NChart.SelectedMode.selecetdMsgShow);
+        nChart.setSelectedModed(NChart.SelectedMode.selectedActivated);
         nChart.setBarStanded(7);
         nChart.setNormalColor(getResources().getColor(R.color.colorPrimary));
         nChart.cmdFill(data);

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -13,10 +15,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
@@ -32,6 +37,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,15 +47,20 @@ public class ExamActivity extends AppCompatActivity {
     ArrayList<User> array_user = new ArrayList<>();
     User sel_user;
     Class sel_class;
+    Course sel_course;
     EditText edit_class, edit_student, edit_course, edit_title, edit_date, edit_num1, edit_num2, edit_coef;
     //    Course sel_course;
     Date sel_date;
+    String parent_mobile = "", school_name = "", title = "";
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getResources().getString(R.string.view_exams));
+        progressDialog = new ProgressDialog(this);
 
         App.hideKeyboard(this);
         edit_class = findViewById(R.id.edit_class);
@@ -120,7 +131,10 @@ public class ExamActivity extends AppCompatActivity {
                 if (sel_user == null || edit_course.getText().toString().length() == 0 || sel_date == null || edit_title.getText().toString().trim().length() == 0 || edit_num1.getText().toString().trim().length() == 0 || edit_num2.getText().toString().trim().length() == 0) {
                     Utils.showAlert(ExamActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                 } else {
-                    String title = edit_title.getText().toString().trim();
+                    progressDialog.setMessage("Processing...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                    title = edit_title.getText().toString().trim();
                     String num1 = edit_num1.getText().toString().trim();
                     String num2 = edit_num2.getText().toString().trim();
                     String course_name = edit_course.getText().toString().trim();
@@ -129,6 +143,7 @@ public class ExamActivity extends AppCompatActivity {
                     Utils.mDatabase.child(Utils.tbl_exam).orderByChild("school_id").equalTo(Utils.currentSchool._id).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            progressDialog.dismiss();
                             if (dataSnapshot.getValue()!=null) {
                                 for (DataSnapshot datas:dataSnapshot.getChildren()) {
                                     Exam exam = datas.getValue(Exam.class);
@@ -144,6 +159,7 @@ public class ExamActivity extends AppCompatActivity {
                                             Utils.mDatabase.child(Utils.tbl_exam).child(exam._id).child("course_coef").setValue(course_coef);
                                             Utils.mDatabase.child(Utils.tbl_exam).child(exam._id).child("title").setValue(title);
                                             Toast.makeText(ExamActivity.this, getResources().getString(R.string.successfully_updated), Toast.LENGTH_SHORT).show();
+                                            sendExamResult(exam);
                                             return;
                                         } else {
                                         }
@@ -151,8 +167,10 @@ public class ExamActivity extends AppCompatActivity {
                                     }
                                 }
                             }
-                            Utils.mDatabase.child(Utils.tbl_exam).push().setValue(new Exam("", sel_date, Integer.valueOf(num1), Integer.valueOf(num2), Utils.currentSchool._id, sel_user._id, course_name, course_coef, title, sel_date.getTime()));
+                            Exam exam = new Exam("", sel_date, Integer.valueOf(num1), Integer.valueOf(num2), Utils.currentSchool.uid, sel_user._id, course_name, course_coef, title, sel_date.getTime());
+                            Utils.mDatabase.child(Utils.tbl_exam).push().setValue(exam);
                             Toast.makeText(ExamActivity.this, getResources().getString(R.string.successfully_updated), Toast.LENGTH_SHORT).show();
+                            sendExamResult(exam);
                         }
 
                         @Override
@@ -169,9 +187,13 @@ public class ExamActivity extends AppCompatActivity {
                 if (sel_user == null || sel_date == null) {
                     Utils.showAlert(ExamActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_select_student_and_date));
                 } else {
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     Utils.mDatabase.child(Utils.tbl_exam).orderByChild("uid").equalTo(sel_user._id).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            progressDialog.dismiss();
                             if (dataSnapshot.getValue() != null) {
                                 Boolean flag = false;
                                 for(DataSnapshot datas: dataSnapshot.getChildren()){
@@ -208,6 +230,30 @@ public class ExamActivity extends AppCompatActivity {
 
             }
         });
+    }
+    void sendExamResult(Exam exam) {
+
+        Utils.mDatabase.child(Utils.tbl_user).child(Utils.currentSchool.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue() != null) {
+                            User school = dataSnapshot.getValue(User.class);
+                            school_name = school.name;
+                            String text = "";
+                            text = "Exam Alert of " + sel_user.name + "\n" + "School: " + school_name + "\n" + "Class: " + sel_class.name + "\n" + "Course: " + sel_course.name + "x" + sel_course.coef + "\n" +
+                                    "Title: " + title + "\n" +  "Exam Result: " + exam.num1 + "/" + exam.num2 + "\n" + "Date: " + Utils.getDateString(exam.date);
+                            ArrayList<String> array_phone = new ArrayList<>();
+                            array_phone.add(parent_mobile);
+//                            array_phone.add("2250505632490");
+                            App.sendEdiaSMS(ExamActivity.this, Utils.currentUser.username, Utils.currentUser.password, Utils.currentUser.senderID, array_phone, text, "text");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w( "loadPost:onCancelled", databaseError.toException());
+                    }
+                });
     }
     public void read_students() {
         if (sel_class == null) {
@@ -293,6 +339,34 @@ public class ExamActivity extends AppCompatActivity {
                 sel_user = array_user.get(i);
                 dlg.dismiss();
                 edit_student.setText(sel_user.name);
+                // get parent info from student ID
+                Utils.mDatabase.child(Utils.tbl_parent_student).orderByChild("student_id").equalTo(sel_user._id).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                            String parent_id = childSnapshot.child("parent_id").getValue(String.class);
+                            Utils.mDatabase.child(Utils.tbl_user).child(parent_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.getValue() != null) {
+                                        User parent = dataSnapshot.getValue(User.class);
+                                        parent_mobile = parent.phone;
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.w( "loadPost:onCancelled", databaseError.toException());
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w( "loadPost:onCancelled", databaseError.toException());
+                    }
+                });
             }
         });
         Button btn_choose = (Button)dlg.findViewById(R.id.btn_choose);
@@ -319,7 +393,7 @@ public class ExamActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Course sel_course = App.school_courses.get(i);
+                sel_course = App.school_courses.get(i);
                 edit_course.setText(sel_course.name);
                 edit_coef.setText(sel_course.coef);
                 dlg.dismiss();

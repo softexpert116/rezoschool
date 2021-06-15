@@ -226,8 +226,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setMenuByUserType();
 
         // First fragment loading...
-        selectFragment(new TweetsFragment());
-        setTitle(getResources().getString(R.string.rs_tweets));
+        if (Utils.currentUser.type.equals(Utils.TEACHER)) {
+            selectFragment(new TeacherSchoolFragment());
+            setTitle(getResources().getString(R.string.school));
+        } else {
+            selectFragment(new TweetsFragment());
+            setTitle(getResources().getString(R.string.rs_tweets));
+        }
         setPermission();
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)

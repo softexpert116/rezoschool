@@ -39,6 +39,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -328,5 +329,15 @@ public class Utils {
     public static String getTimeString(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
         return formatter.format(date);
+    }
+    public static boolean checkZeroArray(ArrayList<Float> array) {
+        boolean flag = true;
+        for (Float val:array) {
+            if (val > 0) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
     }
 }

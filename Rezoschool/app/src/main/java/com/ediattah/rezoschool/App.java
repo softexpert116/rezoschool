@@ -47,6 +47,8 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.jitsi.meet.sdk.JitsiMeet;
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetActivityDelegate;
@@ -66,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.bumptech.glide.Glide;
@@ -82,6 +85,7 @@ import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.TeacherListAdapter;
 import com.ediattah.rezoschool.httpsModule.RestClient;
 import com.ediattah.rezoschool.service.NotificationCallback;
+import com.ediattah.rezoschool.ui.BulkSMSActivity;
 import com.ediattah.rezoschool.ui.ChatActivity;
 import com.ediattah.rezoschool.ui.CourseCalendarActivity;
 import com.ediattah.rezoschool.ui.LoginActivity;
@@ -98,12 +102,14 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.content.ContentValues.TAG;
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 public class App extends Application implements LifecycleObserver {
 
@@ -131,7 +137,7 @@ public class App extends Application implements LifecycleObserver {
     public static String MY_IMAGE_PATH = "";
     public static String MY_AUDIO_PATH = "";
     public static String ediapayUrl = "https://api.ediapay.com/api/";
-    public static String ediaSMSUrl = "http://smpp1.valorisetelecom.com/api/api_http.php";
+    public static String ediaSMSUrl = "https://smpp1.valorisetelecom.com/api/api_http.php";
 
 
     private static final int MAX_SMS_MESSAGE_LENGTH = 160;
@@ -162,6 +168,67 @@ public class App extends Application implements LifecycleObserver {
                         setPreference("DEVICE_TOKEN", token);
                     }
                 });
+    }
+    public static void sendEdiaSMS(Context context, String username, String password, String sender, ArrayList<String> array_receivers, String text, String type) {
+        ProgressDialog mDialog = new ProgressDialog(context);
+        mDialog.setMessage(context.getResources().getString(R.string.sending_sms));
+        mDialog.setCancelable(false);
+        mDialog.show();
+        String to = TextUtils.join(";", array_receivers);
+        String datetime = Utils.getCurrentDateTimeString();
+        final JSONObject object = new JSONObject();
+        try {
+            object.put("username", username);
+            object.put("password", password);
+            object.put("sender", sender);
+            object.put("to", to);
+            object.put("text", text);
+            object.put("type", type);
+            object.put("datetime", datetime);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(7);
+        nameValuePairs.add(new BasicNameValuePair("username", username));
+        nameValuePairs.add(new BasicNameValuePair("password", password));
+        nameValuePairs.add(new BasicNameValuePair("sender", sender));
+        nameValuePairs.add(new BasicNameValuePair("to", to));
+        nameValuePairs.add(new BasicNameValuePair("text", text));
+        nameValuePairs.add(new BasicNameValuePair("type", type));
+        nameValuePairs.add(new BasicNameValuePair("datetime", datetime));
+
+        final RestClient restClient = RestClient.getInstance();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String response = null;
+                try {
+                    response = restClient.postRequest1(App.ediaSMSUrl, nameValuePairs);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (response.contains("OK:")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, context.getResources().getString(R.string.successfully_sent), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else if (response.contains("ERROR:")) {
+                    final String error = response.substring(7);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.showAlert(context, context.getResources().getString(R.string.error), error);
+                        }
+                    });
+                }
+                mDialog.dismiss();
+
+            }
+        }).start();
     }
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     private void onAppBackgrounded() {
@@ -563,17 +630,35 @@ public class App extends Application implements LifecycleObserver {
     }
 //---------------------------------------------------------------------------------
 
-    public static String sendEdiaSMS(String username, String password, String sender, ArrayList<String> array_receivers, String text, String type) throws IOException {
+    public static String sendEdiaSMS1(Context context, String username, String password, String sender, ArrayList<String> array_receivers, String text, String type) throws IOException {
         String to = TextUtils.join(";", array_receivers);
         String datetime = Utils.getCurrentDateTimeString();
-        final String urlSMS = "http://smpp1.valorisetelecom.com/api/api_http.php?username=" + username + "&password=" + password + "&sender=" + sender + "&to=" + to + "&text=" + text + "&type=" + type + "&datetime=" + datetime;
+//        final String urlSMS = "https://smpp1.valorisetelecom.com/api/api_http.php?username=" + username + "&password=" + password + "&sender=" + sender + "&to=" + to + "&text=" + text + "&type=" + type + "&datetime=" + datetime;
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("username", username)
+                .addFormDataPart("password", password)
+                .addFormDataPart("sender", sender)
+                .addFormDataPart("to", to)
+                .addFormDataPart("text", text)
+                .addFormDataPart("type", type)
+                .addFormDataPart("datetime", datetime)
+                .build();
         Request request = new Request.Builder()
-                .url(urlSMS)
-                .get()
-                .addHeader("Content-Type", "application/json")
+                .url(ediaSMSUrl)
+                .post(requestBody)
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .build();
         OkHttpClient mClient = new OkHttpClient();
-        Response response = mClient.newCall(request).execute();
+//        Response response = mClient.newCall(request).execute();
+        Response response = null;
+        try {
+            response = mClient.newCall(request).execute();
+
+            // Do something with the response.
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return response.body().string();
     }
 

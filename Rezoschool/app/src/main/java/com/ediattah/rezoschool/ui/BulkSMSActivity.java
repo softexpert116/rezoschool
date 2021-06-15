@@ -74,56 +74,11 @@ public class BulkSMSActivity extends AppCompatActivity {
                     Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
-                sendEdiaSMS(Utils.currentUser.username, Utils.currentUser.password, Utils.currentUser.senderID, array_sel_phone, text, "text");
+                App.sendEdiaSMS(BulkSMSActivity.this, Utils.currentUser.username, Utils.currentUser.password, Utils.currentUser.senderID, array_sel_phone, text, "text");
             }
         });
     }
-    private void sendEdiaSMS(String username, String password, String sender, ArrayList<String> array_receivers, String text, String type) {
-        mDialog = new ProgressDialog(this);
-        mDialog.setMessage(getResources().getString(R.string.sending_sms));
-        mDialog.setCancelable(false);
-        mDialog.show();
-        String to = TextUtils.join(";", array_receivers);
-        String datetime = Utils.getCurrentDateTimeString();
-        final JSONObject object = new JSONObject();
-        try {
-            object.put("username", username);
-            object.put("password", password);
-            object.put("sender", sender);
-            object.put("to", to);
-            object.put("text", text);
-            object.put("type", type);
-            object.put("datetime", datetime);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        final RestClient restClient = RestClient.getInstance();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String response = restClient.postRequest(App.ediaSMSUrl, object);
-                if (response.contains("OK:")) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(BulkSMSActivity.this, getResources().getString(R.string.successfully_sent), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else if (response.contains("ERROR:")) {
-                    final String error = response.substring(7);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.error), error);
-                        }
-                    });
-                }
-                mDialog.dismiss();
-
-            }
-        }).start();
-    }
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

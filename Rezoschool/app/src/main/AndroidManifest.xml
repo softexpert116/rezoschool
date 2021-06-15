@@ -16,7 +16,7 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ExamActivity"></activity>
+        <activity android:name=".ui.ExamActivity" />
         <activity android:name=".ui.TweetDetailActivity" />
         <activity android:name=".ui.TimeslotActivity" />
         <activity android:name=".ui.NewVideoGroupActivity" />
