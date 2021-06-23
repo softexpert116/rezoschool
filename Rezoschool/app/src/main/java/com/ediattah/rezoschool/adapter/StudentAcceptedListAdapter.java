@@ -32,16 +32,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import net.igenius.customcheckbox.CustomCheckBox;
+
 import java.util.ArrayList;
 
 public class StudentAcceptedListAdapter extends BaseAdapter {
     public ArrayList<Student> arrayList;
-
+    public ArrayList<Student> arraySel;
+    boolean isSelectable = false;
     Context context;
 
-    public StudentAcceptedListAdapter(Context _context, ArrayList<Student> _arrayList) {
+    public StudentAcceptedListAdapter(Context _context, ArrayList<Student> _arrayList, boolean isSelectable, ArrayList<Student> _arraySel) {
         context = _context;
+        this.isSelectable = isSelectable;
         this.arrayList = _arrayList;
+        this.arraySel = _arraySel;
     }
     @Override
     public int getCount() {
@@ -199,6 +204,23 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
         } else {
             txt_new.setText("OLD");
             txt_new.setBackgroundColor(Color.parseColor("#e28e8e"));
+        }
+        final CustomCheckBox chk_student = view.findViewById(R.id.chk_student);
+        if (isSelectable) {
+            chk_student.setVisibility(View.VISIBLE);
+            chk_student.setChecked(arraySel.contains(student));
+            chk_student.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!arraySel.contains(student))
+                        arraySel.add(student);
+                    else
+                        arraySel.remove(student);
+                    notifyDataSetChanged();
+                }
+            });
+        } else {
+            chk_student.setVisibility(View.GONE);
         }
         return view;
     }

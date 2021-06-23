@@ -87,7 +87,7 @@ public class SchoolStudentFragment extends Fragment {
         });
 
         listView = v.findViewById(R.id.listView);
-        studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, array_student_accepted);
+        studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, array_student_accepted, false, null);
         studentWaitingListAdapter = new StudentWaitingListAdapter(activity, this, array_student_waiting);
         listView.setAdapter(studentAcceptedListAdapter);
 

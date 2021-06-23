@@ -51,112 +51,15 @@
             android:layout_margin="5dp"
             />
     </androidx.cardview.widget.CardView>
-    <RelativeLayout
+    <Button
+        android:id="@+id/btn_send_sms"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        >
-        <TextView
-            android:id="@+id/txt_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/select_users"
-            />
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_select"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btn_send_sms"
-            android:layout_below="@+id/txt_select"
-            android:layout_marginTop="5dp"
-            app:contentPadding="5dp"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
-                <RelativeLayout
-                    android:id="@+id/ly_search_student"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/frame_round"
-                    android:visibility="gone"
-                    >
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@android:drawable/ic_menu_search"
-                        android:layout_centerVertical="true"
-                        />
-                    <EditText
-                        android:id="@+id/edit_search_student"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_centerVertical="true"
-                        android:paddingLeft="35dp"
-                        android:hint="@string/student_name"
-                        android:inputType="text"
-                        android:textSize="20dp"
-                        android:textColor="@color/colorText"
-                        android:imeOptions="actionSearch"
-
-                        android:background="@android:color/transparent"
-                        />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    >
-                    <LinearLayout
-                        android:id="@+id/ly_no_items"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:visibility="gone"
-                        android:layout_centerInParent="true"
-                        >
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/ic_no_item"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/no_items"
-                            />
-
-                    </LinearLayout>
-                    <ListView
-                        android:id="@+id/listView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:divider="@android:color/transparent"
-                        android:scrollbars="none"
-                        ></ListView>
-                </RelativeLayout>
-            </LinearLayout>
-
-
-        </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/btn_send_sms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/send_sms"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textAllCaps="false"
-            android:background="@drawable/btn_round"
-            android:textColor="@color/white"
-            />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:text="@string/send_sms"
+        android:layout_marginTop="30dp"
+        android:textAllCaps="false"
+        android:background="@drawable/btn_round"
+        android:textColor="@color/white"
+        />
 
 </LinearLayout>

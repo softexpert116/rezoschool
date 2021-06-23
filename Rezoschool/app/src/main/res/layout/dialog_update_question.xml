@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="15dp"
+    android:background="@color/colorMainBackground"
+    >
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Single Choice"
+        />
+    <EditText
+        android:id="@+id/edit_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input question here"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:gravity="start"
+        android:textColor="@color/colorText"
+        />
+    <EditText
+        android:id="@+id/edit_point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="points (number)"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:gravity="start"
+        android:textColor="@color/colorText"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_width="0pt"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Update"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_round"
+            />
+        <Button
+            android:id="@+id/btn_remove"
+            android:layout_width="0pt"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="Remove"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_round_reject"
+            />
+    </LinearLayout>
+
+</LinearLayout>

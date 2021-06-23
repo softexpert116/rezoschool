@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/white">
+    <EditText
+        android:id="@+id/edit_firstname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="First name"
+        android:singleLine="true"
+        android:paddingLeft="10dp"
+        android:gravity="start"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorText"
+        />
+    <EditText
+        android:id="@+id/edit_lastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Last name"
+        android:singleLine="true"
+        android:paddingLeft="10dp"
+        android:gravity="start"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="10dp"
+        />
+    <EditText
+        android:id="@+id/edit_birth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Year of birth (eg. 2001)"
+        android:singleLine="true"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="10dp"
+        />
+    <EditText
+        android:id="@+id/edit_class"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/_class"
+        android:singleLine="true"
+        android:paddingLeft="10dp"
+        android:gravity="start"
+        android:editable="false"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="10dp"
+        />
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:text="Confirm"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_round"
+        />
+</LinearLayout>

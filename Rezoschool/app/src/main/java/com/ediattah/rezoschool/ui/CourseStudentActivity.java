@@ -41,7 +41,7 @@ public class CourseStudentActivity extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.listView);
         ly_no_items = findViewById(R.id.ly_no_items);
-        studentListAdapter = new StudentAcceptedListAdapter(this, array_student);
+        studentListAdapter = new StudentAcceptedListAdapter(this, array_student, false, null);
         listView.setAdapter(studentListAdapter);
         read_course_classes();
     }

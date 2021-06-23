@@ -1,5 +1,6 @@
 package com.ediattah.rezoschool.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -22,6 +23,9 @@ import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.StudentBulkSMSListAdapter;
 import com.ediattah.rezoschool.httpsModule.RestClient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
@@ -31,29 +35,55 @@ import java.util.ArrayList;
 public class BulkSMSActivity extends AppCompatActivity {
     ArrayList<String> array_sel_name = new ArrayList<>();
     ArrayList<String> array_sel_phone = new ArrayList<>();
+    ArrayList<Student> arrayList = new ArrayList<>();
     School sel_school;
     User user;
     TextView txt_receivers;
     ProgressDialog mDialog;
+    String receivers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bulk_s_m_s);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        sel_school = (School)getIntent().getSerializableExtra("SCHOOL");
+        arrayList = (ArrayList<Student>) getIntent().getSerializableExtra("STUDENTS");
         user = (User)getIntent().getSerializableExtra("USER");
 
         final EditText edit_text = findViewById(R.id.edit_text);
         txt_receivers = findViewById(R.id.txt_receivers);
         TextView txt_select = findViewById(R.id.txt_select);
         CardView cardView = findViewById(R.id.card_select);
-        if (sel_school != null) {
+        if (arrayList != null) {
             setTitle(getResources().getString(R.string.bulk_sms));
-            txt_select.setText(getResources().getString(R.string.select_users_in_school_) + " " + sel_school.number);
-            StudentBulkSMSListAdapter studentBulkSMSListAdapter = new StudentBulkSMSListAdapter(this, txt_receivers, sel_school.students, array_sel_name, array_sel_phone);
-            ListView listView = (ListView)findViewById(R.id.listView);
-            listView.setAdapter(studentBulkSMSListAdapter);
+            receivers = "";
+            for (Student student:arrayList) {
+                Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue()!=null) {
+                            User user = dataSnapshot.getValue(User.class);
+                            if (receivers.length() == 0) {
+                                receivers += user.name;
+                            } else {
+                                receivers += ", " + user.name;
+                            }
+                            array_sel_phone.add(user.phone);
+                        }
+                        txt_receivers.setText(receivers);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+//            txt_select.setText(getResources().getString(R.string.select_users_in_school_) + " " + sel_school.number);
+
+//            StudentBulkSMSListAdapter studentBulkSMSListAdapter = new StudentBulkSMSListAdapter(this, txt_receivers, sel_school.students, array_sel_name, array_sel_phone);
+//            ListView listView = (ListView)findViewById(R.id.listView);
+//            listView.setAdapter(studentBulkSMSListAdapter);
         } else {
             setTitle(getResources().getString(R.string.sms));
             txt_select.setVisibility(View.GONE);
@@ -66,6 +96,10 @@ public class BulkSMSActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String text = edit_text.getText().toString().trim();
+                if (text.length() == 0) {
+                    Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
+                    return;
+                }
 //                if (Utils.currentUser.username_sms.length()*Utils.currentUser.password_sms.length()*Utils.currentUser.senderID.length()*text.length() == 0) {
 //                    Utils.showAlert(BulkSMSActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
 //                    return;

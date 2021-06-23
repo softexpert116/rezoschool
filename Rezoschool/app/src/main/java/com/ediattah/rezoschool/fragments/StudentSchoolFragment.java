@@ -1,5 +1,6 @@
 package com.ediattah.rezoschool.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.App;
+import com.ediattah.rezoschool.Model.PsychologyResult;
+import com.ediattah.rezoschool.Model.PsychologySection;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
@@ -30,10 +33,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 public class StudentSchoolFragment extends Fragment {
     MainActivity activity;
     Button btn_choose;
-    TextView txt_status;
+    TextView txt_status, txt_section, txt_score, txt_result;
     ImageView img_status, img_photo, img_parent_photo;
     User schoolUser;
     TextView txt_school_number, txt_name, txt_email, txt_phone, txt_type, txt_public, txt_class_level, txt_class_name, txt_parent_name, txt_parent_email, txt_parent_phone;
@@ -64,6 +69,9 @@ public class StudentSchoolFragment extends Fragment {
         txt_parent_name = v.findViewById(R.id.txt_parent_name);
         txt_parent_email = v.findViewById(R.id.txt_parent_email);
         txt_parent_phone = v.findViewById(R.id.txt_parent_phone);
+        txt_section = v.findViewById(R.id.txt_section);
+        txt_score = v.findViewById(R.id.txt_score);
+        txt_result = v.findViewById(R.id.txt_result);
 
         ImageView img_chat = v.findViewById(R.id.img_chat);
         ImageView img_sms = v.findViewById(R.id.img_sms);
@@ -126,6 +134,38 @@ public class StudentSchoolFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        Utils.mDatabase.child(Utils.tbl_psychology_result).orderByChild("uid").equalTo(Utils.currentUser._id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        PsychologyResult result = datas.getValue(PsychologyResult.class);
+                        result._id = datas.getKey();
+                        Utils.mDatabase.child(Utils.tbl_psychology_section).child(result.section_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue() != null) {
+                                    PsychologySection section = dataSnapshot.getValue(PsychologySection.class);
+                                    txt_section.setText(section.name);
+                                    txt_score.setText(String.valueOf(result.score));
+                                    txt_result.setText(App.analyzeScoreResult(result.score));
+                                    txt_result.setBackgroundColor(App.analyzeScoreColor(activity, result.score));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
             }
         });
         return v;

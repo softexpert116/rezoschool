@@ -171,7 +171,7 @@ public class SchoolExamFragment extends Fragment {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
                 loadExams(2);
-                String _sel_course = courseList.get(spinner22.getSelectedIndex());
+                String _sel_course = spinner22.getText().toString();// courseList.get(spinner22.getSelectedIndex());
                 String _sel_course_name = "";
                 for (Course course:App.school_courses) {
                     if (_sel_course.contains(course.name)) {
@@ -215,41 +215,6 @@ public class SchoolExamFragment extends Fragment {
         spinner0.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                /*
-                String _sel_course = courseList.get(position);
-                examArr = new ArrayList<>();
-                for (int i = 0; i < 12; i++) {
-                    examArr.add(0.0f);
-                }
-                xArr = new ArrayList<String>(monthList);
-                Utils.mDatabase.child(Utils.tbl_exam).orderByChild("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue()!=null) {
-                            for (DataSnapshot datas : dataSnapshot.getChildren()) {
-                                Exam exam = datas.getValue(Exam.class);
-                                exam._id = datas.getKey();
-                                if (!exam.school_id.equals(Utils.currentSchool._id)) continue;
-                                if (sel_year0 != exam.date.getYear()) continue;
-                                int _month = exam.date.getMonth();
-                                if (_sel_course.equals("All")) {
-                                    examArr.set(_month, examArr.get(_month)+1);
-                                } else if (_sel_course.equals(exam.course_name + " x " + exam.course_coef)) {
-                                    examArr.set(_month, examArr.get(_month)+1);
-                                }
-                            }
-                            initChart(chartView, initGraphData(examArr));
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-                 */
                 loadExams(0);
             }
         });
@@ -351,7 +316,7 @@ public class SchoolExamFragment extends Fragment {
                         int _date = exam.date.getDate();
                         if (type == 0) {
                             if (sel_year0 != exam.date.getYear()) continue;
-                            String _sel_course = courseList.get(spinner0.getSelectedIndex());
+                            String _sel_course = spinner0.getText().toString();// courseList.get(spinner0.getSelectedIndex());
                             if (!_sel_course.equals("All")) {
                                 if (!_sel_course.equals(exam.course_name + " x " + exam.course_coef)) {
                                     continue;
@@ -410,7 +375,7 @@ public class SchoolExamFragment extends Fragment {
                             if (!exam.uid.equals(sel_student._id)) {
                                 continue;
                             }
-                            String _sel_course = courseList.get(spinner12.getSelectedIndex());
+                            String _sel_course = spinner12.getText().toString();// courseList.get(spinner12.getSelectedIndex());
                             if (!_sel_course.equals("All")) {
                                 if (!_sel_course.equals(exam.course_name + " x " + exam.course_coef)) {
                                     continue;
@@ -463,7 +428,7 @@ public class SchoolExamFragment extends Fragment {
                             }
                         } else if (type == 2) {
                             if (sel_year2 != exam.date.getYear()) continue;
-                            String _sel_course = courseList.get(spinner22.getSelectedIndex());
+                            String _sel_course = spinner22.getText().toString();// courseList.get(spinner22.getSelectedIndex());
                             if (!_sel_course.equals("All")) {
                                 if (!_sel_course.equals(exam.course_name + " x " + exam.course_coef)) {
                                     continue;

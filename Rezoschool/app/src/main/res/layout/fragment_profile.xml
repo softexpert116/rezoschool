@@ -303,6 +303,21 @@
                             android:layout_marginLeft="20dp"
                             android:textColor="@color/colorText"
                             />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="School Area"
+                            />
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/spinner_area"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Area"
+                            android:textColor="@color/colorText"
+                            app:ms_background_color="@color/white"
+                            android:layout_marginLeft="20dp"
+                            />
                         <LinearLayout
                             android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
@@ -314,7 +329,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
-                                android:layout_marginRight="20dp"
+                                android:layout_marginRight="0dp"
                                 android:orientation="horizontal"
                                 >
                                 <RadioButton
@@ -343,7 +358,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
-                                android:layout_marginRight="20dp"
+                                android:layout_marginRight="0dp"
                                 android:orientation="horizontal"
                                 >
                                 <RadioButton
@@ -358,9 +373,55 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:text="@string/private_confessional"
+                                    android:layout_gravity="bottom"
                                     />
                             </RadioGroup>
                         </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ly_ministry_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="15dp"
+                        android:visibility="gone"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I am a"
+                            android:textSize="16dp"
+                            android:layout_marginLeft="20dp"
+
+                            />
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            >
+                            <RadioButton
+                                android:id="@+id/radio_supervisor"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Supervisor"
+                                />
+                            <RadioButton
+                                android:id="@+id/radio_middle_staff"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Middle Staff"
+                                />
+                            <RadioButton
+                                android:id="@+id/radio_filed_agent"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Filed Agent"
+                                />
+                        </RadioGroup>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Library;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
@@ -42,6 +43,7 @@ public class AlumniFragment extends Fragment {
     MainActivity activity;
     ArrayList<Student> array_student_filtered = new ArrayList<>();
     ArrayList<Student> array_student_all = new ArrayList<>();
+    ArrayList<Student> array_student_sel = new ArrayList<>();
     ArrayList<User> array_user = new ArrayList<>();
     School sel_school;
     EditText edit_search_school;
@@ -54,7 +56,8 @@ public class AlumniFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_alumni, container, false);
-        studentListAdapter = new StudentAcceptedListAdapter(activity,  array_student_filtered);
+        App.hideKeyboard(activity);
+        studentListAdapter = new StudentAcceptedListAdapter(activity,  array_student_filtered, true, array_student_sel);
         ListView listView = (ListView)v.findViewById(R.id.listView);
         listView.setAdapter(studentListAdapter);
         ly_no_items = v.findViewById(R.id.ly_no_items);
@@ -102,8 +105,12 @@ public class AlumniFragment extends Fragment {
                     Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_select_school_in_school_menu));
                     return;
                 }
+                if (array_student_sel.size() == 0) {
+                    Utils.showAlert(activity, getResources().getString(R.string.warning),"Please select students");
+                    return;
+                }
                 Intent intent = new Intent(activity, BulkSMSActivity.class);
-                intent.putExtra("SCHOOL", sel_school);
+                intent.putExtra("STUDENTS", array_student_sel);
                 activity.startActivity(intent);
             }
         });
@@ -196,6 +203,7 @@ public class AlumniFragment extends Fragment {
         dlg.show();
     }
     public void read_students() {
+        array_student_all.clear();
         for (Student student:sel_school.students) {
             if (student.isAllow) {
                 if (student.uid.equals(Utils.mUser.getUid())) {
@@ -216,7 +224,7 @@ public class AlumniFragment extends Fragment {
 
     }
     void read_student_user() {
-        array_user.clear();
+        array_user.clear(); array_student_sel.clear();
         for (Student student:array_student_all) {
             Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

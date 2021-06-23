@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.util.Util;
 import com.ediattah.rezoschool.App;
+import com.ediattah.rezoschool.Model.Ministry;
 import com.ediattah.rezoschool.Model.Tweet;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
@@ -32,12 +34,18 @@ import com.ediattah.rezoschool.ui.MainActivity;
 import com.ediattah.rezoschool.ui.NewRsTweetsActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import org.jetbrains.annotations.NotNull;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -48,6 +56,8 @@ public class ProfileFragment extends Fragment {
     ImageView img_photo;
     RelativeLayout ly_status;
     TextView txt_available, txt_unavailable;
+    MaterialSpinner spinner_area;
+    Ministry cur_ministry;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +78,8 @@ public class ProfileFragment extends Fragment {
         ly_status = v.findViewById(R.id.ly_status);
         txt_available = v.findViewById(R.id.txt_available);
         txt_unavailable = v.findViewById(R.id.txt_unavailable);
+        spinner_area = v.findViewById(R.id.spinner_area);
+        spinner_area.setItems(Utils.array_school_area);
         txt_available.setEnabled(false);
         txt_unavailable.setEnabled(false);
 
@@ -83,6 +95,7 @@ public class ProfileFragment extends Fragment {
         TextView txt_type = v.findViewById(R.id.txt_type);
         txt_type.setText(Utils.currentUser.type);
         LinearLayout ly_school = (LinearLayout) v.findViewById(R.id.ly_school);
+        LinearLayout ly_ministry_type = (LinearLayout) v.findViewById(R.id.ly_ministry_type);
 //        final EditText edit_username = (EditText)v.findViewById(R.id.edit_username_sms);
 //        final EditText edit_password = (EditText)v.findViewById(R.id.edit_password_sms);
 //        final EditText edit_senderID = (EditText)v.findViewById(R.id.edit_senderID_sms);
@@ -97,6 +110,9 @@ public class ProfileFragment extends Fragment {
         final RadioButton radio_secondary = (RadioButton)v.findViewById(R.id.radio_secondary);
         final RadioButton radio_private = (RadioButton)v.findViewById(R.id.radio_private);
         final RadioButton radio_public = (RadioButton)v.findViewById(R.id.radio_public);
+        final RadioButton radio_supervisor = (RadioButton)v.findViewById(R.id.radio_supervisor);
+        final RadioButton radio_middle_staff = (RadioButton)v.findViewById(R.id.radio_middle_staff);
+        final RadioButton radio_filed_agent = (RadioButton)v.findViewById(R.id.radio_filed_agent);
         final ImageView img_status_edit = v.findViewById(R.id.img_edit_status);
         img_status_edit.setTag("edit");
         img_status_edit.setImageDrawable(activity.getResources().getDrawable(android.R.drawable.ic_menu_edit));
@@ -181,8 +197,34 @@ public class ProfileFragment extends Fragment {
             } else {
                 radio_secondary.setChecked(true);
             }
-        } else {
-            ly_school.setVisibility(View.GONE);
+//            int area_index = Utils.array_school_area.indexOf(Utils.currentSchool.area);
+            spinner_area.setSelectedIndex(Utils.array_school_area.indexOf(Utils.currentSchool.area));
+        } else if (Utils.currentUser.type.equals(Utils.MINISTRY)) {
+
+            Utils.mDatabase.child(Utils.tbl_ministry).orderByChild("uid").equalTo(Utils.currentUser._id).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                            cur_ministry = childSnapshot.getValue(Ministry.class);
+                            cur_ministry._id = childSnapshot.getKey();
+                            ly_ministry_type.setVisibility(View.VISIBLE);
+                            if (cur_ministry.type.equals(Utils.SUPERVISOR)) {
+                                radio_supervisor.setChecked(true);
+                            } else if (cur_ministry.type.equals(Utils.MIDDLE_STAFF)) {
+                                radio_middle_staff.setChecked(true);
+                            } else if (cur_ministry.type.equals(Utils.FILED_AGENT)) {
+                                radio_filed_agent.setChecked(true);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+
+                }
+            });
         }
 
 //        edit_username.setEnabled(false);
@@ -192,10 +234,14 @@ public class ProfileFragment extends Fragment {
         edit_email.setEnabled(false);
         edit_city.setEnabled(false);
         edit_school_number.setEnabled(false);
-        radio_primary.setEnabled(false);
-        radio_secondary.setEnabled(false);
-        radio_private.setEnabled(false);
-        radio_public.setEnabled(false);
+        radio_primary.setClickable(false);
+        radio_secondary.setClickable(false);
+        radio_private.setClickable(false);
+        radio_public.setClickable(false);
+        radio_supervisor.setClickable(false);
+        radio_middle_staff.setClickable(false);
+        radio_filed_agent.setClickable(false);
+        spinner_area.setEnabled(false);
         img_photo.setEnabled(false);
         img_status_edit.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -212,11 +258,15 @@ public class ProfileFragment extends Fragment {
                     edit_email.setEnabled(true);
                     edit_city.setEnabled(true);
                     edit_school_number.setEnabled(true);
-                    radio_primary.setEnabled(true);
-                    radio_secondary.setEnabled(true);
-                    radio_private.setEnabled(true);
-                    radio_public.setEnabled(true);
+                    radio_primary.setClickable(true);
+                    radio_secondary.setClickable(true);
+                    radio_private.setClickable(true);
+                    radio_public.setClickable(true);
+                    radio_supervisor.setClickable(true);
+                    radio_middle_staff.setClickable(true);
+                    radio_filed_agent.setClickable(true);
                     img_photo.setEnabled(true);
+                    spinner_area.setEnabled(true);
                     img_status_edit.setVisibility(View.VISIBLE);
 
                 } else {
@@ -234,10 +284,14 @@ public class ProfileFragment extends Fragment {
                     edit_email.setEnabled(false);
                     edit_city.setEnabled(false);
                     edit_school_number.setEnabled(false);
-                    radio_primary.setEnabled(false);
-                    radio_secondary.setEnabled(false);
-                    radio_private.setEnabled(false);
-                    radio_public.setEnabled(false);
+                    radio_primary.setClickable(false);
+                    radio_secondary.setClickable(false);
+                    radio_private.setClickable(false);
+                    radio_public.setClickable(false);
+                    radio_supervisor.setClickable(false);
+                    radio_middle_staff.setClickable(false);
+                    radio_filed_agent.setClickable(false);
+                    spinner_area.setEnabled(false);
                     img_photo.setEnabled(false);
                     img_status_edit.setVisibility(View.GONE);
 
@@ -274,6 +328,15 @@ public class ProfileFragment extends Fragment {
                     } else {
                         isPublic = true;
                     }
+                    String ministry_type = Utils.SUPERVISOR;
+                    if (radio_supervisor.isChecked()) {
+                        ministry_type = Utils.SUPERVISOR;
+                    } else if (radio_middle_staff.isChecked()) {
+                        ministry_type = Utils.MIDDLE_STAFF;
+                    } else if (radio_filed_agent.isChecked()) {
+                        ministry_type = Utils.FILED_AGENT;
+                    }
+                    String area = Utils.array_school_area.get(spinner_area.getSelectedIndex());
                     progressDialog = new ProgressDialog(activity);
                     progressDialog.setMessage(getResources().getString(R.string.please_wait));
                     progressDialog.show();
@@ -287,9 +350,10 @@ public class ProfileFragment extends Fragment {
                     // Listen for state changes, errors, and completion of the upload.
                     final String school_number1 = school_number;
                     if (imgUri == null) {
-                        updateProfile("", name, email, city, school_number1, type, isPublic);
+                        updateProfile("", name, email, city, school_number1, type, area, isPublic, ministry_type);
                         return;
                     }
+                    String finalMinistry_type = ministry_type;
                     file_refer.putFile(imgUri, metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -299,7 +363,7 @@ public class ProfileFragment extends Fragment {
                                 public void onSuccess(Uri uri) {
 
                                     String downloadUrl = uri.toString();
-                                    updateProfile(downloadUrl, name, email, city, school_number1, type, isPublic);
+                                    updateProfile(downloadUrl, name, email, city, school_number1, type, area, isPublic, finalMinistry_type);
                                 }
                             });
                         }
@@ -311,7 +375,7 @@ public class ProfileFragment extends Fragment {
 
         return v;
     }
-    void updateProfile(String downloadUrl, String name, String email, String city, String school_number, String type, boolean isPublic) {
+    void updateProfile(String downloadUrl, String name, String email, String city, String school_number, String type, String area, boolean isPublic, String ministry_type) {
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_NAME).setValue(name);
         if (downloadUrl.length() > 0) {
             Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_PHOTO).setValue(downloadUrl);
@@ -327,8 +391,11 @@ public class ProfileFragment extends Fragment {
         if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
             Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child(Utils.SCHOOL_NUMBER).setValue(school_number);
             Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child(Utils.SCHOOL_TYPE).setValue(type);
+            Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child(Utils.SCHOOL_AREA).setValue(area);
             Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child(Utils.SCHOOL_PUBLIC).setValue(isPublic);
-            Utils.currentSchool.number = school_number; Utils.currentSchool.type = type; Utils.currentSchool.isPublic = isPublic;
+            Utils.currentSchool.number = school_number; Utils.currentSchool.type = type; Utils.currentSchool.area = area; Utils.currentSchool.isPublic = isPublic;
+        } else if (Utils.currentUser.type.equals(Utils.MINISTRY)) {
+            Utils.mDatabase.child(Utils.tbl_ministry).child(cur_ministry._id).child(Utils.MINISTRY_TYPE).setValue(ministry_type);
         }
         progressDialog.dismiss();
         activity.setUserProfile();

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/txt_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/img_edit_question"
+        android:text=""
+        android:textColor="@color/colorText"
+        />
+    <TextView
+        android:id="@+id/txt_singleChoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/txt_question"
+        android:text="single choice"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:padding="3dp"
+        />
+    <TextView
+        android:id="@+id/txt_no_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No answer selected"
+        android:layout_below="@+id/txt_question"
+        android:layout_toRightOf="@+id/txt_singleChoice"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="visible"
+        android:padding="3dp"
+        />
+    <ImageView
+        android:id="@+id/img_edit_question"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_edit"
+        android:layout_alignParentEnd="true"
+        />
+
+</RelativeLayout>

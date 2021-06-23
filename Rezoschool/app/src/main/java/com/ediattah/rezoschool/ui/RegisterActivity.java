@@ -24,6 +24,7 @@ import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Level;
+import com.ediattah.rezoschool.Model.Ministry;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.Teacher;
@@ -35,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
 import com.ediattah.rezoschool.R;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,8 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
     Button btn_signup, btn_have_account;
     String country_code, number, country_code1, number1;
     ProgressDialog progressDialog;
-    String school_number, school_type, phone1;
+    String school_number, school_type, ministry_type, school_area, phone1;
     boolean isPublic = false, isNew = false;
+    MaterialSpinner spinner_area, spinner_account_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,10 @@ public class RegisterActivity extends AppCompatActivity {
         number = getIntent().getExtras().getString("number");
         getSupportActionBar().hide();
         App.hideKeyboard(this);
+        spinner_area = findViewById(R.id.spinner_area);
+        spinner_area.setItems(Utils.array_school_area);
+        spinner_account_type = findViewById(R.id.spinner_account_type);
+        spinner_account_type.setItems(Utils.array_account_type);
 
 //        final EditText edit_username = (EditText)findViewById(R.id.edit_username_sms);
 //        final EditText edit_password = (EditText)findViewById(R.id.edit_password_sms);
@@ -67,28 +74,36 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText edit_school_number = (EditText)findViewById(R.id.edit_school_number);
         final CountryCodePicker countryCodePicker = (CountryCodePicker)findViewById(R.id.txt_countryCode);
         final LinearLayout ly_school = (LinearLayout)findViewById(R.id.ly_school);
+        final LinearLayout ly_school_area = (LinearLayout)findViewById(R.id.ly_school_area);
         final EditText edit_phone1 = (EditText)findViewById(R.id.edit_phone1);
         final CountryCodePicker countryCodePicker1 = (CountryCodePicker)findViewById(R.id.txt_countryCode1);
         final LinearLayout ly_student = (LinearLayout)findViewById(R.id.ly_student);
         final LinearLayout ly_student_type = (LinearLayout)findViewById(R.id.ly_student_type);
-        RadioButton radio_school = (RadioButton)findViewById(R.id.radio_school);
-        RadioButton radio_teacher = (RadioButton)findViewById(R.id.radio_teacher);
-        RadioButton radio_parent = (RadioButton)findViewById(R.id.radio_parent);
-        RadioButton radio_student = (RadioButton)findViewById(R.id.radio_student);
+        final LinearLayout ly_ministry_type = (LinearLayout)findViewById(R.id.ly_ministry_type);
+//        RadioButton radio_school = (RadioButton)findViewById(R.id.radio_school);
+//        RadioButton radio_teacher = (RadioButton)findViewById(R.id.radio_teacher);
+//        RadioButton radio_parent = (RadioButton)findViewById(R.id.radio_parent);
+//        RadioButton radio_student = (RadioButton)findViewById(R.id.radio_student);
         RadioButton radio_old = (RadioButton)findViewById(R.id.radio_old);
         RadioButton radio_new = (RadioButton)findViewById(R.id.radio_new);
         RadioButton radio_primary = (RadioButton)findViewById(R.id.radio_primary);
         RadioButton radio_secondary = (RadioButton)findViewById(R.id.radio_secondary);
         RadioButton radio_private = (RadioButton)findViewById(R.id.radio_private);
         RadioButton radio_public = (RadioButton)findViewById(R.id.radio_public);
+        RadioButton radio_supervisor = (RadioButton)findViewById(R.id.radio_supervisor);
+        RadioButton radio_middle_staff = (RadioButton)findViewById(R.id.radio_middle_staff);
+        RadioButton radio_filed_agent = (RadioButton)findViewById(R.id.radio_filed_agent);
         final LinearLayout ly_school_number = findViewById(R.id.ly_school_number);
         // default setting for user type and school type
-        radio_school.setChecked(true);
+//        radio_school.setChecked(true);
         radio_primary.setChecked(true);
         radio_private.setChecked(true);
         radio_old.setChecked(true);
+        radio_supervisor.setChecked(true);
         Utils.currentUser.type = Utils.SCHOOL;
         school_type = Utils.PRIMARY;
+        ministry_type = Utils.SUPERVISOR;
+
         isPublic = false;
 
         btn_signup = findViewById(R.id.btn_signup);
@@ -105,6 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = edit_email.getText().toString().trim();
                 String name = edit_name.getText().toString().trim();
                 school_number = edit_school_number.getText().toString().trim();
+                school_area = Utils.array_school_area.get(spinner_area.getSelectedIndex());
                 String city = edit_city.getText().toString().trim();
                 String country = edit_country.getText().toString();
                 country_code1 = countryCodePicker1.getSelectedCountryCode();
@@ -137,46 +153,98 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        radio_school.setOnClickListener(new View.OnClickListener() {
+        spinner_account_type.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                ly_school.setVisibility(View.VISIBLE);
-                ly_school_number.setVisibility(View.VISIBLE);
-                ly_student.setVisibility(View.GONE);
-                ly_student_type.setVisibility(View.GONE);
-                Utils.currentUser.type = Utils.SCHOOL;
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                String type = Utils.array_account_type.get(position);
+                if (type.equals(Utils.SCHOOL)) {
+                    ly_school.setVisibility(View.VISIBLE);
+                    ly_school_number.setVisibility(View.VISIBLE);
+                    ly_school_area.setVisibility(View.VISIBLE);
+                    ly_student.setVisibility(View.GONE);
+                    ly_student_type.setVisibility(View.GONE);
+                    ly_ministry_type.setVisibility(View.GONE);
+                    Utils.currentUser.type = Utils.SCHOOL;
+                } else if (type.equals(Utils.TEACHER)) {
+                    ly_school.setVisibility(View.GONE);
+                    ly_school_number.setVisibility(View.VISIBLE);
+                    ly_school_area.setVisibility(View.GONE);
+                    ly_student.setVisibility(View.GONE);
+                    ly_student_type.setVisibility(View.GONE);
+                    ly_ministry_type.setVisibility(View.GONE);
+                    Utils.currentUser.type = Utils.TEACHER;
+                } else if (type.equals(Utils.PARENT)) {
+                    ly_school.setVisibility(View.GONE);
+                    ly_school_number.setVisibility(View.GONE);
+                    ly_school_area.setVisibility(View.GONE);
+                    ly_student.setVisibility(View.GONE);
+                    ly_student_type.setVisibility(View.GONE);
+                    ly_ministry_type.setVisibility(View.GONE);
+                    Utils.currentUser.type = Utils.PARENT;
+                } else if (type.equals(Utils.STUDENT)) {
+                    ly_school.setVisibility(View.GONE);
+                    ly_school_number.setVisibility(View.VISIBLE);
+                    ly_school_area.setVisibility(View.GONE);
+                    ly_student.setVisibility(View.VISIBLE);
+                    ly_student_type.setVisibility(View.VISIBLE);
+                    ly_ministry_type.setVisibility(View.GONE);
+                    Utils.currentUser.type = Utils.STUDENT;
+                } else if (type.equals(Utils.MINISTRY)) {
+                    ly_school.setVisibility(View.GONE);
+                    ly_school_number.setVisibility(View.GONE);
+                    ly_school_area.setVisibility(View.GONE);
+                    ly_student.setVisibility(View.GONE);
+                    ly_student_type.setVisibility(View.GONE);
+                    ly_ministry_type.setVisibility(View.VISIBLE);
+                    Utils.currentUser.type = Utils.MINISTRY;
+                }
             }
         });
-        radio_teacher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ly_school.setVisibility(View.GONE);
-                ly_school_number.setVisibility(View.VISIBLE);
-                ly_student.setVisibility(View.GONE);
-                ly_student_type.setVisibility(View.GONE);
-                Utils.currentUser.type = Utils.TEACHER;
-            }
-        });
-        radio_parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ly_school.setVisibility(View.GONE);
-                ly_school_number.setVisibility(View.GONE);
-                ly_student.setVisibility(View.GONE);
-                ly_student_type.setVisibility(View.GONE);
-                Utils.currentUser.type = Utils.PARENT;
-            }
-        });
-        radio_student.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ly_school.setVisibility(View.GONE);
-                ly_school_number.setVisibility(View.VISIBLE);
-                ly_student.setVisibility(View.VISIBLE);
-                ly_student_type.setVisibility(View.VISIBLE);
-                Utils.currentUser.type = Utils.STUDENT;
-            }
-        });
+//
+//        radio_school.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ly_school.setVisibility(View.VISIBLE);
+//                ly_school_number.setVisibility(View.VISIBLE);
+//                ly_school_area.setVisibility(View.VISIBLE);
+//                ly_student.setVisibility(View.GONE);
+//                ly_student_type.setVisibility(View.GONE);
+//                Utils.currentUser.type = Utils.SCHOOL;
+//            }
+//        });
+//        radio_teacher.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ly_school.setVisibility(View.GONE);
+//                ly_school_number.setVisibility(View.VISIBLE);
+//                ly_school_area.setVisibility(View.GONE);
+//                ly_student.setVisibility(View.GONE);
+//                ly_student_type.setVisibility(View.GONE);
+//                Utils.currentUser.type = Utils.TEACHER;
+//            }
+//        });
+//        radio_parent.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ly_school.setVisibility(View.GONE);
+//                ly_school_number.setVisibility(View.GONE);
+//                ly_school_area.setVisibility(View.GONE);
+//                ly_student.setVisibility(View.GONE);
+//                ly_student_type.setVisibility(View.GONE);
+//                Utils.currentUser.type = Utils.PARENT;
+//            }
+//        });
+//        radio_student.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ly_school.setVisibility(View.GONE);
+//                ly_school_number.setVisibility(View.VISIBLE);
+//                ly_school_area.setVisibility(View.GONE);
+//                ly_student.setVisibility(View.VISIBLE);
+//                ly_student_type.setVisibility(View.VISIBLE);
+//                Utils.currentUser.type = Utils.STUDENT;
+//            }
+//        });
         radio_primary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -189,6 +257,7 @@ public class RegisterActivity extends AppCompatActivity {
                 school_type = Utils.SECONDARY;
             }
         });
+
         radio_private.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,6 +282,24 @@ public class RegisterActivity extends AppCompatActivity {
                 isNew = true;
             }
         });
+        radio_supervisor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ministry_type = Utils.SUPERVISOR;
+            }
+        });
+        radio_middle_staff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ministry_type = Utils.MIDDLE_STAFF;
+            }
+        });
+        radio_filed_agent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ministry_type = Utils.FILED_AGENT;
+            }
+        });
     }
     public void userRegister(final User user) {
 
@@ -226,8 +313,8 @@ public class RegisterActivity extends AppCompatActivity {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        progressDialog.dismiss();
                         if (dataSnapshot.getValue() != null) {
-                            progressDialog.dismiss();
                             Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.phone_number_already_exists));
                             return;
                         } else {
@@ -236,6 +323,14 @@ public class RegisterActivity extends AppCompatActivity {
                                 register_newUser(user);
                                 return;
                             }
+                            if (Utils.currentUser.type.equals(Utils.MINISTRY)) {
+                                // ministry register
+                                register_newUser(user);
+                                Ministry ministry = new Ministry("", Utils.mUser.getUid(), ministry_type);
+                                Utils.mDatabase.child(Utils.tbl_ministry).push().setValue(ministry);
+                                return;
+                            }
+                            progressDialog.show();
                             Utils.mDatabase.child(Utils.tbl_school).orderByChild(Utils.SCHOOL_NUMBER).equalTo(school_number)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -303,7 +398,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             } else {
                                                 if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
                                                     // school register
-                                                    School school = new School("", Utils.mUser.getUid(), school_number, school_type, isPublic, new ArrayList<Course>(), new ArrayList<Class>(), new ArrayList<Level>(), new ArrayList<Teacher>(), new ArrayList<Student>());
+                                                    School school = new School("", Utils.mUser.getUid(), school_number, school_type, school_area, isPublic, new ArrayList<Course>(), new ArrayList<Class>(), new ArrayList<Level>(), new ArrayList<Teacher>(), new ArrayList<Student>());
                                                     Utils.mDatabase.child(Utils.tbl_school).push().setValue(school);
 
                                                     // school staff register
@@ -322,7 +417,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     });
 
                         }
-                        progressDialog.dismiss();
+
                     }
 
                     @Override

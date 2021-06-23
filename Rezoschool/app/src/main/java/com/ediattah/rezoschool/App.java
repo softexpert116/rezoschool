@@ -76,6 +76,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Message;
+import com.ediattah.rezoschool.Model.Ministry;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.Transaction;
@@ -84,6 +85,7 @@ import com.ediattah.rezoschool.Model.VideoGroup;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.TeacherListAdapter;
 import com.ediattah.rezoschool.httpsModule.RestClient;
+import com.ediattah.rezoschool.service.MenuRefreshCallback;
 import com.ediattah.rezoschool.service.NotificationCallback;
 import com.ediattah.rezoschool.ui.BulkSMSActivity;
 import com.ediattah.rezoschool.ui.ChatActivity;
@@ -142,6 +144,7 @@ public class App extends Application implements LifecycleObserver {
 
     private static final int MAX_SMS_MESSAGE_LENGTH = 160;
     public static NotificationCallback notificationCallback;
+    public static MenuRefreshCallback menuRefreshCallback;
 
     @Override
     public void onCreate() {
@@ -152,6 +155,19 @@ public class App extends Application implements LifecycleObserver {
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
         getFCMToken();
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        Utils.array_account_type = new ArrayList<>();
+        Utils.array_account_type.add(Utils.SCHOOL);
+        Utils.array_account_type.add(Utils.TEACHER);
+        Utils.array_account_type.add(Utils.PARENT);
+        Utils.array_account_type.add(Utils.STUDENT);
+        Utils.array_account_type.add(Utils.MINISTRY);
+
+        Utils.array_school_area = new ArrayList<>();
+        Utils.array_school_area.add("DREN");
+        Utils.array_school_area.add("DDEN");
+        Utils.array_school_area.add("IEP");
+
     }
     void getFCMToken() {
         FirebaseInstanceId.getInstance().getInstanceId()
@@ -176,18 +192,18 @@ public class App extends Application implements LifecycleObserver {
         mDialog.show();
         String to = TextUtils.join(";", array_receivers);
         String datetime = Utils.getCurrentDateTimeString();
-        final JSONObject object = new JSONObject();
-        try {
-            object.put("username", username);
-            object.put("password", password);
-            object.put("sender", sender);
-            object.put("to", to);
-            object.put("text", text);
-            object.put("type", type);
-            object.put("datetime", datetime);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+//        final JSONObject object = new JSONObject();
+//        try {
+//            object.put("username", username);
+//            object.put("password", password);
+//            object.put("sender", sender);
+//            object.put("to", to);
+//            object.put("text", text);
+//            object.put("type", type);
+//            object.put("datetime", datetime);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
 
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(7);
         nameValuePairs.add(new BasicNameValuePair("username", username));
@@ -251,23 +267,41 @@ public class App extends Application implements LifecycleObserver {
     }
 
     public static void getSchoolInfo() {
-        Utils.mDatabase.child(Utils.tbl_school).addValueEventListener(new ValueEventListener() {
+        Utils.mDatabase.child(Utils.tbl_school).orderByChild("uid").equalTo(Utils.mUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     for(DataSnapshot datas: dataSnapshot.getChildren()){
                         School school = datas.getValue(School.class);
                         school._id = datas.getKey();
-                        if (school.uid.equals(Utils.mUser.getUid())) {
-                            Utils.currentSchool = school;
-                            school_courses.clear();
-                            for (Class _class:Utils.currentSchool.classes) {
-                                for (Course _course:_class.courses) {
-                                    school_courses.add(_course);
-                                }
+                        Utils.currentSchool = school;
+                        school_courses.clear();
+                        for (Class _class:Utils.currentSchool.classes) {
+                            for (Course _course:_class.courses) {
+                                school_courses.add(_course);
                             }
                         }
                     }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public static void getMinistryInfo() {
+        Utils.mDatabase.child(Utils.tbl_ministry).orderByChild("uid").equalTo(Utils.mUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    for(DataSnapshot datas: dataSnapshot.getChildren()){
+                        Ministry ministry = datas.getValue(Ministry.class);
+                        ministry._id = datas.getKey();
+                        Utils.currentMinistry = ministry;
+                    }
+                    menuRefreshCallback.OnRefresh();
                 }
             }
 
@@ -537,6 +571,8 @@ public class App extends Application implements LifecycleObserver {
                                         getSchoolInfo();
                                     } else if (Utils.currentUser.type.equals(Utils.STUDENT)) {
                                         getStudentInfo();
+                                    } else if (Utils.currentUser.type.equals(Utils.MINISTRY)) {
+                                        getMinistryInfo();
                                     }
                                     Intent intent = new Intent(activity, MainActivity.class);
                                     activity.startActivity(intent);
@@ -911,5 +947,27 @@ public class App extends Application implements LifecycleObserver {
                         android.R.attr.textColorPrimary});
         int primaryColor = arr.getColor(0, -1);
         return primaryColor;
+    }
+    public static String analyzeScoreResult(int score) {
+        String result;
+        if (score <= 5) {
+            result = "Bad";
+        } else if (score <= 10) {
+            result = "Good";
+        } else {
+            result = "Excellent";
+        }
+        return result;
+    }
+    public static int analyzeScoreColor(Context context, int score) {
+        int color;
+        if (score <= 5) {
+            color = context.getResources().getColor(R.color.colorText);
+        } else if (score <= 10) {
+            color = context.getResources().getColor(R.color.colorPrimary);
+        } else {
+            color = context.getResources().getColor(R.color.colorAccent);
+        }
+        return color;
     }
 }

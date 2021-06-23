@@ -68,6 +68,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorText"
+                                android:singleLine="true"
+                                android:ellipsize="end"
                                 />
                         </LinearLayout>
                         <LinearLayout
@@ -87,6 +89,8 @@
                                 android:id="@+id/txt_class"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:ellipsize="end"
                                 android:textColor="@color/colorText"
                                 />
                         </LinearLayout>
@@ -107,6 +111,8 @@
                                 android:id="@+id/txt_school"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:ellipsize="end"
                                 android:textColor="@color/colorText"
                                 />
                         </LinearLayout>
@@ -158,6 +164,16 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/frame_round"
                 android:padding="5dp"
+                />
+            <net.igenius.customcheckbox.CustomCheckBox
+                android:id="@+id/chk_student"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/txt_new"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                app:color_checked="@color/colorPrimaryDark"
                 />
             <Button
                 android:id="@+id/btn_parent"

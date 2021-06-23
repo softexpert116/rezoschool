@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.ediattah.rezoschool.Model.ChatRoom;
 import com.ediattah.rezoschool.Model.Class;
+import com.ediattah.rezoschool.Model.Ministry;
 import com.ediattah.rezoschool.Model.Quarter;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
@@ -56,6 +57,7 @@ public class Utils {
     public static School currentSchool = new School();
     public static Student currentStudent = new Student();
     public static Class currentClass = new Class();
+    public static Ministry currentMinistry = new Ministry();
 //    public static Location currentLocation;
 //    public static String mFuncUrl = "https://us-central1-taxikini-9a743.cloudfunctions.net";
     public static String tbl_user = "users";
@@ -70,7 +72,9 @@ public class Utils {
     public static String tbl_transaction = "transactions";
     public static String tbl_parent_student = "parent_student";
     public static String tbl_group = "groups";
-    public static String tbl_video_call = "video_call";
+    public static String tbl_psychology_section = "psychology_section";
+    public static String tbl_psychology_result = "psychology_result";
+    public static String tbl_ministry = "ministry";
 
     public static String USER_USERNAME = "username";
     public static String USER_PASSWORD = "password";
@@ -88,13 +92,23 @@ public class Utils {
 
     public static String SCHOOL_NUMBER = "number";
     public static String SCHOOL_TYPE = "type";
+    public static String SCHOOL_AREA = "area";
     public static String SCHOOL_PUBLIC = "isPublic";
+    public static String MINISTRY_TYPE = "type";
 
+    public static ArrayList<String> array_school_area = new ArrayList<>();
+    public static ArrayList<String> array_account_type = new ArrayList<>();
+
+
+    public static String SUPERVISOR = "SUPERVISOR";
+    public static String MIDDLE_STAFF = "MIDDLE STAFF";
+    public static String FILED_AGENT = "FILED AGENT";
 
     public static String SCHOOL = "SCHOOL";
     public static String TEACHER = "TEACHER";
     public static String PARENT = "PARENT";
     public static String STUDENT = "STUDENT";
+    public static String MINISTRY = "MINISTRY STAFF";
     public static String PRIMARY = "PRIMARY";
     public static String SECONDARY = "SECONDARY";
     public static DecimalFormat df = new DecimalFormat("0.00");
