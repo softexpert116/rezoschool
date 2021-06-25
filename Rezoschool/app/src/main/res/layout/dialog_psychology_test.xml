@@ -6,6 +6,13 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:background="@color/white">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Firstname"
+        android:textSize="13dp"
+        android:layout_marginTop="20dp"
+        />
     <EditText
         android:id="@+id/edit_firstname"
         android:layout_width="match_parent"
@@ -14,8 +21,15 @@
         android:singleLine="true"
         android:paddingLeft="10dp"
         android:gravity="start"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         android:textColor="@color/colorText"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lastname"
+        android:textSize="13dp"
+        android:layout_marginTop="5dp"
         />
     <EditText
         android:id="@+id/edit_lastname"
@@ -26,7 +40,14 @@
         android:paddingLeft="10dp"
         android:gravity="start"
         android:textColor="@color/colorText"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Year of birth"
+        android:textSize="13dp"
+        android:layout_marginTop="5dp"
         />
     <EditText
         android:id="@+id/edit_birth"
@@ -37,7 +58,13 @@
         android:inputType="number"
         android:paddingLeft="10dp"
         android:textColor="@color/colorText"
-        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Class"
+        android:textSize="13dp"
+        android:layout_marginTop="5dp"
         />
     <EditText
         android:id="@+id/edit_class"
@@ -49,7 +76,6 @@
         android:gravity="start"
         android:editable="false"
         android:textColor="@color/colorText"
-        android:layout_marginTop="10dp"
         />
     <Button
         android:id="@+id/btn_confirm"

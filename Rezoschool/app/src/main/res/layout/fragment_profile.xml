@@ -149,21 +149,74 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/ly_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/name"
-                        />
-                    <EditText
-                        android:id="@+id/edit_name"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name"
+                            />
+                        <EditText
+                            android:id="@+id/edit_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/username"
+                            android:inputType="text"
+                            android:singleLine="true"
+                            android:layout_marginLeft="20dp"
+                            android:textColor="@color/colorText"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ly_firstname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/username"
-                        android:inputType="text"
-                        android:singleLine="true"
-                        android:layout_marginLeft="20dp"
-                        android:textColor="@color/colorText"
-                        />
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Firstname"
+                            />
+                        <EditText
+                            android:id="@+id/edit_firstname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Firstname"
+                            android:inputType="text"
+                            android:singleLine="true"
+                            android:layout_marginLeft="20dp"
+                            android:textColor="@color/colorText"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ly_lastname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Lastname"
+                            />
+                        <EditText
+                            android:id="@+id/edit_lastname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Lastname"
+                            android:inputType="text"
+                            android:singleLine="true"
+                            android:layout_marginLeft="20dp"
+                            android:textColor="@color/colorText"
+                            />
+                    </LinearLayout>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -180,6 +233,31 @@
                         android:layout_marginLeft="20dp"
                         android:textColor="@color/colorText"
                         />
+                    <LinearLayout
+                        android:id="@+id/ly_birthday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Birthday"
+                            />
+                        <EditText
+                            android:id="@+id/edit_birthday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Birthday"
+                            android:inputType="text"
+                            android:focusable="false"
+                            android:editable="false"
+                            android:singleLine="true"
+                            android:layout_marginLeft="20dp"
+                            android:textColor="@color/colorText"
+                            />
+                    </LinearLayout>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

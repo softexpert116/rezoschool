@@ -1,5 +1,6 @@
 package com.ediattah.rezoschool.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +34,7 @@ import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.ui.MainActivity;
 import com.ediattah.rezoschool.ui.NewRsTweetsActivity;
+import com.ediattah.rezoschool.ui.RegisterActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -47,6 +50,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
+
 import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
@@ -58,6 +63,7 @@ public class ProfileFragment extends Fragment {
     TextView txt_available, txt_unavailable;
     MaterialSpinner spinner_area;
     Ministry cur_ministry;
+    LinearLayout ly_name, ly_firstname, ly_lastname, ly_birthday;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +82,10 @@ public class ProfileFragment extends Fragment {
         fab.setTag("edit");
         fab.setImageDrawable(activity.getResources().getDrawable(android.R.drawable.ic_menu_edit));
         ly_status = v.findViewById(R.id.ly_status);
+        ly_birthday = v.findViewById(R.id.ly_birthday);
+        ly_name = v.findViewById(R.id.ly_name);
+        ly_firstname = v.findViewById(R.id.ly_firstname);
+        ly_lastname = v.findViewById(R.id.ly_lastname);
         txt_available = v.findViewById(R.id.txt_available);
         txt_unavailable = v.findViewById(R.id.txt_unavailable);
         spinner_area = v.findViewById(R.id.spinner_area);
@@ -99,6 +109,9 @@ public class ProfileFragment extends Fragment {
 //        final EditText edit_username = (EditText)v.findViewById(R.id.edit_username_sms);
 //        final EditText edit_password = (EditText)v.findViewById(R.id.edit_password_sms);
 //        final EditText edit_senderID = (EditText)v.findViewById(R.id.edit_senderID_sms);
+        final EditText edit_birthday = (EditText)v.findViewById(R.id.edit_birthday);
+        final EditText edit_lastname = (EditText)v.findViewById(R.id.edit_lastname);
+        final EditText edit_firstname = (EditText)v.findViewById(R.id.edit_firstname);
         final EditText edit_name = (EditText)v.findViewById(R.id.edit_name);
         final EditText edit_email = (EditText)v.findViewById(R.id.edit_email);
         EditText edit_country = (EditText)v.findViewById(R.id.edit_country);
@@ -168,10 +181,35 @@ public class ProfileFragment extends Fragment {
                 txt_available.setBackgroundColor(activity.getResources().getColor(R.color.white));
             }
         });
+        edit_birthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar myCalender = Calendar.getInstance();
+                int year = myCalender.get(Calendar.YEAR);
+                int month = myCalender.get(Calendar.MONTH);
+                int dayOfMonth = myCalender.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String birthday = String.valueOf(year) + "-" + String.valueOf(month+1) + "-" + String.valueOf(dayOfMonth);
+                        edit_birthday.setText(birthday);
+                    }
+                };
+                DatePickerDialog datePickerDialog = new DatePickerDialog(activity, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myDateListener, year, month, dayOfMonth);
+                datePickerDialog.setTitle("Choose Date");
+                datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                datePickerDialog.show();
+            }
+        });
+
 //        edit_username.setText(Utils.currentUser.username);
 //        edit_password.setText(Utils.currentUser.password);
 //        edit_senderID.setText(Utils.currentUser.senderID);
         edit_name.setText(Utils.currentUser.name);
+        edit_firstname.setText(Utils.currentUser.firstname);
+        edit_lastname.setText(Utils.currentUser.lastname);
+        edit_birthday.setText(Utils.currentUser.birthday);
         edit_email.setText(Utils.currentUser.email);
         edit_phone.setText(Utils.currentUser.phone);
         edit_country.setText(Utils.currentUser.country);
@@ -187,7 +225,18 @@ public class ProfileFragment extends Fragment {
         }
         Glide.with(activity).load(Utils.currentUser.photo).apply(new RequestOptions()
                 .placeholder(R.drawable.default_user).centerCrop().dontAnimate()).into(img_photo);
+        ly_name.setVisibility(View.GONE);
+        ly_firstname.setVisibility(View.VISIBLE);
+        ly_lastname.setVisibility(View.VISIBLE);
+        ly_birthday.setVisibility(View.GONE);
+
+        if (Utils.currentUser.type.equals(Utils.STUDENT)) {
+            ly_birthday.setVisibility(View.VISIBLE);
+        }
         if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
+            ly_name.setVisibility(View.VISIBLE);
+            ly_firstname.setVisibility(View.GONE);
+            ly_lastname.setVisibility(View.GONE);
             ly_school.setVisibility(View.VISIBLE);
             edit_school_number.setText(Utils.currentSchool.number);
             radio_public.setChecked(Utils.currentSchool.isPublic);
@@ -230,6 +279,9 @@ public class ProfileFragment extends Fragment {
 //        edit_username.setEnabled(false);
 //        edit_password.setEnabled(false);
 //        edit_senderID.setEnabled(false);
+        edit_firstname.setEnabled(false);
+        edit_lastname.setEnabled(false);
+        edit_birthday.setEnabled(false);
         edit_name.setEnabled(false);
         edit_email.setEnabled(false);
         edit_city.setEnabled(false);
@@ -254,6 +306,9 @@ public class ProfileFragment extends Fragment {
 //                    edit_username.setEnabled(true);
 //                    edit_password.setEnabled(true);
 //                    edit_senderID.setEnabled(true);
+                    edit_firstname.setEnabled(true);
+                    edit_lastname.setEnabled(true);
+                    edit_birthday.setEnabled(true);
                     edit_name.setEnabled(true);
                     edit_email.setEnabled(true);
                     edit_city.setEnabled(true);
@@ -280,6 +335,9 @@ public class ProfileFragment extends Fragment {
 //                    edit_username.setEnabled(false);
 //                    edit_password.setEnabled(false);
 //                    edit_senderID.setEnabled(false);
+                    edit_firstname.setEnabled(false);
+                    edit_lastname.setEnabled(false);
+                    edit_birthday.setEnabled(false);
                     edit_name.setEnabled(false);
                     edit_email.setEnabled(false);
                     edit_city.setEnabled(false);
@@ -300,12 +358,33 @@ public class ProfileFragment extends Fragment {
 //                    final String username_sms = edit_username.getText().toString().trim();
 //                    final String password_sms = edit_password.getText().toString().trim();
 //                    final String senderID_sms = edit_senderID.getText().toString().trim();
-                    final String name = edit_name.getText().toString().trim();
+                    final String birthday = edit_birthday.getText().toString().trim();
+                    final String firstname = edit_firstname.getText().toString().trim();
+                    final String lastname = edit_lastname.getText().toString().trim();
+                    String name = edit_name.getText().toString().trim();
                     final String email = edit_email.getText().toString().trim();
                     final String city = edit_city.getText().toString().trim();
-                    if (name.length()*email.length()*city.length() == 0) {
+                    if (email.length()*city.length() == 0) {
                         Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                         return;
+                    }
+                    if (Utils.currentUser.type.equals(Utils.TEACHER) || Utils.currentUser.type.equals(Utils.PARENT) || Utils.currentUser.type.equals(Utils.MINISTRY) || Utils.currentUser.type.equals(Utils.STUDENT)) {
+                        if (firstname.length()*lastname.length() == 0) {
+                            Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
+                            return;
+                        }
+                    }
+                    if (Utils.currentUser.type.equals(Utils.STUDENT)) {
+                        if (birthday.length() == 0) {
+                            Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
+                            return;
+                        }
+                    }
+                    if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
+                        if (name.length() == 0) {
+                            Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
+                            return;
+                        }
                     }
                     String school_number = "";
                     final String type;
@@ -316,6 +395,10 @@ public class ProfileFragment extends Fragment {
                             Utils.showAlert(activity, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                             return;
                         }
+                    }
+
+                    if (name.length() == 0) {
+                        name = firstname + " " + lastname;
                     }
 
                     if (radio_primary.isChecked()) {
@@ -350,10 +433,11 @@ public class ProfileFragment extends Fragment {
                     // Listen for state changes, errors, and completion of the upload.
                     final String school_number1 = school_number;
                     if (imgUri == null) {
-                        updateProfile("", name, email, city, school_number1, type, area, isPublic, ministry_type);
+                        updateProfile("", firstname, lastname, name, email, birthday, city, school_number1, type, area, isPublic, ministry_type);
                         return;
                     }
                     String finalMinistry_type = ministry_type;
+                    String finalName = name;
                     file_refer.putFile(imgUri, metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -363,7 +447,7 @@ public class ProfileFragment extends Fragment {
                                 public void onSuccess(Uri uri) {
 
                                     String downloadUrl = uri.toString();
-                                    updateProfile(downloadUrl, name, email, city, school_number1, type, area, isPublic, finalMinistry_type);
+                                    updateProfile(downloadUrl, firstname, lastname, finalName, email, birthday, city, school_number1, type, area, isPublic, finalMinistry_type);
                                 }
                             });
                         }
@@ -375,8 +459,11 @@ public class ProfileFragment extends Fragment {
 
         return v;
     }
-    void updateProfile(String downloadUrl, String name, String email, String city, String school_number, String type, String area, boolean isPublic, String ministry_type) {
+    void updateProfile(String downloadUrl, String firstname, String lastname, String name, String email, String birthday, String city, String school_number, String type, String area, boolean isPublic, String ministry_type) {
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_NAME).setValue(name);
+        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_FIRSTNAME).setValue(firstname);
+        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_LASTNAME).setValue(lastname);
+        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_BIRTHDAY).setValue(birthday);
         if (downloadUrl.length() > 0) {
             Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_PHOTO).setValue(downloadUrl);
             Utils.currentUser.photo = downloadUrl;
@@ -386,7 +473,7 @@ public class ProfileFragment extends Fragment {
 //        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_SENDERID).setValue(senderID_sms);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_EMAIL).setValue(email);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_CITY).setValue(city);
-        Utils.currentUser.name = name; Utils.currentUser.email = email; Utils.currentUser.city = city;
+        Utils.currentUser.name = name; Utils.currentUser.firstname = firstname; Utils.currentUser.lastname = lastname; Utils.currentUser.birthday = birthday; Utils.currentUser.email = email; Utils.currentUser.city = city;
 //        Utils.currentUser.username = username_sms; Utils.currentUser.password = password_sms; Utils.currentUser.senderID = senderID_sms;
         if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
             Utils.mDatabase.child(Utils.tbl_school).child(Utils.currentSchool._id).child(Utils.SCHOOL_NUMBER).setValue(school_number);

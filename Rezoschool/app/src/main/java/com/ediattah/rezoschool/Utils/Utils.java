@@ -83,8 +83,11 @@ public class Utils {
     public static String USER_PASSWORD = "password";
     public static String USER_SENDERID = "senderID";
     public static String USER_NAME = "name";
+    public static String USER_FIRSTNAME = "firstname";
+    public static String USER_LASTNAME = "lastname";
     public static String USER_TYPE = "type";
     public static String USER_EMAIL = "email";
+    public static String USER_BIRTHDAY = "birthday";
     public static String USER_PHOTO = "photo";
     public static String USER_PHONE = "phone";
     public static String USER_COUNTRY = "country";

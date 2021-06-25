@@ -3,8 +3,10 @@ package com.ediattah.rezoschool.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,11 +15,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.ediattah.rezoschool.App;
@@ -38,7 +42,9 @@ import com.hbb20.CountryCodePicker;
 import com.ediattah.rezoschool.R;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -49,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
     String school_number, school_type, ministry_type, school_area, phone1;
     boolean isPublic = false, isNew = false;
     MaterialSpinner spinner_area, spinner_account_type;
+    LinearLayout ly_birthday, ly_firstname, ly_lastname, ly_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,13 @@ public class RegisterActivity extends AppCompatActivity {
 //        final EditText edit_username = (EditText)findViewById(R.id.edit_username_sms);
 //        final EditText edit_password = (EditText)findViewById(R.id.edit_password_sms);
 //        final EditText edit_senderID = (EditText)findViewById(R.id.edit_senderID_sms);
+        ly_birthday = findViewById(R.id.ly_birthday);
+        ly_firstname = findViewById(R.id.ly_firstname);
+        ly_lastname = findViewById(R.id.ly_lastname);
+        ly_name = findViewById(R.id.ly_name);
+        final EditText edit_birthday = (EditText)findViewById(R.id.edit_birthday);
+        final EditText edit_firstname = (EditText)findViewById(R.id.edit_firstname);
+        final EditText edit_lastname = (EditText)findViewById(R.id.edit_lastname);
         final EditText edit_name = (EditText)findViewById(R.id.edit_name);
         final EditText edit_country = (EditText)findViewById(R.id.edit_country);
         final EditText edit_phone = (EditText)findViewById(R.id.edit_phone);
@@ -110,6 +124,27 @@ public class RegisterActivity extends AppCompatActivity {
         countryCodePicker.setCountryForPhoneCode(Integer.valueOf(country_code));
         edit_phone.setText(number);
         edit_country.setText(countryCodePicker.getSelectedCountryName());
+        edit_birthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar myCalender = Calendar.getInstance();
+                int year = myCalender.get(Calendar.YEAR);
+                int month = myCalender.get(Calendar.MONTH);
+                int dayOfMonth = myCalender.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String birthday = String.valueOf(year) + "-" + String.valueOf(month+1) + "-" + String.valueOf(dayOfMonth);
+                        edit_birthday.setText(birthday);
+                    }
+                };
+                DatePickerDialog datePickerDialog = new DatePickerDialog(RegisterActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myDateListener, year, month, dayOfMonth);
+                datePickerDialog.setTitle("Choose Date");
+                datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                datePickerDialog.show();
+            }
+        });
 
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +152,10 @@ public class RegisterActivity extends AppCompatActivity {
 //                String username_sms = edit_username.getText().toString().trim();
 //                String password_sms = edit_password.getText().toString().trim();
 //                String senderID_sms = edit_senderID.getText().toString().trim();
+                String birthday = edit_birthday.getText().toString().trim();
                 String email = edit_email.getText().toString().trim();
+                String firstname = edit_firstname.getText().toString().trim();
+                String lastname = edit_lastname.getText().toString().trim();
                 String name = edit_name.getText().toString().trim();
                 school_number = edit_school_number.getText().toString().trim();
                 school_area = Utils.array_school_area.get(spinner_area.getSelectedIndex());
@@ -130,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
                 number1 = number1.replace("-", "");
                 String phone = country_code + number;
                 phone1 = country_code1 + number1;
-                if (email.length()*name.length()*city.length() == 0) {
+                if (email.length()*city.length() == 0) {
                     Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
@@ -140,15 +178,30 @@ public class RegisterActivity extends AppCompatActivity {
                         return;
                     }
                 }
+                if (Utils.currentUser.type.equals(Utils.SCHOOL)) {
+                    if (name.length() == 0) {
+                        Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
+                        return;
+                    }
+                }
+                if (Utils.currentUser.type.equals(Utils.PARENT) || Utils.currentUser.type.equals(Utils.MINISTRY) || Utils.currentUser.type.equals(Utils.TEACHER) || Utils.currentUser.type.equals(Utils.STUDENT)) {
+                    if (firstname.length()*lastname.length() == 0) {
+                        Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
+                        return;
+                    }
+                }
                 if (Utils.currentUser.type.equals(Utils.STUDENT)) {
-                    if (number1.length() == 0) {
+                    if (number1.length()*birthday.length() == 0) {
                         Utils.showAlert(RegisterActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.please_fill_in_blank_field));
                         return;
                     }
                 }
 
+                if (name.length() == 0) {
+                    name = firstname + " " + lastname;
+                }
 
-                User user = new User("", name, "", email, phone, country, city, Utils.currentUser.type, token, true, 0, "", "", "");
+                User user = new User("", firstname, lastname, name, "", email, birthday, phone, country, city, Utils.currentUser.type, token, true, 0, "", "", "");
                 userRegister(user);
             }
         });
@@ -164,6 +217,10 @@ public class RegisterActivity extends AppCompatActivity {
                     ly_student.setVisibility(View.GONE);
                     ly_student_type.setVisibility(View.GONE);
                     ly_ministry_type.setVisibility(View.GONE);
+                    ly_birthday.setVisibility(View.GONE);
+                    ly_name.setVisibility(View.VISIBLE);
+                    ly_firstname.setVisibility(View.GONE);
+                    ly_lastname.setVisibility(View.GONE);
                     Utils.currentUser.type = Utils.SCHOOL;
                 } else if (type.equals(Utils.TEACHER)) {
                     ly_school.setVisibility(View.GONE);
@@ -172,6 +229,10 @@ public class RegisterActivity extends AppCompatActivity {
                     ly_student.setVisibility(View.GONE);
                     ly_student_type.setVisibility(View.GONE);
                     ly_ministry_type.setVisibility(View.GONE);
+                    ly_birthday.setVisibility(View.GONE);
+                    ly_name.setVisibility(View.GONE);
+                    ly_firstname.setVisibility(View.VISIBLE);
+                    ly_lastname.setVisibility(View.VISIBLE);
                     Utils.currentUser.type = Utils.TEACHER;
                 } else if (type.equals(Utils.PARENT)) {
                     ly_school.setVisibility(View.GONE);
@@ -180,6 +241,10 @@ public class RegisterActivity extends AppCompatActivity {
                     ly_student.setVisibility(View.GONE);
                     ly_student_type.setVisibility(View.GONE);
                     ly_ministry_type.setVisibility(View.GONE);
+                    ly_birthday.setVisibility(View.GONE);
+                    ly_name.setVisibility(View.GONE);
+                    ly_firstname.setVisibility(View.VISIBLE);
+                    ly_lastname.setVisibility(View.VISIBLE);
                     Utils.currentUser.type = Utils.PARENT;
                 } else if (type.equals(Utils.STUDENT)) {
                     ly_school.setVisibility(View.GONE);
@@ -188,6 +253,10 @@ public class RegisterActivity extends AppCompatActivity {
                     ly_student.setVisibility(View.VISIBLE);
                     ly_student_type.setVisibility(View.VISIBLE);
                     ly_ministry_type.setVisibility(View.GONE);
+                    ly_birthday.setVisibility(View.VISIBLE);
+                    ly_name.setVisibility(View.GONE);
+                    ly_firstname.setVisibility(View.VISIBLE);
+                    ly_lastname.setVisibility(View.VISIBLE);
                     Utils.currentUser.type = Utils.STUDENT;
                 } else if (type.equals(Utils.MINISTRY)) {
                     ly_school.setVisibility(View.GONE);
@@ -196,55 +265,15 @@ public class RegisterActivity extends AppCompatActivity {
                     ly_student.setVisibility(View.GONE);
                     ly_student_type.setVisibility(View.GONE);
                     ly_ministry_type.setVisibility(View.VISIBLE);
+                    ly_birthday.setVisibility(View.GONE);
+                    ly_name.setVisibility(View.GONE);
+                    ly_firstname.setVisibility(View.VISIBLE);
+                    ly_lastname.setVisibility(View.VISIBLE);
                     Utils.currentUser.type = Utils.MINISTRY;
                 }
             }
         });
-//
-//        radio_school.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ly_school.setVisibility(View.VISIBLE);
-//                ly_school_number.setVisibility(View.VISIBLE);
-//                ly_school_area.setVisibility(View.VISIBLE);
-//                ly_student.setVisibility(View.GONE);
-//                ly_student_type.setVisibility(View.GONE);
-//                Utils.currentUser.type = Utils.SCHOOL;
-//            }
-//        });
-//        radio_teacher.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ly_school.setVisibility(View.GONE);
-//                ly_school_number.setVisibility(View.VISIBLE);
-//                ly_school_area.setVisibility(View.GONE);
-//                ly_student.setVisibility(View.GONE);
-//                ly_student_type.setVisibility(View.GONE);
-//                Utils.currentUser.type = Utils.TEACHER;
-//            }
-//        });
-//        radio_parent.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ly_school.setVisibility(View.GONE);
-//                ly_school_number.setVisibility(View.GONE);
-//                ly_school_area.setVisibility(View.GONE);
-//                ly_student.setVisibility(View.GONE);
-//                ly_student_type.setVisibility(View.GONE);
-//                Utils.currentUser.type = Utils.PARENT;
-//            }
-//        });
-//        radio_student.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ly_school.setVisibility(View.GONE);
-//                ly_school_number.setVisibility(View.VISIBLE);
-//                ly_school_area.setVisibility(View.GONE);
-//                ly_student.setVisibility(View.VISIBLE);
-//                ly_student_type.setVisibility(View.VISIBLE);
-//                Utils.currentUser.type = Utils.STUDENT;
-//            }
-//        });
+
         radio_primary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -430,9 +459,11 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
     void register_newUser(User user) {
-        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_NAME).setValue(user.name);
+        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_FIRSTNAME).setValue(user.firstname);
+        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_LASTNAME).setValue(user.lastname);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_PHONE).setValue(user.phone);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_EMAIL).setValue(user.email);
+        Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_BIRTHDAY).setValue(user.birthday);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_COUNTRY).setValue(user.country);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_CITY).setValue(user.city);
         Utils.mDatabase.child(Utils.tbl_user).child(Utils.mUser.getUid()).child(Utils.USER_TYPE).setValue(Utils.currentUser.type);

@@ -149,8 +149,11 @@ public class PsychologyTestFragment extends Fragment {
         EditText firstname = dlg.findViewById(R.id.edit_firstname);
         EditText lastname = dlg.findViewById(R.id.edit_lastname);
         EditText classname = dlg.findViewById(R.id.edit_class);
-        classname.setText(Utils.currentClass.name);
         EditText birth = dlg.findViewById(R.id.edit_birth);
+        firstname.setText(Utils.currentUser.firstname);
+        lastname.setText(Utils.currentUser.lastname);
+        birth.setText(Utils.currentUser.birthday.substring(0, 4));
+        classname.setText(Utils.currentClass.name);
         Button btn_confirm = (Button)dlg.findViewById(R.id.btn_confirm);
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override

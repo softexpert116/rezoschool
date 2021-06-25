@@ -145,7 +145,7 @@ public class TweetListAdapter extends BaseAdapter {
                     Utils.showAlert(activity, activity.getResources().getString(R.string.warning), activity.getResources().getString(R.string.please_fill_in_blank_field));
                     return;
                 }
-                Report report1 = new Report("", Utils.mUser.getUid(), tweet._id, txt_report, Utils.currentUser.name);
+                Report report1 = new Report("", Utils.mUser.getUid(), tweet._id, txt_report, Utils.currentUser.firstname+" "+Utils.currentUser.lastname);
                 Utils.mDatabase.child(Utils.tbl_report).orderByChild("uid").equalTo(Utils.mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

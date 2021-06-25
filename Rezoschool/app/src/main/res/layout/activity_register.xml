@@ -67,13 +67,70 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ly_firstname"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:background="@drawable/frame_round">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ico_name" />
+
+                <EditText
+                    android:id="@+id/edit_firstname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Firstname"
+                    android:textColor="@color/colorText"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ly_lastname"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@drawable/frame_round">
+
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ico_name" />
+
+                <EditText
+                    android:id="@+id/edit_lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Lastname"
+
+                    android:textColor="@color/colorText"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ly_name"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:background="@drawable/frame_round">
-
 
                 <ImageView
                     android:layout_width="15dp"
@@ -87,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:background="@android:color/transparent"
-                    android:hint="@string/name"
+                    android:hint="Name"
 
                     android:textColor="@color/colorText"
                     android:singleLine="true"
@@ -119,6 +176,37 @@
                     android:textColor="@color/colorText"
                     android:singleLine="true"
 
+                    android:inputType="textEmailAddress" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ly_birthday"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:background="@drawable/frame_round">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_birthday" />
+
+                <EditText
+                    android:id="@+id/edit_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Birthday"
+                    android:textColor="@color/colorText"
+                    android:singleLine="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:clickable="true"
                     android:inputType="textEmailAddress" />
 
             </LinearLayout>
