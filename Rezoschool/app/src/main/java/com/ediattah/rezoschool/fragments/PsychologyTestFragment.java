@@ -166,7 +166,7 @@ public class PsychologyTestFragment extends Fragment {
                 dlg.dismiss();
                 Intent intent = new Intent(activity, PsychologyTestActivity.class);
                 intent.putExtra("OBJECT", sel_section);
-                PsychologyResult psychologyResult = new PsychologyResult("", Utils.currentSchool._id, Utils.currentUser._id, sel_section._id, sel_section.name, firstName + " " + lastName, birthStr, className, 0);
+                PsychologyResult psychologyResult = new PsychologyResult("", Utils.currentSchool._id, Utils.currentUser._id, sel_section._id, sel_section.name, firstName + " " + lastName, birthStr, className, 0, (-1)*Utils.getTimestamp());
                 intent.putExtra("RESULT", psychologyResult);
                 startActivityForResult(intent, 0);
             }
@@ -183,6 +183,7 @@ public class PsychologyTestFragment extends Fragment {
         view.setMinimumHeight(height);
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dlg.setContentView(view);
+        dlg.setCancelable(false);
         window.setGravity(Gravity.CENTER);
         dlg.show();
         TextView txt_score = dlg.findViewById(R.id.txt_score);
@@ -201,10 +202,9 @@ public class PsychologyTestFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dlg.dismiss();
-
+                activity.goFirstFragment();
             }
         });
-        dlg.show();
     }
 
     @Override

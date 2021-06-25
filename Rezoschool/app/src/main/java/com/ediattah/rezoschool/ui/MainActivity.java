@@ -50,6 +50,7 @@ import com.ediattah.rezoschool.fragments.MessageFragment;
 import com.ediattah.rezoschool.fragments.ProfileFragment;
 import com.ediattah.rezoschool.fragments.PsychologyEditFragment;
 import com.ediattah.rezoschool.fragments.PsychologyResultFragment;
+import com.ediattah.rezoschool.fragments.PsychologyRunFragment;
 import com.ediattah.rezoschool.fragments.PsychologyTestFragment;
 import com.ediattah.rezoschool.fragments.SchoolExamFragment;
 import com.ediattah.rezoschool.fragments.StudentSchoolFragment;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     View header;
     GifImageButton btn_notify;
-    Button btn_message, btn_video, btn_video_group;
+    Button btn_message, btn_video, btn_video_group, btn_test;
     LinearLayout ly_notification;
 
     @Override
@@ -119,6 +120,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 selectFragment(new VideoFragment());
                 setTitle(getResources().getString(R.string.group_v_call));
+                refreshNotifications();
+            }
+        });
+        btn_test = findViewById(R.id.btn_test);
+        btn_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectFragment(new PsychologyTestFragment());
+                setTitle(getResources().getString(R.string.psychology_test));
                 refreshNotifications();
             }
         });
@@ -227,16 +237,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Header View
         header = navigationView.getHeaderView(0);
         setUserProfile();
-        setMenuByUserType();
 
         // First fragment loading...
-        if (Utils.currentUser.type.equals(Utils.TEACHER)) {
-            selectFragment(new TeacherSchoolFragment());
-            setTitle(getResources().getString(R.string.school));
-        } else {
-            selectFragment(new TweetsFragment());
-            setTitle(getResources().getString(R.string.rs_tweets));
-        }
+        goFirstFragment();
         setPermission();
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -251,15 +254,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void OnReceivedNotification() {
                 refreshNotifications();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setMenuByUserType();
+                    }
+                });
             }
         };
         App.menuRefreshCallback = new MenuRefreshCallback() {
             @Override
             public void OnRefresh() {
-                setMenuByUserType();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setMenuByUserType();
+                    }
+                });
             }
         };
     }
+    public void goFirstFragment() {
+        if (Utils.currentUser.type.equals(Utils.TEACHER)) {
+            selectFragment(new TeacherSchoolFragment());
+            setTitle(getResources().getString(R.string.school));
+        } else if (Utils.currentUser.type.equals(Utils.MINISTRY)){
+            selectFragment(new PsychologyRunFragment());
+            setTitle(getResources().getString(R.string.psychology_run));
+        } else {
+            selectFragment(new TweetsFragment());
+            setTitle(getResources().getString(R.string.rs_tweets));
+        }
+        setMenuByUserType();
+    }
+
     void refreshNotifications() {
         App.cancelAllNotifications();
         boolean flag_notification = false;
@@ -269,6 +297,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void run() {
                 ly_notification.setVisibility(View.GONE);
                 btn_message.setVisibility(View.GONE);
+                btn_test.setVisibility(View.GONE);
                 btn_video.setVisibility(View.GONE);
                 btn_video_group.setVisibility(View.GONE);
             }
@@ -280,6 +309,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void run() {
                     btn_message.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+        String new_test = App.readPreference(App.NewTest, "");
+        if (new_test.equals("true") && !(getFragmentTitle().equals(getResources().getString(R.string.psychology_test)))) {
+            flag_notification = true;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btn_test.setVisibility(View.VISIBLE);
                 }
             });
         }
@@ -503,6 +542,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_psychology_test).setVisible(false);
             nav_Menu.findItem(R.id.nav_psychology_edit).setVisible(false);
             nav_Menu.findItem(R.id.nav_psychology_result).setVisible(false);
+            nav_Menu.findItem(R.id.nav_psychology_run).setVisible(false);
 
         } else if (Utils.currentUser.type.equals(Utils.TEACHER)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
@@ -526,6 +566,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_psychology_test).setVisible(false);
             nav_Menu.findItem(R.id.nav_psychology_edit).setVisible(false);
             nav_Menu.findItem(R.id.nav_psychology_result).setVisible(false);
+            nav_Menu.findItem(R.id.nav_psychology_run).setVisible(false);
 
         } else if (Utils.currentUser.type.equals(Utils.PARENT)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
@@ -549,6 +590,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_psychology_test).setVisible(false);
             nav_Menu.findItem(R.id.nav_psychology_edit).setVisible(false);
             nav_Menu.findItem(R.id.nav_psychology_result).setVisible(false);
+            nav_Menu.findItem(R.id.nav_psychology_run).setVisible(false);
 
         } else if (Utils.currentUser.type.equals(Utils.STUDENT)) {
             nav_Menu.findItem(R.id.nav_home).setVisible(true);
@@ -569,11 +611,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_message).setVisible(true);
             nav_Menu.findItem(R.id.nav_video).setVisible(true);
             nav_Menu.findItem(R.id.nav_exam).setVisible(false);
-            nav_Menu.findItem(R.id.nav_psychology_test).setVisible(true);
+            if (App.readPreference(App.NewTest, "").equals("true") || Utils.currentPsychologySubmit._id.length() > 0) {
+                nav_Menu.findItem(R.id.nav_psychology_test).setVisible(true);
+            } else {
+                nav_Menu.findItem(R.id.nav_psychology_test).setVisible(false);
+            }
             nav_Menu.findItem(R.id.nav_psychology_edit).setVisible(false);
             nav_Menu.findItem(R.id.nav_psychology_result).setVisible(false);
+            nav_Menu.findItem(R.id.nav_psychology_run).setVisible(false);
         } else if (Utils.currentUser.type.equals(Utils.MINISTRY)) {
-            nav_Menu.findItem(R.id.nav_home).setVisible(true);
+            nav_Menu.findItem(R.id.nav_home).setVisible(false);
             nav_Menu.findItem(R.id.nav_timeslot).setVisible(false);
             nav_Menu.findItem(R.id.nav_class).setVisible(false);
             nav_Menu.findItem(R.id.nav_teacher).setVisible(false);
@@ -591,7 +638,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_video).setVisible(false);
             nav_Menu.findItem(R.id.nav_exam).setVisible(false);
             nav_Menu.findItem(R.id.nav_psychology_test).setVisible(false);
+
             nav_Menu.findItem(R.id.nav_psychology_result).setVisible(true);
+            nav_Menu.findItem(R.id.nav_psychology_run).setVisible(true);
             if (Utils.currentMinistry.type.equals(Utils.FILED_AGENT)) {
                 nav_Menu.findItem(R.id.nav_psychology_edit).setVisible(true);
             } else {
@@ -667,10 +716,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setTitle(getResources().getString(R.string.psychology_test));
         } else if (id == R.id.nav_psychology_edit) {
             selectFragment(new PsychologyEditFragment());
-            setTitle(getResources().getString(R.string.psychology_edit));
+            setTitle(getResources().getString(R.string.psychology_test));
         } else if (id == R.id.nav_psychology_result) {
             selectFragment(new PsychologyResultFragment());
-            setTitle(getResources().getString(R.string.psychology_test));
+            setTitle(getResources().getString(R.string.psychology_result));
+        } else if (id == R.id.nav_psychology_run) {
+            selectFragment(new PsychologyRunFragment());
+            setTitle(getResources().getString(R.string.psychology_run));
         }
 
 

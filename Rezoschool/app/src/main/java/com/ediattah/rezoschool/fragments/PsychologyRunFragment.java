@@ -3,7 +3,6 @@ package com.ediattah.rezoschool.fragments;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,25 +27,25 @@ import android.widget.Toast;
 import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.PsychologyResult;
 import com.ediattah.rezoschool.Model.PsychologySection;
+import com.ediattah.rezoschool.Model.PsychologySubmit;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.adapter.StudentAcceptedListAdapter;
-import com.ediattah.rezoschool.adapter.StudentWaitingListAdapter;
-import com.ediattah.rezoschool.ui.LoginActivity;
+import com.ediattah.rezoschool.ui.ChatActivity;
 import com.ediattah.rezoschool.ui.MainActivity;
-import com.ediattah.rezoschool.ui.PsychologyTestActivity;
-import com.ediattah.rezoschool.ui.SplashActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
-public class PsychologyResultFragment extends Fragment {
+public class PsychologyRunFragment extends Fragment {
     MainActivity activity;
     MaterialSpinner spinner_area, spinner_school;
     ListView listView;
@@ -54,6 +53,7 @@ public class PsychologyResultFragment extends Fragment {
     ArrayList<School> array_school = new ArrayList<>();
     ArrayList<Student> array_student = new ArrayList<>();
     ArrayList<Student> array_student_filtered = new ArrayList<>();
+    ArrayList<Student> array_student_sel = new ArrayList<>();
     ArrayList<User> array_user = new ArrayList<>();
     ArrayList<PsychologySection> array_section = new ArrayList<>();
     ArrayList<String> arraySectionStr = new ArrayList<>();
@@ -61,14 +61,16 @@ public class PsychologyResultFragment extends Fragment {
     ProgressDialog progressDialog;
     EditText edit_search_student;
     LinearLayout ly_no_items;
+    Button btn_submit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_psychology_result, container, false);
+        View v = inflater.inflate(R.layout.fragment_psychology_run, container, false);
         spinner_area = v.findViewById(R.id.spinner_area);
         spinner_school = v.findViewById(R.id.spinner_school);
+        btn_submit = v.findViewById(R.id.btn_submit);
         ly_no_items = v.findViewById(R.id.ly_no_items);
         edit_search_student = v.findViewById(R.id.edit_search_student);
         edit_search_student.addTextChangedListener(new TextWatcher() {
@@ -98,7 +100,6 @@ public class PsychologyResultFragment extends Fragment {
 
             }
         });
-
         spinner_area.setItems(Utils.array_school_area);
         spinner_area.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
@@ -113,9 +114,9 @@ public class PsychologyResultFragment extends Fragment {
             }
         });
         listView = v.findViewById(R.id.listView);
-        studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, array_student_filtered, false, null);
+        studentAcceptedListAdapter = new StudentAcceptedListAdapter(activity, array_student_filtered, true, array_student_sel);
         studentAcceptedListAdapter.hideTools = true;
-        studentAcceptedListAdapter.viewResult = true;
+        studentAcceptedListAdapter.isSubmitted = true;
         listView.setAdapter(studentAcceptedListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -123,10 +124,57 @@ public class PsychologyResultFragment extends Fragment {
 //                openDisplayDialog(array_student.get(position));
             }
         });
-
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (array_student_sel.size() == 0) {
+                    return;
+                }
+                ArrayList<Student> arrayList = new ArrayList<>(array_student_sel);
+                progressDialog = new ProgressDialog(activity);
+                progressDialog.setMessage("Submitting...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                submitTest();
+            }
+        });
         loadSchoolNames();
         loadPsychologySections();
         return v;
+    }
+    void submitTest() {
+        Student student = array_student_sel.get(0);
+        Utils.mDatabase.child(Utils.tbl_psychology_submit).orderByChild("student_id").equalTo(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null) {
+                    PsychologySubmit submit = dataSnapshot.getValue(PsychologySubmit.class);
+                    submit._id = dataSnapshot.getKey();
+                } else {
+                    PsychologySubmit submit = new PsychologySubmit("", Utils.currentUser._id, student.uid);
+                    Utils.mDatabase.child(Utils.tbl_psychology_submit).push().setValue(submit);
+                    for (User user:array_user) {
+                        if (user._id.equals(student.uid)) {
+                            App.sendPushMessage(user.token, "Psychology Test Required", "You are required of psychology test.", "", "", activity, App.PUSH_TEST, Utils.mUser.getUid());
+                            break;
+                        }
+                    }
+                }
+                array_student_sel.remove(0);
+                if (array_student_sel.size() == 0) {
+                    progressDialog.dismiss();
+                    Toast.makeText(activity, "Successfully submitted", Toast.LENGTH_SHORT).show();
+                    studentAcceptedListAdapter.notifyDataSetChanged();
+                } else {
+                    submitTest();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+                progressDialog.dismiss();
+            }
+        });
     }
     void filter_list() {
         String name_filter = edit_search_student.getText().toString().trim();
@@ -229,13 +277,14 @@ public class PsychologyResultFragment extends Fragment {
         }, 500);
     }
     void read_student_user() {
-        array_user.clear();
+        array_user.clear(); array_student_sel.clear();
         for (Student student:array_student) {
             Utils.mDatabase.child(Utils.tbl_user).child(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue()!=null) {
                         User user = dataSnapshot.getValue(User.class);
+                        user._id = dataSnapshot.getKey();
                         array_user.add(user);
                     }
                 }

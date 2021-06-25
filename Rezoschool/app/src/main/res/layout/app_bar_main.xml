@@ -93,5 +93,16 @@
             android:background="@color/colorAccent"
             android:layout_marginBottom="1dp"
             />
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_marginTop="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="Test"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:background="@color/colorAccent"
+            android:layout_marginBottom="1dp"
+            />
     </LinearLayout>
 </RelativeLayout>

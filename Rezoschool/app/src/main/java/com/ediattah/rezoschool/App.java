@@ -49,6 +49,7 @@ import androidx.lifecycle.ProcessLifecycleOwner;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.jetbrains.annotations.NotNull;
 import org.jitsi.meet.sdk.JitsiMeet;
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetActivityDelegate;
@@ -77,6 +78,7 @@ import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Course;
 import com.ediattah.rezoschool.Model.Message;
 import com.ediattah.rezoschool.Model.Ministry;
+import com.ediattah.rezoschool.Model.PsychologySubmit;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.Transaction;
@@ -126,12 +128,14 @@ public class App extends Application implements LifecycleObserver {
     public static String TIME_FORMAT = "h:mm a"; //, dd/MM/yyyy";
     public static String DATE_FORMAT = "dd/MM/yyyy";
     public static String NewMessage = "NewMessage";
+    public static String NewTest = "NewTest";
     public static String NewVideoGroup = "NewVideoGroup";
     public static String NewVideoCall = "NewVideoMessage";
     public static ArrayList<Course> school_courses = new ArrayList<>();
 //    public static ArrayList<JSONObject> array_videoCall = new ArrayList<>();
 
     public static String PUSH_CHAT = "PUSH_CHAT";
+    public static String PUSH_TEST = "PUSH_TEST";
     public static String PUSH_VIDEO = "PUSH_VIDEO";
     public static String PUSH_VIDEO_GROUP = "PUSH_VIDEO_GROUP";
 
@@ -340,6 +344,26 @@ public class App extends Application implements LifecycleObserver {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+        getPsychologySubmit();
+    }
+    public static void getPsychologySubmit() {
+        Utils.mDatabase.child(Utils.tbl_psychology_submit).orderByChild("student_id").equalTo(Utils.currentUser._id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot datas:dataSnapshot.getChildren()) {
+                        PsychologySubmit submit = datas.getValue(PsychologySubmit.class);
+                        submit._id = datas.getKey();
+                        Utils.currentPsychologySubmit = submit;
+                        menuRefreshCallback.OnRefresh();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
             }
         });
     }

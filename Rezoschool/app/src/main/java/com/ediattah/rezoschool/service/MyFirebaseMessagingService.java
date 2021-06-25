@@ -48,6 +48,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (push_type.equals(App.PUSH_CHAT)) {
             App.setPreference(App.NewMessage, "true");
+        } else if (push_type.equals(App.PUSH_TEST)) {
+            App.setPreference(App.NewTest, "true");
         } else if (push_type.equals(App.PUSH_VIDEO)) {
             String vtoken = user_id + " " + room;
             ArrayList<String> arrayList = App.readPreference_array_String(App.NewVideoCall);

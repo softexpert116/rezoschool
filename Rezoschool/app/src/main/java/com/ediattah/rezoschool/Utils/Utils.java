@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.ediattah.rezoschool.Model.ChatRoom;
 import com.ediattah.rezoschool.Model.Class;
 import com.ediattah.rezoschool.Model.Ministry;
+import com.ediattah.rezoschool.Model.PsychologySubmit;
 import com.ediattah.rezoschool.Model.Quarter;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
@@ -47,7 +48,7 @@ import java.util.Date;
 import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class Utils {
-    public static String fbServerKey = "AAAAJ7tB2oI:APA91bFvxlvHaF4rIhvkhMq6BQu6vQGpdGnT_ntT5m26vx2rxM30I7m4VUQXAeOxXz0oKOxAZy2cEphB-SDAF3OIjr0-RujKPxYJ3Gbjp-lkSoKptjDCBSXCMB2SYTXo-2IWArYGpRrW";
+    public static String fbServerKey = "AAAAJ7tB2oI:APA91bEKxDcr5ZBvXwhtcx9p-_tHAfaEk3QUDbgB-lOVKfkl5Nvam1YTmsTH8Irx5u7yJaI8IROTOJTwKT1ZbjeUpbHyre52xd3qa8K_ezPeH_roYbGsJKT_D3Qq9-o6lyMq0E5IInwy";
     public static FirebaseAuth auth = FirebaseAuth.getInstance();
     public static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     public static StorageReference mStorage = FirebaseStorage.getInstance().getReference();
@@ -58,6 +59,7 @@ public class Utils {
     public static Student currentStudent = new Student();
     public static Class currentClass = new Class();
     public static Ministry currentMinistry = new Ministry();
+    public static PsychologySubmit currentPsychologySubmit = new PsychologySubmit();
 //    public static Location currentLocation;
 //    public static String mFuncUrl = "https://us-central1-taxikini-9a743.cloudfunctions.net";
     public static String tbl_user = "users";
@@ -74,6 +76,7 @@ public class Utils {
     public static String tbl_group = "groups";
     public static String tbl_psychology_section = "psychology_section";
     public static String tbl_psychology_result = "psychology_result";
+    public static String tbl_psychology_submit = "psychology_submit";
     public static String tbl_ministry = "ministry";
 
     public static String USER_USERNAME = "username";
@@ -327,6 +330,11 @@ public class Utils {
 //        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 //        Date today = Calendar.getInstance().getTime();
         return dateFormat.format(date);
+    }
+    public static String getDateStringFromTimestamp(long timestamp) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        String dateString = formatter.format(new Date(timestamp));
+        return dateString;
     }
     public static String getCurrentDateString() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");

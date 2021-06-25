@@ -77,13 +77,17 @@
             android:icon="@drawable/ic_psychology_test"
             android:title="@string/psychology_test" />
         <item
+            android:id="@+id/nav_psychology_run"
+            android:icon="@android:drawable/ic_media_play"
+            android:title="@string/psychology_run" />
+        <item
             android:id="@+id/nav_psychology_result"
-            android:icon="@drawable/ic_psychology_test"
-            android:title="@string/psychology_test" />
+            android:icon="@android:drawable/ic_menu_view"
+            android:title="@string/psychology_result" />
         <item
             android:id="@+id/nav_psychology_edit"
             android:icon="@drawable/ic_psychology_edit"
-            android:title="@string/psychology_edit" />
+            android:title="@string/psychology_test" />
     </group>
 
 </menu>

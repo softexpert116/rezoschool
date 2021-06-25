@@ -22,17 +22,21 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ediattah.rezoschool.App;
+import com.ediattah.rezoschool.Model.PsychologySubmit;
 import com.ediattah.rezoschool.Model.School;
 import com.ediattah.rezoschool.Model.Student;
 import com.ediattah.rezoschool.Model.User;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
 import com.ediattah.rezoschool.ui.BulkSMSActivity;
+import com.ediattah.rezoschool.ui.PsychologyResultActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import net.igenius.customcheckbox.CustomCheckBox;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -41,6 +45,9 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
     public ArrayList<Student> arraySel;
     boolean isSelectable = false;
     Context context;
+    public boolean hideTools = false;
+    public boolean isSubmitted = false;
+    public boolean viewResult = false;
 
     public StudentAcceptedListAdapter(Context _context, ArrayList<Student> _arrayList, boolean isSelectable, ArrayList<Student> _arraySel) {
         context = _context;
@@ -71,10 +78,13 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.cell_student_accepted, null);
         }
+        LinearLayout ly_tool = view.findViewById(R.id.ly_tool);
         TextView txt_class = view.findViewById(R.id.txt_class);
         final TextView txt_school = view.findViewById(R.id.txt_school);
         final TextView txt_name = view.findViewById(R.id.txt_name);
         final TextView txt_new = view.findViewById(R.id.txt_new);
+        final TextView txt_submitted = view.findViewById(R.id.txt_submitted);
+        Button btn_result = view.findViewById(R.id.btn_result);
         final ImageView img_photo = (ImageView)view.findViewById(R.id.img_photo);
         ImageView img_chat = (ImageView)view.findViewById(R.id.img_chat);
         img_chat.setOnClickListener(new View.OnClickListener() {
@@ -221,6 +231,44 @@ public class StudentAcceptedListAdapter extends BaseAdapter {
             });
         } else {
             chk_student.setVisibility(View.GONE);
+        }
+        if (hideTools) {
+            btn_parent.setVisibility(View.GONE);
+            ly_tool.setVisibility(View.GONE);
+
+        }
+        if (isSubmitted) {
+            Utils.mDatabase.child(Utils.tbl_psychology_submit).orderByChild("student_id").equalTo(student.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue()!=null) {
+                        PsychologySubmit submit = dataSnapshot.getValue(PsychologySubmit.class);
+                        submit._id = dataSnapshot.getKey();
+                        txt_submitted.setVisibility(View.VISIBLE);
+                        chk_student.setVisibility(View.GONE);
+                    } else {
+                        txt_submitted.setVisibility(View.GONE);
+                        chk_student.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        if (viewResult) {
+            btn_result.setVisibility(View.VISIBLE);
+            btn_result.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PsychologyResultActivity.class);
+                    intent.putExtra("STUDENT", student);
+                    intent.putExtra("USER", sel_user[0]);
+                    context.startActivity(intent);
+                }
+            });
         }
         return view;
     }

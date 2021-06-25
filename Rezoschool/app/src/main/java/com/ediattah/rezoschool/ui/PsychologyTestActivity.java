@@ -14,8 +14,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ediattah.rezoschool.App;
 import com.ediattah.rezoschool.Model.PsychologyResult;
 import com.ediattah.rezoschool.Model.PsychologySection;
+import com.ediattah.rezoschool.Model.PsychologySubmit;
 import com.ediattah.rezoschool.Model.QA;
 import com.ediattah.rezoschool.R;
 import com.ediattah.rezoschool.Utils.Utils;
@@ -93,6 +95,7 @@ public class PsychologyTestActivity extends AppCompatActivity {
         });
 
         setQA(0);
+        App.getPsychologySubmit();
     }
 
     boolean getScore() {
@@ -155,6 +158,11 @@ public class PsychologyTestActivity extends AppCompatActivity {
                 }
                 if (!flag) {
                     Utils.mDatabase.child(Utils.tbl_psychology_result).push().setValue(psychologyResult);
+                }
+                if (Utils.currentPsychologySubmit._id.length() > 0) {
+                    Utils.mDatabase.child(Utils.tbl_psychology_submit).child(Utils.currentPsychologySubmit._id).setValue(null);
+                    Utils.currentPsychologySubmit = new PsychologySubmit();
+                    App.setPreference(App.NewTest, "");
                 }
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("score", score);

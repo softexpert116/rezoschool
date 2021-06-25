@@ -13,8 +13,9 @@ public class PsychologyResult implements Serializable {
     public String birth;
     public String className;
     public int score;
+    public long timestamp;
 
-    public PsychologyResult(String _id, String school_id, String uid, String section_id, String section_name, String name, String birth, String className, int score) {
+    public PsychologyResult(String _id, String school_id, String uid, String section_id, String section_name, String name, String birth, String className, int score, long timestamp) {
         this._id = _id;
         this.school_id = school_id;
         this.uid = uid;
@@ -24,6 +25,7 @@ public class PsychologyResult implements Serializable {
         this.birth = birth;
         this.className = className;
         this.score = score;
+        this.timestamp = timestamp;
     }
     public PsychologyResult() {
         this._id = "";
@@ -35,5 +37,6 @@ public class PsychologyResult implements Serializable {
         this.birth = "";
         this.className = "";
         this.score = 0;
+        this.timestamp = 0;
     }
 }
